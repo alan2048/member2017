@@ -1,0 +1,112 @@
+@media only screen and (min-width: 100px){
+    html {
+        font-size: 10px !important;
+    }
+}
+@media only screen and (min-width: 800px){
+    html {
+        font-size: 10px !important;
+    }
+}
+@media only screen and (min-width: 1200px){
+    html {
+        font-size: 10px !important; 
+    }
+}
+@media only screen and (min-width: 1600px){
+    html {
+        font-size: 10px !important; 
+    }
+}
+@media only screen and (min-width: 2000px){
+    html {
+        font-size: 10px !important; 
+    }
+}
+body{
+    position: fixed;
+    background-color: #5cdfe2;
+    width: 100%;
+    height: 100%;
+    font-size: 1.2em;
+}
+.login{
+    width: 64.5rem;
+    height: 63.0rem;
+    background-color: #f7e463;
+    margin:22rem auto 0;
+    border-radius: 3rem;
+    box-sizing: border-box;
+    border: 0.2rem solid #666;
+    position: relative;
+}
+.login >.title{
+    height: 13.5rem;
+    font-family: "楷体";
+    color:#fff;
+    font-size: 6rem;
+    text-align: center;
+    line-height: 13.5rem;
+}
+.login >.name >div,.login >.password >div{
+    margin: 0 3.5rem;
+    padding: .5rem 0;
+    line-height: 3rem;
+    border-bottom: 0.1rem solid #666;
+}
+.login >.password >div{
+    margin-top: 7rem;
+}
+.login > .name .loginText, .login > .password .loginText {
+    font-size: 3rem;
+    color: #646864;
+    line-height: 7rem;
+    font-weight: 100;
+    vertical-align: top;
+}
+.login > .name input, .login > .password input {
+    font-size: 3rem;
+    width: 35rem;
+    color: #646864;
+    line-height: 7rem;
+    font-weight: 100;
+    vertical-align: top;
+    border: none;
+    background-color: transparent;
+}
+.login >.name .nameIcon{
+    display: inline-block;
+    width: 6rem;
+    height: 6rem;
+    margin: 0 2.4rem 0 3rem;
+    background: url(../../images/index/name.png) center center no-repeat;
+}
+.login >.password .pwdIcon{
+    display: inline-block;
+    width: 6rem;
+    height: 6rem;
+    margin: 0 2.4rem 0 3rem;
+    background: url(../../images/index/password.png) center center no-repeat;
+}
+.loginIn >div{
+    height: 7.6rem;
+    color:#fff;
+    font-size: 3.6rem;
+    font-weight: 300;
+    text-align: center;
+    margin: 10rem 3.5rem 0;
+    border: .2rem solid #666;
+    line-height: 7.6rem;
+    background-color: #f8acaa;
+    border-radius: 2rem;
+    cursor: pointer;
+}
+.loginIn >div:hover{
+    background-color: #f86d69;
+}
+.login >.bg{
+    position: absolute;
+}
+.login >.bg {
+    
+}
