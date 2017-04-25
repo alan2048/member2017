@@ -1,112 +1,274 @@
-@media only screen and (min-width: 100px){
-    html {
-        font-size: 10px !important;
-    }
+html {
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+    min-height: 10rem;
 }
-@media only screen and (min-width: 800px){
-    html {
-        font-size: 10px !important;
-    }
-}
-@media only screen and (min-width: 1200px){
-    html {
-        font-size: 10px !important; 
-    }
-}
-@media only screen and (min-width: 1600px){
-    html {
-        font-size: 10px !important; 
-    }
-}
-@media only screen and (min-width: 2000px){
-    html {
-        font-size: 10px !important; 
-    }
-}
-body{
-    position: fixed;
+body {
+    position: relative;
     background-color: #5cdfe2;
     width: 100%;
     height: 100%;
-    font-size: 1.2em;
+    overflow-x: hidden;
+    font-size: .12em;
+    margin-top: -2.4rem;
+    padding-top: 2.4rem;
 }
 .login{
-    width: 64.5rem;
-    height: 63.0rem;
+    width: 6.45rem;
+    height: 6.30rem;
     background-color: #f7e463;
-    margin:22rem auto 0;
-    border-radius: 3rem;
+    margin:2.4rem auto 0;
+    border-radius: .3rem;
     box-sizing: border-box;
-    border: 0.2rem solid #666;
+    border: 0.02rem solid #666;
     position: relative;
 }
-.login >.title{
-    height: 13.5rem;
-    font-family: "æ¥·ä½“";
+.login > .loginBox{
+    width: 100%;
+    height: 100%;
+    border-radius: .3rem;
+    background-color: #f7e463;
+    position: relative;
+}
+.login > .loginBox >.title{
+    height: 1.35rem;
+    font-family: "¿¬Ìå";
     color:#fff;
-    font-size: 6rem;
+    font-size: .6rem;
     text-align: center;
-    line-height: 13.5rem;
+    line-height: 1.35rem;
 }
-.login >.name >div,.login >.password >div{
-    margin: 0 3.5rem;
-    padding: .5rem 0;
-    line-height: 3rem;
-    border-bottom: 0.1rem solid #666;
+.login > .loginBox >.name >div,.login > .loginBox >.password >div{
+    margin: 0 .35rem;
+    padding: .05rem 0;
+    line-height: .3rem;
+    border-bottom: 0.01rem solid #666;
 }
-.login >.password >div{
-    margin-top: 7rem;
+.login > .loginBox >.password >div{
+    margin-top: .7rem;
 }
-.login > .name .loginText, .login > .password .loginText {
-    font-size: 3rem;
+.login > .loginBox > .name .loginText, .login > .loginBox > .password .loginText {
+    font-size: .3rem;
     color: #646864;
-    line-height: 7rem;
+    line-height: .7rem;
     font-weight: 100;
     vertical-align: top;
+    display: inline-block;
+    word-break:keep-all;
 }
-.login > .name input, .login > .password input {
-    font-size: 3rem;
-    width: 35rem;
+.login > .loginBox > .name input, .login > .loginBox > .password input {
+    font-size: .3rem;
+    width: 3.5rem;
     color: #646864;
-    line-height: 7rem;
+    line-height: .7rem;
     font-weight: 100;
     vertical-align: top;
     border: none;
     background-color: transparent;
 }
-.login >.name .nameIcon{
-    display: inline-block;
-    width: 6rem;
-    height: 6rem;
-    margin: 0 2.4rem 0 3rem;
-    background: url(../../images/index/name.png) center center no-repeat;
+.login > .loginBox > .name input:focus, .login > .loginBox > .password input:focus{
+    outline: none;
 }
-.login >.password .pwdIcon{
+.login > .loginBox >.name .nameIcon{
     display: inline-block;
-    width: 6rem;
-    height: 6rem;
-    margin: 0 2.4rem 0 3rem;
+    width: .6rem;
+    height: .6rem;
+    margin: 0 .24rem 0 .3rem;
+    background: url(../../images/index/name.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+.login > .loginBox >.password .pwdIcon{
+    display: inline-block;
+    width: .6rem;
+    height: .6rem;
+    margin: 0 .24rem 0 .3rem;
     background: url(../../images/index/password.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
 }
 .loginIn >div{
-    height: 7.6rem;
+    height: .76rem;
     color:#fff;
-    font-size: 3.6rem;
+    font-size: .36rem;
     font-weight: 300;
     text-align: center;
-    margin: 10rem 3.5rem 0;
-    border: .2rem solid #666;
-    line-height: 7.6rem;
+    margin: 1rem .35rem 0;
+    border: .02rem solid #666;
+    line-height: .76rem;
     background-color: #f8acaa;
-    border-radius: 2rem;
+    border-radius: .2rem;
     cursor: pointer;
 }
 .loginIn >div:hover{
     background-color: #f86d69;
 }
-.login >.bg{
+.login > .bg {
     position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+
 }
-.login >.bg {
-    
+.login > .bg > .mascot01 {
+    display: inline-block;
+    position: absolute;
+    width: 1.6rem;
+    height: .4rem;
+    top: -.18rem;
+    background: url(../../images/index/mascot01.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    margin-left: -.8rem;
+    z-index: 10;
+}
+.login > .bg > .mascot02 {
+    display: inline-block;
+    position: absolute;
+    width: 1.6rem;
+    height: 1.4rem;
+    top: -1.3rem;
+    margin-left: -.8rem;
+    z-index: -1;
+    background: url(../../images/index/mascot02.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+.login > .bg > .balloon {
+    display: inline-block;
+    position: absolute;
+    width: 2.6rem;
+    height: 4.2rem;
+    top: -2.1rem;
+    right: 0;
+    z-index: -1;
+    background: url(../../images/index/balloon.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    -webkit-animation: balloon 5s ease-in-out infinite;
+}
+@-webkit-keyframes balloon{
+    0%,20%,50%,70%,100%{
+        -webkit-transform: translateX(0);
+    }
+    30%,40%{
+        -webkit-transform: translate3d(0.2rem,0.2rem,1rem);
+    }
+    80%,90%{
+        -webkit-transform: translate3d(-0.2rem,0.2rem,-1rem);
+    }
+}
+.cloud01 {
+    display: inline-block;
+    position: absolute;
+    width: 2.4rem;
+    height: 1.6rem;
+    top: -0.2rem;
+    left: -2.8rem;
+    z-index: -1;
+    background: url(../../images/index/cloud01.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    -webkit-animation: cloud01 10s ease-in-out infinite;
+}
+@-webkit-keyframes cloud01{
+    0%{
+        -webkit-transform: translate3d(0,0,0);
+    }
+    50%{
+        -webkit-transform: translate3d(-1.6rem,0,0);
+    }
+    100%{
+        -webkit-transform: translate3d(0,0,0);
+    }
+}
+.cloud02 {
+    display: inline-block;
+    position: absolute;
+    width: 1.2rem;
+    height: 1rem;
+    top: -2rem;
+    left: 0.5rem;
+    z-index: -1;
+    background: url(../../images/index/cloud02.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    -webkit-animation: cloud02 8s ease-in-out infinite;
+}
+@-webkit-keyframes cloud02{
+    0%{
+        -webkit-transform: translate3d(0,0,0);
+    }
+    50%{
+        -webkit-transform: translate3d(-1.8rem,0,0);
+    }
+    100%{
+        -webkit-transform: translate3d(0,0,0);
+    }
+}
+.cloud03 {
+    display: inline-block;
+    position: absolute;
+    width: 2.4rem;
+    height: 1.6rem;
+    top: 0rem;
+    right: -4.2rem;
+    z-index: -1;
+    background: url(../../images/index/cloud03.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    -webkit-animation: cloud03 12s ease-in-out infinite;
+}
+@-webkit-keyframes cloud03{
+    0%{
+        -webkit-transform: translate3d(0,0,0);
+    }
+    50%{
+        -webkit-transform: translate3d(-2rem,0,0);
+    }
+    100%{
+        -webkit-transform: translate3d(0,0,0);
+    }
+}
+.boxBg > .line {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 1.6rem;
+    bottom: 0;
+    z-index: -1;
+    background: url(../../images/index/line.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+.boxBg > .car {
+    display: inline-block;
+    position: absolute;
+    width: 2.6rem;
+    height: 1.2rem;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background: url(../../images/index/car.png) center center no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    -webkit-animation: car 10s ease-in-out infinite;
+}
+@-webkit-keyframes car{
+    0%{
+        -webkit-transform: translate(0,0.2rem) rotate(2deg);
+    }
+    30%{
+        -webkit-transform: translate(-3rem,-0.5rem) rotate(12deg);
+    }
+    60%{
+        -webkit-transform: translate(-8rem,-1.4rem) rotate(-2deg);
+    }
+    80%{
+        -webkit-transform: translate(-12rem,-0.8rem) rotate(-16deg);
+    }
+    100%{
+        -webkit-transform: translate(-20rem,0.6rem) rotate(-6deg);
+    }
 }
