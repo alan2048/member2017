@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
-	<title>萌宝家园</title>
+	<title>萌宝家园 登录</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="幼教产品" name="description" />
 	<meta content="上海紫越网络科技有限公司" name="author" />
@@ -11,6 +11,7 @@
 	<link href="./css/index/login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<div class="boxBg">
 		<span class="line"></span>
 		<span class="car"></span>
@@ -30,7 +31,7 @@
 				<div>
 					<span class="nameIcon"></span>
 					<label class="loginText">
-						账号：<input type="text" id="name">
+						账号：<input type="text" id="username">
 					</label>
 				</div>
 			</div>
@@ -48,6 +49,7 @@
 		</div>
 	</div>
 	<script src="./js/common/jquery-1.11.1.min.js"></script>
+	<script src="./js/common/dialog.js"></script>
 	<script src="./js/common/base.js"></script>
 	<script src="./js/index/index.js"></script>
 </body>

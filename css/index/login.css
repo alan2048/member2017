@@ -1,3 +1,5 @@
+
+
 html {
     font-size: 100px;
     width: 100%;
@@ -33,7 +35,7 @@ body {
 }
 .login > .loginBox >.title{
     height: 1.35rem;
-    font-family: "¿¬Ìå";
+    font-family: æ¥·ä½“;
     color:#fff;
     font-size: .6rem;
     text-align: center;
