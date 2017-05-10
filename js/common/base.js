@@ -1,6 +1,6 @@
 var user={
 		userUuid:GetQueryString("userUuid"),
-		classId:GetQueryString("classId"),
+		classId:GetQueryString("classId") || 2,
 		perssionNames:GetQueryString("perssionNames")
 };
 var serverUrl01="http://www.member361.com";//84正式服务器
@@ -9,7 +9,8 @@ var serverHost="http://www.member361.com";
 
 var path01="http://172.168.90.101";//38测试服务器
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var path=serverUrl02; //更改服务器地址可设置此值
+setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
 var httpUrl={
 		// 基础接口
 		loginId:getCookie("loginId"),
@@ -115,7 +116,18 @@ var httpUrl={
 		tsGetBookedChildren:path+":15001/imsInterface/TSCourse_GetBookedChildren",// 签到学生列表
 		tsCallRoll:path+":15001/imsInterface/TSCourse_CallRoll",// 签到
 		tsCancelRoll:path+":15001/imsInterface/TSCourse_CancelRoll",// 取消签到
-		
+
+		// 萌宝成长
+		growthAdd:path+":15001/web/growth/message/add",// 萌宝成长 新增
+		growthList:path+":15001/web/growth/message/list",// 萌宝成长 获取班级内容列表
+		growthStudent:path+":15001/common/basic/class/student",// 萌宝成长 获取当前班级学生列表
+		growthLabel:path+":15001/web/growth/label/list",// 萌宝成长 获取学校所有的标签
+		growthAddordelete:path+":15001/web/growth/praise/addordelete",// 萌宝成长 点赞或者取消点赞
+		growthCancelSticky:path+":15001/web/growth/message/cancelSticky",// 萌宝成长 取消内容置顶
+		growthCommentAdd:path+":15001/web/growth/comment/add",// 萌宝成长 新增一条评论或者回复
+		growthCommentDelete:path+":15001/web/growth/comment/delete",// 萌宝成长 删除某一条评论
+		growthMessageDelete:path+":15001/web/growth/message/delete",// 萌宝成长 删除一条内容
+
 		// 06消息发布
 		GetClassNotifyInfos:path+":12001/YY/GetClassNotifyInfos",// 获得班级活动列表
 		getUserClassInfo:path+":12001/YY/GetUserClassInfo",//获取用户班级信息

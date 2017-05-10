@@ -12,38 +12,69 @@ function winResize() {
 	});
 };
 function login(){
-    var username =document.getElementById('username').value;
-    var password =document.getElementById('password').value;
+	$("#password").keydown(function (e) {
+		if(e.keyCode == 13){
+			if($(this).val() && $("#username").val()){
+				$("#loginIn").click();
+			}else{
+				dialogMiss("提示","请先将账号密码填写完整！");
+			}
+		};
+	});
 
-	$.ajax({
-		type : "POST",
-		url : httpUrl.login,
-		data:{username:username,password:password},
-		dataType : "json",
-		success : function(res) {
-		  	if(res.code==200){
-		 	  	art.dialog({
-		 	  	  	title:'提示信息',
-		 			content: res.info
-		 		}).time(1);
-		 		var data=JSON.parse(res.data);
-				delCookie("loginId");
-		 		setCookie("loginId",data.loginId,"d30");
+	$("#username").keydown(function (e) {
+		if(e.keyCode == 13){
+			if($(this).val()){
+				// 100毫秒自动补全
+				setTimeout(function () {
+					if($("#password").val()){
+						$("#loginIn").click();
+					}else{
+						$("#password").focus();
+					}
+				},100);
+			};
+		};
+	});
+
+	$("#loginIn").click(function (e) {
+		if($("#username").val() && $("#password").val()){
+    		$.ajax({
+				type : "POST",
+				url : httpUrl.login,
+				data:{username:$("#username").val(),password:$("#password").val()},
+				dataType : "json",
+				success : function(res) {
+		  			if(res.code==200){
+		  				dialogMiss("提示",res.info);
+		 				var data=JSON.parse(res.data);
+						delCookie("loginId");
+		 				setCookie("loginId",data.loginId,"d30");
 		 	  	    
-		   	 	// 初始化加载页面
-		   	 	window.location.href=httpUrl.back;
-		  	}else{
-			 	art.dialog({
-			 	  	title:'提示信息',
-			 		content: res.info
-			 	}).time(1); 
-		   	}
-		},
-		error : function(textStatus) {
-		 	  	art.dialog({
-		 	  	  	title:'错误信息',
-		 			content: '系统内部错误！'
-		 		}).time(1); 
+		   	 			// 初始化加载页面
+		   	 			window.location.href="menu.html";
+		   	 			// window.location.href=httpUrl.back;
+		  			}else{
+			 			dialogMiss("提示",res.info+"，账号或密码错误！");
+		   			}
+				},
+				error : function(textStatus) {
+						dialogMiss("提示",'系统内部错误！');
+				}
+			});
+		}else{
+			dialogMiss("提示","请先将账号密码填写完整！");
 		}
 	});
+};
+
+function dialogMiss(title,content) {
+	var d = dialog({
+				title: title,
+				content: content
+	});
+	d.show();
+	setTimeout(function () {
+		d.close().remove();
+	}, 1500);
 };

@@ -1,0 +1,198 @@
+html {
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+}
+body{
+	font-size: 0.16rem;
+}
+#menu{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: url(../../images/index/cloud04.png) 0 0  no-repeat, 
+				url(../../images/index/menuBg.png) center 100%  no-repeat #e8fcf8;
+	-webkit-background-size: 80%,50%;
+	background-size: 80%,50%;
+	overflow: hidden;
+}
+.menuTitle{
+	margin: 0 auto;
+	width: 5.35rem;
+	height: 2.3rem;
+	background: url(../../images/index/menuTitle.png) center center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	margin-top: 0.2rem;
+}
+#menuBox{
+	margin: 0.4rem 1.2rem;
+}
+#menuBox >li.has-list{
+	width: 25%;
+	float: left;
+	text-align: center;
+	margin-bottom: 0.4rem;
+	position: relative;
+}
+.hasTitle{
+	font-size: 0.2rem;
+	font-weight: 900;
+	display: inline-block;
+	width: 2.4rem;
+	height: 2.4rem;
+	background-color: #fff;
+	border: 0.02rem solid #fff;
+	border-radius: 1rem;
+	color: #666;
+	box-shadow: 0 0 0.2rem #ddd;
+	box-sizing: border-box;
+	padding-top: 1.8rem;
+	cursor: pointer;
+}
+.menu01{
+	background: url(../../images/index/menuIcon01.png) center 0.45rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu01:hover,.has-list.active >.menu01{
+	border: 0.02rem solid #656868;
+	background-color: #f3b369;
+}
+.menu02{
+	background: url(../../images/index/menuIcon02.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu02:hover,.has-list.active >.menu02{
+	border: 0.02rem solid #656868;
+	background-color: #c1ec69;
+}
+.menu03{
+	background: url(../../images/index/menuIcon03.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu03:hover,.has-list.active >.menu03{
+	border: 0.02rem solid #656868;
+	background-color: #f8acaa;
+}
+.menu04{
+	background: url(../../images/index/menuIcon04.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu04:hover,.has-list.active >.menu04{
+	border: 0.02rem solid #656868;
+	background-color: #a4e0f8;
+}
+.menu05{
+	background: url(../../images/index/menuIcon05.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu05:hover,.has-list.active >.menu05{
+	border: 0.02rem solid #656868;
+	background-color: #5cdfe2;
+}
+.menu06{
+	background: url(../../images/index/menuIcon06.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu06:hover,.has-list.active >.menu06{
+	border: 0.02rem solid #656868;
+	background-color: #f7a48f;
+}
+.menu07{
+	background: url(../../images/index/menuIcon07.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu07:hover,.has-list.active >.menu07{
+	border: 0.02rem solid #656868;
+	background-color: #a5f7b5;
+}
+.menu08{
+	background: url(../../images/index/menuIcon08.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu08:hover,.has-list.active >.menu08{
+	border: 0.02rem solid #656868;
+	background-color: #f2bb8f;
+}
+.menu09{
+	background: url(../../images/index/menuIcon09.png) center 0.4rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 1.3rem;
+	background-size: 1.3rem;
+}
+.menu09:hover,.has-list.active >.menu09{
+	border: 0.02rem solid #656868;
+	background-color: #a8f8ee;
+}
+.hasBox {
+	display: none;
+	position: absolute;
+	top: -0.2rem;
+	left: 2.8rem;
+	width: 2.6rem;
+	height: 2.6rem;
+	box-sizing: border-box;
+	z-index: 100;
+	overflow-y: hidden;
+}
+.hasBoxBg {
+	display: none;
+	position: absolute;
+	z-index: 8;
+	top: -1rem;
+	left: 2rem;
+	width: 3.4rem;
+	height: 3.8rem;
+	background: url(../../images/index/fruit.png) center center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+}
+.hasBox >ul{
+	height: 100%;
+}
+#menuBox >li.has-list.active .hasBox,#menuBox >li.has-list.active .hasBoxBg{
+	display: block;
+}
+.hasBox >.menuBox >li{
+	height: .42rem;
+	line-height: .4rem;
+	text-align: left;
+	font-size: 0.2rem;
+}
+.hasBox >.menuBox >li >a{
+	padding-left: 0.48rem;
+	display: inline-block;
+	height: 100%;
+	color: #656565;
+}
+.hasBox >.menuBox >li >a:hover{
+	color: #5cdfe2;
+	background: url(../../images/index/activeIcon.png) 0 center no-repeat;
+}

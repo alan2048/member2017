@@ -2,19 +2,41 @@
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
-	<title>萌宝家园 </title>
+	<title>萌宝家园 菜单</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="幼教产品" name="description" />
 	<meta content="上海紫越网络科技有限公司" name="author" />
 	<link rel="shortcut icon" href="./images/favicon.png">
 	<link href="./css/common/base.css" rel="stylesheet" type="text/css" />
-	<link href="./css/index/login.css" rel="stylesheet" type="text/css" />
+	<link href="./css/index/menu.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-	<img src="images/index/menu.jpg" alt="">
+	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+	<div id="menu">
+		<div class="menuTitle"></div>
+		<ul id="menuBox"></ul>
+		<script type="text/html" id="menuBox_script">
+			{{each data as value i}}
+			<li class="has-list">
+				<a class="hasTitle {{value.icon}}">{{value.title}}</a>
+				<div class="hasBox">
+					<ul class="menuBox">
+						{{each value.list as value01 j}}
+						<li>
+							<a href="{{value01.url}}">{{value01.title}}</a>
+						</li>
+						{{/each}}
+					</ul>
+				</div>
+				<div class="hasBoxBg"></div>
+			</li>
+			{{/each}}
+		</script>
+	</div>
 	<script src="./js/common/jquery-1.11.1.min.js"></script>
+	<script src="./js/common/jquery.nicescroll.min.js"></script>
+	<script src="./js/common/template.js"></script>
 	<script src="./js/common/base.js"></script>
-	<script src="./js/index/index.js"></script>
+	<script src="./js/index/menu.js"></script>
 </body>
 </html>
