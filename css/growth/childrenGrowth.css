@@ -171,12 +171,31 @@ ul#list >li{
 }
 .pictureList{
 	height: auto;
+	margin-top: 0.1rem;
 }
 .pictureList >li{
+	position: relative;
 	display: inline-block;
 	width: 1.6rem;
 	height: 1.6rem;
 	margin: 0.03rem;
+}
+.pictureList >li .twelve{
+	position: absolute;
+	z-index: 100;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	text-align: center;
+	color: #fefefe;
+	line-height: 1.6rem;
+	font-size: 0.75rem;
+	overflow: hidden;
+	border-radius: 0.1rem;
+	background-color: rgba(0,0,0,0.2);
+	cursor: pointer;
 }
 .pictureList >li >a{
 	width: 100%;
@@ -190,19 +209,122 @@ ul#list >li{
 	height: 100%;
 }
 .praiseBox{
+	margin-top: 0.25rem;
 	text-align: right;
 }
-.praise{
+.praiseBtn{
+	height: 0.2rem;
+	font-size: 0.12rem;
+	color: #666;
 	display: inline-block;
-	padding: 0 0.3rem 0 0.5rem;
-	background: url(../../images/growth/heart.png) 25% center no-repeat;
+	padding: 0 0.3rem 0 0.3rem;
+	line-height: 0.2rem;
+	background: url(../../images/growth/heart.png) 0 center no-repeat;
 	cursor: pointer;
 }
-.comment{
+.praiseBtn.hover{
+	height: 0.2rem;
+	font-size: 0.12rem;
+	color: #666;
 	display: inline-block;
-	padding: 0 0 0 0.4rem;
-	background: url(../../images/growth/comment.png) 10% center no-repeat;
+	padding: 0 0.3rem 0 0.3rem;
+	line-height: 0.2rem;
+	background: url(../../images/growth/heart01.png) 0 center no-repeat;
 	cursor: pointer;
+}
+.praiseBtn:hover,.praiseBtn.hover:hover{
+	color: #5ae0e2;
+}
+.praiseListBox{
+	background-color: #f7fafa;
+	vertical-align: middle;
+	margin-top: 0.2rem;
+	border-radius: 2rem;
+	line-height: 0.4rem;
+}
+.praiseBtn01 {
+	display: inline-block;
+	width: 0.3rem;
+	height: 0.25rem;
+	line-height: 0.4rem;
+	margin: 0 0 -0.06rem 0.15rem; 
+	background: url(../../images/growth/heart.png) center center no-repeat;
+}
+.praiseUserName{
+	color: #5ae0e2;
+	line-height: 0.4rem;
+}
+.canDelete{
+	color: #5cdee1;
+	float: left;
+	cursor: pointer;
+}
+.commentBtn{
+	height: 0.25rem;
+	line-height: 0.25rem;
+	font-size: 0.12rem;
+	color: #666;
+	display: inline-block;
+	padding: 0 0 0 0.3rem;
+	background: url(../../images/growth/comment.png) 0 center no-repeat;
+	cursor: pointer;
+}
+.commentBtn:hover{
+	color: #5ae0e2;
+}
+.createUserPhoto{
+	position: absolute;
+	display: inline-block;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 0.3rem;
+	border: 0.02rem solid #fff;
+	left: -0.8rem;
+	-webkit-background-size: contain;
+	background-size: contain;
+	cursor: pointer;
+}
+.createUserPhoto:hover{
+	border: 0.02rem solid #5cdfe2;
+}
+.createUserName{
+	color: #666;
+	font-size: 0.18rem;
+	line-height: 0.28rem;
+	font-weight: 500;
+}
+.createUserName >.labelName{
+	display: inline-block;
+	height: 0.28rem;
+	line-height: 0.26rem;
+	border: 0.02rem solid #666;
+	border-radius: 1rem;
+	font-size: 0.14rem;
+	padding:0 0.2rem;
+	margin-left: 0.05rem;
+	background-color: #f7bad6;
+	color:#666;
+}
+.createTime{
+	color: #979a99;
+	font-size: 0.14rem;
+}
+.content{
+	position:relative;
+	color: #656565;
+	font-size: 0.16rem;
+  	line-height: 1.6em;
+}
+.fold,.foldPic{
+	color: #5adfe1;
+	cursor: pointer;
+}
+.foldBtn,.foldText{
+	display: none;
+}
+.foldBtn.active,.foldText.active{
+	display: inline;
+	margin-left: -0.03rem;
 }
 /*main end*/
 

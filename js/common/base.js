@@ -13,12 +13,13 @@ var path=serverUrl02; //更改服务器地址可设置此值
 setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
 var httpUrl={
 		// 基础接口
-		loginId:getCookie("loginId"),
+		loginId:getCookie("loginId") || "938e84d88b29b1b1adc9a1e432e3590a",
 		login:path+"/jfinal_mbjy_basic/login",// 首页登入
 		back:path+"/jfinal_mbjy_basic/back",//首页登入回调
 		loginHttp:path+"/jfinal_mbjy_basic/", // 登入地址
 		logoutHttp:path, // 注销地址
-		path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // 图片地址
+		// path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // 图片地址
+		path_img:path+":15001/file/getImage?md5=", // 图片地址
 		picUrl:path+"/jfinal_mbjy_basic/file/upload", // 图片上传地址
 		memberRecord:path+"/sample_front/memberRecord/memberRecord.html",//成长档案网址
 

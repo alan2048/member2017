@@ -109,21 +109,73 @@
 					{{each arr as value i}}
 					<li class="part" data-id="{{value.id}}" data-createUseruuid="{{value.createUseruuid}}">
 						<div class="partBox">
-							<div class="createUserName">{{value.createUserName}}</div>
+							<span class="createUserPhoto" style="background-image: url({{path_img}}{{value.createUserPhoto}}&minpic=1);"></span>
+							<div class="createUserName">
+								{{value.createUserName}}
+								{{each value.labelList as value01 j}}
+								<span data-labelId="{{value01.labelId}}" class="labelName">{{value01.labelName}}</span>
+								{{/each}}
+							</div>
 							<div class="createTime">{{value.createTime}}</div>
-							<div class="content">{{value.content}}</div>
+							<div class="content">
+								{{value.content}}
+								{{if value.content01}}
+									<span class="foldBtn active">...</span>
+									<span class="foldText">{{value.content01}}</span>
+									<div class="fold">展开全文</div>
+								{{/if}}
+							</div>
 							<ul class="pictureList">
+							{{if value.pictureList.length <13}}
 								{{each value.pictureList as value01 j}}
 								<li>
                                 	<a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
-                                 		<img src="{{path_img}}{{value01}}&Thumbnail=1">
+                                 		<img src="{{path_img}}{{value01}}&minpic=1">
                                 	</a>
                             	</li>
-								{{/each}}
+                            	{{/each}}
+                            {{else}}
+                            	{{each value.pictureList as value01 j}}
+                            	{{if j ==11}}
+									<li class="twelveLi">
+                                		<a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                 			<img src="{{path_img}}{{value01}}&minpic=1">
+                                		</a>
+                                		<span class="twelve">+{{value.pictureList.length-12}}</span>
+                            		</li>
+                            	{{else}}
+                            		<li class="{{if j >11}}more hide{{/if}}">
+                                		<a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                 			<img src="{{path_img}}{{value01}}&minpic=1">
+                                		</a>
+                            		</li>
+                            	{{/if}}
+                            	{{/each}}
+							{{/if}}
 							</ul>
+							{{if value.pictureList.length >12}}
+							<div class="foldPic hide">收起图片</div>
+							{{/if}}
 							<div class="praiseBox">
-								<span class="praise">赞</span>
-								<span class="comment">评论</span>
+								{{if value.canDelete == 1}}
+								<span class="canDelete" data-messageId="{{value.id}}">删除</span>
+								{{/if}}
+								{{if value.selfPraise ==0}}
+								<span class="praiseBtn" data-messageId="{{value.id}}" data-praiseid="{{value.selfPraise}}">赞</span>
+								{{else}}
+								<span class="praiseBtn hover" data-messageId="{{value.id}}" data-praiseid="{{value.selfPraise}}">取消赞</span>
+								{{/if}}
+								<span class="commentBtn">评论</span>
+							</div>
+							<div class="praiseList">
+								{{if value.praiseList.length !=0}}
+								<div class="praiseListBox">
+									<span class="praiseBtn01"></span>
+									{{each value.praiseList as value01 j}}
+									<span data-praiseid="{{value01.id}}" class="praiseUserName">{{value01.praiseUserName}}{{if j+1 !=value.praiseList.length}},{{/if}}</span>
+									{{/each}}
+								</div>
+								{{/if}}
 							</div>
 						</div>
 					</li>
