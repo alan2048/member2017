@@ -165,21 +165,51 @@
 								{{else}}
 								<span class="praiseBtn hover" data-messageId="{{value.id}}" data-praiseid="{{value.selfPraise}}">取消赞</span>
 								{{/if}}
-								<span class="commentBtn">评论</span>
+								<span class="commentBtn" data-messageId="{{value.id}}">评论</span>
 							</div>
-							<div class="praiseList">
+							<div class="praiseList" data-messageId="{{value.id}}">
 								{{if value.praiseList.length !=0}}
 								<div class="praiseListBox">
 									<span class="praiseBtn01"></span>
 									{{each value.praiseList as value01 j}}
-									<span data-praiseid="{{value01.id}}" class="praiseUserName">{{value01.praiseUserName}}{{if j+1 !=value.praiseList.length}},{{/if}}</span>
+									<span data-praiseid="{{value01.id}}" class="praiseUserName"><span>,</span>{{value01.praiseUserName}}</span>
 									{{/each}}
 								</div>
 								{{/if}}
 							</div>
+							<div class="commentList" data-messageId="{{value.id}}">
+								{{if value.commentList.length !=0}}
+								<ul class="commentListBox">
+									{{each value.commentList as value01 j}}
+									<li data-commentId="{{value01.commentId}}" data-commentUserName="{{value01.commentUserName}}" data-commentUseruuid="{{value01.commentUseruuid}}">
+										<span data-commentId="{{value01.commentId}}" class="commentUserName">{{value01.commentUserName}}</span>
+										{{if value01.replyUserName}}回复{{/if}}
+										<span class="replyUserName">{{value01.replyUserName}}:</span>
+										<span class="commentContent">{{value01.content}}</span>
+										{{if value01.commentUseruuid == value.createUseruuid}}
+										<span class="commentDelete" data-messageId="{{value.id}}" data-commentId="{{value01.commentId}}">删除</span>
+										{{/if}}
+										<span class="commentTip">点击回复</span>
+									</li>
+									{{/each}}
+								</ul>
+								{{/if}}
+							</div>
+							<div class="commentBox" data-messageId="{{value.id}}">
+								<div class="commentInput">
+									<textarea name="input" placeholder=""></textarea>
+									<div class="comment" data-messageId="{{value.id}}" data-cuseruuid="">发表</div>
+								</div>
+							</div>
 						</div>
 					</li>
 					{{/each}}
+				</script>
+				<script type="text/html" id="praise_script">
+					<div class="praiseListBox">
+						<span class="praiseBtn01"></span>
+						<span data-praiseid="{{id}}" class="praiseUserName">{{praiseUserName}}</span>
+					</div>
 				</script>
 			</div>
 		</div>

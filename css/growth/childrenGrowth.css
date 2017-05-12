@@ -223,12 +223,12 @@ ul#list >li{
 	cursor: pointer;
 }
 .praiseBtn.hover{
-	height: 0.2rem;
+	height: 0.25rem;
 	font-size: 0.12rem;
 	color: #666;
 	display: inline-block;
 	padding: 0 0.3rem 0 0.3rem;
-	line-height: 0.2rem;
+	line-height: 0.25rem;
 	background: url(../../images/growth/heart01.png) 0 center no-repeat;
 	cursor: pointer;
 }
@@ -239,7 +239,7 @@ ul#list >li{
 	background-color: #f7fafa;
 	vertical-align: middle;
 	margin-top: 0.2rem;
-	border-radius: 2rem;
+	border-radius: 0.1rem;
 	line-height: 0.4rem;
 }
 .praiseBtn01 {
@@ -253,6 +253,9 @@ ul#list >li{
 .praiseUserName{
 	color: #5ae0e2;
 	line-height: 0.4rem;
+}
+.praiseListBox >.praiseUserName:nth-of-type(2) >span{
+	display: none;
 }
 .canDelete{
 	color: #5cdee1;
@@ -271,6 +274,88 @@ ul#list >li{
 }
 .commentBtn:hover{
 	color: #5ae0e2;
+}
+.commentListBox {
+	background-color: #f7fafa;
+	vertical-align: middle;
+	margin-top: 0.05rem;
+	padding: 0.1rem 0.1rem;
+	border-radius: 0.1rem;
+	line-height: 0.28rem;
+	font-size: 0.16rem;
+}
+.commentListBox >li{
+	cursor: pointer;
+	word-break:break-all;
+	position: relative;
+	padding: 0 0.1rem;
+	font-size: 0.16rem;
+}
+.commentListBox >li:hover{
+	background-color: #ececec;
+}
+.commentListBox >li >span.commentTip{
+	display: none;
+	width: 0.8rem;
+	height: 0.4rem;
+	position: absolute;
+	font-size: 0.12rem;
+	line-height: 0.5rem;
+	text-align: center;
+	z-index: 10;
+	margin: 0.15rem 0 0 -0.3rem;
+	background: url(../../images/growth/commentTip.png) 0 center no-repeat;
+}
+.commentListBox >li:hover >span.commentTip{
+	display: inline-block;
+}
+.commentUserName,.replyUserName{
+	color: #5ae0e2;
+}
+.commentContent{
+	color: #666;
+}
+.commentDelete{
+	display: none;
+	float: right;
+	cursor: pointer;
+	color: #f8acaa;
+	font-size: 0.14rem;
+}
+li:hover >.commentDelete{
+	display: inline;
+}
+.commentInput{
+	margin-top: 0.05rem;
+	display: none;
+	width: 100%;
+	overflow: hidden;
+}
+.commentBox.active >.commentInput{
+	display: block;
+}
+.commentInput > textarea {
+	width: 100%;
+	height: 1rem;
+	padding: 0.1rem;
+	border: 0.01rem solid #e7ecea;
+	border-radius: 0.1rem;
+}
+.comment{
+	width: 0.9rem;
+	height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	text-align: center;
+	line-height: 0.4rem;
+	color: #fff;
+	float: right;
+	margin-top: 0.1rem;
+	cursor: pointer;
+	font-size: 0.14rem;
+}
+.comment:hover{
+	background-color: #28d3d7;
 }
 .createUserPhoto{
 	position: absolute;
