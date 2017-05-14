@@ -109,16 +109,20 @@ header >#logo{
 	cursor: pointer;
 }
 #editor{
+	display: none;
 	width: 100%;
-	min-height: 3rem;
+	min-height: 3.1rem;
 	border: 1px solid #e8ebeb;
 	border-radius: 0.2rem;
 	background-color: #fff;
 	text-align: left;
 	padding: 0.4rem 0.3rem
 }
+#editor.active{
+	display: block;
+}
 #editor >#input{
-	margin:0 auto 0.18rem;
+	margin:0 auto 0.1rem;
 	width: 100%;
 	height: 1.6rem;
 	border: 0.01rem solid #e7ecea;
@@ -132,6 +136,74 @@ header >#logo{
 	border: 0.01rem solid transparent;
 	border-radius: 0.18rem;
 }
+#editor .newPicBtn{
+	display: inline-block;
+	width: 0.7rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	padding-left: 0.35rem;
+	cursor: pointer;
+	background: url(../../images/growth/newPicBtn.png) 0 center no-repeat;
+}
+#editor .newLabelBtn{
+	display: inline-block;
+	width: 0.7rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	padding-left: 0.35rem;
+	cursor: pointer;
+	background: url(../../images/growth/newLabelBtn.png) 0 center no-repeat;
+}
+#editor .newNumBtn{
+	float: right;
+	color: #a6a9a8;
+}
+#editor .newWhoBtn{
+	display: inline-block;
+	width: 0.9rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	padding-left: 0.35rem;
+	cursor: pointer;
+	background: url(../../images/growth/newWhoBtn.png) 0 center no-repeat;
+}
+#editor .newTopBtn{
+	display: inline-block;
+	width: 1.2rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	padding-left: 0.35rem;
+	cursor: pointer;
+	background: url(../../images/growth/switchBtn02.png) 0 center no-repeat;
+}
+#editor .newTopBtn.active{
+	background: url(../../images/growth/switchBtn01.png) 0 center no-repeat;
+}
+#editor .newTopBtn >span{
+	color: #5ae0e2;
+}
+#editor .newPicBtn:hover,#editor .newLabelBtn:hover,#editor .newWhoBtn:hover,#editor .newTopBtn:hover{
+	color: #5ae0e2;
+}
+#picList,.newLabel,.newWho{
+	display: none;
+}
+.commentNew {
+	width: 1.2rem;
+	height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	text-align: center;
+	line-height: 0.4rem;
+	color: #fff;
+	float: right;
+	cursor: pointer;
+	font-size: 0.14rem;
+}
+.commentNew:hover {
+	background-color: #28d3d7;
+}
+
 #label{
 	text-align: left;
 	margin: 0.4rem 0 0.2rem;
@@ -168,6 +240,9 @@ ul#list >li{
 	margin: 0.5rem auto;
 	text-align: left;
 	position: relative;
+}
+.video{
+	text-align: center;
 }
 .pictureList{
 	height: auto;

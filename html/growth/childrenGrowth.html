@@ -66,7 +66,7 @@
 				</div>
 				<div id="editor">
 					<div id="input">
-						<textarea name="input"></textarea>
+						<textarea name="input" placeholder="这一刻的想法..."></textarea>
 					</div>
 					<div id="picList">
 						<ul id="picListUl" class="pagination"></ul>
@@ -82,18 +82,18 @@
 						</script>
 					</div>
 					<div>
-						<span>图片</span>
-						<span>标签</span>
-						<span>谁可见</span>
-						<span>置顶：<span>开</span></span>
-						<span>1/1000</span>
+						<span class="newPicBtn">图片</span>
+						<span class="newLabelBtn">标签</span>
+						<span class="newWhoBtn">谁可见</span>
+						<span class="newTopBtn">置顶：<span>关</span></span>
+						<span class="newNumBtn"><span>0</span>/1000</span>
 					</div>
-					<div>标签：<span></span></div>
-					<div>
+					<div class="newLabel">标签：<span></span></div>
+					<div class="newWho">
 						<span>谁可见：</span>
 						<div></div>
 					</div>
-					<div><span>发布</span></div>
+					<div class="commentNewBox"><span class="commentNew" id="commentNew">发布</span></div>
 				</div>
 			</div>
 			<div id="content">
@@ -126,6 +126,7 @@
 								{{/if}}
 							</div>
 							<ul class="pictureList">
+							{{if !value.video}}
 							{{if value.pictureList.length <13}}
 								{{each value.pictureList as value01 j}}
 								<li>
@@ -152,7 +153,13 @@
                             	{{/if}}
                             	{{/each}}
 							{{/if}}
+							{{/if}}
 							</ul>
+							<div class="video">
+								{{if value.video}}
+									<video src="{{path_img}}{{value.video}}&minpic=0" controls="controls" style=""></video>
+								{{/if}}
+							</div>
 							{{if value.pictureList.length >12}}
 							<div class="foldPic hide">收起图片</div>
 							{{/if}}
@@ -177,7 +184,7 @@
 								</div>
 								{{/if}}
 							</div>
-							<div class="commentList" data-messageId="{{value.id}}">
+							<div class="commentList" data-messageId="{{value.id}}" data-createUseruuid="{{value.createUseruuid}}">
 								{{if value.commentList.length !=0}}
 								<ul class="commentListBox">
 									{{each value.commentList as value01 j}}
@@ -186,10 +193,11 @@
 										{{if value01.replyUserName}}回复{{/if}}
 										<span class="replyUserName">{{value01.replyUserName}}:</span>
 										<span class="commentContent">{{value01.content}}</span>
-										{{if value01.commentUseruuid == value.createUseruuid}}
-										<span class="commentDelete" data-messageId="{{value.id}}" data-commentId="{{value01.commentId}}">删除</span>
-										{{/if}}
+										{{if value01.commentUseruuid == useruuid}}
+										<span class="commentDelete" data-messageid="{{value.id}}" data-commentId="{{value01.commentId}}">删除</span>
+										{{else}}
 										<span class="commentTip">点击回复</span>
+										{{/if}}
 									</li>
 									{{/each}}
 								</ul>
@@ -210,6 +218,35 @@
 						<span class="praiseBtn01"></span>
 						<span data-praiseid="{{id}}" class="praiseUserName">{{praiseUserName}}</span>
 					</div>
+				</script>
+				<script type="text/html" id="comment_script">
+					{{if empty ==0}}
+					<ul class="commentListBox">
+						<li data-commentId="{{commentId}}" data-commentUserName="{{commentUserName}}" data-commentUseruuid="{{commentUseruuid}}">
+							<span data-commentId="{{commentId}}" class="commentUserName">{{commentUserName}}</span>
+							{{if replyUserName}}回复{{/if}}
+							<span class="replyUserName">{{replyUserName}}:</span>
+							<span class="commentContent">{{content}}</span>
+							{{if commentUseruuid == useruuid}}
+							<span class="commentDelete" data-messageid="{{messageId}}" data-commentId="{{commentId}}">删除</span>
+							{{else}}
+							<span class="commentTip">点击回复</span>
+							{{/if}}
+						</li>
+					</ul>
+					{{else}}
+						<li data-commentId="{{commentId}}" data-commentUserName="{{commentUserName}}" data-commentUseruuid="{{commentUseruuid}}">
+							<span data-commentId="{{commentId}}" class="commentUserName">{{commentUserName}}</span>
+							{{if replyUserName}}回复{{/if}}
+							<span class="replyUserName">{{replyUserName}}:</span>
+							<span class="commentContent">{{content}}</span>
+							{{if commentUseruuid == useruuid}}
+							<span class="commentDelete" data-messageid="{{messageId}}" data-commentId="{{commentId}}">删除</span>
+							{{else}}
+							<span class="commentTip">点击回复</span>
+							{{/if}}
+						</li>
+					{{/if}}
 				</script>
 			</div>
 		</div>

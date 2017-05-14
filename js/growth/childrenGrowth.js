@@ -2,18 +2,66 @@ $(function () {
     init();
 });
 function init() {
-    growthLabel_port();
+    // 切换班级
+    $("#logo .curClass").click(function () {
+        growthStudent_port(user.classId);
+    });  
 
+    newInit();// 发帖
+    listInit();// 帖子列表
+};
+// 发帖
+function newInit() {
+    // 发帖 开关 输入框
+    $("#newBtn,#newText").click(function () {
+        $("#editor").toggleClass("active").find("#input >textarea").val("");
+    });
+
+    // 是否置顶
+    $(".newTopBtn").click(function () {
+        $(this).toggleClass("active"); 
+        if($(this).hasClass("active")){
+            $(this).find("span").text("开");
+        }else{
+            $(this).find("span").text("关");
+        };
+    });
+
+    // 计算字数
+    $("#editor >#input >textarea").keyup(function () {
+        $("#editor .newNumBtn >span").text($(this).val().length);
+    });
+
+    // 发帖
+    $("#commentNew").click(function () {
+        var data={
+                childUseruuidList:[],
+                classId:user.classId,
+                content:$("#input >textarea").val(),
+                labelList:[],
+                pictureList:[],
+                stickyPost:0,
+                video:0
+        };
+        growthAdd_port(data);        
+    });
+
+};
+// 帖子列表
+function listInit() {
+    growthLabel_port();
     // 点击标签 切换list内容
     $("#label").on("click","span",function () {
         $(this).addClass("active").siblings().removeClass("active");
         growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
     });
 
-    // 切换班级
-    $("#logo .curClass").click(function () {
-        growthStudent_port(user.classId);
-    });  
+    // 滚动到底部继续加载数据
+    window.onscroll=function () {
+        if(getDocumentTop() == (getScrollHeight()-getWindowHeight())){
+            growthList_port(user.classId,$("#list >li").length+1,$("#label >span.active").attr("data-id"),1);
+        };
+    };
 
     // 删除一条内容
     $("#list").on("click",".canDelete",function () {
@@ -34,18 +82,21 @@ function init() {
         growthCommentDelete_port(user.classId,$(this).attr("data-messageId"),$(this).attr("data-commentId"))
     });
 
-    // 发表评论
+    // 发表评论 弹框
     $("#list").on("click",".commentBtn",function () {
         $("#list .commentBox[data-messageId="+$(this).attr("data-messageId")+"]").addClass("active").find("textarea").attr("placeholder","评论：").focus();
         $("#list .commentBox[data-messageId="+$(this).attr("data-messageId")+"]").find(".comment").attr("data-cuseruuid","");
     });
 
-    // 回复评论
+    // 回复评论 弹框
     $("#list").on("click",".commentListBox >li",function () {
-        $(this).parents(".commentList").next(".commentBox").addClass("active").find("textarea").attr("placeholder","回复 "+$(this).attr("data-commentUserName")+":").focus();
-        $(this).parents(".commentList").next(".commentBox").addClass("active").find(".comment").attr("data-cuseruuid",$(this).attr("data-commentUseruuid"));
+        if($(this).find(".commentTip").length==1){
+            $(this).parents(".commentList").next(".commentBox").addClass("active").find("textarea").attr("placeholder","回复 "+$(this).attr("data-commentUserName")+":").focus();
+            $(this).parents(".commentList").next(".commentBox").addClass("active").find(".comment").attr("data-cuseruuid",$(this).attr("data-commentUseruuid"));
+        };
     });
 
+    // 新增 回复 评论
     $("#list").on("click",".comment",function () {
         var data={
                 classId:user.classId,
@@ -55,6 +106,29 @@ function init() {
         };
         growthCommentAdd_port(data);
     });
+};
+
+// 新增一条内容
+function growthAdd_port(json) {
+    var data={
+                childUseruuidList:json.childUseruuidList,
+                classId:json.classId,
+                content:json.content,
+                labelList:json.labelList,
+                pictureList:json.pictureList,
+                stickyPost:json.stickyPost,
+                video:json.video
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.growthAdd,param,growthAdd_callback);
+};
+function growthAdd_callback(res) {
+    if(res.code==200){
+        $("#newBtn").click();
+    };
 };
 
 // 获取学校所有的标签
@@ -146,10 +220,10 @@ function growthCommentDelete_port(classId,messageId,commentId) {
 function growthCommentDelete_callback(res,json) {
     if(res.code==200){
         if(res.info =="删除成功"){
-            if($("#list .commentList[data-messageId="+json.messageId+"] li").length ==1){
-                $("#list .commentList[data-messageId="+json.messageId+"]").empty();
+            if($("#list .commentList[data-messageid="+json.messageId+"] li").length ==1){
+                $("#list .commentList[data-messageid="+json.messageId+"]").empty();
             }else{
-                $("#list .commentList[data-messageId="+json.messageId+"] li[data-commentId="+json.commentId+"]").remove();
+                $("#list .commentList[data-messageid="+json.messageId+"] li[data-commentid="+json.commentId+"]").remove();
             };
         };
     };
@@ -172,6 +246,23 @@ function growthCommentAdd_port(json) {
 function growthCommentAdd_callback(res,json) {
     if(res.code==200){
         $(".commentBox[data-messageId="+json.messageId+"]").removeClass("active").find("textarea").text("");
+        var data=JSON.parse(res.data);
+        data.createUseruuid=$(".commentList[data-messageId="+json.messageId+"]").attr("data-createUseruuid");
+        data.messageId=json.messageId;
+        data.useruuid=user.useruuid;
+        if($(".commentList[data-messageId="+json.messageId+"]").find("li").length >0){
+            data.empty=1;
+            var html=template("comment_script",data);
+            $(".commentList[data-messageId="+json.messageId+"] >ul").append(html);
+            $(".commentBox[data-messageId="+json.messageId+"] textarea").val("");
+        }else{
+            data.empty=0;
+            var html=template("comment_script",data);
+            $(".commentList[data-messageId="+json.messageId+"]").append(html);
+            $(".commentBox[data-messageId="+json.messageId+"] textarea").val("");
+        };
+
+        
     };
 };
 
@@ -192,7 +283,8 @@ function growthList_callback(res,type) {
     if(res.code==200){
         var data={
                 arr:JSON.parse(res.data),
-                path_img:httpUrl.path_img
+                path_img:httpUrl.path_img,
+                useruuid:user.useruuid
         };
         for(var i=0;i<data.arr.length;i++){
             data.arr[i].createTime=new Date(data.arr[i].createTime*1000).Format("yyyy年MM月dd日 hh:mm");
@@ -256,3 +348,41 @@ function growthStudent_callback(res) {
         console.log(111222);
     };
 };
+
+
+//文档高度
+function getDocumentTop() {
+    var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+    if (document.body) {
+        bodyScrollTop = document.body.scrollTop;
+    }
+    if (document.documentElement) {
+        documentScrollTop = document.documentElement.scrollTop;
+    }
+    scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+    return scrollTop;
+}
+
+//可视窗口高度
+function getWindowHeight() {
+    var windowHeight = 0;
+    if (document.compatMode == "CSS1Compat") {
+        windowHeight = document.documentElement.clientHeight;
+    } else {
+        windowHeight = document.body.clientHeight;
+    }
+    return windowHeight;
+}
+
+//滚动条滚动高度
+function getScrollHeight() {
+    var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+    if (document.body) {
+        bodyScrollHeight = document.body.scrollHeight;
+    }
+    if (document.documentElement) {
+        documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+    return scrollHeight;
+}
