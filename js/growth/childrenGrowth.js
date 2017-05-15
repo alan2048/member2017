@@ -33,20 +33,11 @@ function newInit() {
     // 计算字数
     $("#editor >#input >textarea").keyup(function () {
         $("#editor .newNumBtn >span").text($(this).val().length);
-    });
-
-    // 发帖
-    $("#commentNew").click(function () {
-        var data={
-                childUseruuidList:[],
-                classId:user.classId,
-                content:$("#input >textarea").val(),
-                labelList:[],
-                pictureList:[],
-                stickyPost:0,
-                video:0
-        };
-        growthAdd_port(data);        
+        if($(this).val().length>1000){
+            $(this).addClass("more");
+        }else{
+            $(this).removeClass("more");
+        }
     });
 
     // 发帖 添加图片
@@ -54,18 +45,97 @@ function newInit() {
         $("#modal-picture").modal("show"); 
     });
 
-    // 发帖 添加标签
-    $("#editor .newLabelBtn").click(function () {
-        $("#modal-label").modal("show"); 
-    });
-
     // 发帖 谁可见
     $("#editor .newWhoBtn").click(function () {
         $("#modal-who").modal("show"); 
     });
 
+    // 点击上传图片
     $(".picMain >ul").on("click","li.addBtn01",function () {
         $("#addBtn").click();
+    });
+
+    // 选择图片
+    $(".picMain >ul").on("click","li.loadImg",function () {
+        $(this).toggleClass("active");
+        isMaxNum();// 判断是否超过40张
+    });
+
+    // 删除图片
+    $("#picListUl").on("click",".deleteBtn",function (e) {
+         e.stopPropagation();
+         $(this).parents("li").remove();
+    });
+
+    // 发帖 添加标签
+    $("#editor .newLabelBtn").click(function () {
+        $("#modal-label").modal("show"); 
+    });
+
+    // 选择 标签
+    $("#labelLib").on("click","span",function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".newLabel").empty().text("标签：").append($(this).clone()).find("span").append("<span class=\"deleteBtn\"></span>");
+        $("#modal-label").modal("hide"); 
+    });
+
+    // 删除标签
+    $(".newLabel").on("click",".deleteBtn",function (e) {
+         $(".newLabel").empty();
+    });
+
+    // 加载已选择的图片
+    $("#picBtn").click(function () {
+        var AA=$("#picTabContent .picMain ul.picBody >li.active");
+        if(AA.length>40){
+            toastTip("提示","支持最大张数为40张",2000);
+        }else{
+            var arr=[];
+            if(AA.length >0){
+                for(var i=0;i<AA.length;i++){
+                    arr.push(AA.eq(i).attr("data-md5"))
+                }
+            };
+            var data={
+                    arr:arr,
+                    path_img:httpUrl.path_img
+                };
+            var html=template("picListUl_script",data);
+            $("#picListUl").empty().append(html).parent("#picList").addClass("active");
+            $("#modal-picture").modal("hide");
+        }
+    });
+
+    // 发帖
+    $("#commentNew").click(function () {
+        if($("#editor >#input >textarea").hasClass("more")){
+            toastTip("提示","最多输入1000字...",2000);
+        }else{
+            var pictureList=[];
+            for(var i=0;i<$("#picListUl >li").length;i++){
+                pictureList.push($("#picListUl >li").eq(i).attr("data-pic"))
+            };
+            var labelList=[];
+            if($(".newLabel >span").length==0){
+                labelList=[""]
+            }else{
+                for(var i=0;i<$(".newLabel >span").length;i++){
+                    labelList.push($(".newLabel >span").eq(i).attr("data-id"));
+                };
+            };
+        
+            var data={
+                    childUseruuidList:[],
+                    classId:user.classId,
+                    content:$("#input >textarea").val(),
+                    labelList:labelList,
+                    pictureList:pictureList,
+                    stickyPost:0,
+                    video:0
+            };
+            console.log(data);
+            // growthAdd_port(data);  
+        };      
     });
 };
 // 帖子列表
@@ -165,7 +235,7 @@ function growthLabel_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("lable_script",data);
-        $("#label").empty().append(html);
+        $("#label,#labelLib").empty().append(html);
         growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
     };
 };
@@ -456,10 +526,23 @@ function loadFiles() {
             };
             var html=template("picMain01_script",data);
             $("#upload ul.picBody").append(html);
-            $("#addBtn").find("div").remove();
+            $("#addBtn").parent(".uploadBg").addClass("hide").find("#addBtn >div").remove();
+            $("#upload .addBtn01").removeClass("hide");
+            isMaxNum();// 判断是否超过40张
+            
         });
         myDropzone.on('error',function(file,errorMessage,httpRequest){
             alert('没有上传成功,请重试:'+errorMessage);
             this.removeFile(file);
         });
+};
+
+// 判断是否超过40张
+function isMaxNum() {
+    $(".maxNum >span").text($("#upload .picBody >li.active").length);
+    if($("#upload .picBody >li.active").length >40){
+        $(".maxNum >span").addClass("active");   
+    }else{
+        $(".maxNum >span").removeClass("active"); 
+    }
 };

@@ -10,6 +10,7 @@
 
 	<link href="../../css/common/bootstrap.min.css" rel="stylesheet">
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
 	<link href="../../css/growth/childrenGrowth.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -69,12 +70,12 @@
 						<textarea name="input" placeholder="这一刻的想法..."></textarea>
 					</div>
 					<div id="picList">
-						<ul id="picListUl" class="pagination"></ul>
+						<ul id="picListUl"></ul>
 						<script type="text/html" id="picListUl_script">
-							{{each picMd5List as value i}}
-                            <li>
+							{{each arr as value i}}
+                            <li data-pic="{{value}}">
                                 <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
-                                 	<img src="{{path_img}}{{value}}&Thumbnail=1">
+                                 	<img src="{{path_img}}{{value}}&minpic=1">
                                     <span class="deleteBtn"></span>
                                 </a>
                             </li>
@@ -88,7 +89,7 @@
 						<span class="newTopBtn">置顶：<span>关</span></span>
 						<span class="newNumBtn"><span>0</span>/1000</span>
 					</div>
-					<div class="newLabel">标签：<span></span></div>
+					<div class="newLabel"></div>
 					<div class="newWho">
 						<span>谁可见：</span>
 						<div></div>
@@ -272,43 +273,26 @@
         						<span id="addBtn">上传图片</span>
         					</div>
 							<ul class="picBody">
-								<li class="addBtn01"></li>
+								<li class="addBtn01 hide"></li>
 							</ul>
 						</div>
 						<script type="text/html" id="picMain01_script">
-							<li data-md5="{{md5}}"><img src="{{path_img}}{{md5}}&minpic=1" alt=""></li>							
+							<li data-md5="{{md5}}" class="loadImg active"><img src="{{path_img}}{{md5}}&minpic=1" alt=""></li>	
 						</script>
     				</div>
 				</div>
+				<span class="maxNum">最多张数：<span>0</span>/40</span>
 				<span id="picBtn">确定</span>
             </div>
             <span class="closeBtn" data-dismiss="modal" ></span>
         </div>
     </div>
-	
+
     <div class="modal fade" id="modal-label" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
-            	<div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">请选择学生</h4>
-            	</div>
-                <div class="modal-body">
-                    <ul id="classMembers"></ul>
-                    <script type="text/html" id="classMembers_script">
-                    	{{each data as value i}}
-                    	<li>
-							<div class="membersBg" style="background-image: url({{value.portrait}})" data-useruuid="{{value.userUuid}}" data-username="{{value.userName}}" data-userphoto="{{value.userPhoto}}" data-bookid="{{value.needCreate}}"></div>
-							<div class="membersTitle">{{value.userName}}</div>
-						</li>
-						{{/each}}
-                    </script>
-                </div>
-                <div class="modal-footer">
-                	<label><input type="checkbox">全选</label>
-                    <button type="button" class="btn btn-primary" id="copyBtn">确定</button>
-                </div>
+            <div class="modal-content" id="labelLib">
             </div>
-            <span class="closeBtn" data-dismiss="modal"></span>
+            <span class="closeBtn" data-dismiss="modal" ></span>
         </div>
     </div>
 
@@ -351,6 +335,7 @@
 	<script src="../../js/common/bootstrap.min.js"></script>
 	<script src="../../js/common/dropzone.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/jquery.toast.min.js"></script>
 	<script src="../../js/common/template.js"></script>
 	<script src="../../js/common/base.js"></script>
 	<script src="../../js/growth/childrenGrowth.js"></script>
