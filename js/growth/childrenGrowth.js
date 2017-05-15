@@ -12,6 +12,9 @@ function init() {
 };
 // 发帖
 function newInit() {
+    loadFiles();
+
+    chooseNiceScroll("#upload");
     // 发帖 开关 输入框
     $("#newBtn,#newText").click(function () {
         $("#editor").toggleClass("active").find("#input >textarea").val("");
@@ -46,6 +49,24 @@ function newInit() {
         growthAdd_port(data);        
     });
 
+    // 发帖 添加图片
+    $("#editor .newPicBtn").click(function () {
+        $("#modal-picture").modal("show"); 
+    });
+
+    // 发帖 添加标签
+    $("#editor .newLabelBtn").click(function () {
+        $("#modal-label").modal("show"); 
+    });
+
+    // 发帖 谁可见
+    $("#editor .newWhoBtn").click(function () {
+        $("#modal-who").modal("show"); 
+    });
+
+    $(".picMain >ul").on("click","li.addBtn01",function () {
+        $("#addBtn").click();
+    });
 };
 // 帖子列表
 function listInit() {
@@ -59,7 +80,7 @@ function listInit() {
     // 滚动到底部继续加载数据
     window.onscroll=function () {
         if(getDocumentTop() == (getScrollHeight()-getWindowHeight())){
-            growthList_port(user.classId,$("#list >li").length+1,$("#label >span.active").attr("data-id"),1);
+            growthList_port(user.classId,$("#list >li:last").attr("data-newidmax") || 0,$("#label >span.active").attr("data-id"),1);
         };
     };
 
@@ -385,4 +406,60 @@ function getScrollHeight() {
     }
     scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
     return scrollHeight;
-}
+};
+
+// niceScroll滚动条
+function chooseNiceScroll(AA,color) {
+    $(AA).niceScroll({ 
+        cursorcolor: color || "#ccc",//#CC0071 光标颜色 
+        cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0 
+        touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备 
+        cursorwidth: "5px", //像素光标的宽度 
+        cursorborder: "0", //     游标边框css定义 
+        cursorborderradius: "5px",//以像素为光标边界半径 
+        autohidemode: false //是否隐藏滚动条 
+    });
+};
+// 消息提示函数
+function toastTip(heading,text,hideAfter) {
+    $.toast({
+            heading: heading,
+            text: text,
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: hideAfter || 1500,
+            loaderBg: '#13b5dd',
+            position: 'bottom-right'
+    });
+};
+
+// 上传图片
+function loadFiles() {
+        Dropzone.options.myAwesomeDropzone=false;
+        Dropzone.autoDiscover=false;
+        var myDropzone=new Dropzone('#addBtn',{
+            url: httpUrl.picUrl,//84服务器图片
+            paramName: "mbFile", // The name that will be used to transfer the file
+            maxFilesize: 50, // MB
+            addRemoveLinks: true,
+            acceptedFiles: 'image/*'
+        });
+        myDropzone.on('success',function(file,responseText){
+            if(responseText.uploadFileMd5==undefined){
+                alert('没有上传成功,请重试');
+                return ;
+            };
+            // recordUploadSave_port(responseText.uploadFileMd5);
+            var data={
+                    md5:responseText.uploadFileMd5,
+                    path_img:httpUrl.path_img
+            };
+            var html=template("picMain01_script",data);
+            $("#upload ul.picBody").append(html);
+            $("#addBtn").find("div").remove();
+        });
+        myDropzone.on('error',function(file,errorMessage,httpRequest){
+            alert('没有上传成功,请重试:'+errorMessage);
+            this.removeFile(file);
+        });
+};

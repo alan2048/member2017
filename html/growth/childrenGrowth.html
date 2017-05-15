@@ -107,7 +107,7 @@
 				<ul id="list"></ul>
 				<script type="text/html" id="list_script">
 					{{each arr as value i}}
-					<li class="part" data-id="{{value.id}}" data-createUseruuid="{{value.createUseruuid}}">
+					<li class="part" data-id="{{value.id}}" data-createUseruuid="{{value.createUseruuid}}" data-newidmax="{{value.newIdMax}}" data-i="{{i}}">
 						<div class="partBox">
 							<span class="createUserPhoto" style="background-image: url({{path_img}}{{value.createUserPhoto}}&minpic=1);"></span>
 							<div class="createUserName">
@@ -260,113 +260,23 @@
 	</footer>
 
 
-    <div class="modal fade" id="modal-dialog-qunzu" tabindex="-1">
+    <div class="modal fade" id="modal-picture" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content" id="picLib">
-            	<ul id="picTab" class="nav-tabs">
-    				<li class="active" data-tabId="1">
-        				<a href="#teachers" data-toggle="tab" aria-expanded="true">教师端图片</a>
-    				</li>
-    				<li data-tabId="2">
-    					<a href="#parents" data-toggle="tab" aria-expanded="false">家长端图片</a>
-    				</li>
-    				<li data-tabId="3">
-    					<a href="#upload" data-toggle="tab" aria-expanded="false">上传图片</a>
-    				</li>
-				</ul>
 				<div id="picTabContent" class="tab-content" style="clear: both;">
-    				<div class="tab-pane fade active in" id="teachers" data-tabid="1">
-						<div class="picQuery">
-							<span class="teaBtn">主题活动</span>
-							<label style="margin-bottom:3px">标签:
-      							<select size="1" name="data-table_length" aria-controls="data-table" id="labelList01"></select>
-    							<script type="text/html" id="labelList01_script">
-    								<option value="" selected="true">所有标签</option>
-    								{{each data as value i}}
-									<option value="{{value.id}}" data-labelid="{{value.id}}" >{{value.name}}</option>
-    								{{/each}}
-    							</script>
-      						</label>
-      						<span style="display: none;">观察记录</span>
-      						<label style="margin-bottom:3px">学生:
-      							<select id="student01"></select>
-    							<script type="text/html" id="student_script">
-    								<option value="" selected="true">所有学生</option>
-    								{{each data as value i}}
-									<option value="{{value.userUuid}}" data-useruuid="{{value.userUuid}}" >{{value.userName}}</option>
-    								{{/each}}
-    							</script>
-      						</label>
-						</div>
-						<div class="query2016">
-							<span data-value="2016">2016</span>
-						</div>
-						<span class="query2017"></span>
-						<script type="text/html" id="query2017_script">
-							<span data-value="2017">2017</span>
-							{{each month as value i}}
-							<span class="month" data-value="{{value}}">{{value}}月</span>
-							{{/each}}
-						</script>
-						<div class="picMain">
-							<ul></ul>
-						</div>
-						<script type="text/html" id="picMain_script">
-							{{each data as value i}}
-							<li>
-								<div class="picTitle">{{value.day}}日</div>
-								<ul class="picBody">
-									{{each value.picList as value01 j}}
-									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}&Thumbnail=1" alt=""></li>
-									{{/each}}
-								</ul>
-							</li>
-							{{/each}}
-						</script>
-
-    				</div>
-
-    				<div class="tab-pane fade" id="parents" data-tabid="2">
-        				<div class="picQuery">
-							<span class="teaBtn">主题活动</span>
-							<label style="margin-bottom:3px">标签:
-      							<select size="1" name="data-table_length" aria-controls="data-table" id="labelList02"></select>
-      						</label>
-      						<span style="display: none;">观察记录</span>
-      						<label style="margin-bottom:3px;display: none;">学生:
-      							<select id="student02"></select>
-      						</label>
-						</div>
-						<div class="query2016">
-							<span data-value="2016">2016</span>
-						</div>
-						<span class="query2017"></span>
-						<div class="picMain"><ul></ul></div>
-    				</div>
-
-    				<div class="tab-pane fade" id="upload" data-tabid="3">
+    				<div id="upload">
         				<div class="picMain">
         					<div class="uploadBg">
-        						<img src="images/uploading.png" alt="">
+        						<img src="../../images/growth/uploading.png" alt="">
         						<div></div>
-        						<span id="addBtn">请上传图片</span>
+        						<span id="addBtn">上传图片</span>
         					</div>
-							<ul></ul>
+							<ul class="picBody">
+								<li class="addBtn01"></li>
+							</ul>
 						</div>
 						<script type="text/html" id="picMain01_script">
-							{{each data as value i}}
-							<li>
-								<div class="picTitle">{{value.day}}日</div>
-								<ul class="picBody">
-									{{each value.picList as value01 j}}
-									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}&Thumbnail=1" alt=""></li>
-									{{/each}}
-									{{if i == 0}}
-									<li class="addBtn01"></li>
-									{{/if}}
-								</ul>
-							</li>
-							{{/each}}
+							<li data-md5="{{md5}}"><img src="{{path_img}}{{md5}}&minpic=1" alt=""></li>							
 						</script>
     				</div>
 				</div>
@@ -376,7 +286,7 @@
         </div>
     </div>
 	
-    <div class="modal fade" id="modal-copy" tabindex="-1">
+    <div class="modal fade" id="modal-label" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
             	<div class="modal-header">
@@ -402,6 +312,31 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-who" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            	<div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">请选择学生</h4>
+            	</div>
+                <div class="modal-body">
+                    <ul id="classMembers"></ul>
+                    <script type="text/html" id="classMembers_script">
+                    	{{each data as value i}}
+                    	<li>
+							<div class="membersBg" style="background-image: url({{value.portrait}})" data-useruuid="{{value.userUuid}}" data-username="{{value.userName}}" data-userphoto="{{value.userPhoto}}" data-bookid="{{value.needCreate}}"></div>
+							<div class="membersTitle">{{value.userName}}</div>
+						</li>
+						{{/each}}
+                    </script>
+                </div>
+                <div class="modal-footer">
+                	<label><input type="checkbox">全选</label>
+                    <button type="button" class="btn btn-primary" id="copyBtn">确定</button>
+                </div>
+            </div>
+            <span class="closeBtn" data-dismiss="modal"></span>
+        </div>
+    </div>
 
 	<!-- #modal-dialog -->
     <div class="modal fade" id="modal-dialog-img" tabindex="0">
@@ -414,7 +349,8 @@
     </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/bootstrap.min.js"></script>
-	<!-- <script src="../../js/common/jquery.nicescroll.min.js"></script> -->
+	<script src="../../js/common/dropzone.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
 	<script src="../../js/common/base.js"></script>
 	<script src="../../js/growth/childrenGrowth.js"></script>

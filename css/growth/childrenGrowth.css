@@ -185,6 +185,155 @@ header >#logo{
 #editor .newPicBtn:hover,#editor .newLabelBtn:hover,#editor .newWhoBtn:hover,#editor .newTopBtn:hover{
 	color: #5ae0e2;
 }
+
+/*添加图片 start*/
+#modal-picture .modal-dialog {
+	width: 53%;
+	min-width: 6.2rem;
+	height: 74%;
+	margin: 1.2rem auto;
+}
+#picLib {
+	background: url(../../images/growth/tabPic01.png) 110% 35px no-repeat, url(../../images/growth/tabPic02.png) 0 -60px no-repeat, url(../../images/growth/tabPic03.png) 70px 90px no-repeat;
+	box-shadow: 0 0 0.1rem #444;
+}
+#modal-picture .modal-content {
+	height: 100%;
+	background-color: #fff;
+	overflow: visible !important;
+}
+#picBtn {
+	position: absolute;
+	display: inline-block;
+	width: 1rem;
+	height: 0.4rem;
+	background-color: #49b6d6;
+	color: #fff;
+	text-align: center;
+	line-height: 0.4rem;
+	bottom: 0.2rem;
+	right: 0.5rem;
+	font-size: 0.16rem;
+	cursor: pointer;
+	border-radius: 0.03rem;
+}
+#picBtn:hover {
+	background-color: #2ca5c9;
+	box-shadow: 0 0 0.02rem #777;
+}
+#picTabContent {
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	padding-top: 0.42rem;
+	padding-bottom: 0.65rem;
+}
+#upload {
+	position: relative;
+	z-index: 1;
+	height: 100%;
+}
+#picTabContent > div {
+	height: 100%;
+	width: 100%;
+}
+.picMain {
+	padding: 0.2rem 0.4rem;
+}
+.uploadBg {
+	text-align: center;
+}
+.uploadBg >img{
+	margin-right: -1.6rem;
+}
+#addBtn {
+	display: inline-block;
+	width: 2rem;
+	height: 0.4rem;
+	background-color: #5bdee1;
+	color: #fff;
+	text-align: center;
+	line-height: 0.4rem;
+	font-size: 0.16rem;
+	cursor: pointer;
+	border: 0.02rem solid #666;
+	border-radius: 0.1rem;
+	margin: 0.2rem auto;
+}
+#addBtn:hover{
+	background-color: #37cace;
+}
+#addBtn >div{
+	display: none;
+}
+.modal-open .modal {
+	overflow: hidden;
+}
+.picMain .picTitle {
+	font-size: 0.18rem;
+	padding-bottom: 0.05rem;
+	clear: both;
+}
+.picBody > li {
+	float: left;
+	width: 1.8rem;
+	height: 1.4rem;
+	margin: 0.15rem 0.2rem;
+	box-sizing: border-box;
+	box-shadow: 0 0 0.02rem #000;
+	border-radius: 0.03rem;
+	cursor: pointer;
+}
+.picBody > li > img {
+	width: 100%;
+	height: 100%;
+}
+.closeBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1rem;
+	right: 0rem;
+	z-index: -1;
+}
+.modal-content {
+	border-radius: 0.18rem;
+	overflow: hidden;
+}
+.picBody > li {
+	float: left;
+	width: 180px;
+	height: 140px;
+	margin: 15px 20px;
+	box-sizing: border-box;
+	box-shadow: 0 0 2px #000;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.picBody > li:hover {
+	border: 3px solid #49b6d6;
+	box-shadow: 0 0 5px #000;
+}
+.picBody > li > img {
+	width: 100%;
+	height: 100%;
+}
+.addBtn01 {
+	background: #cbcbcb url(../../images/growth/addBtn.png) center center no-repeat;
+}
+/*添加图片 end*/
+
+
+
+
+
+
+
+/*帖子列表 start*/
 #picList,.newLabel,.newWho{
 	display: none;
 }
