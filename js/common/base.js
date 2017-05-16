@@ -121,6 +121,7 @@ var httpUrl={
 		tsCancelRoll:path+":15001/imsInterface/TSCourse_CancelRoll",// 取消签到
 
 		// 萌宝成长
+		growthBanner:path+":15001/ops/company/banner/list",// 萌宝成长 获取学校banner
 		growthAdd:path+":15001/web/growth/message/add",// 萌宝成长 新增
 		growthList:path+":15001/web/growth/message/list",// 萌宝成长 获取班级内容列表
 		growthStudent:path+":15001/common/basic/class/student",// 萌宝成长 获取当前班级学生列表

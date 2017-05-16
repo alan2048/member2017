@@ -9,11 +9,17 @@ function init() {
 
     newInit();// 发帖
     listInit();// 帖子列表
+
+    $("[data-click=scroll-top]").click(function(e){
+        e.preventDefault();
+        $("html, body").animate({scrollTop:$("body").offset().top},500)
+    });
 };
 // 发帖
 function newInit() {
     loadFiles();
-    growthStudent_port(user.classId);// 加载所有学生
+    growthBanner_port(user.classId);
+    
     chooseNiceScroll("#upload");
     chooseNiceScroll("#whoBox");
     // 发帖 开关 输入框
@@ -224,6 +230,10 @@ function listInit() {
         };
         growthCommentAdd_port(data);
     });
+
+    $("#list").on("click",".stickyPost >span",function () {
+        growthCancelSticky_port($(this).attr("data-messageid")); 
+    });
 };
 
 // 新增一条内容
@@ -248,6 +258,28 @@ function growthAdd_callback(res) {
         $("#picListUl,.newLabel,.newWho").empty();
         $(".newNumBtn >span").text("0");
         $("#newBtn").click();
+        growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
+    };
+};
+
+// 获取学校banner
+function growthBanner_port() {
+    var data={};
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.growthBanner,param,growthBanner_callback);
+};
+function growthBanner_callback(res) {
+    if(res.code==200){
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img
+            };
+        var html=template("banner_script",data);
+        $(".carousel-inner").empty().append(html);
+        growthStudent_port(user.classId);// 加载所有学生
     };
 };
 
@@ -446,7 +478,7 @@ function growthList_callback(res,type) {
             $(this).addClass("hide").prev("ul").find(".more").addClass("hide");
             $(this).prev("ul").find(".twelve").removeClass("hide");
         });
-        console.log(data);
+        // console.log(data);
     }else{
         console.log(res.info);
     };
@@ -474,6 +506,23 @@ function growthStudent_callback(res) {
     };
 };
 
+
+// 取消内容置顶
+function growthCancelSticky_port(messageId) {
+    var data={
+            messageId:messageId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.growthCancelSticky,param,growthCancelSticky_callback);
+};
+function growthCancelSticky_callback(res) {
+    if(res.code=200){
+        growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
+    };
+};
 
 //文档高度
 function getDocumentTop() {
