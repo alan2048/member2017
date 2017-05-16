@@ -15,7 +15,7 @@ setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
 // setCookie("loginId","dc5dd0dbffdb1fccef0299762dd285f1","d30");
 var httpUrl={
 		// 基础接口
-		loginId:getCookie("loginId") || "dc5dd0dbffdb1fccef0299762dd285f1",
+		loginId:getCookie("loginId"),
 		login:path+"/jfinal_mbjy_basic/login",// 首页登入
 		back:path+"/jfinal_mbjy_basic/back",//首页登入回调
 		loginHttp:path+"/jfinal_mbjy_basic/", // 登入地址

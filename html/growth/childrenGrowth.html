@@ -90,10 +90,7 @@
 						<span class="newNumBtn"><span>0</span>/1000</span>
 					</div>
 					<div class="newLabel"></div>
-					<div class="newWho">
-						<span>谁可见：</span>
-						<div></div>
-					</div>
+					<ul class="newWho"></ul>
 					<div class="commentNewBox"><span class="commentNew" id="commentNew">发布</span></div>
 				</div>
 			</div>
@@ -300,29 +297,26 @@
         <div class="modal-dialog">
             <div class="modal-content">
             	<div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">请选择学生</h4>
+                    <h4 class="modal-title">选择谁可见</h4>
             	</div>
-                <div class="modal-body">
-                    <ul id="classMembers"></ul>
-                    <script type="text/html" id="classMembers_script">
-                    	{{each data as value i}}
-                    	<li>
-							<div class="membersBg" style="background-image: url({{value.portrait}})" data-useruuid="{{value.userUuid}}" data-username="{{value.userName}}" data-userphoto="{{value.userPhoto}}" data-bookid="{{value.needCreate}}"></div>
-							<div class="membersTitle">{{value.userName}}</div>
-						</li>
+				<div class="tab-content" style="clear: both;" id="whoBox">
+					<ul class="whoBody"></ul>
+					<script type="text/html" id="who_script">
+						{{each arr as value i}}
+						<li data-md5="{{value.studentPhoto}}" data-studentuuid="{{value.studentUuid}}">
+							<img src="{{path_img}}{{value.studentPhoto}}&minpic=1" alt="">
+							<div>{{value.studentName}}</div>
+							<span class="deleteBtn"></span>
+						</li>	
 						{{/each}}
-                    </script>
-                </div>
-                <div class="modal-footer">
-                	<label><input type="checkbox">全选</label>
-                    <button type="button" class="btn btn-primary" id="copyBtn">确定</button>
-                </div>
+					</script>
+				</div>
+				<span id="whoBtn">确定</span>
             </div>
-            <span class="closeBtn" data-dismiss="modal"></span>
+            <span class="closeBtn" data-dismiss="modal" ></span>
         </div>
     </div>
 
-	<!-- #modal-dialog -->
     <div class="modal fade" id="modal-dialog-img" tabindex="0">
         <div class="modal-dialog">
             <div class="modal-content">

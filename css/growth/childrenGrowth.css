@@ -196,6 +196,12 @@ header >#logo{
 	height: 74%;
 	margin: 1.2rem auto;
 }
+#modal-who .modal-dialog{
+	width: 53%;
+	min-width: 6.2rem;
+	height: 74%;
+	margin: 1.2rem auto;
+}
 #modal-label .modal-dialog{
 	width: 7rem;
 	min-width: 6.2rem;
@@ -214,7 +220,13 @@ header >#logo{
 	background-color: #fff;
 	overflow: visible !important;
 }
-#picBtn {
+#modal-who .modal-content{
+	height: 100%;
+	background-color: #fff;
+	overflow: visible !important;
+	padding: 0.52rem 0 0.65rem;
+}
+#picBtn,#whoBtn {
 	position: absolute;
 	display: inline-block;
 	width: 1rem;
@@ -229,9 +241,18 @@ header >#logo{
 	cursor: pointer;
 	border-radius: 0.03rem;
 }
-#picBtn:hover {
+#picBtn:hover,#whoBtn:hover {
 	background-color: #2ca5c9;
 	box-shadow: 0 0 0.02rem #777;
+}
+#modal-who .modal-header {
+	background-color: #5cdfe2;
+	text-align: center;
+	color: #fff;
+	border-radius: 0.18rem 0.18rem 0 0;
+	position: absolute;
+	width: 100%;
+	top: 0;
 }
 #picTabContent {
 	box-sizing: border-box;
@@ -258,6 +279,38 @@ header >#logo{
 }
 .uploadBg >img{
 	margin-right: -1.6rem;
+}
+.whoBody{
+	padding: 0 0.1rem;
+}
+#modal-who .tab-content {
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+}
+.whoBody >li {
+	display: inline-block;
+	width: 0.9rem;
+	height: 1.2rem;
+	margin: 0.1rem 0.1rem 0 0.1rem;
+	text-align: center;
+	color: #666;
+}
+.whoBody >li >img{
+	display: inline-block;
+	width: 0.9rem;
+	height: 0.9rem;
+	border-radius: 1rem;
+	cursor: pointer;
+	border: 0.02rem solid transparent;
+}
+.whoBody >li.active >img{
+	border: 0.02rem solid  #49b6d6;
+	box-shadow: 0 0 5px #000;
+}
+.whoBody >li:hover >img{
+	border: 0.02rem solid  #49b6d6;
+	box-shadow: 0 0 5px #000;
 }
 #addBtn {
 	display: inline-block;
@@ -364,7 +417,7 @@ header >#logo{
 
 
 /*Ìû×ÓÁÐ±í start*/
-#picList,.newWho{
+#picList{
 	display: none;
 }
 #picList{
@@ -469,7 +522,7 @@ header >#logo{
 	line-height: 0.26rem;
 	font-size: 0.14rem;
 	text-align: center;
-	margin: 0.1rem 0.32rem 0.2rem 0;
+	margin: 0.1rem 0.32rem 0.1rem 0;
 	color: #666;
 	background-color: #f7bad6;
 	border: 0.02rem solid #666;
@@ -480,6 +533,32 @@ header >#logo{
 	display: inline-block;
 	right: -0.1rem;
 }
+.newWho >li{
+	display: inline-block;
+	font-size: 0.12rem;
+	cursor: pointer;
+	position: relative;
+	margin: 0 0.05rem;
+	width: 0.5rem;
+	word-break:keep-all;
+	text-align: center;
+}
+.newWho >li >div{
+	overflow: hidden;
+}
+.newWho >li >img{
+	display: inline-block;
+	margin-top: 0.1rem;
+	width: 0.42rem;
+	height: 0.42rem;
+	border-radius: 0.5rem;
+}
+.newWho >li:hover >span.deleteBtn{
+	display: inline-block;
+	top: 0.05rem;
+}
+
+
 #labelLib >span:hover{
 	color: #666;
 	background-color: #f7bad6;
@@ -741,6 +820,7 @@ li:hover >.commentDelete{
 	color: #656565;
 	font-size: 0.16rem;
   	line-height: 1.6em;
+  	word-wrap: break-word;
 }
 .fold,.foldPic{
 	color: #5adfe1;

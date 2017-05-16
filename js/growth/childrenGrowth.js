@@ -13,8 +13,9 @@ function init() {
 // 发帖
 function newInit() {
     loadFiles();
-
+    growthStudent_port(user.classId);// 加载所有学生
     chooseNiceScroll("#upload");
+    chooseNiceScroll("#whoBox");
     // 发帖 开关 输入框
     $("#newBtn,#newText").click(function () {
         $("#editor").toggleClass("active").find("#input >textarea").val("");
@@ -106,11 +107,31 @@ function newInit() {
         }
     });
 
+    // 选择可选人
+    $("#modal-who .whoBody").on("click","li",function () {
+        $(this).toggleClass("active"); 
+    });
+
+    // 选择可选人 确定按钮
+    $("#whoBtn").click(function () {
+        $(".newWho").empty().text("谁可见：").append($(".whoBody >li.active").clone());
+        $("#modal-who").modal("hide");
+    });
+
+    // 删除 可选人 
+    $(".newWho").on("click","li >.deleteBtn",function () {
+        if($(".newWho li").length ==1){
+            $(".newWho").empty();
+        }else{
+            $(this).parent("li").remove();
+        };
+    });
+
     // 发帖
     $("#commentNew").click(function () {
         if($("#editor >#input >textarea").hasClass("more")){
             toastTip("提示","最多输入1000字...",2000);
-        }else{
+        }else if($("#editor >#input >textarea").val() || $("#picListUl >li").length >0){
             var pictureList=[];
             for(var i=0;i<$("#picListUl >li").length;i++){
                 pictureList.push($("#picListUl >li").eq(i).attr("data-pic"))
@@ -123,18 +144,24 @@ function newInit() {
                     labelList.push($(".newLabel >span").eq(i).attr("data-id"));
                 };
             };
+            var childUseruuidList=[];
+            for(var i=0;i<$(".newWho >li.active").length;i++){
+                childUseruuidList.push($(".newWho >li.active").eq(i).attr("data-studentuuid"))
+            };
         
             var data={
-                    childUseruuidList:[],
-                    classId:user.classId,
+                    childUseruuidList:childUseruuidList,
+                    classId:user.classId.toString(),
                     content:$("#input >textarea").val(),
                     labelList:labelList,
                     pictureList:pictureList,
-                    stickyPost:0,
-                    video:0
+                    stickyPost:"0",
+                    video:""
             };
             console.log(data);
-            // growthAdd_port(data);  
+            growthAdd_port(data);  
+        }else{
+            toastTip("提示","文字和图片至少需选择一项",2000);
         };      
     });
 };
@@ -218,6 +245,8 @@ function growthAdd_port(json) {
 };
 function growthAdd_callback(res) {
     if(res.code==200){
+        $("#picListUl,.newLabel,.newWho").empty();
+        $(".newNumBtn >span").text("0");
         $("#newBtn").click();
     };
 };
@@ -436,7 +465,12 @@ function growthStudent_port(classId) {
 };
 function growthStudent_callback(res) {
     if(res.code=200){
-        console.log(111222);
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img
+        };
+        var html=template("who_script",data);
+        $("#modal-who .whoBody").append(html);
     };
 };
 
