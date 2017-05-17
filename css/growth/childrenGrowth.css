@@ -9,9 +9,9 @@ body{
 	overflow-x: hidden;
 }
 /*ÂÖ²¥ start*/
-.carousel-inner >.item img{
+.carousel-inner >.item >a >img{
 	width: 100%;
-	height: 8rem !important;
+	height: 8rem;
 }
 .carousel-control.right,.carousel-control.left{
 	background-image: -webkit-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0,0,0,0) 100%); 
@@ -365,6 +365,57 @@ header >#logo{
 	top: -1rem;
 	right: 0rem;
 	z-index: -1;
+}
+.closeBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.8rem;
+	height: 0.8rem;
+	background: url(../../images/growth/closeBtn01.png) no-repeat center center;
+	position: absolute;
+	top: 0.3rem;
+	right: 0.5rem;
+	z-index: -1;
+	border-radius: 0.1rem;
+}
+.deleteBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.8rem;
+	height: 0.8rem;
+	background: url(../../images/growth/deleteBtn01.png) no-repeat center center;
+	position: absolute;
+	top: 0.3rem;
+	right: 1.6rem;
+	z-index: -1;
+	border-radius: 0.8rem;
+}
+.prevBtn{
+	display: inline-block;
+	cursor: pointer;
+	width: 1rem;
+	height: 1.6rem;
+	background: url(../../images/growth/prev.png) no-repeat center center;
+	position: absolute;
+	top: 30%;
+	left: -2rem;
+	border-radius: 0.1rem;
+	z-index: -1;
+}
+.nextBtn{
+	display: inline-block;
+	cursor: pointer;
+	width: 1rem;
+	height: 1.6rem;
+	background: url(../../images/growth/next.png) no-repeat center center;
+	position: absolute;
+	top: 30%;
+	right: -2rem;
+	border-radius: 0.1rem;
+	z-index: -1;
+}
+.prevBtn:hover,.nextBtn:hover,.closeBtn01:hover,.deleteBtn01:hover{
+	background-color: rgba(0,0,0,0.2);
 }
 .modal-content {
 	border-radius: 0.18rem;
@@ -874,14 +925,14 @@ li:hover >.commentDelete{
 	height: 0.6rem;
 	color: #5cdfe2;
 	right: 0.4rem;
-	z-index: 10000;
+	z-index: 1000;
 	bottom: 0.6rem;
 	border: 0.02rem solid #646766;
 	border-radius: 0.6rem;
 	background: #5cdfe2 url(../../images/growth/uptop.png) 52% center no-repeat;
 }
 a:focus{
-	outline-style: none;
+	outline-style: none !important;
 }
 /*main end*/
 
@@ -927,3 +978,37 @@ footer >span:nth-of-type(3){
 	background-size: contain;
 }
 /*footer end*/
+
+
+@media (min-height: 100px){
+	#modal-dialog-img .modal-dialog {
+		width: 250px;
+		margin: 2rem auto 0;
+	}
+}
+@media (min-height: 500px){
+	#modal-dialog-img .modal-dialog {
+		width: 450px;
+		margin: 2rem auto 0;
+	}
+}
+@media (min-height: 900px){
+	#modal-dialog-img .modal-dialog {
+		width: 550px                                                                                                                                                                                                                                                                                                         ;
+		margin: 2rem auto 0;
+	}
+}
+#carousel_img {
+	text-align: center;
+	height: 100%;
+	padding: 2%;
+	vertical-align:middle;
+}
+#carousel_img img {
+	max-height: 100%;
+	max-width: 100%;
+	vertical-align:middle;
+}
+#modal-dialog-img .modal-content{
+	overflow: visible;
+}

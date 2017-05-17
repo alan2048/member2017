@@ -10,10 +10,27 @@ function init() {
     newInit();// 发帖
     listInit();// 帖子列表
 
+    // 滚动到顶
     $("[data-click=scroll-top]").click(function(e){
         e.preventDefault();
         $("html, body").animate({scrollTop:$("body").offset().top},500)
     });
+    // 滚动 显示隐藏
+    $(document).scroll(function(){
+        var e=$(document).scrollTop();
+        if(e>=800){
+            $("[data-click=scroll-top]").addClass("in");
+        }else{
+            $("[data-click=scroll-top]").removeClass("in");
+        };
+    });
+
+    // banner自动缩放
+    $(window).resize(function () {
+        windowResize();
+    });
+
+    carousel();// 图片轮播
 };
 // 发帖
 function newInit() {
@@ -142,9 +159,11 @@ function newInit() {
             for(var i=0;i<$("#picListUl >li").length;i++){
                 pictureList.push($("#picListUl >li").eq(i).attr("data-pic"))
             };
+            pictureList=distinct(pictureList);// 数组去重
+
             var labelList=[];
             if($(".newLabel >span").length==0){
-                labelList=[""]
+                labelList=[];
             }else{
                 for(var i=0;i<$(".newLabel >span").length;i++){
                     labelList.push($(".newLabel >span").eq(i).attr("data-id"));
@@ -154,6 +173,12 @@ function newInit() {
             for(var i=0;i<$(".newWho >li.active").length;i++){
                 childUseruuidList.push($(".newWho >li.active").eq(i).attr("data-studentuuid"))
             };
+            var stickyPost;
+            if($(".newTopBtn").hasClass("active")){
+                stickyPost="1";
+            }else{
+                stickyPost="0"
+            };
         
             var data={
                     childUseruuidList:childUseruuidList,
@@ -161,10 +186,10 @@ function newInit() {
                     content:$("#input >textarea").val(),
                     labelList:labelList,
                     pictureList:pictureList,
-                    stickyPost:"0",
+                    stickyPost:stickyPost,
                     video:""
             };
-            console.log(data);
+            // console.log(data);
             growthAdd_port(data);  
         }else{
             toastTip("提示","文字和图片至少需选择一项",2000);
@@ -222,17 +247,43 @@ function listInit() {
 
     // 新增 回复 评论
     $("#list").on("click",".comment",function () {
-        var data={
+        if($(this).prev("textarea").val()){
+            var data={
                 classId:user.classId,
                 cuseruuid:$(this).attr("data-cuseruuid"),
                 messageId:$(this).attr("data-messageId"),
                 content:$(this).prev("textarea").val()
+            };
+            growthCommentAdd_port(data);
+        }else{
+            toastTip("提示","请先填写评论...",2000);
         };
-        growthCommentAdd_port(data);
     });
 
+    // 取消置顶
     $("#list").on("click",".stickyPost >span",function () {
         growthCancelSticky_port($(this).attr("data-messageid")); 
+    });
+
+    // 最多显示5行 函数
+    $("#list").on("click",".fold",function () {
+        $(this).toggleClass("active");
+        if($(this).hasClass("active")){
+            $(this).text("收起");
+        }else{
+            $(this).text("展开全文");
+        };
+        $(this).prevAll("span").toggleClass("active"); 
+    });
+
+    // 显示>12张图片
+    $("#list").on("click",".twelve",function () {
+        $(this).addClass("hide").parent("li").nextAll(".more").removeClass("hide").parents(".pictureList").next(".foldPic").removeClass("hide");
+    });
+    // 折叠>12张图片
+    $("#list").on("click",".foldPic",function () {
+        $(this).addClass("hide").prev("ul").find(".more").addClass("hide");
+        $(this).prev("ul").find(".twelve").removeClass("hide");
     });
 };
 
@@ -280,6 +331,7 @@ function growthBanner_callback(res) {
         var html=template("banner_script",data);
         $(".carousel-inner").empty().append(html);
         growthStudent_port(user.classId);// 加载所有学生
+        windowResize();
     };
 };
 
@@ -457,28 +509,6 @@ function growthList_callback(res,type) {
         }else{
             $("#list").append(html);
         };
-
-        // 最多显示5行 函数
-        $("#list").on("click",".fold",function () {
-            $(this).toggleClass("active");
-            if($(this).hasClass("active")){
-                $(this).text("收起");
-            }else{
-                $(this).text("展开全文");
-            };
-            $(this).prevAll("span").toggleClass("active"); 
-        });
-
-        // 显示>12张图片
-        $("#list").on("click",".twelve",function () {
-            $(this).addClass("hide").parent("li").nextAll(".more").removeClass("hide").parents(".pictureList").next(".foldPic").removeClass("hide");
-        });
-        // 折叠>12张图片
-        $("#list").on("click",".foldPic",function () {
-            $(this).addClass("hide").prev("ul").find(".more").addClass("hide");
-            $(this).prev("ul").find(".twelve").removeClass("hide");
-        });
-        // console.log(data);
     }else{
         console.log(res.info);
     };
@@ -628,4 +658,154 @@ function isMaxNum() {
     }else{
         $(".maxNum >span").removeClass("active"); 
     }
+};
+
+// 图片放大 轮播
+function carousel() {
+    // 帖子列表图片 查看
+    $("#list").on("click",".pictureList >li > a.pic",function () {
+        $(".deleteBtn01").addClass("hide");
+        var arr=[];
+        var curPic=$(this).attr("data-pic");
+        for(var i=0;i<$(this).parents(".pictureList").find("li").length;i++){
+            arr.push($(this).parents(".pictureList").find("li").eq(i).attr("data-pic"));
+        };
+        console.log(arr);
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
+        $("#carousel_img").empty().append("<img src="+src+" data-curpic="+curPic+" />");
+        $("#carousel_img").prev(".prevBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        $("#carousel_img").next(".nextBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        if(arr.indexOf(curPic) ==0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide")
+        }; 
+        if(arr.indexOf(curPic)+1 ==arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide")
+        }; 
+    });
+
+    // 新增 图片查看
+    $("#picListUl").on("click","li > a.pic",function () {
+        $(".deleteBtn01").removeClass("hide");
+        var arr=[];
+        var curPic=$(this).attr("data-pic");
+        for(var i=0;i<$(this).parents("#picListUl").find("li").length;i++){
+            arr.push($(this).parents("#picListUl").find("li").eq(i).attr("data-pic"));
+        };
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
+        $("#carousel_img").empty().append("<img src="+src+" data-curpic="+curPic+" />");
+        $("#carousel_img").prev(".prevBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        $("#carousel_img").next(".nextBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        if(arr.indexOf(curPic) ==0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide")
+        }; 
+        if(arr.indexOf(curPic)+1 ==arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide")
+        }; 
+    });
+
+    // 删除 新增图片按钮
+    $("#modal-dialog-img .deleteBtn01").click(function () {
+        var cur=$("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($("#modal-dialog-img .prevBtn").attr("data-arr"));
+        if(arr.length==1){
+            $(this).prev(".closeBtn01").click();
+        }else{
+            if(arr.indexOf(cur)+1 !=arr.length ){
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)+1]+"&minpic=0 data-curpic="+arr[arr.indexOf(cur)+1]+" />");
+            }else{
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)-1]+"&minpic=0 data-curpic="+arr[arr.indexOf(cur)-1]+" />");
+            };
+        };
+        arr.splice(arr.indexOf(cur),1);
+        $("#modal-dialog-img .nextBtn,#modal-dialog-img .prevBtn").attr("data-arr",JSON.stringify(arr));
+        
+        // 检查前后一步图标是否隐藏
+        var cur01=$("#carousel_img").find("img").attr("data-curpic");
+        if(arr.indexOf(cur01)== 0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide");
+        };
+        if(arr.indexOf(cur01)+1 == arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide");
+        }
+
+        // 删除
+        $("#picListUl >li[data-pic="+cur+"]").remove();
+    });
+
+    
+    // 前一张
+    $("#modal-dialog-img .prevBtn").click(function () {
+        var cur=$(this).next("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($(this).attr("data-arr"));
+        if(arr.indexOf(cur) >0){
+            var newCur=arr[arr.indexOf(cur)-1];
+            if(arr.indexOf(cur)-1 == 0){
+                $("#carousel_img").prev(".prevBtn").addClass("hide");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+            }else{
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+            };
+
+            if(arr.indexOf(cur)+1 == arr.length){
+                $("#carousel_img").next(".nextBtn").removeClass("hide");
+            }
+        };
+    });
+
+    // 键盘左右键控制
+    $(window).keyup(function (e) {
+        if($("#modal-dialog-img").hasClass("in")){
+            if(e.which ==37 && !$("#modal-dialog-img .prevBtn").hasClass("hide")){
+                $("#modal-dialog-img .prevBtn").click()
+            };
+            if(e.which ==39 && !$("#modal-dialog-img .nextBtn").hasClass("hide")){
+                $("#modal-dialog-img .nextBtn").click()
+            };
+        };
+    });
+
+    // 后一张
+    $("#modal-dialog-img .nextBtn").click(function () {
+        var cur=$(this).prev("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($(this).attr("data-arr"));
+        if(arr.indexOf(cur)+1 <arr.length){
+            var newCur=arr[arr.indexOf(cur)+1];
+            if(arr.indexOf(cur)+2 == arr.length){
+                $("#carousel_img").next(".nextBtn").addClass("hide");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+            }else{
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+            };
+        };
+
+        if(arr.indexOf(cur)== 0){
+            $("#carousel_img").prev(".prevBtn").removeClass("hide");
+        }
+    });
+};
+
+// 数组去重
+function distinct(arr) {
+    var obj = {},
+        i = 0,
+        len = 0;
+    if (Array.isArray(arr) && arr.length > 0) {
+        len = arr.length;
+        for (i = 0; i < len; i += 1) {
+            obj[arr[i]] = arr[i];
+        }
+        return Object.keys(obj);
+    }
+    return [];
+};
+
+// window resize
+function windowResize() {
+    var w=document.body.clientWidth;
+    var h=w*800/1920;
+    if(h >500){
+        $(".carousel-inner > .item img").css("height",h);
+    }else{
+        $(".carousel-inner > .item img").css("height",500);   
+    };
 };

@@ -128,8 +128,8 @@
 							{{if !value.video}}
 							{{if value.pictureList.length <13}}
 								{{each value.pictureList as value01 j}}
-								<li>
-                                	<a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+								<li data-pic="{{value01}}">
+                                	<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
                                  		<img src="{{path_img}}{{value01}}&minpic=1">
                                 	</a>
                             	</li>
@@ -137,15 +137,15 @@
                             {{else}}
                             	{{each value.pictureList as value01 j}}
                             	{{if j ==11}}
-									<li class="twelveLi">
-                                		<a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+									<li class="twelveLi" data-pic="{{value01}}">
+                                		<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
                                  			<img src="{{path_img}}{{value01}}&minpic=1">
                                 		</a>
                                 		<span class="twelve">+{{value.pictureList.length-12}}</span>
                             		</li>
                             	{{else}}
-                            		<li class="{{if j >11}}more hide{{/if}}">
-                                		<a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                            		<li class="{{if j >11}}more hide{{/if}}" data-pic="{{value01}}">
+                                		<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
                                  			<img src="{{path_img}}{{value01}}&minpic=1">
                                 		</a>
                             		</li>
@@ -243,7 +243,7 @@
 					{{/if}}
 				</script>
 			</div>
-			<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-click="scroll-top" id="scroll-top"></i></a>
+			<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top" id="scroll-top"></i></a>
 		</div>
 	</div>
 
@@ -317,10 +317,13 @@
     <div class="modal fade" id="modal-dialog-img" tabindex="0">
         <div class="modal-dialog">
             <div class="modal-content">
+            	<span class="prevBtn"></span>
                 <div id="carousel_img"></div>
-                <span class="closeBtn" data-dismiss="modal"></span>
+                <span class="nextBtn"></span>
             </div>
         </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+        <span class="deleteBtn01 hide"></span>
     </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/bootstrap.min.js"></script>
