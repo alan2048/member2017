@@ -233,14 +233,14 @@ function listInit() {
 
     // 发表评论 弹框
     $("#list").on("click",".commentBtn",function () {
-        $("#list .commentBox[data-messageId="+$(this).attr("data-messageId")+"]").addClass("active").find("textarea").attr("placeholder","评论：").focus();
+        $("#list .commentBox[data-messageId="+$(this).attr("data-messageId")+"]").addClass("active").find("textarea").val("").attr("placeholder","评论：").focus();
         $("#list .commentBox[data-messageId="+$(this).attr("data-messageId")+"]").find(".comment").attr("data-cuseruuid","");
     });
 
     // 回复评论 弹框
     $("#list").on("click",".commentListBox >li",function () {
         if($(this).find(".commentTip").length==1){
-            $(this).parents(".commentList").next(".commentBox").addClass("active").find("textarea").attr("placeholder","回复 "+$(this).attr("data-commentUserName")+":").focus();
+            $(this).parents(".commentList").next(".commentBox").addClass("active").find("textarea").val("").attr("placeholder","回复 "+$(this).attr("data-commentUserName")+":").focus();
             $(this).parents(".commentList").next(".commentBox").addClass("active").find(".comment").attr("data-cuseruuid",$(this).attr("data-commentUseruuid"));
         };
     });
@@ -284,6 +284,10 @@ function listInit() {
     $("#list").on("click",".foldPic",function () {
         $(this).addClass("hide").prev("ul").find(".more").addClass("hide");
         $(this).prev("ul").find(".twelve").removeClass("hide");
+    });
+
+    $("#list").on("click",".cancelBtn",function () {
+        $(this).parents(".commentBox").removeClass("active"); 
     });
 };
 

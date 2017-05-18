@@ -33,6 +33,9 @@ a {
 a:hover {
     text-decoration: none
 }　
+html{
+    font-family: arial;
+}
 
 
 /*loading start*/

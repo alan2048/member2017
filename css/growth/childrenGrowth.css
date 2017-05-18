@@ -79,7 +79,7 @@ header >#logo{
 
 /*main start*/
 #main{
-	padding-top: 1.6rem;
+	padding-top: 1.2rem;
 }
 #mainBox{
 	width: 9.4rem;
@@ -832,6 +832,21 @@ li:hover >.commentDelete{
 }
 .comment:hover{
 	background-color: #28d3d7;
+}
+.cancelBtn{
+	width: 0.7rem;
+	height: 0.4rem;
+	margin-top: 0.1rem;
+	text-align: center;
+	color: #666;
+	float: right;
+	cursor: pointer;
+	font-size: 0.14rem;
+	line-height: 0.5rem;
+	display: inline-block;
+}
+.cancelBtn:hover{
+	color: #5ae0e2;
 }
 .createUserPhoto{
 	position: absolute;

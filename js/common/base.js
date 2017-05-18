@@ -164,6 +164,12 @@ var httpUrl={
 		getCourseStudentTJ:path+":15001/imsInterface/TSCourse_getCourseStudentTJ",// 自选活动 学生统计 
 		getCourseStudentDetailTJ:path+":15001/imsInterface/TSCourse_getCourseStudentDetailTJ",// 自选活动 活动统计详情 
 
+
+
+		// 新版接口
+		menuList:path+":15001/ops/user/menu/list",// 菜单接口
+
+
 		// 08设置
 		setting:'' 
 };
