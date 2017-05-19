@@ -1,123 +1,38 @@
 $(function () {
-	addMenu();
+	// addMenu();
+	menuList_port();
 	winResize();
 });
-function addMenu() {
-	var data=[{
-			title:"班务管理",
-			icon:"menu01",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:"./html/class/children.html"
-			},{
-				title:"班级管理",
-				url:"./html/class/chass.html"
-			}]
-	},{
-			title:"萌宝成长",
-			icon:"menu02",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"观察记录",
-			icon:"menu03",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"成长档案",
-			icon:"menu04",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"通知管理",
-			icon:"menu05",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"月周计划",
-			icon:"menu06",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"保健管理",
-			icon:"menu07",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"管理统计",
-			icon:"menu08",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	},{
-			title:"设置",
-			icon:"menu09",
-			url:"",
-			list:[{
-				title:"幼儿信息",
-				url:""
-			},{
-				title:"幼儿信息",
-				url:""
-			}]
-	}];
-	var data01={data:data};
-	var html=template("menuBox_script",data01);
-	$("#menuBox").empty().append(html);
-
-
-	$("#menuBox").on({
-		mouseover:function () {
-			$(this).addClass("active").siblings().removeClass("active");
-		},
-		mouseout:function () {
-			$(this).removeClass("active").siblings().removeClass("active");
-		}
-	},">li.has-list");
-	chooseNiceScroll(".hasBox");
+// 左侧 菜单接口
+function menuList_port() {
+    var data={};
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuList,param,menuList_callback);
 };
+function menuList_callback(res) {
+    if(res.code==200){
+    	var data={
+    			arr:JSON.parse(res.data),
+    			path_img:httpUrl.path_img
+    	};
+    	console.log(data);
+		var html=template("menuBox_script",data);
+		$("#menuBox").empty().append(html);
+		$("#menuBox").on({
+			mouseover:function () {
+				$(this).addClass("active").siblings().removeClass("active");
+			},
+			mouseout:function () {
+				$(this).removeClass("active").siblings().removeClass("active");
+			}
+		},">li.has-list");
+		chooseNiceScroll(".hasBox");
+    };
+};
+
 function winResize() {
 	var fs=$(window).width()/19.2;
 	$("html").css("font-size",fs);

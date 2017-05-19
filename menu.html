@@ -13,22 +13,24 @@
 <body>
 	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
 	<div id="menu">
-		<div class="menuTitle"></div>
+		<div class="menuTitle"><a href="index.html"></a></div>
 		<ul id="menuBox"></ul>
 		<script type="text/html" id="menuBox_script">
-			{{each data as value i}}
+			{{each arr as value i}}
 			<li class="has-list">
-				<a class="hasTitle {{value.icon}}">{{value.title}}</a>
+				<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}}&minpic=0);" href="{{value.url}}" data-id="{{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
+				{{if value.childMenuList.length}}
 				<div class="hasBox">
 					<ul class="menuBox">
-						{{each value.list as value01 j}}
+						{{each value.childMenuList as value01 j}}
 						<li>
-							<a href="{{value01.url}}">{{value01.title}}</a>
+							<a href="{{value01.url}}" data-id="{{value01.id}}">{{value01.name}}</a>
 						</li>
 						{{/each}}
 					</ul>
 				</div>
 				<div class="hasBoxBg"></div>
+				{{/if}}
 			</li>
 			{{/each}}
 		</script>

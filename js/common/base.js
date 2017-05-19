@@ -11,7 +11,7 @@ var serverHost="http://www.member361.com";
 var path01="http://172.168.90.101";//38测试服务器
 
 var path=serverUrl02; //更改服务器地址可设置此值
-setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
+// setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
 // setCookie("loginId","dc5dd0dbffdb1fccef0299762dd285f1","d30");
 var httpUrl={
 		// 基础接口
@@ -213,13 +213,13 @@ function permission_port(callback01) {
 			user.classId="264623"
 			user.perssionNames=''
 		}else{
-			user.userUuid="eead86bb-87c2-4bec-8fd7-90246f1462a6";// 默认开发用 小炉账号
+			user.userUuid="db951cc0-a6b4-41d3-8ebb-607c04a1f812";// 默认开发用 小炉账号
 			user.classId="2"
 			user.perssionNames=''
 		}
 	};
 	var param={
-                userUuid:user.userUuid,
+                userUuid:user.userUuid || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",
                 classId:user.classId,
                 perssionNames:user.perssionNames
             };
@@ -235,7 +235,7 @@ function permission_port(callback01) {
                 },
                 500:function(){
                     console.log("因为意外情况，服务器不能完成请求 错误代码500");
-                    window.location.href=httpUrl.loginHttp;
+                    // window.location.href=httpUrl.loginHttp;
                 },
                 405:function(){
                     alert("资源被禁止 错误代码405");

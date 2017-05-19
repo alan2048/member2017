@@ -27,6 +27,11 @@ body{
 	background-size: contain;
 	margin-top: 0.2rem;
 }
+.menuTitle >a{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
 #menuBox{
 	margin: 0.4rem 1.2rem;
 }
@@ -51,103 +56,45 @@ body{
 	box-sizing: border-box;
 	padding-top: 1.8rem;
 	cursor: pointer;
-}
-.menu01{
-	background: url(../../images/index/menuIcon01.png) center 0.45rem no-repeat #fff;
+	background: url() center 0.4rem no-repeat #fff;
 	-webkit-background-size: contain;
 	background-size: contain;
 	-webkit-background-size: 1.3rem;
 	background-size: 1.3rem;
 }
-.menu01:hover,.has-list.active >.menu01{
+.has-list.active:nth-of-type(1) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #f3b369;
 }
-.menu02{
-	background: url(../../images/index/menuIcon02.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu02:hover,.has-list.active >.menu02{
+.has-list.active:nth-of-type(2) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #c1ec69;
 }
-.menu03{
-	background: url(../../images/index/menuIcon03.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu03:hover,.has-list.active >.menu03{
+.has-list.active:nth-of-type(3) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #f8acaa;
 }
-.menu04{
-	background: url(../../images/index/menuIcon04.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu04:hover,.has-list.active >.menu04{
+.has-list.active:nth-of-type(4) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #a4e0f8;
 }
-.menu05{
-	background: url(../../images/index/menuIcon05.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu05:hover,.has-list.active >.menu05{
+.has-list.active:nth-of-type(5) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #5cdfe2;
 }
-.menu06{
-	background: url(../../images/index/menuIcon06.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu06:hover,.has-list.active >.menu06{
+.has-list.active:nth-of-type(6) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #f7a48f;
 }
-.menu07{
-	background: url(../../images/index/menuIcon07.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu07:hover,.has-list.active >.menu07{
+.has-list.active:nth-of-type(7) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #a5f7b5;
 }
-.menu08{
-	background: url(../../images/index/menuIcon08.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu08:hover,.has-list.active >.menu08{
+.has-list.active:nth-of-type(8) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #f2bb8f;
 }
-.menu09{
-	background: url(../../images/index/menuIcon09.png) center 0.4rem no-repeat #fff;
-	-webkit-background-size: contain;
-	background-size: contain;
-	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
-}
-.menu09:hover,.has-list.active >.menu09{
+.has-list.active:nth-of-type(9) >.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #a8f8ee;
 }
@@ -195,4 +142,6 @@ body{
 .hasBox >.menuBox >li >a:hover{
 	color: #5cdfe2;
 	background: url(../../images/index/activeIcon.png) 0 center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
 }
