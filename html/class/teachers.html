@@ -20,21 +20,26 @@
 		</div>
 		
 		<div id="sidebar" class="sidebar">
-			<div>
-				<div>
-					<span></span>
-					<span>崔霞</span>
-					<span>系统管理员</span>
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName">崔霞</div>
+					<div class="userRole">系统管理员</div>
 				</div>
-				<div>
-					<span></span>
+				<div id="home"> 
+					<div class="homePic">主页</div>
 				</div>
-				<ul>
-					<li></li>
-					<li></li>
-					<li></li>
-				</ul>
+				<ul id="menu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle" href="{{value.url}}" style="background-image: url({{path_img}}{{value.icon}}&minpic=0);">{{value.name}}</a>
+					</li>
+					{{/each}}
+				</script>
 			</div>
+			<div id="switch" class=""><span></span></div>
+			
 		</div>
 
 		<div id="content" class="content">

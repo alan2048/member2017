@@ -15,4 +15,92 @@ body{
 	background: #f4f7f6;
 	z-index: 10;
 	border-right: 0.02rem solid #ecefee;
+	text-align: center;
+	color: #646766;
+}
+.sidebar >div{
+	height: 100%;
+}
+#user{
+	padding-top: 0.4rem;
+	line-height: 1.6;
+}
+#user >.userPic{
+	margin: 0 auto 0.1rem;
+	height: 0.6rem;
+	width: 0.6rem;
+	border-radius: 0.3rem;
+	border: 0.01rem solid #666;
+	background: url(../../images/common/userPic.png) center center no-repeat;
+}
+#user >.userRole{
+	color: #979a99;
+}
+#home >.homePic{
+	margin: 0.6rem auto 0.6rem;
+	padding-top: 0.6rem;
+	width: 0.6rem;
+	cursor: pointer;
+	background: url(../../images/common/home.png) center 0 no-repeat;
+}
+#home >.homePic:hover{
+	color: #5ae0e2;
+}
+.hasTitle {
+	display: inline-block;
+	width: 1.2rem;
+	line-height: 0.4rem;
+	height: 1.2rem;
+	background-color: #fff;
+	border: 0.02rem solid #fff;
+	border-radius: 0.5rem;
+	color: #646766;
+	box-shadow: 0 0 0.2rem #ddd;
+	box-sizing: border-box;
+	padding-top: 0.8rem;
+	cursor: pointer;
+	background: url() center 0.2rem no-repeat #fff;
+	-webkit-background-size: contain;
+	background-size: contain;
+	-webkit-background-size: 0.6rem;
+	background-size: 0.6rem;
+}
+.hasTitle:hover{
+	border: 0.02rem solid #656868;
+	background-color: #f3b369;
+}
+#menu > li.has-list {
+	text-align: center;
+	margin-bottom: 0.4rem;
+	position: relative;
+}
+#switch{
+	position: absolute;
+	width: 0.4rem;
+	height: 0.8rem;
+	top: 50%;
+	right: 0rem;
+	cursor: pointer;
+	overflow: hidden;
+}
+#switch.active{
+	position: absolute;
+	width: 0.4rem;
+	height: 0.8rem;
+	top: 50%;
+	right: -0.4rem;
+	cursor: pointer;
+	overflow: hidden;
+}
+#switch >span{
+	display: inline-block;
+	width: 0.8rem;
+	height: 0.8rem;
+	border-radius: 1rem;
+	cursor: pointer;
+	background: url(../../images/common/switch.png) 20% center no-repeat #f7e463;
+}
+#switch.active >span{
+	margin-left: -0.4rem;
+	background: url(../../images/common/switch01.png) 80% center no-repeat #f7e463;
 }

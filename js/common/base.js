@@ -166,9 +166,20 @@ var httpUrl={
 
 
 
-		// 新版接口
-		menuList:path+":15001/ops/user/menu/list",// 菜单接口
 
+
+		// 新版接口
+		// 菜单
+		menuList:path+":15001/ops/user/menu/list",// 菜单接口
+		menuChildList:path+":15001/ops/user/menu/childList",// 获取子菜单列表
+		menuButtonList:path+":15001/ops/menu/button/list",// 获取菜单功能按钮列表
+
+		// 基础信息 教师信息查询
+		teacherAdd:path+":15001/basic/staff/add",// 新建教职工
+		teacherDelete:path+":15001/basic/staff/delete",// 移除教职工
+		teacherAllType:path+":15001/basic/staff/allType",// 获得所有教职工类型
+		teacherStaffInfo:path+":15001/basic/staff/staffInfo",//  获得教职工列表
+		teacherMyClassInfo:path+":15001/basic/staff/myClassInfo",//  获得教职工所在班级列表
 
 		// 08设置
 		setting:'' 
