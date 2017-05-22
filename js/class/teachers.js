@@ -3,8 +3,19 @@ $(function () {
 });
 function init() {
     menuChildList_port("309657696842416129");
+    menu();
 };
 
+// 菜单
+function menu() {
+    $("#switch").click(function () {
+        var aa=$(this);
+        $(this).prev("#sidebarBox").fadeToggle(function () {
+            aa.toggleClass("active");
+            $("#content").toggleClass("active");
+        });
+    });
+};
 // 左侧 菜单接口
 function menuChildList_port(menuId) {
     var data={
@@ -39,10 +50,8 @@ function menuChildList_callback(res) {
                 path_img:httpUrl.path_img
         };
         var html=template("menu_script",data01);
-        $("#menu").empty().append(html);
-
+        $("#subMenu").empty().append(html);
         chooseNiceScroll("#sidebarBox","transparent");
-        console.log(data);
     };
 };
 

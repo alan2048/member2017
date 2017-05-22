@@ -17,6 +17,7 @@ body{
 	-webkit-background-size: 80%,50%;
 	background-size: 80%,50%;
 	overflow: hidden;
+	z-index: 100;
 }
 .menuTitle{
 	margin: 0 auto;

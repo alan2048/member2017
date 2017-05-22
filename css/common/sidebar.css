@@ -5,9 +5,9 @@ html {
 }
 body{
 	font-size: 0.16rem;
+	background-color: #f9fcfb;
 }
 .sidebar {
-	width: 2rem;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -20,6 +20,7 @@ body{
 }
 .sidebar >div{
 	height: 100%;
+	width: 2rem;
 }
 #user{
 	padding-top: 0.4rem;
@@ -37,6 +38,7 @@ body{
 	color: #979a99;
 }
 #home >.homePic{
+	display: block;
 	margin: 0.6rem auto 0.6rem;
 	padding-top: 0.6rem;
 	width: 0.6rem;
@@ -47,6 +49,8 @@ body{
 	color: #5ae0e2;
 }
 .hasTitle {
+	font-weight: 500;
+	font-size: 0.16rem;
 	display: inline-block;
 	width: 1.2rem;
 	line-height: 0.4rem;
@@ -69,7 +73,7 @@ body{
 	border: 0.02rem solid #656868;
 	background-color: #f3b369;
 }
-#menu > li.has-list {
+#subMenu > li.has-list {
 	text-align: center;
 	margin-bottom: 0.4rem;
 	position: relative;
@@ -103,4 +107,14 @@ body{
 #switch.active >span{
 	margin-left: -0.4rem;
 	background: url(../../images/common/switch01.png) 80% center no-repeat #f7e463;
+}
+#switch >span:hover{
+	background-color: #f6da1f;
+}
+#content {
+	margin-left: 2rem;
+	padding: 0.6rem;
+}
+#content.active{
+	margin-left: 0;
 }
