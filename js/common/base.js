@@ -176,10 +176,12 @@ var httpUrl={
 
 		// 基础信息 教师信息查询
 		teacherAdd:path+":15001/basic/staff/add",// 新建教职工
+		teacherSingleStaffInfo:path+":15001/basic/staff/singleStaffInfo",//  获得单项教职工条目
+		teacherUpdate:path+":15001/basic/staff/update",// 更新教职工条目
 		teacherDelete:path+":15001/basic/staff/delete",// 移除教职工
 		teacherAllType:path+":15001/basic/staff/allType",// 获得所有教职工类型
+		teacherMyClassInfo:path+":15001/basic/myClassInfo",//  获得教职工所在班级列表
 		teacherStaffInfo:path+":15001/basic/staff/staffInfo",//  获得教职工列表
-		teacherMyClassInfo:path+":15001/basic/staff/myClassInfo",//  获得教职工所在班级列表
 
 		// 08设置
 		setting:'' 
@@ -211,8 +213,8 @@ function initAjax(url,param,callback,callback01) {
                 // loadingOut(); // loading退出
             },
             error:function(result){
-                console.log("请求失败 error!000");
-                window.location.href=httpUrl.loginHttp;
+                console.log("请求失败 error!");
+                // window.location.href=httpUrl.loginHttp;
             }
         });	
 };

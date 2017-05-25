@@ -36,7 +36,10 @@ a:hover {
 html{
     font-family: arial;
 }
-
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
 
 /*loading start*/
 #page-loader {
@@ -124,4 +127,5 @@ html {
 }
 body{
     font-size: 0.16rem;
+    font-family: "微软雅黑", "宋体","Open Sans", "Helvetica Neue", Arial, Verdana, Helvetica, Arial, sans-serif;
 }
