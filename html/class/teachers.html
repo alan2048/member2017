@@ -11,7 +11,11 @@
 	<!-- <link href="../../css/common/bootstrap.min.css" rel="stylesheet" /> -->
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
 	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
 	<link href="../../css/class/teachers.css" rel="stylesheet" type="text/css" />
 </head>
@@ -50,7 +54,7 @@
                     </select>
       				<script id="teacherType_script" type="text/html">
       					{{each arr as value i}}
-						<option value="{{value.typeName}}">{{value.typeName}}</option>
+						<option value="{{value.typeID}}">{{value.typeName}}</option>
       					{{/each}}
       				</script>
       			</label>
@@ -104,7 +108,7 @@
                                   	<td style="word-break:break-all;" class="email-sender">{{item.phoneNum}}</td>
                                   	<td style="word-break:break-all;" class="email-sender">{{item.jobTitle}}</td>
                                   	<td style="word-break:break-all;" class="email-sender email-date">
-                                    {{if item.className}}
+                                    {{if !item.className.length ==0}}
                                   		{{if item.className.length ==1}}
 											{{each item.className as value j}}{{value}}{{/each}}
                                   		{{else}}
@@ -158,7 +162,7 @@
                             <i class="redIcon">*</i> 出生日期：
                         </span>
                         <span class="col02">
-                            <input type="text" id="birthday">
+                            <input type="text" id="birthday" data-toggle="datepicker">
                         </span>
                     </li>
                     <li>
@@ -167,6 +171,7 @@
                         </span>
                         <span class="col02">
                             <input type="text" id="phoneNum">
+                            <span class="hide">提示：手机格式不正确</span>
                         </span>
                     </li>
                     <li>
@@ -185,7 +190,7 @@
                         <script id="teacherClass01_script" type="text/html">
                             {{each arr as value i}}
                             <label>
-                                <input type="checkbox" value="{{value.className}}"> {{value.className}}
+                                <input type="checkbox" value="{{value.classUUID}}"> {{value.className}}
                             </label>
                             {{/each}}
                         </script>
@@ -200,8 +205,11 @@
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/common/simplePagination.js" ></script>
 	<script src="../../js/class/teachers.js"></script>
 </body>
 </html>

@@ -115,6 +115,8 @@
 
 /*table start*/
 .panel {
+	display: inline-block;
+	vertical-align: top;
 	margin-bottom: 0.2rem;
 	padding: 0.15rem;
 	background-color: #fff;
@@ -122,6 +124,15 @@
 	border-radius: 0.1rem;
 	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
 	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+	width: 48%;
+	height: 100%;
+	position: relative;
+}
+.panel:first-of-type{
+	margin-right:1%;
+}
+.panel:last-of-type{
+	margin-left:1%;
 }
 .table{
 	width: 100%;
@@ -137,8 +148,16 @@ th,td {
 	color: #646464;
 	font-weight: 600;
 }
-.table.table-email tr:hover td {
+.table.table-email tr td.email-select:hover {
 	background: #f4f7f6;
+	cursor: pointer;
+}
+.table.table-email tr td.email-sender.active {
+	background: #f4f7f6;
+	cursor: pointer;
+}
+.table.table-email tr td.email-sender.current {
+	color: #5ce0de;
 	cursor: pointer;
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
@@ -190,20 +209,21 @@ th,td {
 
 /*分页 start*/
 #main{
-	text-align: center;
+	height: 7.5rem;
 }
 .pagination {
-	display: inline-block;
-	padding-left: 0;
-	margin: 10px 0;
-	border-radius: 4px;
+	position: absolute;
+	bottom: -50px;
+	width: 100%;
+	left: 0;
+	text-align: center;
 }
 .pagination > li {
 	display: inline;
 }
 .pagination > li > a, .pagination > li > span {
 	position: relative;
-	float: left;
+	/*float: left;*/
 	padding: 6px 12px;
 	margin-left: 10px;
 	line-height: 1.42857143;
@@ -232,7 +252,7 @@ th,td {
 /*新增 start*/
 .newBox{
 	width: 10rem;
-	height: 7rem;
+	height: 6rem;
 	margin: auto;
 	background-color: #f4f7f6;
 	color: #969998;
@@ -252,7 +272,6 @@ th,td {
 	margin-bottom: 0.2rem;
 }
 .newBox ul >li:last-of-type{
-	padding-top: 0.2rem;
 	padding-left: 0.4rem;
 }
 .redIcon{
@@ -337,3 +356,29 @@ th,td {
 	z-index: 0;
 }
 /*新增 end*/
+
+.ui-popup-follow{
+	position: relative;
+}
+
+.ui-dialog-arrow-a, .ui-dialog-arrow-b {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border: 20px dashed transparent;
+}
+.ui-popup-bottom-left .ui-dialog-arrow-a, .ui-popup-bottom-right .ui-dialog-arrow-a, .ui-popup-bottom .ui-dialog-arrow-a {
+	left: -40px;
+	top: 70px;
+	border-right: 20px solid #e8ebea;
+}
+.ui-popup-bottom-left .ui-dialog-arrow-a, .ui-popup-bottom-left .ui-dialog-arrow-b {
+	left: 15px;
+}
+.ui-popup-bottom-left .ui-dialog-arrow-b, .ui-popup-bottom-right .ui-dialog-arrow-b, .ui-popup-bottom .ui-dialog-arrow-b {
+	left: -38px;
+	top:70px;
+	border-right: 20px solid #fff;
+}

@@ -112,9 +112,8 @@ body{
 	background-color: #f6da1f;
 }
 #content {
-	margin-left: 2rem;
-	padding: 0.6rem;
+	padding: 0.6rem 0.6rem 0.2rem;
 }
-#content.active{
+.content.active{
 	margin-left: 0;
 }

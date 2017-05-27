@@ -11,8 +11,7 @@ var serverHost="http://www.member361.com";
 var path01="http://172.168.90.101";//38测试服务器
 
 var path=serverUrl02; //更改服务器地址可设置此值
-// setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
-// setCookie("loginId","dc5dd0dbffdb1fccef0299762dd285f1","d30");
+
 var httpUrl={
 		// 基础接口
 		loginId:getCookie("loginId"),
@@ -168,13 +167,26 @@ var httpUrl={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 		// 新版接口
 		// 菜单
 		menuList:path+":15001/ops/user/menu/list",// 菜单接口
 		menuChildList:path+":15001/ops/user/menu/childList",// 获取子菜单列表
 		menuButtonList:path+":15001/ops/menu/button/list",// 获取菜单功能按钮列表
 
-		// 基础信息 教师信息查询
+		// 教师信息
 		teacherAdd:path+":15001/basic/staff/add",// 新建教职工
 		teacherSingleStaffInfo:path+":15001/basic/staff/singleStaffInfo",//  获得单项教职工条目
 		teacherUpdate:path+":15001/basic/staff/update",// 更新教职工条目
@@ -182,6 +194,15 @@ var httpUrl={
 		teacherAllType:path+":15001/basic/staff/allType",// 获得所有教职工类型
 		teacherMyClassInfo:path+":15001/basic/myClassInfo",//  获得教职工所在班级列表
 		teacherStaffInfo:path+":15001/basic/staff/staffInfo",//  获得教职工列表
+
+		// 幼儿信息
+		childrenAdd:path+":15001/basic/child/add",// 新建幼儿
+		childrenSingleChildInfo:path+":15001/basic/child/singleChildInfo",//  获得单项幼儿条目
+		childrenUpdate:path+":15001/basic/child/update",// 更新幼儿条目
+		childrenDelete:path+":15001/basic/child/delete",// 移除幼儿
+		childrenMyClassInfo:path+":15001/basic/myClassInfo",//  获得幼儿所在班级列表
+		childrenInfo:path+":15001/basic/child/childInfo",//  获得幼儿列表
+		childrenParentInfo:path+":15001/basic/child/parentInfo",//  获得幼儿家长列表
 
 		// 08设置
 		setting:'' 
@@ -218,6 +239,221 @@ function initAjax(url,param,callback,callback01) {
             }
         });	
 };
+
+
+// 菜单
+function menu() {
+    menuChildList_port("309657696842416129");
+    $("#switch").click(function () {
+        var aa=$(this);
+        $(this).prev("#sidebarBox").fadeToggle(function () {
+            aa.toggleClass("active");
+            $(".content").toggleClass("active");
+        });
+    });
+};
+// 左侧 菜单接口
+function menuChildList_port(menuId) {
+    var data={
+            menuId:menuId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuChildList,param,menuChildList_callback);
+};
+function menuChildList_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var data01={
+                arr:[{
+                    name:"教师信息",
+                    id:"1",
+                    url:"teachers.html",
+                    icon:"1eff1a1fd5d0f2587e2d54aa66ded19a"
+                },{
+                    name:"幼儿信息",
+                    id:"2",
+                    url:"children.html",
+                    icon:"ed8b3dcebd44ebfc41ac697f09346fb1"
+                },{
+                    name:"班级管理",
+                    id:"3",
+                    url:"classManage.html",
+                    icon:"1337c7d316df12cbaa67f2bed9803066"
+                }],
+                path_img:httpUrl.path_img
+        };
+        var html=template("menu_script",data01);
+        $("#subMenu").empty().append(html);
+        chooseNiceScroll("#sidebarBox","transparent");
+    };
+};
+
+// loading载入函数
+function loadingIn() {
+	$("#page-loader").removeClass('hide');
+	$("#page-loader").css("z-index","999999");
+};
+function loadingOut(argument) {
+	$("#page-loader").addClass('hide');	
+};
+
+Date.prototype.Format = function (fmt) { 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};
+
+// 地址栏search参数筛选函数
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var result = window.location.search.substr(1).match(reg);
+     return result?decodeURIComponent(result[2]):null;
+}
+
+
+// 设置cookie 过期时间s20代表20秒 h12代表12小时 d30代表30天
+function setCookie(name,value,time){
+	var strsec = getsec(time);
+	var exp = new Date();
+	exp.setTime(exp.getTime() + strsec*1);
+	// document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString()+"path=/; domain="+domain;
+	document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+};
+function getsec(str){
+	var str1=str.substring(1,str.length)*1;
+	var str2=str.substring(0,1);
+	if (str2=="s"){
+		return str1*1000;                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+	}
+	else if (str2=="h")
+	{
+		return str1*60*60*1000;
+	}
+	else if (str2=="d")
+	{
+		return str1*24*60*60*1000;
+	}
+};
+// 获取cookie
+function getCookie(name){
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	if(arr=document.cookie.match(reg)){
+		return unescape(arr[2]);
+	}
+	else{
+		return null;
+	}
+};
+// 删除cookie
+function delCookie(name){
+	var exp = new Date();
+	exp.setTime(exp.getTime() - 1);
+	var cval=getCookie(name);
+	if(cval!=null){
+		document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+	};
+};
+
+
+// niceScroll滚动条
+function chooseNiceScroll(AA,color) {
+    $(AA).niceScroll({ 
+        cursorcolor: color || "#ccc",//#CC0071 光标颜色 
+        cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0 
+        touchbehavior: true, //使光标拖动滚动像在台式电脑触摸设备 
+        cursorwidth: "5px", //像素光标的宽度 
+        cursorborder: "0", //     游标边框css定义 
+        cursorborderradius: "5px",//以像素为光标边界半径 
+        autohidemode: true //是否隐藏滚动条 
+    });
+};
+
+// 消息提示函数
+function toastTip(heading,text,hideAfter) {
+    $.toast({
+            heading: heading,
+            text: text,
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: hideAfter || 1500,
+            loaderBg: '#13b5dd',
+            position: 'bottom-right',
+            afterHidden: function () {
+                // window.location.href=httpUrl.loginHttp;
+            }
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function permission_port(callback01) {
 	if(!user.userUuid && !user.classId){
@@ -344,38 +580,7 @@ function treesToggle() {
     	$(e).slideToggle(250)
   	});
 };
-// loading载入函数
-function loadingIn() {
-	$("#page-loader").removeClass('hide');
-	$("#page-loader").css("z-index","999999");
-};
-function loadingOut(argument) {
-	$("#page-loader").addClass('hide');	
-};
 
-Date.prototype.Format = function (fmt) { 
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-};
-
-// 地址栏search参数筛选函数
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var result = window.location.search.substr(1).match(reg);
-     return result?decodeURIComponent(result[2]):null;
-}
 function spliceUrl(res) {
 	var userUuid=res[0].curUser.uuid;
 	var classId=res[3];
@@ -425,48 +630,5 @@ function treeHover(res) {
 			});
 			$("#sidebar ul.nav >li").eq(A01+1).find("li.has-sub").eq(B01).addClass("active");
 		};
-	};
-};
-
-// 设置cookie 过期时间s20代表20秒 h12代表12小时 d30代表30天
-function setCookie(name,value,time){
-	var strsec = getsec(time);
-	var exp = new Date();
-	exp.setTime(exp.getTime() + strsec*1);
-	// document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString()+"path=/; domain="+domain;
-	document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-};
-function getsec(str){
-	var str1=str.substring(1,str.length)*1;
-	var str2=str.substring(0,1);
-	if (str2=="s"){
-		return str1*1000;                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-	}
-	else if (str2=="h")
-	{
-		return str1*60*60*1000;
-	}
-	else if (str2=="d")
-	{
-		return str1*24*60*60*1000;
-	}
-};
-// 获取cookie
-function getCookie(name){
-	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-	if(arr=document.cookie.match(reg)){
-		return unescape(arr[2]);
-	}
-	else{
-		return null;
-	}
-};
-// 删除cookie
-function delCookie(name){
-	var exp = new Date();
-	exp.setTime(exp.getTime() - 1);
-	var cval=getCookie(name);
-	if(cval!=null){
-		document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 	};
 };
