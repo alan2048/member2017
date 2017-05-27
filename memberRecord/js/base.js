@@ -1,20 +1,20 @@
 var user={
-		userUuid:GetQueryString("userUuid") || "e3d9bcd7-6a57-40e8-8c88-ffd23365f6af",
-		userName:GetQueryString("userName") || "tboy13",
-		userPhoto:GetQueryString("userPhoto") || "2be080e8b6d8c878cdee163325605567",
-		bookId:GetQueryString("bookId") || "230",
-		classId:GetQueryString("classId") || "2",
-		month:GetQueryString("month") || "5",
-		year:GetQueryString("year") ||"2017"
+		userUuid:GetQueryString("userUuid"),
+		userName:GetQueryString("userName"),
+		userPhoto:GetQueryString("userPhoto"),
+		bookId:GetQueryString("bookId"),
+		classId:GetQueryString("classId"),
+		month:GetQueryString("month"),
+		year:GetQueryString("year")
 };
 
 var serverUrl01="http://www.member361.com";//84正式服务器
 var serverUrl02="http://121.43.150.38";//38测试服务器
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=serverUrl01; //更改服务器地址可设置此值
 
 if(window.location.protocol=="file:"){
-	// setCookie("loginId",GetQueryString("loginId"),"d30");// 打开本地文件时，默认设置本地cookie
+	setCookie("loginId",GetQueryString("loginId"),"d30");// 打开本地文件时，默认设置本地cookie
 };
 var httpUrl={
 		loginId:getCookie("loginId"),// cookie

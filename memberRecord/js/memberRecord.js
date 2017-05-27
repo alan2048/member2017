@@ -362,7 +362,13 @@ function savePic() {
 
     // 预览列表 添加图片
     $("#recordOk").on("dblclick",".recordImg",function () {
-        if($("#canvas").hasClass("active")){
+        $("#evaluate").removeClass("active");
+        $("#canvas").addClass("active");
+        $("#modal-dialog-img").modal("show");
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"&Thumbnail=0";
+        $("#carousel_img").empty().append("<img src="+src+" data-curpic="+$(this).attr("data-pic")+" />");
+        
+        /*if($("#canvas").hasClass("active")){
             var imgUrl=httpUrl.path_img+$(this).attr("data-pic");
             fabric.Image.fromURL(imgUrl,function(Img) {
                 var w01=$("#canvasMain").width();
@@ -378,7 +384,7 @@ function savePic() {
                 canvas.add(Img);
                 // canvas.moveTo(Img,8);
             });
-        };
+        };*/
         
 	});
 
@@ -622,10 +628,12 @@ function savePic() {
         // 评价模板保存
         if($("#evaluate").hasClass("active")){
             $("#saveEvaluate").empty().width($("#evaluateBox .temark1").width()).append($("#evaluateBox .temark1").clone());
-            html2canvas($("#saveEvaluate .temark1"),{
+            html2canvas($("#saveEvaluate"),{
                 allowTaint: true,
                 useCORS:true,
                 taintTest: false,
+                height:$("#saveEvaluate").outerHeight(),
+                width:$("#saveEvaluate").outerWidth(),
                 onrendered:function (canvas01) {
                     swal({
                         title: "提示",
@@ -634,6 +642,7 @@ function savePic() {
                         showConfirmButton: false
                     }); 
                     recordSaveOrUpdate_port(canvas01.toDataURL('png'));
+                    $("#saveEvaluate").empty();
                 }
             });
         }else{
@@ -1465,7 +1474,7 @@ function recordStudent_callback(res) {
             loaderBg: '#13b5dd',
             position: 'bottom-right',
             afterHidden: function () {
-                // window.location.href=httpUrl.loginHttp;
+                window.location.href=httpUrl.loginHttp;
             }
         });
 	};
