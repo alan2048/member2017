@@ -181,6 +181,9 @@ var httpUrl={
 
 
 		// 新版接口
+		// 基础
+		basicMyClassInfo:path+":15001/basic/myClassInfo",//  获得当前人 所在班级列表
+
 		// 菜单
 		menuList:path+":15001/ops/user/menu/list",// 菜单接口
 		menuChildList:path+":15001/ops/user/menu/childList",// 获取子菜单列表
@@ -203,6 +206,16 @@ var httpUrl={
 		childrenMyClassInfo:path+":15001/basic/myClassInfo",//  获得幼儿所在班级列表
 		childrenInfo:path+":15001/basic/child/childInfo",//  获得幼儿列表
 		childrenParentInfo:path+":15001/basic/child/parentInfo",//  获得幼儿家长列表
+
+		// 班级管理
+		classAdd:path+":15001/basic/org/add",// 新建班级
+		classUpdate:path+":15001/basic/org/update",// 更新班级
+		classDelete:path+":15001/basic/org/delete",// 移除班级
+		classGradeList:path+":15001/basic/org/gradeList",// 获得年级列表
+		classInfo:path+":15001/basic/org/classInfo",// 获得班级列表及人员数量
+		classOfStaff:path+":15001/basic/org/staffOfClass",// 获得班级教职工列表
+		classSingleClassInfo:path+":15001/basic/org/singleClassInfo",//  获得单项班级条目
+		classBasicInfo:path+":15001/basic/org/classBasicInfo",//  获得所有班级基础信息
 
 		// 08设置
 		setting:'' 

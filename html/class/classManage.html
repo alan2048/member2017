@@ -2,14 +2,22 @@
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
-	<title>教师信息</title>
+	<title>班级管理</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="幼教产品" name="description" />
 	<meta content="上海紫越网络科技有限公司" name="author" />
 	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<!-- <link href="../../css/common/bootstrap.min.css" rel="stylesheet" /> -->
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/class/teachers.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/class/classManage.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
@@ -37,13 +45,186 @@
 		</div>
 
 		<div id="content" class="content">
-		    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+			<div class="pageTitle">班级管理</div>
+			<div id="buttonBox">
+				<a href="#" id="newBtn" class="defaultBtn"><span>新增</span></a>
+				<a href="#" id="editBtn" class="defaultBtn"><span>编辑</span></a>
+				<a href="#" id="deleteBtn" class="defaultBtn"><span>删除</span></a>
+				<a href="#" id="classUpBtn" class="defaultBtn"><span>升班</span></a>
+                <a href="#" id="classExchangeBtn" class="defaultBtn"><span>调班</span></a>
+			</div>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <ul id="pagination"></ul>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw"></i></a></th>
+                                    <th style="width: 20%;">班级姓名</th>
+                                    <th style="width: 20%;">年级</th>
+                                    <th style="width: 50%;">班级人数</th>
+                                </tr>
+                            </thead>
+                           	 <tbody>
+                           	 	{{each resultList as item i}}
+                            	<tr>
+                                  	<td style="word-break:break-all;" class="email-select">
+                                  		<a href="#" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-classuuid={{item.classUUID}} data-gradeuuid={{item.gradeUUID}}></i></a>
+                                  	</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.className}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.gradeName}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.memberNum}}(幼儿{{item.childNum}}人，带教职工{{item.staffNum}}人)</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+                <div class="panel ui-popup-follow ui-popup-bottom-right">
+                    <div class="ui-dialog-arrow-a"></div>
+                    <div class="ui-dialog-arrow-b"></div>
+                    <div class="email-content" id="tableBox01"></div>
+                    <script type="text/html" id="tableBox01_script">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>带教职工</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                {{each arr as item i}}
+                                <tr>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.name}}({{item.jobTitle}})</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+                
+			</div>
+            
 	    </div> 
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle">班级管理 <small>新增</small></div>
+            <div class="newBox">
+                <span class="closeBtn"></span>
+                <ul>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 班级名称：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="className">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 年级：
+                        </span>
+                        <span class="col02"><select id="grade"></select></span>
+                        <script id="grade_script" type="text/html">
+                            {{each arr as value i}}
+                            <option value="{{value.gradeUUID}}" data-gradenum="{{value.gradeNum}}">{{value.gradeName}}</option>
+                            {{/each}}
+                        </script>
+                    </li>
+                    <li>备注："<i class="redIcon">*</i>" 为必填项</li>
+                </ul>
+                <div id="new">保存</div>
+            </div>
+        </div> 
+        <div id="content02" class="content hide">
+            <div class="pageTitle">班级管理 <small>升班</small></div>
+            <div>
+                <a href="#" class="backBtn defaultBtn"><span>返回上级</span></a>
+                <a href="#" id="classUpBtn01" class="defaultBtn"><span>确认升班</span></a>
+            </div>
+            <div class="classUpBox">
+                <div class="classNow">
+                    <div>
+                        <span class="classNowBtn">现在</span>
+                    </div>
+                    <ul id="allClass"></ul>
+                    <script id="allClass_script" type="text/html">
+                        {{each arr as value i}}
+                            <li>
+                                <div class="gradeTitle">{{value.name}}</div>
+                                {{each value.list as value01 j}}
+                                <div class="flower">{{value01.className}}</div>
+                                {{/each}}
+                            </li>
+                        {{/each}}
+                    </script>
+                    <span class="arrayBtn"></span>
+                </div>
+                <div class="classAfter">
+                    <div>
+                        <span class="classAfterBtn">升班后</span>
+                        <div class="classAfterTip">
+                            <i></i>
+                            小提示：请在升班前，双击编辑班级名称
+                        </div>
+                    </div>
+                    <ul id="allClass01"></ul>
+                    <script id="allClass01_script" type="text/html">
+                        {{each arr as value i}}
+                            <li>
+                                <div class="gradeTitle">{{value.name}}</div>
+                                {{each value.list as value01 j}}
+                                <div class="flower">
+                                    <span>编辑</span>
+                                    <textarea placeholder="请输入班级名称"></textarea>
+                                </div>
+                                {{/each}}
+                            </li>
+                        {{/each}}
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div id="content03" class="content hide">
+            <div class="pageTitle">班级管理 <small>调班</small></div>
+            <div class="newBox">
+                <span class="closeBtn"></span>
+                <ul>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 班级名称：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="className">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 年级：
+                        </span>
+                        <span class="col02"><select id="grade"></select></span>
+                        <script id="grade_script" type="text/html">
+                            {{each arr as value i}}
+                            <option value="{{value.gradeUUID}}" data-gradenum="{{value.gradeNum}}">{{value.gradeName}}</option>
+                            {{/each}}
+                        </script>
+                    </li>
+                    <li>备注："<i class="redIcon">*</i>" 为必填项</li>
+                </ul>
+                <div id="new">保存</div>
+            </div>
+        </div>
 	</div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/class/teachers.js"></script>
+	<script src="../../js/class/classManage.js"></script>
 </body>
 </html>
