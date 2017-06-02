@@ -445,12 +445,14 @@ th,td {
 #allClass >li,#allClass01 >li{
 	display: inline-block;
 	vertical-align: top;
+	width: 1.2rem;
+	margin: 0 0.1rem;
 }
 .flower{
 	width: 1.2rem;
 	position: relative;
 	height: 1.2rem;
-	margin: 0.2rem 0.1rem;
+	margin: 0.2rem 0;
 	line-height: 1rem;
 	cursor: pointer;
 	background: url(../../images/class/flower.png) center center no-repeat;
@@ -486,4 +488,19 @@ th,td {
 }
 #allClass01 .flower.active >textarea{
 	display: inline-block;
+}
+.classAfterTip{
+	margin-top: 0.3rem;
+	color: #e15c5c;
+	font-size: 0.12rem;
+	vertical-align: bottom;
+}
+.classAfterTip >i{
+	display: inline-block;
+	width: 0.12rem;
+	height: 0.12rem;
+	border-radius: 0.1rem;
+	border: 0.02rem solid #656666;
+	background-color: #f8abab;
+	margin-bottom: -0.02rem;
 }

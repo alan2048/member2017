@@ -176,7 +176,7 @@
                                 <div class="gradeTitle">{{value.name}}</div>
                                 {{each value.list as value01 j}}
                                 <div class="flower">
-                                    <span>编辑</span>
+                                    <span data-classuuid="{{value01.classUUID}}">{{if i==3}}{{year}}届{{else}}编辑{{/if}}</span>
                                     <textarea placeholder="请输入班级名称"></textarea>
                                 </div>
                                 {{/each}}

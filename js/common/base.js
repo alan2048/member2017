@@ -11,7 +11,7 @@ var serverHost="http://www.member361.com";
 var path01="http://172.168.90.101";//38测试服务器
 
 var path=serverUrl02; //更改服务器地址可设置此值
-
+setCookie("loginId","04789a033a2e2e9ae10d20b469536938","d30");
 var httpUrl={
 		// 基础接口
 		loginId:getCookie("loginId"),
@@ -183,6 +183,7 @@ var httpUrl={
 		// 新版接口
 		// 基础
 		basicMyClassInfo:path+":15001/basic/myClassInfo",//  获得当前人 所在班级列表
+		basicAllClassInfo:path+":15001/basic/allClassInfo",//   获得登录人所在学校所有班级列表
 
 		// 菜单
 		menuList:path+":15001/ops/user/menu/list",// 菜单接口
@@ -216,6 +217,7 @@ var httpUrl={
 		classOfStaff:path+":15001/basic/org/staffOfClass",// 获得班级教职工列表
 		classSingleClassInfo:path+":15001/basic/org/singleClassInfo",//  获得单项班级条目
 		classBasicInfo:path+":15001/basic/org/classBasicInfo",//  获得所有班级基础信息
+		classUpgrade:path+":15001/basic/org/upgrade",//  升班
 
 		// 08设置
 		setting:'' 

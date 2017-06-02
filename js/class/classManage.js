@@ -25,7 +25,7 @@ function init() {
     });
 
     // 新增图层返回主界面
-    $(".closeBtn").click(function () {
+    $(".closeBtn,.backBtn").click(function () {
         $(".content").addClass("hide");
         $("#content").removeClass("hide");
     });
@@ -93,6 +93,7 @@ function init() {
     });
 
 
+    // 升班
     $("#allClass01").on("dblclick",".flower",function () {
         $(this).addClass("active");
         $(this).find("textarea").focus();
@@ -104,6 +105,14 @@ function init() {
             $(this).prev("span").text($(this).val());
         }
     });
+
+    $("#classUpBtn01").click(function () {
+        var num=0;
+        // for(var )
+        $("#allClass01 .flower >span")
+         classUpgrade_port();
+    });
+
 
 };
 
@@ -311,6 +320,7 @@ function classBasicInfo_callback(res) {
         var html=template("allClass_script",json);
         $("#allClass").empty().append(html);
 
+        var date=new Date();
         var json01={
                 arr:[{
                         name:"小班",
@@ -324,8 +334,10 @@ function classBasicInfo_callback(res) {
                     },{
                         name:"毕业班",
                         list:data.four
-                }]
+                }],
+                year: date.getFullYear()
         };
+        console.log(json01);
         var html01=template("allClass01_script",json01);
         $("#allClass01").empty().append(html01);
         console.log(html);
@@ -334,6 +346,61 @@ function classBasicInfo_callback(res) {
     };
 };
 
+
+//  获得所有班级基础信息
+function classUpgrade_port() {
+    var one=[];
+    for(var i=0;i<$("#allClass01 li:nth-of-type(1) .flower span").length;i++){
+        var obj={
+                classUUID:$("#allClass01 li:nth-of-type(1) .flower span").eq(i).attr("data-classuuid"),
+                className:$("#allClass01 li:nth-of-type(1) .flower span").eq(i).text()
+        }
+        one.push(obj);
+    };
+    var two=[];
+    for(var i=0;i<$("#allClass01 li:nth-of-type(2) .flower span").length;i++){
+        var obj={
+                classUUID:$("#allClass01 li:nth-of-type(2) .flower span").eq(i).attr("data-classuuid"),
+                className:$("#allClass01 li:nth-of-type(2) .flower span").eq(i).text()
+        }
+        two.push(obj);
+    };
+    var three=[];
+    for(var i=0;i<$("#allClass01 li:nth-of-type(3) .flower span").length;i++){
+        var obj={
+                classUUID:$("#allClass01 li:nth-of-type(3) .flower span").eq(i).attr("data-classuuid"),
+                className:$("#allClass01 li:nth-of-type(3) .flower span").eq(i).text()
+        }
+        three.push(obj);
+    };
+    var four=[];
+    for(var i=0;i<$("#allClass01 li:nth-of-type(4) .flower span").length;i++){
+        var obj={
+                classUUID:$("#allClass01 li:nth-of-type(4) .flower span").eq(i).attr("data-classuuid"),
+                className:$("#allClass01 li:nth-of-type(4) .flower span").eq(i).text()
+        }
+        four.push(obj);
+    };
+    var data={
+            one:one,
+            two:two,
+            three:three,
+            four:four
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.classUpgrade,param,classUpgrade_callback);
+};
+function classUpgrade_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+       
+    }else{
+        toastTip("提示",res.info);
+    };
+};
 
 
 // Row行选择函数

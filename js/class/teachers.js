@@ -300,11 +300,25 @@ function teacherMyClassInfo_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("teacherClass_script",data);
         $("#teacherClass").empty().append(html);
+        basicAllClassInfo_port();
+        teacherStaffInfo_port();
+    };
+};
 
+// 获得登录人所在学校所有班级列表
+function basicAllClassInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicAllClassInfo,param,basicAllClassInfo_callback);
+};
+function basicAllClassInfo_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
         var html01=template("teacherClass01_script",data);
         $("#teacherClass01").empty().append(html01);
-        teacherStaffInfo_port();
-        console.log(data);
     };
 };
 
