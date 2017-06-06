@@ -13,21 +13,78 @@ function init() {
         $("#content01").find("input[type=text]").val("");
     });
 
+    // 升班按钮
     $("#classUpBtn").click(function () {
         $(".content").addClass("hide");
         $("#content02").removeClass("hide");
+        $(".classNow,#classUpBtn01,#allClass01 .flower").removeClass("hover");
         classBasicInfo_port();
     });
 
+    // 调班进入按钮
     $("#classExchangeBtn").click(function () {
         $(".content").addClass("hide");
         $("#content03").removeClass("hide");
+        classMemberBasic_port($("#teacherClass").val(),$("#teacherClass"));
+        classMemberBasic_port($("#teacherClass01").val(),$("#teacherClass01"));
     });
 
-    // 新增图层返回主界面
-    $(".closeBtn,.backBtn").click(function () {
+    // 切换学生列表
+    $("#teacherClass,#teacherClass01").change(function () {
+         classMemberBasic_port($(this).val(),$(this));
+    });
+
+    // 调班选择学生
+    $(".exchangeNowBox").on("click",".exchangeIcon",function () {
+        $(this).toggleClass("active"); 
+    });
+
+    // 调班
+    $("#exchangeBtn").click(function () {
+        if($(".exchangeNowBox .exchangeIcon.active").length ==0){
+            toastTip("提示","请先选择人");
+        }else if($("#teacherClass").val() == $("#teacherClass01").val()){
+            toastTip("提示","调入的班级需与原班级不同");
+        }else{
+            classChange_port();
+        };
+    });
+
+    // 返回主界面
+    $(".closeBtn").click(function () {
         $(".content").addClass("hide");
         $("#content").removeClass("hide");
+    });
+
+    $(".backBtn").click(function () {
+        if($(this).hasClass("tip")){
+            if($("#classUpBtn01").hasClass("hover")){
+                $(".content").addClass("hide");
+                $("#content").removeClass("hide");
+            }else{
+                swal({
+                    title: "是否退出此次编辑",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#e15d5d",
+                    confirmButtonText: "退出",
+                    cancelButtonText: "考虑一下",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            $(".content").addClass("hide");
+                            $("#content").removeClass("hide");
+                        };
+                });
+            };
+        }else{
+            $(".content").addClass("hide");
+            $("#content").removeClass("hide");
+        }
+        
     });
 
     // 编辑老师按钮
@@ -103,14 +160,28 @@ function init() {
         $(this).parents(".flower").removeClass("active");
         if($(this).val()){
             $(this).prev("span").text($(this).val());
+            $(this).parents(".flower").removeClass("empty");
         }
     });
 
     $("#classUpBtn01").click(function () {
-        var num=0;
-        // for(var )
-        $("#allClass01 .flower >span")
-         classUpgrade_port();
+        if($(this).hasClass("hover")){
+            toastTip("提示","已升班成功",2500);
+        }else{
+            for(var i=0;i<$("#allClass01 .flower >span").length;i++){
+                if($("#allClass01 .flower >span").eq(i).text()=="编辑" || !$("#allClass01 .flower >span").eq(i).text()){
+                    $("#allClass01 .flower >span").eq(i).parent().addClass("empty");
+                }else{
+                    $("#allClass01 .flower >span").eq(i).parent().removeClass("empty");
+                };
+            };
+
+            if($("#allClass01 .flower").hasClass("empty")){
+                toastTip("提示","升班后的班级名字不可为空或编辑，请先编辑红色花瓣的班级名称",2500);
+            }else{
+                classUpgrade_port();
+            };
+        };
     });
 
 
@@ -131,6 +202,84 @@ function classGradeList_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("grade_script",data);
         $("#grade").append(html);
+        basicAllClassInfo_port();
+    };
+};
+
+// 获得登录人所在学校所有班级列表
+function basicAllClassInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicAllClassInfo,param,basicAllClassInfo_callback);
+};
+function basicAllClassInfo_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html01=template("teacherClass_script",data);
+        $("#teacherClass,#teacherClass01").empty().append(html01);
+    };
+};
+
+// 获取班级幼儿及教职工名单
+function classMemberBasic_port(classUUID,AA,json) {
+    var aa=$(AA).parent().next();
+    var data={
+            classUUID:classUUID
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.classMemberBasic,param,classMemberBasic_callback,aa,json);
+};
+function classMemberBasic_callback(res,aa,json) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("exchangeBox_script",data);
+        $(aa).empty().append(html);
+
+        chooseNiceScroll(".exchangeBg")
+        // 绑定调班后结果
+        if(json){
+            for(var i=0;i<json.personList.length;i++){
+                $(".exchangeAfterBox .exchangeIcon[data-uuid="+json.personList[i].personUUID+"]").addClass("active");
+            };
+        }
+    };
+};
+
+// 调班
+function classChange_port() {
+    var personList=[];
+    for(var i=0;i<$(".exchangeNowBox .exchangeIcon.active").length;i++){
+        var json={
+               personName: $(".exchangeNowBox .exchangeIcon.active").eq(i).text(),
+               personUUID: $(".exchangeNowBox .exchangeIcon.active").eq(i).attr("data-uuid"),
+               type: $(".exchangeNowBox .exchangeIcon.active").eq(i).attr("data-typeid")
+        };
+        personList.push(json);
+    }
+    var data={
+            lastClassUUID:$("#teacherClass").val(),
+            newClassUUID:$("#teacherClass01").val(),
+            personList:personList
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.classChange,param,classChange_callback,data);
+};
+function classChange_callback(res,data) {
+    if(res.code==200){
+        classMemberBasic_port($("#teacherClass").val(),$("#teacherClass"));
+        classMemberBasic_port($("#teacherClass01").val(),$("#teacherClass01"),data);
+        toastTip("提示","调班成功");
+    }else{
+        toastTip("提示",res.info);
     };
 };
 
@@ -395,8 +544,9 @@ function classUpgrade_port() {
 };
 function classUpgrade_callback(res) {
     if(res.code==200){
-        var data=JSON.parse(res.data);
-       
+        toastTip("提示","升班成功");
+        $(".classNow,#classUpBtn01,#allClass01 .flower").addClass("hover");
+        classInfo_port();
     }else{
         toastTip("提示",res.info);
     };
@@ -405,6 +555,7 @@ function classUpgrade_callback(res) {
 
 // Row行选择函数
 function chooseRow() {
+    chooseNiceScroll("#tableBox");
     $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     $(".table.table-email thead tr i").click(function () {
         var aa=$(".table thead tr i").hasClass('fa-check-square-o');

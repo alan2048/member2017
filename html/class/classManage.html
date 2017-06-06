@@ -140,7 +140,7 @@
         <div id="content02" class="content hide">
             <div class="pageTitle">班级管理 <small>升班</small></div>
             <div>
-                <a href="#" class="backBtn defaultBtn"><span>返回上级</span></a>
+                <a href="#" class="backBtn tip defaultBtn"><span>返回上级</span></a>
                 <a href="#" id="classUpBtn01" class="defaultBtn"><span>确认升班</span></a>
             </div>
             <div class="classUpBox">
@@ -188,31 +188,43 @@
         </div>
         <div id="content03" class="content hide">
             <div class="pageTitle">班级管理 <small>调班</small></div>
-            <div class="newBox">
-                <span class="closeBtn"></span>
-                <ul>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 班级名称：
-                        </span>
-                        <span class="col02">
-                            <input type="text" id="className">
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 年级：
-                        </span>
-                        <span class="col02"><select id="grade"></select></span>
-                        <script id="grade_script" type="text/html">
+            <div>
+                <a href="#" class="backBtn defaultBtn"><span>返回上级</span></a>
+                <a href="#" id="exchangeBtn" class="defaultBtn"><span>调班</span></a>
+            </div>
+            <div class="exchangeBox">
+                <div class="exchangeNow">
+                    <label>班级：
+                        <select id="teacherClass"></select>
+                        <script id="teacherClass_script" type="text/html">
                             {{each arr as value i}}
-                            <option value="{{value.gradeUUID}}" data-gradenum="{{value.gradeNum}}">{{value.gradeName}}</option>
+                            <option value="{{value.classUUID}}">{{value.className}}</option>
                             {{/each}}
                         </script>
-                    </li>
-                    <li>备注："<i class="redIcon">*</i>" 为必填项</li>
-                </ul>
-                <div id="new">保存</div>
+                    </label>
+                    <div class="exchangeNowBox exchangeBg"></div>
+                    <span class="arrayBtn"></span>
+                </div>
+                <div class="exchangeAfter">
+                   <label>班级：
+                        <select id="teacherClass01"></select>
+                    </label>
+                    <div class="exchangeAfterBox exchangeBg"></div>
+                </div>
+                <script type="text/html" id="exchangeBox_script">
+                    <ul>
+                        <li>幼儿</li>
+                        {{each childList as value i}}
+                        <li><span class="exchangeIcon" data-uuid="{{value.childUUID}}" data-typeid="{{value.typeID}}">{{value.name}}</span></li>
+                        {{/each}}
+                    </ul>
+                    <ul>
+                        <li>带教教师</li>
+                        {{each staffList as value i}}
+                        <li><span class="exchangeIcon" data-uuid="{{value.staffUUID}}" data-typeid="{{value.typeID}}">{{value.name}}</span></li>
+                        {{/each}}
+                    </ul>
+                </script>
             </div>
         </div>
 	</div>

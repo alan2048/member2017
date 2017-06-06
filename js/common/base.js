@@ -11,7 +11,7 @@ var serverHost="http://www.member361.com";
 var path01="http://172.168.90.101";//38测试服务器
 
 var path=serverUrl02; //更改服务器地址可设置此值
-setCookie("loginId","04789a033a2e2e9ae10d20b469536938","d30");
+setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
 var httpUrl={
 		// 基础接口
 		loginId:getCookie("loginId"),
@@ -218,12 +218,14 @@ var httpUrl={
 		classSingleClassInfo:path+":15001/basic/org/singleClassInfo",//  获得单项班级条目
 		classBasicInfo:path+":15001/basic/org/classBasicInfo",//  获得所有班级基础信息
 		classUpgrade:path+":15001/basic/org/upgrade",//  升班
+		classChange:path+":15001/basic/org/changeClass",//  调班
+		classMemberBasic:path+":15001/basic/org/memberBasic",//  获取班级幼儿及教职工名单
 
 		// 08设置
 		setting:'' 
 };
 
-function initAjax(url,param,callback,callback01) {
+function initAjax(url,param,callback,callback01,callback02) {
 	$.ajax({
             type:"POST",
             url:url,
@@ -245,7 +247,7 @@ function initAjax(url,param,callback,callback01) {
             	// loadingIn();// loading载入
             },	
             success:function(result){
-                callback(result,callback01);
+                callback(result,callback01,callback02);
                 // loadingOut(); // loading退出
             },
             error:function(result){

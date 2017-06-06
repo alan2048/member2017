@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 body{
-	background: url(../../images/common/pet.png) 98% 95% no-repeat;
+	background: url(../../images/common/pet.png) 98% 95% no-repeat #f9fcfb;
 }
 .pageTitle{
 	color: #646766;
@@ -99,11 +99,18 @@ body{
 #classUpBtn >span{
 	background: url(../../images/common/classUpBtn.png) 0 center no-repeat;
 }
+#classUpBtn01.hover{
+	opacity: 0.3;
+}
 #classUpBtn01 >span{
 	background: url(../../images/common/classUpBtn.png) 0 center no-repeat;
 	padding-left: 0.22rem;
 }
 #classExchangeBtn >span{
+	background: url(../../images/common/classExchangeBtn.png) 0 center no-repeat;
+	padding-left: 0.32rem;
+}
+#exchangeBtn >span{
 	background: url(../../images/common/classExchangeBtn.png) 0 center no-repeat;
 	padding-left: 0.32rem;
 }
@@ -120,6 +127,7 @@ body{
 .content {
 	margin-left: 2rem;
 	padding: 0.6rem;
+	min-width: 8.5rem;
 }
 
 
@@ -152,6 +160,9 @@ body{
 }
 .panel:last-of-type{
 	margin-left:1%;
+}
+#tableBox{
+	max-height: 100%;
 }
 .table{
 	width: 100%;
@@ -411,6 +422,9 @@ th,td {
 	position: relative;
 	padding-right: 0.5rem;
 }
+.classNow.hover{
+	opacity: 0.3;
+}
 .classAfter{
 	padding-left: 0.5rem;
 }
@@ -456,6 +470,21 @@ th,td {
 	line-height: 1rem;
 	cursor: pointer;
 	background: url(../../images/class/flower.png) center center no-repeat;
+}
+.flower.empty{
+	background: url(../../images/class/flowerHover.png) center center no-repeat;
+}
+#allClass01 >li:nth-of-type(1) >.flower.hover{
+	background: url(../../images/class/flower01.png) center center no-repeat;
+}
+#allClass01 >li:nth-of-type(2) >.flower.hover{
+	background: url(../../images/class/flower02.png) center center no-repeat;
+}
+#allClass01 >li:nth-of-type(3) >.flower.hover{
+	background: url(../../images/class/flower03.png) center center no-repeat;
+}
+#allClass01 >li:nth-of-type(4) >.flower.hover{
+	background: url(../../images/class/flower04.png) center center no-repeat;
 }
 .classUpBox{
 	padding-top: 0.4rem;
@@ -503,4 +532,100 @@ th,td {
 	border: 0.02rem solid #656666;
 	background-color: #f8abab;
 	margin-bottom: -0.02rem;
+}
+
+
+label > select {
+	min-width: 1.8rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+	color: #969998;
+	background-color: #fff;
+}
+label > select > option {
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+.exchangeBox{
+	margin-top: 0.3rem;
+}
+.exchangeBg{
+	margin: 0.2rem 0.6rem 0;
+	background-color: #fff;
+	height: 7.5rem;
+	border-radius: 0.1rem;
+}
+.exchangeBox ul{
+	width: 50%;
+	float: left;
+	vertical-align: top;
+}
+.exchangeBg >ul >li:first-of-type{
+	background-color: #f4f7f6;
+	height: 0.66rem;
+	line-height: 0.66rem;
+	border-bottom: 0.01rem solid #e3e6e5;
+	margin-bottom: 0.1rem;
+}
+.exchangeBg >ul >li{
+	height: 0.55rem;
+	line-height: 0.55rem;
+}
+.exchangeBg >ul >li >span{
+	display: inline-block;
+	height: 0.4rem;
+	width: 1rem;
+	border-radius: 1rem;
+	line-height: 0.4rem;
+	border: 0.01rem solid #e2e7e5;
+	cursor: pointer;
+}
+.exchangeNow{
+	position: relative;
+}
+.exchangeNowBox >ul:first-of-type >li >span:hover{
+	border: 0.02rem solid #666;
+	background-color: #f7e463;
+}
+.exchangeNowBox >ul:first-of-type >li >span.active{
+	border: 0.02rem solid #666;
+	background-color: #f7e463;
+}
+.exchangeAfterBox >ul:first-of-type >li >span.active{
+	border: 0.02rem solid #666;
+	background-color: #f7e463;
+}
+.exchangeNowBox >ul:last-of-type >li >span:hover{
+	border: 0.02rem solid #666;
+	background-color: #c1ec69;
+}
+.exchangeNowBox >ul:last-of-type >li >span.active{
+	border: 0.02rem solid #666;
+	background-color: #c1ec69;
+}
+.exchangeAfterBox >ul:last-of-type >li >span.active{
+	border: 0.02rem solid #666;
+	background-color: #c1ec69;
+}
+.exchangeNow{
+	display: inline-block;
+	width: 49%;
+	text-align: center;
+	vertical-align: top;
+}
+.exchangeAfter{
+	display: inline-block;
+	width: 49%;
+	text-align: center;
+	vertical-align: top;
 }

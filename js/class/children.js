@@ -3,7 +3,7 @@ $(function () {
     init();
 });
 function init() {
-    childrenMyClassInfo_port();// 获得幼儿所在班级列表
+    basicAllClassInfo_port();// 获得幼儿所在班级列表
 
     // 查询条件改变执行函数
     $("#teacherType,#teacherClass").change(function () {
@@ -113,15 +113,15 @@ function init() {
 
 
 // 获得幼儿所在班级列表
-function childrenMyClassInfo_port() {
+function basicAllClassInfo_port() {
     var data={};
     var param={
             // params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.childrenMyClassInfo,param,childrenMyClassInfo_callback);
+    initAjax(httpUrl.basicAllClassInfo,param,basicAllClassInfo_callback);
 };
-function childrenMyClassInfo_callback(res) {
+function basicAllClassInfo_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("teacherClass_script",data);

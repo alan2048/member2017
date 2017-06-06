@@ -279,7 +279,6 @@ function teacherAllType_port() {
 function teacherAllType_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        console.log(data);
         var html=template("teacherType_script",data);
         $("#teacherType,#teacherType01").append(html);
         teacherMyClassInfo_port();// 获得教职工所在班级列表
