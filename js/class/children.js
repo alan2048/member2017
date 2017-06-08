@@ -299,6 +299,7 @@ function childrenDelete_callback(res) {
 
 // Row行选择函数
 function chooseRow() {
+    chooseNiceScroll("#tableBox");
     $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     $(".table.table-email thead tr i").click(function () {
         var aa=$(".table thead tr i").hasClass('fa-check-square-o');

@@ -26,8 +26,8 @@
 			<div id="sidebarBox">
 				<div id="user">
 					<div class="userPic"></div>
-					<div class="userName">崔霞</div>
-					<div class="userRole">系统管理员</div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
 				</div>
 				<div id="home"> 
 					<a class="homePic" href="../../menu.html">主页</a>
@@ -36,9 +36,21 @@
 				<script id="menu_script" type="text/html">
 					{{each arr as value i}}
 					<li class="has-list">
-						<a class="hasTitle" href="{{value.url}}" style="background-image: url({{path_img}}{{value.icon}}&minpic=0);">{{value.name}}</a>
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
 					</li>
 					{{/each}}
+          <style>
+          {{each arr as value i}}
+              a.hasTitle[data-id="{{value.id}}"]{
+                background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);
+              }
+              a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{
+                background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);
+                border: 0.02rem solid #656868;
+                background-color: #f3b369;
+              }
+          {{/each}}
+          </style>
 				</script>
 			</div>
 			<div id="switch" class=""><span></span></div>

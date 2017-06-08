@@ -18,13 +18,13 @@
 		<script type="text/html" id="menuBox_script">
 			{{each arr as value i}}
 			<li class="has-list">
-				<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}}&minpic=0);" href="{{value.url}}" data-id="{{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
+				<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}}&minpic=0);" href="{{value.url}}?pid={{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
 				{{if value.childMenuList.length}}
 				<div class="hasBox">
 					<ul class="menuBox">
 						{{each value.childMenuList as value01 j}}
 						<li>
-							<a href="{{value01.url}}" data-id="{{value01.id}}">{{value01.name}}</a>
+							<a href="{{value01.url}}?pid={{value.id}}&sid={{value01.id}}">{{value01.name}}</a>
 						</li>
 						{{/each}}
 					</ul>

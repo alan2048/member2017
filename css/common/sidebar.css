@@ -32,7 +32,11 @@ body{
 	width: 0.6rem;
 	border-radius: 0.3rem;
 	border: 0.01rem solid #666;
-	background: url(../../images/common/userPic.png) center center no-repeat;
+	cursor:pointer;
+	// background: url(../../images/common/userPic.png) center center no-repeat;
+}
+#user >.userPic:hover{
+	border: 0.01rem solid #5ce0de;
 }
 #user >.userRole{
 	color: #979a99;

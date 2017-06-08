@@ -3,7 +3,7 @@ $(function () {
 });
 function init() {
     menu();
-
+    basicButton_port();
     teacherAllType_port();// 获得所有教职工类型
     // 查询条件改变执行函数
     $("#teacherType,#teacherClass").change(function () {
@@ -354,6 +354,24 @@ function teacherStaffInfo_callback(res) {
                 teacherStaffInfo_port(pageNumber);
             }
         });
+    };
+};
+
+// 获取菜单功能按钮列表
+function basicButton_port() {
+    var data={
+            menuId:user.sid
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicButton,param,basicButton_callback);
+};
+function basicButton_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        console.log(data);
     };
 };
 

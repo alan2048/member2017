@@ -45,6 +45,9 @@ body {
     line-height: .3rem;
     border-bottom: 0.01rem solid #666;
 }
+.login > .loginBox >.name >div.nameBox.empty{
+    border-bottom: 0.01rem solid #ff1b1b;
+}
 .login > .loginBox >.password >div{
     margin-top: .7rem;
 }
@@ -271,4 +274,8 @@ body {
     100%{
         -webkit-transform: translate(-20rem,0.6rem) rotate(-6deg);
     }
+}
+
+.jq-toast-single {
+    width: auto;
 }

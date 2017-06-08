@@ -1,227 +1,233 @@
 var user={
-		// useruuid:GetQueryString("useruuid") || "ca47d137-90eb-4a60-8c4b-fd46d14c0966",// è®¸
-		useruuid:GetQueryString("useruuid") || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",// é±¼
+		// useruuid:GetQueryString("useruuid") || "ca47d137-90eb-4a60-8c4b-fd46d14c0966",// Ğí
+		useruuid:GetQueryString("useruuid") || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",// Óã
+		pid:GetQueryString("pid"),
+		sid:GetQueryString("sid"),
 		classId:GetQueryString("classId") || 2,
 		perssionNames:GetQueryString("perssionNames")
 };
-var serverUrl01="http://www.member361.com";//84æ­£å¼æœåŠ¡å™¨
-var serverUrl02="http://121.43.150.38";//38æµ‹è¯•æœåŠ¡å™¨
+var serverUrl01="http://www.member361.com";//84ÕıÊ½·şÎñÆ÷
+var serverUrl02="https://121.43.150.38";//38²âÊÔ·şÎñÆ÷
 var serverHost="http://www.member361.com";
 
-var path01="http://172.168.90.101";//38æµ‹è¯•æœåŠ¡å™¨
+var path01="http://172.168.90.101";//38²âÊÔ·şÎñÆ÷
 
-var path=serverUrl02; //æ›´æ”¹æœåŠ¡å™¨åœ°å€å¯è®¾ç½®æ­¤å€¼
-setCookie("loginId","938e84d88b29b1b1adc9a1e432e3590a","d30");
+var path=serverUrl02; //¸ü¸Ä·şÎñÆ÷µØÖ·¿ÉÉèÖÃ´ËÖµ
 var httpUrl={
-		// åŸºç¡€æ¥å£
+		// »ù´¡½Ó¿Ú
+		
+		// login:path+"/jfinal_mbjy_basic/login",// Ê×Ò³µÇÈë
+		back:path+"/jfinal_mbjy_basic/back",//Ê×Ò³µÇÈë»Øµ÷
+		loginHttp:path+"/jfinal_mbjy_basic/", // µÇÈëµØÖ·
+		logoutHttp:path, // ×¢ÏúµØÖ·
+		// path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // Í¼Æ¬µØÖ·
+		
+		picUrl:path+"/jfinal_mbjy_basic/file/upload", // Í¼Æ¬ÉÏ´«µØÖ·
+		memberRecord:path+"/sample_front/memberRecord/memberRecord.html",//³É³¤µµ°¸ÍøÖ·
+
+		// 00¹«¹²½Ó¿Ú
+		permission:path+"/jfinal_mbjy_basic/permission",// NAVµ¼º½À¸ºÍÓÒ²àÊ÷½á¹¹
+		getTeacherList:path+"/jfinal_mbjy_basic/account/getTeacherList", // »ñÈ¡Ñ§Ğ£½ÌÊ¦ĞÅÏ¢
+		getUserClassInfo01:path+"/jfinal_mbjy_basic/basic/GetUserClassInfo",//»ñÈ¡ÓÃ»§°à¼¶ĞÅÏ¢ ÓëÏÂÃæÒ»½Ó¿ÚÏàÍ¬
+		getAllClassInfo:path+"/jfinal_mbjy_basic/basic/getAllClassInfo",//»ñÈ¡È«²¿°à¼¶ÁĞ±í
+		getClassMemberInfo:path+"/jfinal_mbjy_basic/basic/getClassMemberInfo",//»ñÈ¡°à¼¶³ÉÔ±ĞÅÏ¢
+		getClassStudentInfo:path+"/jfinal_mbjy_basic/basic/getClassStudentInfo",//»ñÈ¡Ñ§ÉúĞÅÏ¢
+		
+		// 01Ê¦×Ê¹ÜÀí
+		teacher:path+"/jfinal_mbjy_basic/teacher",// ½ÌÊ¦ĞÅÏ¢²éÑ¯
+
+		// 02°àÎñ¹ÜÀí
+
+		// 03½ÌÑ§¹ÜÀí
+		courseList:path+"/jfinal_mbjy_sample/course/list",// »ñÈ¡¿Î³Ì¼Æ»®ÁĞ±í
+		courseSave:path+"/jfinal_mbjy_sample/course/save",// ĞÂÔö¿Î³Ì
+		courseUpdate:path+"/jfinal_mbjy_sample/course/update",// ±à¼­¿Î³Ì
+		courseDelete:path+"/jfinal_mbjy_sample/course/delete",// É¾³ı¿Î³Ì
+		courseDetail:path+"/jfinal_mbjy_sample/course/detail", // ²é¿´¿Î³ÌÏêÇé
+		getPersonCourse:path+"/jfinal_mbjy_sample/course/getPersonCourse",// »ñÈ¡¸öÈË¹Û²ì¼Æ»®ÁĞ±í
+		courseDim:path+"/jfinal_mbjy_sample/dim/courseDim",// »ñÈ¡¹Û²ì¼Æ»®µÄÎ¬¶ÈÁĞ±í
+		
+		dailyEvaluationList:path+"/jfinal_mbjy_sample/record/list", //»ñÈ¡ÈÕ³£ÆÀ¼Û¼ÇÂ¼ÁĞ±í
+		dailyEvaluationTypicalList:path+"/jfinal_mbjy_sample/record/typicalList", //»ñÈ¡µäĞÍ°¸Àı¼ÇÂ¼ÁĞ±í
+		dailyEvaluationDelete:path+"/jfinal_mbjy_sample/record/delete", // ÈÕ³£ÆÀ¼ÛÉ¾³ı
+		dailyEvaluationSaveLevel:path+"/jfinal_mbjy_sample/record/saveLevel", // ÆÀ¼ÛÈÕ³£¹Û²ì¼ÇÂ¼
+		dailyEvaluationUpdate:path+"/jfinal_mbjy_sample/record/update", // ¸üĞÂÈÕ³£¹Û²ì¼ÇÂ¼
+		dailyEvaluationDetail:path+"/jfinal_mbjy_sample/record/detail", // ÈÕ³£ÆÀ¼ÛÏêÇé
+		studentRecordList:path+"/jfinal_mbjy_sample/record/studentRecordList",//»ñÈ¡°à¼¶Ñ§Éú¹Û²ì¼ÇÂ¼ÁĞ±í
+
+		watchDimensions:path+"/jfinal_mbjy_sample/dim/list", // ¹Û²ìÎ¬¶ÈÊ÷½á¹¹
+		dimSave:path+"/jfinal_mbjy_sample/dim/save",// ĞÂÔö¹Û²ìÎ¬¶È
+		dimUpdate:path+"/jfinal_mbjy_sample/dim/update",// ±à¼­¹Û²ìÎ¬¶È
+		dimDelete:path+"/jfinal_mbjy_sample/dim/delete", // É¾³ı¹Û²ìÎ¬¶È
+		
+		getDimLevelList:path+"/jfinal_mbjy_sample/dim/getDimLevelList", // »ñÈ¡¹Û²ìÎ¬¶ÈµÄË®Æ½ÃèÊö
+		saveDimLevel:path+"/jfinal_mbjy_sample/dim/saveDimLevel", // ĞÂÔö¹Û²ìÎ¬¶ÈË®Æ½ÃèÊö
+		updateDimLevel:path+"/jfinal_mbjy_sample/dim/updateDimLevel", // ±à¼­¹Û²ìÎ¬¶ÈË®Æ½ÃèÊö
+		deleteDimLevel:path+"/jfinal_mbjy_sample/dim/deleteDimLevel", // É¾³ı¹Û²ìÎ¬¶ÈË®Æ½ÃèÊö
+		
+		//ÔÂÖÜ¼Æ»®
+		fileUpload:path+":18081/FileCloud/fileUpload", // ÉÏ´«
+		fileDownload:path+":18081/FileCloud/fileDownload", // ÏÂÔØ
+		insertFileInfo:path+":18081/FileCloud/insertFileInfo", // Ìí¼ÓĞÂÎÄ¼ş£¨¼Ğ£©
+		deleteFileInfo:path+":18081/FileCloud/deleteFileInfo", // É¾³ıÎÄ¼ş£¨¼Ğ£©
+		updateFileName:path+":18081/FileCloud/updateFileName", // ÖØÃüÃûÎÄ¼ş£¨¼Ğ£©
+		updateEvaluate:path+":18081/FileCloud/updateEvaluate", // ¸ü¸ÄÎÄ¼şÆÀ¼¶
+		getRootFileUUID:path+":18081/FileCloud/getRootFileUUID", // »ñÈ¡¸ùÎÄ¼ş¼ĞUUID
+		getParentUUID:path+":18081/FileCloud/getParentUUID", // »ñÈ¡ÉÏ¼¶ÎÄ¼ş¼ĞUUID
+		getAllChildInfo:path+":18081/FileCloud/getAllChildInfo", // »ñÈ¡×Ó¼¶È«²¿ÎÄ¼ş£¨¼Ğ£©
+		// 04±£½¡¹ÜÀí
+		getClassHealthInfo:path+":18082/HealthInfo/getClassHealthInfo",//»ñµÃ°à¼¶½¡¿µĞÅÏ¢
+		calculateAge:path+":18082/HealthInfo/calculateAge",//¸ù¾İµ¼ÈëÈÕÆÚ¼ÆËãÄêÁä
+		getExamDateListByClass:path+":18082/HealthInfo/getExamDateListByClass",//¸ù¾İ°à¼¶»ñµÃ¼ì²éÈÕÆÚÁĞ±í
+		insertHealthInfo:path+":18082/HealthInfo/insertHealthInfo",//Ôö¼Ó½¡¿µĞÅÏ¢
+		deleteHealthInfo:path+":18082/HealthInfo/deleteHealthInfo",//É¾³ı½¡¿µĞÅÏ¢
+		updateHealthInfo:path+":18082/HealthInfo/updateHealthInfo",//¸üĞÂ½¡¿µĞÅÏ¢
+		getPValue:path+":18082/HealthInfo/getPValue",//È¡µÃpÖµ
+		getFatnessValue:path+":18082/HealthInfo/getFatnessValue",//È¡µÃ·ÊÅÖÖµ
+		getBirthdaySex:path+":18082/HealthInfo/getBirthdaySex",//È¡µÃÑ§Ô±ÉúÈÕºÍĞÔ±ğ
+		getSingleHealthInfo:path+":18082/HealthInfo/getSingleHealthInfo",// ½¡¿µĞÅÏ¢±à¼­ÏêÇé
+		importHealthInfo:path+":18082/HealthInfo/importHealthInfo",// ÅúÁ¿µ¼Èë
+
+		getDateList:path+":18082/HealthInfo/getTableInfoList",// »ñµÃ²ËÆ×ÈÕÆÚÁĞ±í
+		healthGetTable:path+":18082/HealthInfo/getTable",// »ñµÃÕûÕÅ±íµÄÄÚÈİ
+		healthSaveTable:path+":18082/HealthInfo/saveTable",// ĞÂÔö±à¼­²ËÆ×ĞÂ±í
+		healthDeleteTable:path+":18082/HealthInfo/deleteTable",// É¾³ı²ËÆ×
+
+		//·çÏÕÔ¤¾¯
+		getCompanyHealthAlert:path+":18082/HealthInfo/getCompanyHealthAlert",//»ñµÃÔ¤¾¯ĞÅÏ¢
+		insertHealthAlert:path+":18082/HealthInfo/insertHealthAlert",//Ôö¼Ó½¡¿µÔ¤¾¯
+		getAlertType:path+":18082/HealthInfo/getAlertType",//»ñµÃÔ¤¾¯ÀàĞÍ
+		getAlertAge:path+":18082/HealthInfo/getAlertAge",//»ñµÃÔ¤¾¯ÄêÁä
+		deleteHealthAlert:path+":18082/HealthInfo/deleteHealthAlert",//É¾³ı½¡¿µÔ¤¾¯
+		updateHealthAlert:path+":18082/HealthInfo/updateHealthAlert",//±à¼­½¡¿µÔ¤¾¯
+		getHealthAlert:path+":18082/HealthInfo/getHealthAlert",//±à¼­»ñµÃµ¥ÌõÔ¤¾¯ĞÅÏ¢¼ÇÂ¼
+
+		// 05¼ÒÔ°»¥¶¯
+		recordStudent:path+":15001/mbtrack/dan/student",// »ñÈ¡Ñ§ÉúÁĞ±í£¨º¬µµ°¸ĞÅÏ¢£©
+		recordList:path+":15001/mbtrack/danbook/list",// »ñÈ¡µµ°¸²áÁĞ±í
+		recordMonthList:path+":15001/mbtrack/danbook/danList",// »ñÈ¡µµ°¸²áµµ°¸Ò³ÏêÇé
+		recordNewDanbook:path+":15001/mbtrack/danbook/save",// ĞÂ½¨µµ°¸²á
+		recordDownload:path+":15001/file/patch/download",//Í¼Æ¬ÅúÁ¿ÏÂÔØ£¨µµ°¸Ò³£©
+		recordDanbookUpdate:path+":15001/mbtrack/danbook/update",// µµ°¸²áÃû¸üĞÂ
+
+		GetSchoolIds:path+":15001/imsInterface/TSCourse_GetSchoolIds",//ÌØÉ«¿Î³Ì »ñÈ¡Ñ§Ğ£¿Î³Ìid
+		GetSchoolJYIds:path+":15001/imsInterface/TSCourse_GetSchoolJYIds",//¾ç³¡»î¶¯ id
+		GetSchoolCourses:path+":15001/imsInterface/TSCourse_GetSchoolCourses",//ÌØÉ«¿Î³Ì »ñÈ¡Ñ§Ğ£¿Î³Ì
+		AddCourse:path+":15001/imsInterface/TSCourse_AddCourse",//ÌØÉ«¿Î³Ì ĞÂÔö
+		GetCourseDetails:path+":15001/imsInterface/TSCourse_GetCourseDetails",//»ñÈ¡Ñ§Ğ£¿Î³ÌÏêÇé
+		tsDelCourse:path+":15001/imsInterface/TSCourse_DelCourse",// É¾³ıÑ§Ğ£¿Î³Ì
+		tsGetBookedChildren:path+":15001/imsInterface/TSCourse_GetBookedChildren",// Ç©µ½Ñ§ÉúÁĞ±í
+		tsCallRoll:path+":15001/imsInterface/TSCourse_CallRoll",// Ç©µ½
+		tsCancelRoll:path+":15001/imsInterface/TSCourse_CancelRoll",// È¡ÏûÇ©µ½
+
+		// ÃÈ±¦³É³¤
+		growthBanner:path+":15001/ops/company/banner/list",// ÃÈ±¦³É³¤ »ñÈ¡Ñ§Ğ£banner
+		growthAdd:path+":15001/web/growth/message/add",// ÃÈ±¦³É³¤ ĞÂÔö
+		growthList:path+":15001/web/growth/message/list",// ÃÈ±¦³É³¤ »ñÈ¡°à¼¶ÄÚÈİÁĞ±í
+		growthStudent:path+":15001/common/basic/class/student",// ÃÈ±¦³É³¤ »ñÈ¡µ±Ç°°à¼¶Ñ§ÉúÁĞ±í
+		growthLabel:path+":15001/web/growth/label/list",// ÃÈ±¦³É³¤ »ñÈ¡Ñ§Ğ£ËùÓĞµÄ±êÇ©
+		growthAddordelete:path+":15001/web/growth/praise/addordelete",// ÃÈ±¦³É³¤ µãÔŞ»òÕßÈ¡ÏûµãÔŞ
+		growthCancelSticky:path+":15001/web/growth/message/cancelSticky",// ÃÈ±¦³É³¤ È¡ÏûÄÚÈİÖÃ¶¥
+		growthCommentAdd:path+":15001/web/growth/comment/add",// ÃÈ±¦³É³¤ ĞÂÔöÒ»ÌõÆÀÂÛ»òÕß»Ø¸´
+		growthCommentDelete:path+":15001/web/growth/comment/delete",// ÃÈ±¦³É³¤ É¾³ıÄ³Ò»ÌõÆÀÂÛ
+		growthMessageDelete:path+":15001/web/growth/message/delete",// ÃÈ±¦³É³¤ É¾³ıÒ»ÌõÄÚÈİ
+
+		// 06ÏûÏ¢·¢²¼
+		GetClassNotifyInfos:path+":12001/YY/GetClassNotifyInfos",// »ñµÃ°à¼¶»î¶¯ÁĞ±í
+		getUserClassInfo:path+":12001/YY/GetUserClassInfo",//»ñÈ¡ÓÃ»§°à¼¶ĞÅÏ¢
+		AddNewClassInfo:path+":12001/YY/AddNewClassInfo",// »ñÈ¡°à¼¶ĞÅÏ¢
+
+		GetSchoolNotifyInfos:path+":12001/YY/GetSchoolNotifyInfos",// »ñµÃÑ§Ğ£Í¨ÖªÁĞ±í
+		AddNewSchoolInfo:path+":12001/YY/AddNewSchoolInfo",// ĞÂÔöÑ§Ğ£Í¨Öª
+
+		GetParentsLessionInfos:path+":12001/YY/GetParentsLessionInfos",// »ñµÃ¼Ò³¤¿ÎÌÃÁĞ±í
+		AddParentsLessionInfo:path+":12001/YY/AddParentsLessionInfo",// ĞÂÔö¼Ò³¤¿ÎÌÃ
+
+		GetHealthColumnInfos:path+":12001/YY/GetHealthColumnInfos",// »ñµÃ½¡¿µ×¨À¸ÁĞ±í
+		AddHealthColumnInfo:path+":12001/YY/AddHealthColumnInfo",// ĞÂÔö½¡¿µ×¨À¸
+
+		GetNotify2Info:path+":12001/YY/GetNotify2Info",// ³¤ÇÅ ĞÂÎÅ×Ü¿Ú
+		AddNotify2Info:path+":12001/YY/AddNotify2Info",// ³¤ÇÅ ĞÂÎÅ×Ü¿Ú ĞÂÔö
+
+		// 07¹ÜÀíÓëÍ³¼Æ
+		getPersonEvaluate:path+":48080/jfinal_mbjy_sample/report/getPersonEvaluate",// ¸öÈË×ÛºÏÄÜÁ¦ÆÀ¼Û
+		getClassEvaluate:path+":48080/jfinal_mbjy_sample/report/getClassEvaluate",// °à¼¶×ÛºÏÄÜÁ¦Ë®Æ½
+		classRecord:path+":15001/jfinal_mbjy_sample/report/classRecord",// °à¼¶¹Û²ì¼ÇÂ¼Í³¼Æ
+		classRecordDim:path+":15001/jfinal_mbjy_sample/report/classRecordDim",// ¹Û²ìÖ¸±ê¶ÔÓ¦¹Û²ì¼ÇÂ¼Í³¼Æ
+		getStudentAbility:path+":15001/imsInterface/TJ_GCJL_GetStudentAbilityStrong",// ¸öÈË×ÛºÏÄÜÁ¦ÆÀ¼Û À×´ïÍ¼
+		getStudentCourseAbility:path+":15001/imsInterface/TJ_GCJL_GetStudentCourseAbility",// ¸öÈË¿Î³Ì ÄÜÁ¦ÆÀ¼Û À×´ïÍ¼
+		getClassesAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetClassesAbilibySimple",// °à¼¶×ÛºÏÄÜÁ¦Ë®Æ½ 
+		getCourseAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetCourseAbilibySimple",// °à¼¶¿Î³ÌÄÜÁ¦Ë®Æ½ 
+		getClassAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetClassAbilibySimple",// °à¼¶×ÛºÏÄÜÁ¦Ë®Æ½ À×´ïÍ¼
+		getCourseSimpleTJ:path+":15001/imsInterface/TSCourse_getCourseSimpleTJ",// ×ÔÑ¡»î¶¯ »î¶¯Í³¼Æ 
+		getCourseClassTJ:path+":15001/imsInterface/TSCourse_getCourseClassTJ",// ×ÔÑ¡»î¶¯ °à¼¶Í³¼Æ 
+		getCourseStudentTJ:path+":15001/imsInterface/TSCourse_getCourseStudentTJ",// ×ÔÑ¡»î¶¯ Ñ§ÉúÍ³¼Æ 
+		getCourseStudentDetailTJ:path+":15001/imsInterface/TSCourse_getCourseStudentDetailTJ",// ×ÔÑ¡»î¶¯ »î¶¯Í³¼ÆÏêÇé 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// ĞÂ°æ½Ó¿Ú
+		// »ù´¡
 		loginId:getCookie("loginId"),
-		login:path+"/jfinal_mbjy_basic/login",// é¦–é¡µç™»å…¥
-		back:path+"/jfinal_mbjy_basic/back",//é¦–é¡µç™»å…¥å›è°ƒ
-		loginHttp:path+"/jfinal_mbjy_basic/", // ç™»å…¥åœ°å€
-		logoutHttp:path, // æ³¨é”€åœ°å€
-		// path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // å›¾ç‰‡åœ°å€
-		path_img:path+":15001/file/getImage?md5=", // å›¾ç‰‡åœ°å€
-		picUrl:path+"/jfinal_mbjy_basic/file/upload", // å›¾ç‰‡ä¸Šä¼ åœ°å€
-		memberRecord:path+"/sample_front/memberRecord/memberRecord.html",//æˆé•¿æ¡£æ¡ˆç½‘å€
+		path_img:path+"/file/getImage?md5=", // Í¼Æ¬µØÖ·
+		login:path+"/web/login/loginChecking",// Ê×Ò³µÇÈë
+		loginUserInfo:path+"/web/basic/loginUserInfo",// »ñµÃµÇÂ¼ÈËĞÅÏ¢
+		basicButton:path+"/web/ops/menu/button/list",// »ñÈ¡²Ëµ¥¹¦ÄÜ°´Å¥ÁĞ±í
+		basicMyClassInfo:path+"/web/basic/myClassInfo",//  »ñµÃµ±Ç°ÈË ËùÔÚ°à¼¶ÁĞ±í
+		basicAllClassInfo:path+"/web/basic/allClassInfo",//   »ñµÃµÇÂ¼ÈËËùÔÚÑ§Ğ£ËùÓĞ°à¼¶ÁĞ±í
 
-		// 00å…¬å…±æ¥å£
-		permission:path+"/jfinal_mbjy_basic/permission",// NAVå¯¼èˆªæ å’Œå³ä¾§æ ‘ç»“æ„
-		getTeacherList:path+"/jfinal_mbjy_basic/account/getTeacherList", // è·å–å­¦æ ¡æ•™å¸ˆä¿¡æ¯
-		getUserClassInfo01:path+"/jfinal_mbjy_basic/basic/GetUserClassInfo",//è·å–ç”¨æˆ·ç­çº§ä¿¡æ¯ ä¸ä¸‹é¢ä¸€æ¥å£ç›¸åŒ
-		getAllClassInfo:path+"/jfinal_mbjy_basic/basic/getAllClassInfo",//è·å–å…¨éƒ¨ç­çº§åˆ—è¡¨
-		getClassMemberInfo:path+"/jfinal_mbjy_basic/basic/getClassMemberInfo",//è·å–ç­çº§æˆå‘˜ä¿¡æ¯
-		getClassStudentInfo:path+"/jfinal_mbjy_basic/basic/getClassStudentInfo",//è·å–å­¦ç”Ÿä¿¡æ¯
-		
-		// 01å¸ˆèµ„ç®¡ç†
-		teacher:path+"/jfinal_mbjy_basic/teacher",// æ•™å¸ˆä¿¡æ¯æŸ¥è¯¢
+		// ²Ëµ¥
+		menuList:path+"/web/ops/user/menu/list",// ²Ëµ¥½Ó¿Ú
+		menuChildList:path+"/web/ops/user/menu/childList",// »ñÈ¡×Ó²Ëµ¥ÁĞ±í
+		menuButtonList:path+"/web/ops/menu/button/list",// »ñÈ¡²Ëµ¥¹¦ÄÜ°´Å¥ÁĞ±í
 
-		// 02ç­åŠ¡ç®¡ç†
+		// ½ÌÊ¦ĞÅÏ¢
+		teacherAdd:path+"/web/basic/staff/add",// ĞÂ½¨½ÌÖ°¹¤
+		teacherSingleStaffInfo:path+"/web/basic/staff/singleStaffInfo",//  »ñµÃµ¥Ïî½ÌÖ°¹¤ÌõÄ¿
+		teacherUpdate:path+"/web/basic/staff/update",// ¸üĞÂ½ÌÖ°¹¤ÌõÄ¿
+		teacherDelete:path+"/web/basic/staff/delete",// ÒÆ³ı½ÌÖ°¹¤
+		teacherAllType:path+"/web/basic/staff/allType",// »ñµÃËùÓĞ½ÌÖ°¹¤ÀàĞÍ
+		teacherMyClassInfo:path+"/web/basic/myClassInfo",//  »ñµÃ½ÌÖ°¹¤ËùÔÚ°à¼¶ÁĞ±í
+		teacherStaffInfo:path+"/web/basic/staff/staffInfo",//  »ñµÃ½ÌÖ°¹¤ÁĞ±í
 
-		// 03æ•™å­¦ç®¡ç†
-		courseList:path+"/jfinal_mbjy_sample/course/list",// è·å–è¯¾ç¨‹è®¡åˆ’åˆ—è¡¨
-		courseSave:path+"/jfinal_mbjy_sample/course/save",// æ–°å¢è¯¾ç¨‹
-		courseUpdate:path+"/jfinal_mbjy_sample/course/update",// ç¼–è¾‘è¯¾ç¨‹
-		courseDelete:path+"/jfinal_mbjy_sample/course/delete",// åˆ é™¤è¯¾ç¨‹
-		courseDetail:path+"/jfinal_mbjy_sample/course/detail", // æŸ¥çœ‹è¯¾ç¨‹è¯¦æƒ…
-		getPersonCourse:path+"/jfinal_mbjy_sample/course/getPersonCourse",// è·å–ä¸ªäººè§‚å¯Ÿè®¡åˆ’åˆ—è¡¨
-		courseDim:path+"/jfinal_mbjy_sample/dim/courseDim",// è·å–è§‚å¯Ÿè®¡åˆ’çš„ç»´åº¦åˆ—è¡¨
-		
-		dailyEvaluationList:path+"/jfinal_mbjy_sample/record/list", //è·å–æ—¥å¸¸è¯„ä»·è®°å½•åˆ—è¡¨
-		dailyEvaluationTypicalList:path+"/jfinal_mbjy_sample/record/typicalList", //è·å–å…¸å‹æ¡ˆä¾‹è®°å½•åˆ—è¡¨
-		dailyEvaluationDelete:path+"/jfinal_mbjy_sample/record/delete", // æ—¥å¸¸è¯„ä»·åˆ é™¤
-		dailyEvaluationSaveLevel:path+"/jfinal_mbjy_sample/record/saveLevel", // è¯„ä»·æ—¥å¸¸è§‚å¯Ÿè®°å½•
-		dailyEvaluationUpdate:path+"/jfinal_mbjy_sample/record/update", // æ›´æ–°æ—¥å¸¸è§‚å¯Ÿè®°å½•
-		dailyEvaluationDetail:path+"/jfinal_mbjy_sample/record/detail", // æ—¥å¸¸è¯„ä»·è¯¦æƒ…
-		studentRecordList:path+"/jfinal_mbjy_sample/record/studentRecordList",//è·å–ç­çº§å­¦ç”Ÿè§‚å¯Ÿè®°å½•åˆ—è¡¨
+		// Ó×¶ùĞÅÏ¢
+		childrenAdd:path+"/web/basic/child/add",// ĞÂ½¨Ó×¶ù
+		childrenSingleChildInfo:path+"/web/basic/child/singleChildInfo",//  »ñµÃµ¥ÏîÓ×¶ùÌõÄ¿
+		childrenUpdate:path+"/web/basic/child/update",// ¸üĞÂÓ×¶ùÌõÄ¿
+		childrenDelete:path+"/web/basic/child/delete",// ÒÆ³ıÓ×¶ù
+		childrenMyClassInfo:path+"/web/basic/myClassInfo",//  »ñµÃÓ×¶ùËùÔÚ°à¼¶ÁĞ±í
+		childrenInfo:path+"/web/basic/child/childInfo",//  »ñµÃÓ×¶ùÁĞ±í
+		childrenParentInfo:path+"/web/basic/child/parentInfo",//  »ñµÃÓ×¶ù¼Ò³¤ÁĞ±í
 
-		watchDimensions:path+"/jfinal_mbjy_sample/dim/list", // è§‚å¯Ÿç»´åº¦æ ‘ç»“æ„
-		dimSave:path+"/jfinal_mbjy_sample/dim/save",// æ–°å¢è§‚å¯Ÿç»´åº¦
-		dimUpdate:path+"/jfinal_mbjy_sample/dim/update",// ç¼–è¾‘è§‚å¯Ÿç»´åº¦
-		dimDelete:path+"/jfinal_mbjy_sample/dim/delete", // åˆ é™¤è§‚å¯Ÿç»´åº¦
-		
-		getDimLevelList:path+"/jfinal_mbjy_sample/dim/getDimLevelList", // è·å–è§‚å¯Ÿç»´åº¦çš„æ°´å¹³æè¿°
-		saveDimLevel:path+"/jfinal_mbjy_sample/dim/saveDimLevel", // æ–°å¢è§‚å¯Ÿç»´åº¦æ°´å¹³æè¿°
-		updateDimLevel:path+"/jfinal_mbjy_sample/dim/updateDimLevel", // ç¼–è¾‘è§‚å¯Ÿç»´åº¦æ°´å¹³æè¿°
-		deleteDimLevel:path+"/jfinal_mbjy_sample/dim/deleteDimLevel", // åˆ é™¤è§‚å¯Ÿç»´åº¦æ°´å¹³æè¿°
-		
-		//æœˆå‘¨è®¡åˆ’
-		fileUpload:path+":18081/FileCloud/fileUpload", // ä¸Šä¼ 
-		fileDownload:path+":18081/FileCloud/fileDownload", // ä¸‹è½½
-		insertFileInfo:path+":18081/FileCloud/insertFileInfo", // æ·»åŠ æ–°æ–‡ä»¶ï¼ˆå¤¹ï¼‰
-		deleteFileInfo:path+":18081/FileCloud/deleteFileInfo", // åˆ é™¤æ–‡ä»¶ï¼ˆå¤¹ï¼‰
-		updateFileName:path+":18081/FileCloud/updateFileName", // é‡å‘½åæ–‡ä»¶ï¼ˆå¤¹ï¼‰
-		updateEvaluate:path+":18081/FileCloud/updateEvaluate", // æ›´æ”¹æ–‡ä»¶è¯„çº§
-		getRootFileUUID:path+":18081/FileCloud/getRootFileUUID", // è·å–æ ¹æ–‡ä»¶å¤¹UUID
-		getParentUUID:path+":18081/FileCloud/getParentUUID", // è·å–ä¸Šçº§æ–‡ä»¶å¤¹UUID
-		getAllChildInfo:path+":18081/FileCloud/getAllChildInfo", // è·å–å­çº§å…¨éƒ¨æ–‡ä»¶ï¼ˆå¤¹ï¼‰
-		// 04ä¿å¥ç®¡ç†
-		getClassHealthInfo:path+":18082/HealthInfo/getClassHealthInfo",//è·å¾—ç­çº§å¥åº·ä¿¡æ¯
-		calculateAge:path+":18082/HealthInfo/calculateAge",//æ ¹æ®å¯¼å…¥æ—¥æœŸè®¡ç®—å¹´é¾„
-		getExamDateListByClass:path+":18082/HealthInfo/getExamDateListByClass",//æ ¹æ®ç­çº§è·å¾—æ£€æŸ¥æ—¥æœŸåˆ—è¡¨
-		insertHealthInfo:path+":18082/HealthInfo/insertHealthInfo",//å¢åŠ å¥åº·ä¿¡æ¯
-		deleteHealthInfo:path+":18082/HealthInfo/deleteHealthInfo",//åˆ é™¤å¥åº·ä¿¡æ¯
-		updateHealthInfo:path+":18082/HealthInfo/updateHealthInfo",//æ›´æ–°å¥åº·ä¿¡æ¯
-		getPValue:path+":18082/HealthInfo/getPValue",//å–å¾—på€¼
-		getFatnessValue:path+":18082/HealthInfo/getFatnessValue",//å–å¾—è‚¥èƒ–å€¼
-		getBirthdaySex:path+":18082/HealthInfo/getBirthdaySex",//å–å¾—å­¦å‘˜ç”Ÿæ—¥å’Œæ€§åˆ«
-		getSingleHealthInfo:path+":18082/HealthInfo/getSingleHealthInfo",// å¥åº·ä¿¡æ¯ç¼–è¾‘è¯¦æƒ…
-		importHealthInfo:path+":18082/HealthInfo/importHealthInfo",// æ‰¹é‡å¯¼å…¥
+		// °à¼¶¹ÜÀí
+		classAdd:path+"/web/basic/org/add",// ĞÂ½¨°à¼¶
+		classUpdate:path+"/web/basic/org/update",// ¸üĞÂ°à¼¶
+		classDelete:path+"/web/basic/org/delete",// ÒÆ³ı°à¼¶
+		classGradeList:path+"/web/basic/org/gradeList",// »ñµÃÄê¼¶ÁĞ±í
+		classInfo:path+"/web/basic/org/classInfo",// »ñµÃ°à¼¶ÁĞ±í¼°ÈËÔ±ÊıÁ¿
+		classOfStaff:path+"/web/basic/org/staffOfClass",// »ñµÃ°à¼¶½ÌÖ°¹¤ÁĞ±í
+		classSingleClassInfo:path+"/web/basic/org/singleClassInfo",//  »ñµÃµ¥Ïî°à¼¶ÌõÄ¿
+		classBasicInfo:path+"/web/basic/org/classBasicInfo",//  »ñµÃËùÓĞ°à¼¶»ù´¡ĞÅÏ¢
+		classUpgrade:path+"/web/basic/org/upgrade",//  Éı°à
+		classChange:path+"/web/basic/org/changeClass",//  µ÷°à
+		classMemberBasic:path+"/web/basic/org/memberBasic",//  »ñÈ¡°à¼¶Ó×¶ù¼°½ÌÖ°¹¤Ãûµ¥
 
-		getDateList:path+":18082/HealthInfo/getTableInfoList",// è·å¾—èœè°±æ—¥æœŸåˆ—è¡¨
-		healthGetTable:path+":18082/HealthInfo/getTable",// è·å¾—æ•´å¼ è¡¨çš„å†…å®¹
-		healthSaveTable:path+":18082/HealthInfo/saveTable",// æ–°å¢ç¼–è¾‘èœè°±æ–°è¡¨
-		healthDeleteTable:path+":18082/HealthInfo/deleteTable",// åˆ é™¤èœè°±
-
-		//é£é™©é¢„è­¦
-		getCompanyHealthAlert:path+":18082/HealthInfo/getCompanyHealthAlert",//è·å¾—é¢„è­¦ä¿¡æ¯
-		insertHealthAlert:path+":18082/HealthInfo/insertHealthAlert",//å¢åŠ å¥åº·é¢„è­¦
-		getAlertType:path+":18082/HealthInfo/getAlertType",//è·å¾—é¢„è­¦ç±»å‹
-		getAlertAge:path+":18082/HealthInfo/getAlertAge",//è·å¾—é¢„è­¦å¹´é¾„
-		deleteHealthAlert:path+":18082/HealthInfo/deleteHealthAlert",//åˆ é™¤å¥åº·é¢„è­¦
-		updateHealthAlert:path+":18082/HealthInfo/updateHealthAlert",//ç¼–è¾‘å¥åº·é¢„è­¦
-		getHealthAlert:path+":18082/HealthInfo/getHealthAlert",//ç¼–è¾‘è·å¾—å•æ¡é¢„è­¦ä¿¡æ¯è®°å½•
-
-		// 05å®¶å›­äº’åŠ¨
-		recordStudent:path+":15001/mbtrack/dan/student",// è·å–å­¦ç”Ÿåˆ—è¡¨ï¼ˆå«æ¡£æ¡ˆä¿¡æ¯ï¼‰
-		recordList:path+":15001/mbtrack/danbook/list",// è·å–æ¡£æ¡ˆå†Œåˆ—è¡¨
-		recordMonthList:path+":15001/mbtrack/danbook/danList",// è·å–æ¡£æ¡ˆå†Œæ¡£æ¡ˆé¡µè¯¦æƒ…
-		recordNewDanbook:path+":15001/mbtrack/danbook/save",// æ–°å»ºæ¡£æ¡ˆå†Œ
-		recordDownload:path+":15001/file/patch/download",//å›¾ç‰‡æ‰¹é‡ä¸‹è½½ï¼ˆæ¡£æ¡ˆé¡µï¼‰
-		recordDanbookUpdate:path+":15001/mbtrack/danbook/update",// æ¡£æ¡ˆå†Œåæ›´æ–°
-
-		GetSchoolIds:path+":15001/imsInterface/TSCourse_GetSchoolIds",//ç‰¹è‰²è¯¾ç¨‹ è·å–å­¦æ ¡è¯¾ç¨‹id
-		GetSchoolJYIds:path+":15001/imsInterface/TSCourse_GetSchoolJYIds",//å‰§åœºæ´»åŠ¨ id
-		GetSchoolCourses:path+":15001/imsInterface/TSCourse_GetSchoolCourses",//ç‰¹è‰²è¯¾ç¨‹ è·å–å­¦æ ¡è¯¾ç¨‹
-		AddCourse:path+":15001/imsInterface/TSCourse_AddCourse",//ç‰¹è‰²è¯¾ç¨‹ æ–°å¢
-		GetCourseDetails:path+":15001/imsInterface/TSCourse_GetCourseDetails",//è·å–å­¦æ ¡è¯¾ç¨‹è¯¦æƒ…
-		tsDelCourse:path+":15001/imsInterface/TSCourse_DelCourse",// åˆ é™¤å­¦æ ¡è¯¾ç¨‹
-		tsGetBookedChildren:path+":15001/imsInterface/TSCourse_GetBookedChildren",// ç­¾åˆ°å­¦ç”Ÿåˆ—è¡¨
-		tsCallRoll:path+":15001/imsInterface/TSCourse_CallRoll",// ç­¾åˆ°
-		tsCancelRoll:path+":15001/imsInterface/TSCourse_CancelRoll",// å–æ¶ˆç­¾åˆ°
-
-		// èŒå®æˆé•¿
-		growthBanner:path+":15001/ops/company/banner/list",// èŒå®æˆé•¿ è·å–å­¦æ ¡banner
-		growthAdd:path+":15001/web/growth/message/add",// èŒå®æˆé•¿ æ–°å¢
-		growthList:path+":15001/web/growth/message/list",// èŒå®æˆé•¿ è·å–ç­çº§å†…å®¹åˆ—è¡¨
-		growthStudent:path+":15001/common/basic/class/student",// èŒå®æˆé•¿ è·å–å½“å‰ç­çº§å­¦ç”Ÿåˆ—è¡¨
-		growthLabel:path+":15001/web/growth/label/list",// èŒå®æˆé•¿ è·å–å­¦æ ¡æ‰€æœ‰çš„æ ‡ç­¾
-		growthAddordelete:path+":15001/web/growth/praise/addordelete",// èŒå®æˆé•¿ ç‚¹èµæˆ–è€…å–æ¶ˆç‚¹èµ
-		growthCancelSticky:path+":15001/web/growth/message/cancelSticky",// èŒå®æˆé•¿ å–æ¶ˆå†…å®¹ç½®é¡¶
-		growthCommentAdd:path+":15001/web/growth/comment/add",// èŒå®æˆé•¿ æ–°å¢ä¸€æ¡è¯„è®ºæˆ–è€…å›å¤
-		growthCommentDelete:path+":15001/web/growth/comment/delete",// èŒå®æˆé•¿ åˆ é™¤æŸä¸€æ¡è¯„è®º
-		growthMessageDelete:path+":15001/web/growth/message/delete",// èŒå®æˆé•¿ åˆ é™¤ä¸€æ¡å†…å®¹
-
-		// 06æ¶ˆæ¯å‘å¸ƒ
-		GetClassNotifyInfos:path+":12001/YY/GetClassNotifyInfos",// è·å¾—ç­çº§æ´»åŠ¨åˆ—è¡¨
-		getUserClassInfo:path+":12001/YY/GetUserClassInfo",//è·å–ç”¨æˆ·ç­çº§ä¿¡æ¯
-		AddNewClassInfo:path+":12001/YY/AddNewClassInfo",// è·å–ç­çº§ä¿¡æ¯
-
-		GetSchoolNotifyInfos:path+":12001/YY/GetSchoolNotifyInfos",// è·å¾—å­¦æ ¡é€šçŸ¥åˆ—è¡¨
-		AddNewSchoolInfo:path+":12001/YY/AddNewSchoolInfo",// æ–°å¢å­¦æ ¡é€šçŸ¥
-
-		GetParentsLessionInfos:path+":12001/YY/GetParentsLessionInfos",// è·å¾—å®¶é•¿è¯¾å ‚åˆ—è¡¨
-		AddParentsLessionInfo:path+":12001/YY/AddParentsLessionInfo",// æ–°å¢å®¶é•¿è¯¾å ‚
-
-		GetHealthColumnInfos:path+":12001/YY/GetHealthColumnInfos",// è·å¾—å¥åº·ä¸“æ åˆ—è¡¨
-		AddHealthColumnInfo:path+":12001/YY/AddHealthColumnInfo",// æ–°å¢å¥åº·ä¸“æ 
-
-		GetNotify2Info:path+":12001/YY/GetNotify2Info",// é•¿æ¡¥ æ–°é—»æ€»å£
-		AddNotify2Info:path+":12001/YY/AddNotify2Info",// é•¿æ¡¥ æ–°é—»æ€»å£ æ–°å¢
-
-		// 07ç®¡ç†ä¸ç»Ÿè®¡
-		getPersonEvaluate:path+":48080/jfinal_mbjy_sample/report/getPersonEvaluate",// ä¸ªäººç»¼åˆèƒ½åŠ›è¯„ä»·
-		getClassEvaluate:path+":48080/jfinal_mbjy_sample/report/getClassEvaluate",// ç­çº§ç»¼åˆèƒ½åŠ›æ°´å¹³
-		classRecord:path+":15001/jfinal_mbjy_sample/report/classRecord",// ç­çº§è§‚å¯Ÿè®°å½•ç»Ÿè®¡
-		classRecordDim:path+":15001/jfinal_mbjy_sample/report/classRecordDim",// è§‚å¯ŸæŒ‡æ ‡å¯¹åº”è§‚å¯Ÿè®°å½•ç»Ÿè®¡
-		getStudentAbility:path+":15001/imsInterface/TJ_GCJL_GetStudentAbilityStrong",// ä¸ªäººç»¼åˆèƒ½åŠ›è¯„ä»· é›·è¾¾å›¾
-		getStudentCourseAbility:path+":15001/imsInterface/TJ_GCJL_GetStudentCourseAbility",// ä¸ªäººè¯¾ç¨‹ èƒ½åŠ›è¯„ä»· é›·è¾¾å›¾
-		getClassesAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetClassesAbilibySimple",// ç­çº§ç»¼åˆèƒ½åŠ›æ°´å¹³ 
-		getCourseAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetCourseAbilibySimple",// ç­çº§è¯¾ç¨‹èƒ½åŠ›æ°´å¹³ 
-		getClassAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetClassAbilibySimple",// ç­çº§ç»¼åˆèƒ½åŠ›æ°´å¹³ é›·è¾¾å›¾
-		getCourseSimpleTJ:path+":15001/imsInterface/TSCourse_getCourseSimpleTJ",// è‡ªé€‰æ´»åŠ¨ æ´»åŠ¨ç»Ÿè®¡ 
-		getCourseClassTJ:path+":15001/imsInterface/TSCourse_getCourseClassTJ",// è‡ªé€‰æ´»åŠ¨ ç­çº§ç»Ÿè®¡ 
-		getCourseStudentTJ:path+":15001/imsInterface/TSCourse_getCourseStudentTJ",// è‡ªé€‰æ´»åŠ¨ å­¦ç”Ÿç»Ÿè®¡ 
-		getCourseStudentDetailTJ:path+":15001/imsInterface/TSCourse_getCourseStudentDetailTJ",// è‡ªé€‰æ´»åŠ¨ æ´»åŠ¨ç»Ÿè®¡è¯¦æƒ… 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// æ–°ç‰ˆæ¥å£
-		// åŸºç¡€
-		basicMyClassInfo:path+":15001/basic/myClassInfo",//  è·å¾—å½“å‰äºº æ‰€åœ¨ç­çº§åˆ—è¡¨
-		basicAllClassInfo:path+":15001/basic/allClassInfo",//   è·å¾—ç™»å½•äººæ‰€åœ¨å­¦æ ¡æ‰€æœ‰ç­çº§åˆ—è¡¨
-
-		// èœå•
-		menuList:path+":15001/ops/user/menu/list",// èœå•æ¥å£
-		menuChildList:path+":15001/ops/user/menu/childList",// è·å–å­èœå•åˆ—è¡¨
-		menuButtonList:path+":15001/ops/menu/button/list",// è·å–èœå•åŠŸèƒ½æŒ‰é’®åˆ—è¡¨
-
-		// æ•™å¸ˆä¿¡æ¯
-		teacherAdd:path+":15001/basic/staff/add",// æ–°å»ºæ•™èŒå·¥
-		teacherSingleStaffInfo:path+":15001/basic/staff/singleStaffInfo",//  è·å¾—å•é¡¹æ•™èŒå·¥æ¡ç›®
-		teacherUpdate:path+":15001/basic/staff/update",// æ›´æ–°æ•™èŒå·¥æ¡ç›®
-		teacherDelete:path+":15001/basic/staff/delete",// ç§»é™¤æ•™èŒå·¥
-		teacherAllType:path+":15001/basic/staff/allType",// è·å¾—æ‰€æœ‰æ•™èŒå·¥ç±»å‹
-		teacherMyClassInfo:path+":15001/basic/myClassInfo",//  è·å¾—æ•™èŒå·¥æ‰€åœ¨ç­çº§åˆ—è¡¨
-		teacherStaffInfo:path+":15001/basic/staff/staffInfo",//  è·å¾—æ•™èŒå·¥åˆ—è¡¨
-
-		// å¹¼å„¿ä¿¡æ¯
-		childrenAdd:path+":15001/basic/child/add",// æ–°å»ºå¹¼å„¿
-		childrenSingleChildInfo:path+":15001/basic/child/singleChildInfo",//  è·å¾—å•é¡¹å¹¼å„¿æ¡ç›®
-		childrenUpdate:path+":15001/basic/child/update",// æ›´æ–°å¹¼å„¿æ¡ç›®
-		childrenDelete:path+":15001/basic/child/delete",// ç§»é™¤å¹¼å„¿
-		childrenMyClassInfo:path+":15001/basic/myClassInfo",//  è·å¾—å¹¼å„¿æ‰€åœ¨ç­çº§åˆ—è¡¨
-		childrenInfo:path+":15001/basic/child/childInfo",//  è·å¾—å¹¼å„¿åˆ—è¡¨
-		childrenParentInfo:path+":15001/basic/child/parentInfo",//  è·å¾—å¹¼å„¿å®¶é•¿åˆ—è¡¨
-
-		// ç­çº§ç®¡ç†
-		classAdd:path+":15001/basic/org/add",// æ–°å»ºç­çº§
-		classUpdate:path+":15001/basic/org/update",// æ›´æ–°ç­çº§
-		classDelete:path+":15001/basic/org/delete",// ç§»é™¤ç­çº§
-		classGradeList:path+":15001/basic/org/gradeList",// è·å¾—å¹´çº§åˆ—è¡¨
-		classInfo:path+":15001/basic/org/classInfo",// è·å¾—ç­çº§åˆ—è¡¨åŠäººå‘˜æ•°é‡
-		classOfStaff:path+":15001/basic/org/staffOfClass",// è·å¾—ç­çº§æ•™èŒå·¥åˆ—è¡¨
-		classSingleClassInfo:path+":15001/basic/org/singleClassInfo",//  è·å¾—å•é¡¹ç­çº§æ¡ç›®
-		classBasicInfo:path+":15001/basic/org/classBasicInfo",//  è·å¾—æ‰€æœ‰ç­çº§åŸºç¡€ä¿¡æ¯
-		classUpgrade:path+":15001/basic/org/upgrade",//  å‡ç­
-		classChange:path+":15001/basic/org/changeClass",//  è°ƒç­
-		classMemberBasic:path+":15001/basic/org/memberBasic",//  è·å–ç­çº§å¹¼å„¿åŠæ•™èŒå·¥åå•
-
-		// 08è®¾ç½®
+		// 08ÉèÖÃ
 		setting:'' 
 };
 
@@ -233,34 +239,34 @@ function initAjax(url,param,callback,callback01,callback02) {
             dataType:"json",
             statusCode:{
                 404:function(){
-                    alert("è®¿é—®åœ°å€ä¸å­˜åœ¨æˆ–æ¥å£å‚æ•°æœ‰è¯¯ é”™è¯¯ä»£ç 404");
+                    alert("·ÃÎÊµØÖ·²»´æÔÚ»ò½Ó¿Ú²ÎÊıÓĞÎó ´íÎó´úÂë404");
                 },
                 500:function(){
-                    console.log("å› ä¸ºæ„å¤–æƒ…å†µï¼ŒæœåŠ¡å™¨ä¸èƒ½å®Œæˆè¯·æ±‚ é”™è¯¯ä»£ç 500");
+                    console.log("ÒòÎªÒâÍâÇé¿ö£¬·şÎñÆ÷²»ÄÜÍê³ÉÇëÇó ´íÎó´úÂë500");
                     // window.location.href=httpUrl.loginHttp;
                 },
                 405:function(){
-                    alert("èµ„æºè¢«ç¦æ­¢ é”™è¯¯ä»£ç 405");
+                    alert("×ÊÔ´±»½ûÖ¹ ´íÎó´úÂë405");
                 }
             },
             beforeSend:function () {
-            	// loadingIn();// loadingè½½å…¥
+            	// loadingIn();// loadingÔØÈë
             },	
             success:function(result){
                 callback(result,callback01,callback02);
-                // loadingOut(); // loadingé€€å‡º
+                // loadingOut(); // loadingÍË³ö
             },
             error:function(result){
-                console.log("è¯·æ±‚å¤±è´¥ error!");
+                console.log("ÇëÇóÊ§°Ü error!");
                 // window.location.href=httpUrl.loginHttp;
             }
         });	
 };
 
 
-// èœå•
+// ²Ëµ¥
 function menu() {
-    menuChildList_port("309657696842416129");
+    menuChildList_port(user.pid);
     $("#switch").click(function () {
         var aa=$(this);
         $(this).prev("#sidebarBox").fadeToggle(function () {
@@ -268,8 +274,11 @@ function menu() {
             $(".content").toggleClass("active");
         });
     });
+    $("#subMenu").on("click","a.hasTitle",function () {
+    	$(this).toggleClass("active");
+    });
 };
-// å·¦ä¾§ èœå•æ¥å£
+// ×ó²à ²Ëµ¥½Ó¿Ú
 function menuChildList_port(menuId) {
     var data={
             menuId:menuId
@@ -278,37 +287,91 @@ function menuChildList_port(menuId) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.menuChildList,param,menuChildList_callback);
+    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
 };
-function menuChildList_callback(res) {
+function menuChildList_callback(res,menuId) {
     if(res.code==200){
-        var data=JSON.parse(res.data);
-        var data01={
-                arr:[{
-                    name:"æ•™å¸ˆä¿¡æ¯",
-                    id:"1",
-                    url:"teachers.html",
-                    icon:"1eff1a1fd5d0f2587e2d54aa66ded19a"
-                },{
-                    name:"å¹¼å„¿ä¿¡æ¯",
-                    id:"2",
-                    url:"children.html",
-                    icon:"ed8b3dcebd44ebfc41ac697f09346fb1"
-                },{
-                    name:"ç­çº§ç®¡ç†",
-                    id:"3",
-                    url:"classManage.html",
-                    icon:"1337c7d316df12cbaa67f2bed9803066"
-                }],
-                path_img:httpUrl.path_img
+        var data={
+        		arr:JSON.parse(res.data),
+        		path_img:httpUrl.path_img
         };
-        var html=template("menu_script",data01);
+        for(var i=0;i<data.arr.length;i++){
+        	data.arr[i].iconArr=data.arr[i].icon.split(",");
+        	data.arr[i].pid=menuId;
+        	data.arr[i].url=data.arr[i].url.slice(11);
+        	if(data.arr[i].id == user.sid){
+        		data.arr[i].current=true;
+        	}else{
+        		data.arr[i].current=false;
+        	};
+        };
+        var html=template("menu_script",data);
         $("#subMenu").empty().append(html);
         chooseNiceScroll("#sidebarBox","transparent");
+
+        loginUserInfo_port();
     };
 };
 
-// loadingè½½å…¥å‡½æ•°
+
+// ×ó²à ²Ëµ¥½Ó¿Ú
+function loginUserInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+};
+function loginUserInfo_callback(res) {
+    if(res.code==200){
+    	var data=JSON.parse(res.data);
+    	data.path_img=httpUrl.path_img;
+        $("#user >.userName").text(data.name);
+        $("#user >.userRole").text(data.jobTitle);
+        $("#user >.userPic").css({
+        	background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+        });
+    };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// loadingÔØÈëº¯Êı
 function loadingIn() {
 	$("#page-loader").removeClass('hide');
 	$("#page-loader").css("z-index","999999");
@@ -319,13 +382,13 @@ function loadingOut(argument) {
 
 Date.prototype.Format = function (fmt) { 
     var o = {
-        "M+": this.getMonth() + 1, //æœˆä»½ 
-        "d+": this.getDate(), //æ—¥ 
-        "h+": this.getHours(), //å°æ—¶ 
-        "m+": this.getMinutes(), //åˆ† 
-        "s+": this.getSeconds(), //ç§’ 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //å­£åº¦ 
-        "S": this.getMilliseconds() //æ¯«ç§’ 
+        "M+": this.getMonth() + 1, //ÔÂ·İ 
+        "d+": this.getDate(), //ÈÕ 
+        "h+": this.getHours(), //Ğ¡Ê± 
+        "m+": this.getMinutes(), //·Ö 
+        "s+": this.getSeconds(), //Ãë 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //¼¾¶È 
+        "S": this.getMilliseconds() //ºÁÃë 
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o)
@@ -333,7 +396,7 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 };
 
-// åœ°å€æ searchå‚æ•°ç­›é€‰å‡½æ•°
+// µØÖ·À¸search²ÎÊıÉ¸Ñ¡º¯Êı
 function GetQueryString(name)
 {
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -342,7 +405,7 @@ function GetQueryString(name)
 }
 
 
-// è®¾ç½®cookie è¿‡æœŸæ—¶é—´s20ä»£è¡¨20ç§’ h12ä»£è¡¨12å°æ—¶ d30ä»£è¡¨30å¤©
+// ÉèÖÃcookie ¹ıÆÚÊ±¼äs20´ú±í20Ãë h12´ú±í12Ğ¡Ê± d30´ú±í30Ìì
 function setCookie(name,value,time){
 	var strsec = getsec(time);
 	var exp = new Date();
@@ -365,7 +428,7 @@ function getsec(str){
 		return str1*24*60*60*1000;
 	}
 };
-// è·å–cookie
+// »ñÈ¡cookie
 function getCookie(name){
 	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
 	if(arr=document.cookie.match(reg)){
@@ -375,7 +438,7 @@ function getCookie(name){
 		return null;
 	}
 };
-// åˆ é™¤cookie
+// É¾³ıcookie
 function delCookie(name){
 	var exp = new Date();
 	exp.setTime(exp.getTime() - 1);
@@ -386,20 +449,20 @@ function delCookie(name){
 };
 
 
-// niceScrollæ»šåŠ¨æ¡
+// niceScroll¹ö¶¯Ìõ
 function chooseNiceScroll(AA,color) {
     $(AA).niceScroll({ 
-        cursorcolor: color || "#ccc",//#CC0071 å…‰æ ‡é¢œè‰² 
-        cursoropacitymax: 1, //æ”¹å˜ä¸é€æ˜åº¦éå¸¸å…‰æ ‡å¤„äºæ´»åŠ¨çŠ¶æ€ï¼ˆscrollabarâ€œå¯è§â€çŠ¶æ€ï¼‰ï¼ŒèŒƒå›´ä»1åˆ°0 
-        touchbehavior: true, //ä½¿å…‰æ ‡æ‹–åŠ¨æ»šåŠ¨åƒåœ¨å°å¼ç”µè„‘è§¦æ‘¸è®¾å¤‡ 
-        cursorwidth: "5px", //åƒç´ å…‰æ ‡çš„å®½åº¦ 
-        cursorborder: "0", //     æ¸¸æ ‡è¾¹æ¡†csså®šä¹‰ 
-        cursorborderradius: "5px",//ä»¥åƒç´ ä¸ºå…‰æ ‡è¾¹ç•ŒåŠå¾„ 
-        autohidemode: true //æ˜¯å¦éšè—æ»šåŠ¨æ¡ 
+        cursorcolor: color || "#ccc",//#CC0071 ¹â±êÑÕÉ« 
+        cursoropacitymax: 1, //¸Ä±ä²»Í¸Ã÷¶È·Ç³£¹â±ê´¦ÓÚ»î¶¯×´Ì¬£¨scrollabar¡°¿É¼û¡±×´Ì¬£©£¬·¶Î§´Ó1µ½0 
+        touchbehavior: true, //Ê¹¹â±êÍÏ¶¯¹ö¶¯ÏñÔÚÌ¨Ê½µçÄÔ´¥ÃşÉè±¸ 
+        cursorwidth: "5px", //ÏñËØ¹â±êµÄ¿í¶È 
+        cursorborder: "0", //     ÓÎ±ê±ß¿òcss¶¨Òå 
+        cursorborderradius: "5px",//ÒÔÏñËØÎª¹â±ê±ß½ç°ë¾¶ 
+        autohidemode: true //ÊÇ·ñÒş²Ø¹ö¶¯Ìõ 
     });
 };
 
-// æ¶ˆæ¯æç¤ºå‡½æ•°
+// ÏûÏ¢ÌáÊ¾º¯Êı
 function toastTip(heading,text,hideAfter) {
     $.toast({
             heading: heading,
@@ -413,239 +476,4 @@ function toastTip(heading,text,hideAfter) {
                 // window.location.href=httpUrl.loginHttp;
             }
     });
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function permission_port(callback01) {
-	if(!user.userUuid && !user.classId){
-		if(path==serverUrl01){
-			user.userUuid="b0520db6-014e-49d9-8db1-206ae3530d58";// é»˜è®¤å¼€å‘ç”¨ å°èŒå§å§è´¦å·
-			user.classId="264623"
-			user.perssionNames=''
-		}else{
-			user.userUuid="db951cc0-a6b4-41d3-8ebb-607c04a1f812";// é»˜è®¤å¼€å‘ç”¨ å°ç‚‰è´¦å·
-			user.classId="2"
-			user.perssionNames=''
-		}
-	};
-	var param={
-                userUuid:user.userUuid || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",
-                classId:user.classId,
-                perssionNames:user.perssionNames
-            };
-
-	$.ajax({
-            type:"POST",
-            url:httpUrl.permission,
-            data:param,
-            dataType:"json",
-            statusCode:{
-                404:function(){
-                    alert("è®¿é—®åœ°å€ä¸å­˜åœ¨æˆ–æ¥å£å‚æ•°æœ‰è¯¯ é”™è¯¯ä»£ç 404");
-                },
-                500:function(){
-                    console.log("å› ä¸ºæ„å¤–æƒ…å†µï¼ŒæœåŠ¡å™¨ä¸èƒ½å®Œæˆè¯·æ±‚ é”™è¯¯ä»£ç 500");
-                    // window.location.href=httpUrl.loginHttp;
-                },
-                405:function(){
-                    alert("èµ„æºè¢«ç¦æ­¢ é”™è¯¯ä»£ç 405");
-                }
-            },
-            beforeSend:function () {
-            	// loadingIn();// loadingè½½å…¥
-            },	
-            success:function(result){
-                permission_callback(result,callback01);
-                // loadingOut(); // loadingé€€å‡º
-            },
-            error:function(result){
-                console.log("è¯·æ±‚å¤±è´¥ error!");
-                // window.location.href=httpUrl.loginHttp;
-            }
-    });
-};
-function permission_callback(res,callback01) {
-	user.curCompany=res[0].curCompany;
-	user.curClassId=res[3];
-	user.id=res[0].curUser.id;
-	callback01(res);
-	spliceUrl(res);// é‡æ–°æ‹¼æ¥treesURLåœ°å€
-	if(!res[0].curOrgList){
-		res[0].curOrgList;
-	}
-	for(var i=0;i<res[0].curOrgList.length;i++){
-		res[0].curOrgList[i].class=path+'/back?userUuid='+res[0].curUser.uuid+'&classId='+res[0].curOrgList[i].id;
-		res[0].curOrgList[i].theme=path+'/jfinal_mbjy_theme/home?userUuid='+res[0].curUser.uuid+'&userId='+res[0].curUser.id+'&classId='+res[0].curOrgList[i].id;
-	}
-	new Vue({
-			el:'#header',
-			data:{
-				curCompany:{
-					name:res[0].curCompany.name,
-					id:res[0].curCompany.id
-				},
-				curUser:{
-					userName:res[0].curUser.userName,
-					jobTitle:'['+res[0].curUser.jobTitle+']',
-					portraitId:httpUrl.path_img+res[0].curUser.portraitId+'&Thumbnail=1'
-				},
-				classItems:{
-					classItems:res[0].curOrgList,
-					curClass:res[4],
-					curClassId:res[3]
-				},
-				logoutHttp:httpUrl.logoutHttp
-			}
-	});
-	new Vue({
-			el:'#breadcrumb',
-			data:{
-				curCompany:{
-					name:res[0].curCompany.name,
-					id:res[0].curCompany.id
-				},
-				curUser:{
-					userName:res[0].curUser.userName,
-					jobTitle:'['+res[0].curUser.jobTitle+']',
-					portraitId:httpUrl.path_img+res[0].curUser.portraitId+'&Thumbnail=1'
-				},
-				classItems:{
-					classItems:res[0].curOrgList,
-					curClass:res[4]
-				}
-			}
-	});
-	new Vue({
-			el:'#sidebar',
-			data:{
-				trees:res[1]
-			}
-	});
-	treesToggle(); // æ ‘ç»“æ„æ”¶ç¼©æŠ˜å åŠŸèƒ½å‡½æ•°
-	treeHover(res);// æ ‘ç»“æ„åŠ ä¸Šhoveræ•ˆæœå‡½æ•°
-};
-// æ ‘ç»“æ„æ”¶ç¼©æŠ˜å åŠŸèƒ½å‡½æ•°
-function treesToggle() {
-	$(".has-sub").click(function(){
-   		$(".has-sub").removeClass("active");
-   		$(this).addClass("active");
-   	});
-   	$('.sidebar .nav > .has-sub > a').click(function () {
-    	var e = $(this).next('.sub-menu');
-    	var t = '.sidebar .nav > li.has-sub > .sub-menu';
-    	$(t).not(e).slideUp(250);
-    	$(e).slideToggle(250)
-  	});
-  	$('.sidebar .nav > .has-sub .sub-menu li.has-sub > a').click(function () {
-    	var e = $(this).next('.sub-menu');
-    	$(e).slideToggle(250)
-  	});
-};
-
-function spliceUrl(res) {
-	var userUuid=res[0].curUser.uuid;
-	var classId=res[3];
-	var treesArr=res[1];
-	for(var i=0;i<treesArr.length;i++){
-		if(treesArr[i].url!="#"){
-			treesArr[i].url=treesArr[i].url+"?userUuid="+userUuid+"&classId="+classId+"&perssionNames="+treesArr[i].description;
-		};
-		if(treesArr[i].redisPermissionList && treesArr[i].redisPermissionList.length!=0){
-			var sonArr=treesArr[i].redisPermissionList;
-			for(var j=0;j<sonArr.length;j++){
-				if(sonArr[j].url!="#"){
-					sonArr[j].url=sonArr[j].url+"?userUuid="+userUuid+"&classId="+classId+"&perssionNames="+treesArr[i].description+sonArr[j].description;
-				}
-				if(sonArr[j].redisPermissionList && sonArr[j].redisPermissionList.length!=0){
-					var sonsonArr=sonArr[j].redisPermissionList;
-					for(var n=0;n<sonsonArr.length;n++){
-						if(sonsonArr[n].url!="#"){
-							sonsonArr[n].url=sonsonArr[n].url+"?userUuid="+userUuid+"&classId="+classId+"&perssionNames="+treesArr[i].description+sonArr[j].description+sonsonArr[n].description;
-						}
-					}
-					
-				}
-			}
-		}
-		
-	}
-}
-function treeHover(res) {
-	var perssionNames=GetQueryString("perssionNames");
-	if(perssionNames){
-		var trees=res[1];
-		var A01;
-		$.each(trees,function (index,value) {
-			if(perssionNames.indexOf(value.description)>=0){
-				A01=index;
-			};
-		});
-		$("#sidebar ul.nav >li").eq(A01+1).addClass("active");
-
-		if(trees[A01].redisPermissionList){
-			var B01;
-			$.each(trees[A01].redisPermissionList,function (index,value) {
-				if(perssionNames.indexOf(value.description)>=0){
-					B01=index;
-				};
-			});
-			$("#sidebar ul.nav >li").eq(A01+1).find("li.has-sub").eq(B01).addClass("active");
-		};
-	};
 };

@@ -17,64 +17,73 @@ function login(){
 			if($(this).val() && $("#username").val()){
 				$("#loginIn").click();
 			}else{
-				dialogMiss("提示","请先将账号密码填写完整！");
+				toastTip("提示","请先将账号或密码填写完整！",2500);
 			}
 		};
 	});
 
-	$("#username").keydown(function (e) {
-		if(e.keyCode == 13){
-			if($(this).val()){
-				// 100毫秒自动补全
-				setTimeout(function () {
-					if($("#password").val()){
-						$("#loginIn").click();
-					}else{
-						$("#password").focus();
-					}
-				},100);
+	$("#username").keyup(function (e) {
+		if($(this).val().length >=11){
+			var reg=/^1(3|4|5|7|8)\d{9}$/;// 验证手机号码
+			if(reg.test($(this).val())){
+				$(this).parents(".nameBox").removeClass("empty");
+				if(e.keyCode == 13){
+					if($(this).val()){
+						// 100毫秒自动补全
+						setTimeout(function () {
+							if($("#password").val()){
+								$("#loginIn").click();
+							}else{
+								$("#password").focus();
+							}
+						},100);
+					};
+				};
+			}else{
+				toastTip("提示","手机号码格式不正确");
+				$(this).parents(".nameBox").addClass("empty");
 			};
+		}else if(e.keyCode == 13){
+			toastTip("提示","手机号码为11位");
 		};
 	});
 
 	$("#loginIn").click(function (e) {
 		if($("#username").val() && $("#password").val()){
+			$(this).text("正在登录...");
+			var data={
+					account:$("#username").val(),
+					password:$("#password").val()
+			};
+			var param={
+            		params:JSON.stringify(data),
+    		};
     		$.ajax({
 				type : "POST",
 				url : httpUrl.login,
-				data:{username:$("#username").val(),password:$("#password").val()},
+				data:param,
 				dataType : "json",
 				success : function(res) {
 		  			if(res.code==200){
-		  				dialogMiss("提示",res.info);
+		  				toastTip("提示",res.info);
 		 				var data=JSON.parse(res.data);
 						delCookie("loginId");
-		 				setCookie("loginId",data.loginId,"d30");
+		 				setCookie("loginId",data,"d30");
 		 	  	    
 		   	 			// 初始化加载页面
 		   	 			window.location.href="menu.html";
 		   	 			// window.location.href=httpUrl.back;
 		  			}else{
-			 			dialogMiss("提示",res.info+"，账号或密码错误！");
+		  				$("#loginIn").text("登录");
+		  				toastTip("提示",res.info);
 		   			}
 				},
 				error : function(textStatus) {
-						dialogMiss("提示",'系统内部错误！');
+						toastTip("提示","系统内部错误！");
 				}
 			});
 		}else{
-			dialogMiss("提示","请先将账号密码填写完整！");
+			toastTip("提示","请先将账号或密码填写完整！",2500);
 		}
 	});
-};
-
-function dialogMiss(title,content) {
-	var d = dialog({
-				title: title,
-				content: content
-	});
-	d.show();
-	setTimeout(function () {
-		d.close().remove();
-	}, 1500);
 };
