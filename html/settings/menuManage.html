@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>菜单管理</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="幼教产品" name="description" />
+	<meta content="上海紫越网络科技有限公司" name="author" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<!-- <link href="../../css/common/bootstrap.min.css" rel="stylesheet" /> -->
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/settings/menuManage.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+	<div id="page-container" class="fade">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">菜单管理</div>
+			<div id="buttonBox" style="display: none;">
+                <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+                </script>
+            </div>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw"></i></a></th>
+                                    <th style="width: 80%;">学校名称</th>
+                                </tr>
+                            </thead>
+                           	 <tbody>
+                           	 	{{each resultList as item i}}
+                            	<tr>
+                                  	<td style="word-break:break-all;" class="email-select">
+                                  		<a href="#" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-classuuid={{item.classUUID}} data-gradeuuid={{item.gradeUUID}}></i></a>
+                                  	</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.className}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+                <div class="panel ui-popup-follow ui-popup-bottom-right">
+                    <div class="ui-dialog-arrow-a"></div>
+                    <div class="ui-dialog-arrow-b"></div>
+                    <div class="email-content" id="tableBox01"></div>
+                    <script type="text/html" id="tableBox01_script">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>带教职工</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                {{each arr as item i}}
+                                <tr>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.name}}({{item.jobTitle}})</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+                <div class="panel ui-popup-follow ui-popup-bottom-right">
+                    <div class="ui-dialog-arrow-a"></div>
+                    <div class="ui-dialog-arrow-b"></div>
+                    <div class="email-content" id="tableBox01"></div>
+                    <script type="text/html" id="tableBox01_script">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>带教职工</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                {{each arr as item i}}
+                                <tr>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.name}}({{item.jobTitle}})</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+			</div>
+	    </div> 
+	</div>
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <!-- <script src="../../js/common/simplePagination.js" ></script> -->
+    <!-- <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> -->
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/settings/menuManage.js"></script>
+</body>
+</html>

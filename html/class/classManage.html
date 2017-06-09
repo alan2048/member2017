@@ -39,18 +39,18 @@
                         <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
                     </li>
                     {{/each}}
-          <style>
-          {{each arr as value i}}
-              a.hasTitle[data-id="{{value.id}}"]{
-                background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);
-              }
-              a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{
-                background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);
-                border: 0.02rem solid #656868;
-                background-color: #f3b369;
-              }
-          {{/each}}
-          </style>
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{
+                            background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);
+                        }
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{
+                            background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);
+                            border: 0.02rem solid #656868;
+                            background-color: #f3b369;
+                        }
+                    {{/each}}
+                    </style>
                 </script>
 			</div>
 			<div id="switch" class=""><span></span></div>
@@ -59,12 +59,12 @@
 		<div id="content" class="content">
 			<div class="pageTitle">班级管理</div>
 			<div id="buttonBox">
-				<a href="#" id="newBtn" class="defaultBtn"><span>新增</span></a>
-				<a href="#" id="editBtn" class="defaultBtn"><span>编辑</span></a>
-				<a href="#" id="deleteBtn" class="defaultBtn"><span>删除</span></a>
-				<a href="#" id="classUpBtn" class="defaultBtn"><span>升班</span></a>
-                <a href="#" id="classExchangeBtn" class="defaultBtn"><span>调班</span></a>
-			</div>
+                <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+                </script>
+            </div>
 			<div id="main">
 				<div class="panel">
                    	<div class="email-content" id="tableBox"></div>

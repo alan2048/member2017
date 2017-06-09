@@ -3,7 +3,7 @@ $(function () {
 });
 function init() {
     menu();
-    basicButton_port();
+   
     teacherAllType_port();// 获得所有教职工类型
     // 查询条件改变执行函数
     $("#teacherType,#teacherClass").change(function () {
@@ -35,7 +35,7 @@ function init() {
     });
 
     // 图层折叠
-    $("#newBtn").click(function () {
+    $("#buttonBox").on("click","#newBtn",function () {
         $(".content").addClass("hide");
         $("#content01").removeClass("hide").find(".pageTitle >small").text("新增").attr("data-useruuid","");
         $("#content01").find("input[type=text]").val("");
@@ -49,7 +49,7 @@ function init() {
     });
 
     // 删除老师按钮
-    $("#deleteBtn").click(function () {
+    $("#buttonBox").on("click","#deleteBtn",function () {
         if($(this).hasClass("disable")){
             toastTip("提示","请先选择删除项。。");   
         }else{
@@ -73,7 +73,7 @@ function init() {
     });
 
     // 编辑老师按钮
-    $("#editBtn").click(function () {
+    $("#buttonBox").on("click","#editBtn",function () {
         if($(this).hasClass("disable")){
             toastTip("提示","请先选择编辑项。。");
         }else{
@@ -356,25 +356,6 @@ function teacherStaffInfo_callback(res) {
         });
     };
 };
-
-// 获取菜单功能按钮列表
-function basicButton_port() {
-    var data={
-            menuId:user.sid
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.basicButton,param,basicButton_callback);
-};
-function basicButton_callback(res) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        console.log(data);
-    };
-};
-
 
 
 // Row行选择函数

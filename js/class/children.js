@@ -23,7 +23,7 @@ function init() {
     });
 
     // 图层折叠
-    $("#newBtn").click(function () {
+    $("#buttonBox").on("click","#newBtn",function () {
         $(".content").addClass("hide");
         $("#content01").removeClass("hide").find(".pageTitle >small").text("新增").attr("data-useruuid","");
         $("#content01").find("input[type=text]").val("");
@@ -36,7 +36,7 @@ function init() {
     });
 
     // 编辑老师按钮
-    $("#editBtn").click(function () {
+    $("#buttonBox").on("click","#editBtn",function () {
         if($(this).hasClass("disable")){
             toastTip("提示","请先选择编辑项。。");
         }else{
@@ -73,7 +73,7 @@ function init() {
     });
 
     // 删除老师按钮
-    $("#deleteBtn").click(function () {
+    $("#buttonBox").on("click","#deleteBtn",function () {
         if($(this).hasClass("disable")){
             toastTip("提示","请先选择删除项。。");   
         }else{

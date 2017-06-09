@@ -19,7 +19,7 @@ body{
 	margin-bottom: 0.3rem;
 }
 #search >label >select{
-	min-width: 1.8rem;
+	min-width: 1.6rem;
 	height: 0.4rem;
 	margin-right: 0.4rem;
 	border: 0.01rem solid #c9cccb;
@@ -40,7 +40,7 @@ body{
 	vertical-align: middle;
 }
 #search >label >input{
-	min-width: 1.8rem;
+	min-width: 1.6rem;
 	height: 0.4rem;
 	margin-right: 0.4rem;
 	border: 0.01rem solid #c9cccb;
@@ -123,11 +123,6 @@ body{
 }
 .disable{
 	opacity:0.3;
-}
-.content {
-	margin-left: 2rem;
-	padding: 0.6rem;
-	min-width: 8.5rem;
 }
 
 

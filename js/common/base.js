@@ -120,18 +120,6 @@ var httpUrl={
 		tsCallRoll:path+":15001/imsInterface/TSCourse_CallRoll",// 签到
 		tsCancelRoll:path+":15001/imsInterface/TSCourse_CancelRoll",// 取消签到
 
-		// 萌宝成长
-		growthBanner:path+":15001/ops/company/banner/list",// 萌宝成长 获取学校banner
-		growthAdd:path+":15001/web/growth/message/add",// 萌宝成长 新增
-		growthList:path+":15001/web/growth/message/list",// 萌宝成长 获取班级内容列表
-		growthStudent:path+":15001/common/basic/class/student",// 萌宝成长 获取当前班级学生列表
-		growthLabel:path+":15001/web/growth/label/list",// 萌宝成长 获取学校所有的标签
-		growthAddordelete:path+":15001/web/growth/praise/addordelete",// 萌宝成长 点赞或者取消点赞
-		growthCancelSticky:path+":15001/web/growth/message/cancelSticky",// 萌宝成长 取消内容置顶
-		growthCommentAdd:path+":15001/web/growth/comment/add",// 萌宝成长 新增一条评论或者回复
-		growthCommentDelete:path+":15001/web/growth/comment/delete",// 萌宝成长 删除某一条评论
-		growthMessageDelete:path+":15001/web/growth/message/delete",// 萌宝成长 删除一条内容
-
 		// 06消息发布
 		GetClassNotifyInfos:path+":12001/YY/GetClassNotifyInfos",// 获得班级活动列表
 		getUserClassInfo:path+":12001/YY/GetUserClassInfo",//获取用户班级信息
@@ -188,8 +176,9 @@ var httpUrl={
 		login:path+"/web/login/loginChecking",// 首页登入
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
 		basicButton:path+"/web/ops/menu/button/list",// 获取菜单功能按钮列表
-		basicMyClassInfo:path+"/web/basic/myClassInfo",//  获得当前人 所在班级列表
-		basicAllClassInfo:path+"/web/basic/allClassInfo",//   获得登录人所在学校所有班级列表
+		basicMyClassInfo:path+"/web/basic/myClassInfo",// 获得当前人 所在班级列表
+		basicAllClassInfo:path+"/web/basic/allClassInfo",// 获得登录人所在学校所有班级列表
+		basicCompanyList:path+"/web/ops/company/list",// 获取所有的学校
 
 		// 菜单
 		menuList:path+"/web/ops/user/menu/list",// 菜单接口
@@ -227,6 +216,25 @@ var httpUrl={
 		classChange:path+"/web/basic/org/changeClass",//  调班
 		classMemberBasic:path+"/web/basic/org/memberBasic",//  获取班级幼儿及教职工名单
 
+		// 萌宝成长
+		growthBanner:path+"/web/ops/company/banner/list",// 萌宝成长 获取学校banner
+		growthAdd:path+"/web/growth/message/add",// 萌宝成长 新增
+		growthList:path+"/web/growth/message/list",// 萌宝成长 获取班级内容列表
+		growthStudent:path+"/web/common/basic/class/student",// 萌宝成长 获取当前班级学生列表
+		growthLabel:path+"/web/growth/label/list",// 萌宝成长 获取学校所有的标签
+		growthAddordelete:path+"/web/growth/praise/addordelete",// 萌宝成长 点赞或者取消点赞
+		growthCancelSticky:path+"/web/growth/message/cancelSticky",// 萌宝成长 取消内容置顶
+		growthCommentAdd:path+"/web/growth/comment/add",// 萌宝成长 新增一条评论或者回复
+		growthCommentDelete:path+"/web/growth/comment/delete",// 萌宝成长 删除某一条评论
+		growthMessageDelete:path+"/web/growth/message/delete",// 萌宝成长 删除一条内容
+
+		// 菜单管理
+		menuButtonAddOrUpdate:path+"/web/ops/menu/button/addOrUpdate",// 新增或更新按钮信息
+		menuAddOrUpdate:path+"/web/ops/menu/addOrUpdate",// 新增或更新菜单信息
+		menuCompanyUpdate:path+"/web/ops/company/menu/update",// 更新学校菜单信息
+		menuCompanyList:path+"/web/ops/company/menu/list",// 获取学校菜单列表
+		menuButtonList:path+"/web/ops/button/list",// 获取菜单按钮列表
+
 		// 08设置
 		setting:'' 
 };
@@ -262,113 +270,6 @@ function initAjax(url,param,callback,callback01,callback02) {
             }
         });	
 };
-
-
-// 菜单
-function menu() {
-    menuChildList_port(user.pid);
-    $("#switch").click(function () {
-        var aa=$(this);
-        $(this).prev("#sidebarBox").fadeToggle(function () {
-            aa.toggleClass("active");
-            $(".content").toggleClass("active");
-        });
-    });
-    $("#subMenu").on("click","a.hasTitle",function () {
-    	$(this).toggleClass("active");
-    });
-};
-// 左侧 菜单接口
-function menuChildList_port(menuId) {
-    var data={
-            menuId:menuId
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
-};
-function menuChildList_callback(res,menuId) {
-    if(res.code==200){
-        var data={
-        		arr:JSON.parse(res.data),
-        		path_img:httpUrl.path_img
-        };
-        for(var i=0;i<data.arr.length;i++){
-        	data.arr[i].iconArr=data.arr[i].icon.split(",");
-        	data.arr[i].pid=menuId;
-        	data.arr[i].url=data.arr[i].url.slice(11);
-        	if(data.arr[i].id == user.sid){
-        		data.arr[i].current=true;
-        	}else{
-        		data.arr[i].current=false;
-        	};
-        };
-        var html=template("menu_script",data);
-        $("#subMenu").empty().append(html);
-        chooseNiceScroll("#sidebarBox","transparent");
-
-        loginUserInfo_port();
-    };
-};
-
-
-// 左侧 菜单接口
-function loginUserInfo_port() {
-    var data={};
-    var param={
-            // params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
-};
-function loginUserInfo_callback(res) {
-    if(res.code==200){
-    	var data=JSON.parse(res.data);
-    	data.path_img=httpUrl.path_img;
-        $("#user >.userName").text(data.name);
-        $("#user >.userRole").text(data.jobTitle);
-        $("#user >.userPic").css({
-        	background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
-        });
-    };
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // loading载入函数
@@ -477,3 +378,141 @@ function toastTip(heading,text,hideAfter) {
             }
     });
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 菜单
+function menu() {
+    menuChildList_port(user.pid);
+    $("#switch").click(function () {
+        var aa=$(this);
+        $(this).prev("#sidebarBox").fadeToggle(function () {
+            aa.toggleClass("active");
+            $(".content").toggleClass("active");
+        });
+    });
+    $("#subMenu").on("click","a.hasTitle",function () {
+    	$(this).toggleClass("active");
+    });
+};
+// 左侧 菜单接口
+function menuChildList_port(menuId) {
+    var data={
+            menuId:menuId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
+};
+function menuChildList_callback(res,menuId) {
+    if(res.code==200){
+        var data={
+        		arr:JSON.parse(res.data),
+        		path_img:httpUrl.path_img
+        };
+        for(var i=0;i<data.arr.length;i++){
+        	data.arr[i].iconArr=data.arr[i].icon.split(",");
+        	data.arr[i].pid=menuId;
+        	data.arr[i].url=data.arr[i].url.split("/")[2];
+        	if(data.arr[i].id == user.sid){
+        		data.arr[i].current=true;
+        	}else{
+        		data.arr[i].current=false;
+        	};
+        };
+        
+        var html=template("menu_script",data);
+        $("#subMenu").empty().append(html);
+        chooseNiceScroll("#sidebarBox","transparent");
+
+        loginUserInfo_port();
+        basicButton_port();
+    };
+};
+
+
+// 获得登录人信息
+function loginUserInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+};
+function loginUserInfo_callback(res) {
+    if(res.code==200){
+    	var data=JSON.parse(res.data);
+    	data.path_img=httpUrl.path_img;
+        $("#user >.userName").text(data.name);
+        $("#user >.userRole").text(data.jobTitle);
+        $("#user >.userPic").css({
+        	background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+        });
+    };
+};
+
+// 获取菜单功能按钮列表
+function basicButton_port() {
+    var data={
+            menuId:user.sid
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicButton,param,basicButton_callback);
+};
+function basicButton_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("buttonBox_script",data);
+        $("#buttonBox").append(html);
+        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+    };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -77,11 +77,12 @@
       			<span id="searchBtn">查询</span>
 			</div>
 			<div id="buttonBox">
-				<a href="#" id="newBtn" class="defaultBtn"><span>新增</span></a>
-				<a href="#" id="editBtn" class="defaultBtn"><span>编辑</span></a>
-				<a href="#" id="deleteBtn" class="defaultBtn"><span>删除</span></a>
-				<a href="#" id="importBtn" class="defaultBtn hide"><span>导入</span></a>
-			</div>
+                <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+                </script>
+            </div>
 			<div id="main">
 				<div class="panel">
                    	<div class="email-content" id="tableBox"></div>

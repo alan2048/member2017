@@ -115,8 +115,10 @@ body{
 #switch >span:hover{
 	background-color: #f6da1f;
 }
-#content {
-	padding: 0.6rem 0.6rem 0.2rem;
+.content {
+	margin-left: 2rem;
+	padding: 0.5rem 0.5rem 0.3rem;
+	min-width: 8.5rem;
 }
 .content.active{
 	margin-left: 0;
