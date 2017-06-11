@@ -442,6 +442,8 @@ function menuChildList_callback(res,menuId) {
 
         loginUserInfo_port();
         basicButton_port();
+    }else if(res.coed =404){
+    	// window.location.href=path;
     };
 };
 

@@ -51,13 +51,6 @@
 
 		<div id="content" class="content">
 			<div class="pageTitle">菜单管理</div>
-			<div id="buttonBox" style="display: none;">
-                <script type="text/html" id="buttonBox_script">
-                {{each arr as value  i}}
-                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
-                {{/each}}
-                </script>
-            </div>
 			<div id="main">
 				<div class="panel">
                    	<div class="email-content" id="tableBox"></div>
@@ -65,17 +58,17 @@
                         <table class="table table-email">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw"></i></a></th>
+                                    <th style="width: 20%;" class="email-select"></th>
                                     <th style="width: 80%;">学校名称</th>
                                 </tr>
                             </thead>
                            	 <tbody>
-                           	 	{{each resultList as item i}}
-                            	<tr>
+                           	 	{{each arr as item i}}
+                            	<tr data-companyuuid={{item.companyUUID}}>
                                   	<td style="word-break:break-all;" class="email-select">
-                                  		<a href="#" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-classuuid={{item.classUUID}} data-gradeuuid={{item.gradeUUID}}></i></a>
+                                  		<a href="javascript:void(0);"><i class="fa fa-square-o fa-fw" data-companyuuid={{item.companyUUID}}></i></a>
                                   	</td>
-                                  	<td style="word-break:break-all;" class="email-sender">{{item.className}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.companyName}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -87,41 +80,36 @@
                     <div class="ui-dialog-arrow-b"></div>
                     <div class="email-content" id="tableBox01"></div>
                     <script type="text/html" id="tableBox01_script">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>带教职工</th>
-                                </tr>
-                            </thead>
-                             <tbody>
-                                {{each arr as item i}}
-                                <tr>
-                                    <td style="word-break:break-all;" class="email-sender">{{item.name}}({{item.jobTitle}})</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
+                        <div id="save">保存</div>
+                        <ul>
+                            {{each arr as value i}}
+                            <li>
+                                <div>
+                                    <span class="level01 level {{if value.check==1}}active{{/if}}" data-id="{{value.id}}">{{value.name}}</span>
+                                    <span class="level01Add">+</span>
+                                </div>
+                                <div class="menuList">
+                                    {{each value.childMenuList as value01 j}}
+                                    <span class="level02 level {{if value01.check==1}}active{{/if}}" data-id="{{value01.id}}">{{value01.name}}</span>
+                                    {{/each}}
+                                    <span class="level02Add">+</span>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </ul>
                     </script>
                 </div>
                 <div class="panel ui-popup-follow ui-popup-bottom-right">
                     <div class="ui-dialog-arrow-a"></div>
                     <div class="ui-dialog-arrow-b"></div>
-                    <div class="email-content" id="tableBox01"></div>
-                    <script type="text/html" id="tableBox01_script">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>带教职工</th>
-                                </tr>
-                            </thead>
-                             <tbody>
-                                {{each arr as item i}}
-                                <tr>
-                                    <td style="word-break:break-all;" class="email-sender">{{item.name}}({{item.jobTitle}})</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
+                    <div class="email-content" id="tableBox02"></div>
+                    <script type="text/html" id="tableBox02_script">
+                        <div class="menuList">
+                            {{each arr as value j}}
+                            <span class="level02 {{if value.check==1}}active{{/if}}" data-id="{{value.id}}" data-buttoncode="{{value.buttonCode}}" data-icon="{{value.icon}}">{{value.name}}</span>
+                            {{/each}}
+                            <span class="level03Add">+</span>
+                        </div>
                     </script>
                 </div>
 			</div>

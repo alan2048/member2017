@@ -384,3 +384,116 @@ function ValidateInput() {
             meridiem: ["上午", "下午"]
     };
 }(jQuery));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 菜单
+function menu() {
+    menuChildList_port(user.pid);
+    $("#switch").click(function () {
+        var aa=$(this);
+        $(this).prev("#sidebarBox").fadeToggle(function () {
+            aa.toggleClass("active");
+            $(".content").toggleClass("active");
+        });
+    });
+    $("#subMenu").on("click","a.hasTitle",function () {
+        $(this).toggleClass("active");
+    });
+};
+// 左侧 菜单接口
+function menuChildList_port(menuId) {
+    var data={
+            menuId:menuId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
+};
+function menuChildList_callback(res,menuId) {
+    if(res.code==200){
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img
+        };
+        for(var i=0;i<data.arr.length;i++){
+            data.arr[i].iconArr=data.arr[i].icon.split(",");
+            data.arr[i].pid=menuId;
+            data.arr[i].url=data.arr[i].url.split("/")[2];
+            if(data.arr[i].id == user.sid){
+                data.arr[i].current=true;
+            }else{
+                data.arr[i].current=false;
+            };
+        };
+        
+        var html=template("menu_script",data);
+        $("#subMenu").empty().append(html);
+        chooseNiceScroll("#sidebarBox","transparent");
+
+        loginUserInfo_port();
+        basicButton_port();
+    }else if(res.coed =404){
+        // window.location.href=path;
+    };
+};
+
+
+// 获得登录人信息
+function loginUserInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+};
+function loginUserInfo_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        data.path_img=httpUrl.path_img;
+        $("#user >.userName").text(data.name);
+        $("#user >.userRole").text(data.jobTitle);
+        $("#user >.userPic").css({
+            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+        });
+    };
+};
+
+// 获取菜单功能按钮列表
+function basicButton_port() {
+    var data={
+            menuId:user.sid
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicButton,param,basicButton_callback);
+};
+function basicButton_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("buttonBox_script",data);
+        $("#buttonBox").append(html);
+        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+    };
+};
