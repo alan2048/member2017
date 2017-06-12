@@ -645,13 +645,8 @@ function loadFiles() {
             acceptedFiles: 'image/*'
         });
         myDropzone.on('success',function(file,responseText){
-            if(responseText.uploadFileMd5==undefined){
-                alert('没有上传成功,请重试');
-                return ;
-            };
-            // recordUploadSave_port(responseText.uploadFileMd5);
             var data={
-                    md5:responseText.uploadFileMd5,
+                    md5:JSON.parse(responseText).result,
                     path_img:httpUrl.path_img
             };
             var html=template("picMain01_script",data);

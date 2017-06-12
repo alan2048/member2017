@@ -85,14 +85,20 @@
                             {{each arr as value i}}
                             <li>
                                 <div>
-                                    <span class="level01 level {{if value.check==1}}active{{/if}}" data-id="{{value.id}}">{{value.name}}</span>
+                                    <span class="level level01 {{if value.check==1}} active{{/if}}" data-id="{{value.id}}">
+                                        {{value.name}}
+                                        <span class="deleteBtn"></span>
+                                    </span>
                                     <span class="level01Add">+</span>
                                 </div>
                                 <div class="menuList">
                                     {{each value.childMenuList as value01 j}}
-                                    <span class="level02 level {{if value01.check==1}}active{{/if}}" data-id="{{value01.id}}">{{value01.name}}</span>
+                                    <span class="level level02 {{if value01.check==1}} active{{/if}}" data-id="{{value01.id}}">
+                                        {{value01.name}}
+                                        <span class="deleteBtn" data-id="{{value01.id}}"></span>
+                                    </span>
                                     {{/each}}
-                                    <span class="level02Add">+</span>
+                                    <span class="level02Add" data-parentid="{{value.id}}">+</span>
                                 </div>
                             </li>
                             {{/each}}
@@ -106,7 +112,10 @@
                     <script type="text/html" id="tableBox02_script">
                         <div class="menuList">
                             {{each arr as value j}}
-                            <span class="level02 {{if value.check==1}}active{{/if}}" data-id="{{value.id}}" data-buttoncode="{{value.buttonCode}}" data-icon="{{value.icon}}">{{value.name}}</span>
+                            <span class="level02 level {{if value.check==1}}active{{/if}}" data-id="{{value.id}}" data-buttoncode="{{value.buttonCode}}" data-icon="{{value.icon}}">
+                                {{value.name}}
+                                <span class="deleteBtn"></span>
+                            </span>
                             {{/each}}
                             <span class="level03Add">+</span>
                         </div>
@@ -115,13 +124,40 @@
 			</div>
 	    </div> 
 	</div>
+
+    <div class="modal fade" id="modal-dialog-img" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modalTitle">新增内容</div>
+                <div class="labelBox">
+                    <label>
+                        菜单名称：
+                        <input id="menuName" type="text">
+                    </label>
+                </div>
+                <div class="labelBox">
+                    <label>
+                        跳转URL：
+                        <input id="url" type="text">
+                    </label>
+                </div>
+                <div class="labelBox">
+                    <span class="newPicBtn">图标:</span>
+                    <img src="" alt="" class="newPic">
+                    <span class="newTopBtn">是否跳转：<span>关</span></span>
+                </div>
+                <div><span id="menuNew">确定</span></div>
+            </div>
+            <span class="closeBtn" data-dismiss="modal"></span>
+        </div>
+    </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/dropzone.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
-    <!-- <script src="../../js/common/simplePagination.js" ></script> -->
-    <!-- <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> -->
+    <script src="../../js/common/modal.js"></script>
 
 	<script src="../../js/common/base.js"></script>
 	<script src="../../js/settings/menuManage.js"></script>

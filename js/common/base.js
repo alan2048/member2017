@@ -22,7 +22,7 @@ var httpUrl={
 		logoutHttp:path, // 注销地址
 		// path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // 图片地址
 		
-		picUrl:path+"/jfinal_mbjy_basic/file/upload", // 图片上传地址
+		
 		memberRecord:path+"/sample_front/memberRecord/memberRecord.html",//成长档案网址
 
 		// 00公共接口
@@ -173,6 +173,7 @@ var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
 		path_img:path+"/file/getImage?md5=", // 图片地址
+		picUrl:path+"/file/upload", // 图片上传地址
 		login:path+"/web/login/loginChecking",// 首页登入
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
 		basicButton:path+"/web/ops/menu/button/list",// 获取菜单功能按钮列表
@@ -220,7 +221,7 @@ var httpUrl={
 		growthBanner:path+"/web/ops/company/banner/list",// 萌宝成长 获取学校banner
 		growthAdd:path+"/web/growth/message/add",// 萌宝成长 新增
 		growthList:path+"/web/growth/message/list",// 萌宝成长 获取班级内容列表
-		growthStudent:path+"/web/common/basic/class/student",// 萌宝成长 获取当前班级学生列表
+		growthStudent:path+"/common/basic/class/student",// 萌宝成长 获取当前班级学生列表
 		growthLabel:path+"/web/growth/label/list",// 萌宝成长 获取学校所有的标签
 		growthAddordelete:path+"/web/growth/praise/addordelete",// 萌宝成长 点赞或者取消点赞
 		growthCancelSticky:path+"/web/growth/message/cancelSticky",// 萌宝成长 取消内容置顶
@@ -394,100 +395,6 @@ function toastTip(heading,text,hideAfter) {
 
 
 
-// 菜单
-function menu() {
-    menuChildList_port(user.pid);
-    $("#switch").click(function () {
-        var aa=$(this);
-        $(this).prev("#sidebarBox").fadeToggle(function () {
-            aa.toggleClass("active");
-            $(".content").toggleClass("active");
-        });
-    });
-    $("#subMenu").on("click","a.hasTitle",function () {
-    	$(this).toggleClass("active");
-    });
-};
-// 左侧 菜单接口
-function menuChildList_port(menuId) {
-    var data={
-            menuId:menuId
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
-};
-function menuChildList_callback(res,menuId) {
-    if(res.code==200){
-        var data={
-        		arr:JSON.parse(res.data),
-        		path_img:httpUrl.path_img
-        };
-        for(var i=0;i<data.arr.length;i++){
-        	data.arr[i].iconArr=data.arr[i].icon.split(",");
-        	data.arr[i].pid=menuId;
-        	data.arr[i].url=data.arr[i].url.split("/")[2];
-        	if(data.arr[i].id == user.sid){
-        		data.arr[i].current=true;
-        	}else{
-        		data.arr[i].current=false;
-        	};
-        };
-        
-        var html=template("menu_script",data);
-        $("#subMenu").empty().append(html);
-        chooseNiceScroll("#sidebarBox","transparent");
-
-        loginUserInfo_port();
-        basicButton_port();
-    }else if(res.coed =404){
-    	// window.location.href=path;
-    };
-};
-
-
-// 获得登录人信息
-function loginUserInfo_port() {
-    var data={};
-    var param={
-            // params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
-};
-function loginUserInfo_callback(res) {
-    if(res.code==200){
-    	var data=JSON.parse(res.data);
-    	data.path_img=httpUrl.path_img;
-        $("#user >.userName").text(data.name);
-        $("#user >.userRole").text(data.jobTitle);
-        $("#user >.userPic").css({
-        	background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
-        });
-    };
-};
-
-// 获取菜单功能按钮列表
-function basicButton_port() {
-    var data={
-            menuId:user.sid
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.basicButton,param,basicButton_callback);
-};
-function basicButton_callback(res) {
-    if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
-        var html=template("buttonBox_script",data);
-        $("#buttonBox").append(html);
-        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
-    };
-};
 
 
 

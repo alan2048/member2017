@@ -4,14 +4,23 @@ $(function () {
 });
 function init() {
     basicCompanyList_port();
+    loadFiles();// 上传图片
 
-    // ѡ�в˵�
+    // 选中菜单
     $("#tableBox01").on("click",".level01,.level02",function () {
         $(this).toggleClass("active");
         if($(this).hasClass("active")){
             menuButtonList_port($(this).attr("data-id"));
+            // 选中菜单子项时 选中父项
+            if($(this).hasClass("level02") && !$(this).parent(".menuList").prev().find(".level01").hasClass("active")){
+                $(this).parent(".menuList").prev().find(".level01").addClass("active");
+            };
         }else{
             $("#tableBox02").empty();
+            // 取消选中父项时取消子项
+            if($(this).hasClass("level01")){
+                $(this).parent().next().find(".level02").removeClass("active");
+            }
         };
     });
 
@@ -22,9 +31,42 @@ function init() {
         };
         menuCompanyUpdate_port(arr.join());
     });
+
+    // 增加菜单项
+    $("#main").on("click",".level01Add,.level02Add",function () {
+        $(".modalTitle").text("新增内容");
+        $("#menuNew").attr("data-id","0");
+        if($(this).hasClass("level01Add")){
+            $("#menuNew").attr("data-parentId","0");
+        }else if($(this).hasClass("level02Add")){
+            $("#menuNew").attr("data-parentId",$(this).attr("data-parentid"));
+        };
+        $("#modal-dialog-img").modal("show"); 
+    });
+
+    // 编辑菜单项
+    $("#main").on("dblclick",".level",function () {
+        $(".modalTitle").text("编辑内容");
+        $("#modal-dialog-img").modal("show"); 
+    });
+
+    // 是否置顶
+    $(".newTopBtn").click(function () {
+        $(this).toggleClass("active"); 
+        if($(this).hasClass("active")){
+            $(this).find("span").text("开");
+        }else{
+            $(this).find("span").text("关");
+        };
+    });
+
+    $("#menuNew").click(function () {
+        var data={};
+        menuAddOrUpdate_port(data);
+    });
 };
 
-//  ��ȡ���е�ѧУ
+//  获取所有的学校
 function basicCompanyList_port(pageNum) {
     var data={};
     var param={
@@ -52,7 +94,7 @@ function basicCompanyList_callback(res) {
     };
 };
 
-//  ��ȡѧУ�˵��б�
+//  获取学校菜单列表
 function menuCompanyList_port(companyId) {
     var data={
             companyId:companyId
@@ -73,7 +115,7 @@ function menuCompanyList_callback(res) {
     };
 };
 
-//  ��ȡ�˵���ť�б�
+//  获取菜单按钮列表
 function menuButtonList_port(menuId) {
     var data={
             menuId:menuId
@@ -92,7 +134,7 @@ function menuButtonList_callback(res) {
     };
 };
 
-//  ����ѧУ�˵���Ϣ
+//  更新学校菜单信息
 function menuCompanyUpdate_port(menuIdList) {
     var data={
             companyId:$("#tableBox tbody >tr.active").attr("data-companyuuid"),
@@ -106,8 +148,61 @@ function menuCompanyUpdate_port(menuIdList) {
 };
 function menuCompanyUpdate_callback(res) {
     if(res.code==200){
-        
+        toastTip("提示","保存成功");  
+    }else{
+        toastTip("提示",res.info);
     };
+};
+
+//  新增或更新菜单信息
+function menuAddOrUpdate_port(json) {
+    var data={
+            icon:json.icon,
+            id:json.id,
+            name:json.name,
+            parentId:json.parentId,
+            type:json.type,
+            url:json.url
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuAddOrUpdate,param,menuAddOrUpdate_callback);
+};
+function menuAddOrUpdate_callback(res) {
+    if(res.code==200){
+        toastTip("提示","保存成功");  
+    }else{
+        toastTip("提示",res.info);
+    };
+};
+
+// 上传图片
+function loadFiles() {
+        Dropzone.options.myAwesomeDropzone=false;
+        Dropzone.autoDiscover=false;
+        var myDropzone=new Dropzone('.newPic',{
+            url: httpUrl.picUrl,//84服务器图片
+            paramName: "mbFile", // The name that will be used to transfer the file
+            maxFilesize: 50, // MB
+            addRemoveLinks: true,
+            acceptedFiles: 'image/*'
+        });
+        myDropzone.on('success',function(file,responseText){
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
+            };
+            var url=data.path_img+data.md5+"&minpic=1";
+            $(".newPicBtn").next("img").attr("src",url);
+            console.log(data);
+            
+        });
+        myDropzone.on('error',function(file,errorMessage,httpRequest){
+            alert('没有上传成功,请重试:'+errorMessage);
+            this.removeFile(file);
+        });
 };
 
 
@@ -152,7 +247,7 @@ function menuCompanyUpdate_callback(res) {
 
 
 
-// �˵�
+// 菜单
 function menu() {
     menuChildList_port(user.pid);
     $("#switch").click(function () {
@@ -166,7 +261,7 @@ function menu() {
         $(this).toggleClass("active");
     });
 };
-// ��� �˵��ӿ�
+// 左侧 菜单接口
 function menuChildList_port(menuId) {
     var data={
             menuId:menuId
@@ -205,7 +300,7 @@ function menuChildList_callback(res,menuId) {
 };
 
 
-// ��õ�¼����Ϣ
+// 获得登录人信息
 function loginUserInfo_port() {
     var data={};
     var param={
