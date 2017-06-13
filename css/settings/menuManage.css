@@ -522,3 +522,6 @@ label > input.empty{
 #menuNew:hover,#buttonNew:hover {
 	background-color: #0ec9ce;
 }
+.content{
+	min-width:10.5rem;
+}
