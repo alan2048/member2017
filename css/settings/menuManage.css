@@ -223,7 +223,7 @@ th,td {
  .level01:hover{
  	background-color: #5cdfe2;
  }
- .level02{
+ .level02,.level03{
  	display:inline-block;
  	width: 1.2rem;
  	height: 0.4rem;
@@ -236,10 +236,10 @@ th,td {
  	cursor: pointer;
  	vertical-align: top;
  }
- .level02.active{
+ .level02.active,.level03.active{
  	background-color: #f8e361;
  }
- .level02:hover{
+ .level02:hover,.level03:hover{
  	background-color: #f8e361;
  }
  // .menuList{
@@ -440,7 +440,10 @@ label > input {
 	border: 0.01rem solid #c9cccb;
 	border-radius: 0.1rem;
 	padding: 0.05rem 0.1rem;
-	color: #969998;
+	color: #555;
+}
+label > input.empty{
+	border: 0.01rem solid #f56267;
 }
 .labelBox{
 	color:#656565;	
@@ -457,7 +460,7 @@ label > input {
 	border-radius: 3px;
 	cursor: pointer;
 }
-.newPicBtn {
+.newPicBtn,.newPicBtn01 {
 	display: inline-block;
 	width: 0.8rem;
 	height: 0.3rem;
@@ -490,7 +493,7 @@ label > input {
 .newPicBtn:hover,.newTopBtn:hover{
 	color: #5ae0e2;
 }
-.newPic{
+.newPic,.newPic01,.newPic02{
 	display:inline-block;
 	width: 1rem;
 	height: 1rem;
@@ -499,10 +502,13 @@ label > input {
 	border-radius:0.1rem;
 	cursor: pointer;
 }
-.newPic:hover{
+.newPic.empty,.newPic01.empty,.newPic02.empty{
+	border: 0.01rem solid #f56267;
+}
+.newPic:hover,.newPic01:hover,.newPic02:hover{
 	border: 0.01rem solid #5ae0e2;
 }
-#menuNew {
+#menuNew,#buttonNew {
 	float: right;
 	width: 0.8rem;
 	height: 0.4rem;
@@ -513,6 +519,6 @@ label > input {
 	border-radius: 0.1rem;
 	cursor: pointer;
 }
-#menuNew:hover {
+#menuNew:hover,#buttonNew:hover {
 	background-color: #0ec9ce;
 }

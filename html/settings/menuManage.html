@@ -12,7 +12,6 @@
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
-    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
 	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
     
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
@@ -85,15 +84,15 @@
                             {{each arr as value i}}
                             <li>
                                 <div>
-                                    <span class="level level01 {{if value.check==1}} active{{/if}}" data-id="{{value.id}}">
+                                    <span class="level level01 {{if value.check==1}} active{{/if}}" data-id="{{value.id}}" data-name="{{value.name}}">
                                         {{value.name}}
-                                        <span class="deleteBtn"></span>
+                                        <span class="deleteBtn" data-id="{{value.id}}"></span>
                                     </span>
                                     <span class="level01Add">+</span>
                                 </div>
                                 <div class="menuList">
                                     {{each value.childMenuList as value01 j}}
-                                    <span class="level level02 {{if value01.check==1}} active{{/if}}" data-id="{{value01.id}}">
+                                    <span class="level level02 {{if value01.check==1}} active{{/if}}" data-id="{{value01.id}}" data-name="{{value01.name}}">
                                         {{value01.name}}
                                         <span class="deleteBtn" data-id="{{value01.id}}"></span>
                                     </span>
@@ -112,12 +111,12 @@
                     <script type="text/html" id="tableBox02_script">
                         <div class="menuList">
                             {{each arr as value j}}
-                            <span class="level02 level {{if value.check==1}}active{{/if}}" data-id="{{value.id}}" data-buttoncode="{{value.buttonCode}}" data-icon="{{value.icon}}">
+                            <span class="level03 level {{if value.check==1}}active{{/if}}" data-id="{{value.id}}" data-parentid="{{menuId}}">
                                 {{value.name}}
-                                <span class="deleteBtn"></span>
+                                <span class="deleteBtn" data-id="{{value.id}}" data-parentid="{{menuId}}"></span>
                             </span>
                             {{/each}}
-                            <span class="level03Add">+</span>
+                            <span class="level03Add" data-parentid="{{menuId}}">+</span>
                         </div>
                     </script>
                 </div>
@@ -144,9 +143,36 @@
                 <div class="labelBox">
                     <span class="newPicBtn">图标:</span>
                     <img src="" alt="" class="newPic">
+                    <span class="newPicBtn01">hover:</span>
+                    <img src="" alt="" class="newPic01">
                     <span class="newTopBtn">是否跳转：<span>关</span></span>
                 </div>
                 <div><span id="menuNew">确定</span></div>
+            </div>
+            <span class="closeBtn" data-dismiss="modal"></span>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-button" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modalTitle">新增按钮</div>
+                <div class="labelBox">
+                    <label>
+                        按钮名称：
+                        <input id="buttonName" type="text">
+                    </label>
+                </div>
+                <div class="labelBox">
+                    <label>
+                        按钮编码：
+                        <input id="code" type="text">
+                    </label>
+                </div>
+                <div class="labelBox">
+                    <span class="newPicBtn">图标:</span>
+                    <img src="" alt="" class="newPic02">
+                </div>
+                <div><span id="buttonNew">确定</span></div>
             </div>
             <span class="closeBtn" data-dismiss="modal"></span>
         </div>

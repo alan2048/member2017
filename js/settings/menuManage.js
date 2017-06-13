@@ -32,22 +32,29 @@ function init() {
         menuCompanyUpdate_port(arr.join());
     });
 
-    // 增加菜单项
+    // 增加菜单项弹出框
     $("#main").on("click",".level01Add,.level02Add",function () {
-        $(".modalTitle").text("新增内容");
+        $("#modal-dialog-img .modalTitle").text("新增内容");
         $("#menuNew").attr("data-id","0");
+        $("#modal-dialog-img input").val("");
+        $("#modal-dialog-img .newPic").attr("data-md5","").attr("src","");
+        $("#modal-dialog-img .newPic01").attr("data-md5","").attr("src","");
+        $("#modal-dialog-img .newTopBtn").removeClass("active").find("span").text("关");
+
         if($(this).hasClass("level01Add")){
             $("#menuNew").attr("data-parentId","0");
+            $(".newPic01,.newPicBtn01").addClass("hide");
         }else if($(this).hasClass("level02Add")){
+            $(".newPic01,.newPicBtn01").removeClass("hide");
             $("#menuNew").attr("data-parentId",$(this).attr("data-parentid"));
         };
+
         $("#modal-dialog-img").modal("show"); 
     });
 
-    // 编辑菜单项
-    $("#main").on("dblclick",".level",function () {
-        $(".modalTitle").text("编辑内容");
-        $("#modal-dialog-img").modal("show"); 
+    // 编辑菜单项弹出框
+    $("#main").on("dblclick",".level01,.level02",function () {
+        menuDetail_port($(this).attr("data-id")); 
     });
 
     // 是否置顶
@@ -60,9 +67,138 @@ function init() {
         };
     });
 
+    // 添加编辑菜单项
     $("#menuNew").click(function () {
-        var data={};
-        menuAddOrUpdate_port(data);
+        if(!$("#menuName").val()){
+            $("#menuName").addClass("empty");
+        };
+        if(!$("#url").val()){
+            $("#url").addClass("empty");
+        };
+        if(!$(".newPic").attr("data-md5")){
+            $(".newPic").addClass("empty");
+        };
+        
+        if($("#modal-dialog-img input").hasClass("empty") || $("#modal-dialog-img .newPic").hasClass("empty")){
+            toastTip("提示","请先将填写完整");
+        }else{
+            var type="0";
+            if($(".newTopBtn").hasClass("active")){
+                type="1";
+            }else{
+                type="0";
+            };
+            var iconArr=[];
+            iconArr.push($(".newPic").attr("data-md5"));
+            if($(".newPic01").attr("data-md5")){
+                iconArr.push($(".newPic01").attr("data-md5"));
+            };
+            var data={
+                    icon:iconArr.join(),
+                    id:$(this).attr("data-id"),
+                    parentId:$(this).attr("data-parentid"),
+                    type:type,
+                    name:$("#menuName").val(),
+                    url:$("#url").val()
+            };
+            menuAddOrUpdate_port(data);
+        };
+    });
+
+    // 弹出框菜单验证
+    $("#modal-dialog-img input").keyup(function () {
+       if($(this).val()){
+            $(this).removeClass("empty");
+       }else{
+            $(this).addClass("empty");
+       }; 
+    });
+
+    // 删除菜单
+    $("#tableBox01").on("click",".deleteBtn",function (e) {
+        e.stopPropagation();
+        var id=$(this).attr("data-id");
+        swal({
+                title: "是否删除此信息？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        menuDelete_port(id);
+                    };
+            });
+    });
+    
+
+    // 增加按钮弹出框
+    $("#main").on("click",".level03Add",function () {
+        $("#modal-button .modalTitle").text("新增按钮");
+        $("#modal-button input").val("");
+        $(".newPic02").attr("data-md5","").attr("src","");
+        $("#buttonNew").attr("data-id","0").attr("data-menuid",$(this).attr("data-parentid"));
+        
+        $("#modal-button").modal("show"); 
+    });
+
+    // 编辑按钮弹出框
+    $("#main").on("dblclick",".level03",function () {
+        menuButtonDetail_port($(this).attr("data-id")); 
+    });
+
+    // 删除按钮
+    $("#tableBox02").on("click",".deleteBtn",function (e) {
+        e.stopPropagation();
+        var id=$(this).attr("data-id");
+        var menuId=$(this).attr("data-parentid");
+        swal({
+                title: "是否删除此信息？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        menuButtonDelete_port(id,menuId);
+                    };
+            });
+    });
+
+    // 添加编辑按钮
+    $("#buttonNew").click(function () {
+        if(!$("#buttonName").val()){
+            $("#buttonName").addClass("empty");
+        };
+        if(!$("#code").val()){
+            $("#code").addClass("empty");
+        };
+        if(!$(".newPic02").attr("data-md5")){
+            $(".newPic02").addClass("empty");
+        };
+        
+        if($("#modal-button input").hasClass("empty") || $("#modal-button .newPic").hasClass("empty")){
+            toastTip("提示","请先将填写完整");
+        }else{
+            var data={
+                    icon:$(".newPic02").attr("data-md5"),
+                    id:$(this).attr("data-id"),
+                    name:$("#buttonName").val(),
+                    buttonCode:$("#code").val(),
+                    menuId:$(this).attr("data-menuid")
+            };
+            menuButtonAddOrUpdate_port(data);
+        };
     });
 };
 
@@ -111,7 +247,6 @@ function menuCompanyList_callback(res) {
         var html=template("tableBox01_script",data);
         $("#tableBox01").empty().append(html);
         chooseNiceScroll("#tableBox01");
-        console.log(data);
     };
 };
 
@@ -124,13 +259,17 @@ function menuButtonList_port(menuId) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.menuButtonList,param,menuButtonList_callback);
+    initAjax(httpUrl.menuButtonList,param,menuButtonList_callback,menuId);
 };
-function menuButtonList_callback(res) {
+function menuButtonList_callback(res,menuId) {
     if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
+        var data={
+                arr:JSON.parse(res.data),
+                menuId:menuId
+        };
         var html=template("tableBox02_script",data);
         $("#tableBox02").empty().append(html);
+        console.log(data);
     };
 };
 
@@ -172,9 +311,137 @@ function menuAddOrUpdate_port(json) {
 };
 function menuAddOrUpdate_callback(res) {
     if(res.code==200){
-        toastTip("提示","保存成功");  
+        menuCompanyList_port($("#tableBox tbody tr.active").attr("data-companyuuid"));
+        $("#modal-dialog-img").modal("hide");
+        toastTip("提示",res.info);  
     }else{
         toastTip("提示",res.info);
+    };
+};
+
+//  新增或更新菜单信息
+function menuButtonAddOrUpdate_port(json) {
+    var data={
+            icon:json.icon,
+            id:json.id,
+            name:json.name,
+            buttonCode:json.buttonCode,
+            menuId:json.menuId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuButtonAddOrUpdate,param,menuButtonAddOrUpdate_callback);
+};
+function menuButtonAddOrUpdate_callback(res) {
+    if(res.code==200){
+        menuButtonList_port($(".level03Add").attr("data-parentid"));
+        $("#modal-button").modal("hide");
+        toastTip("提示",res.info);  
+    }else{
+        toastTip("提示",res.info);
+    };
+};
+
+//  删除菜单
+function menuDelete_port(id) {
+    var data={
+            id:id
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuDelete,param,menuDelete_callback);
+};
+function menuDelete_callback(res) {
+    if(res.code==200){
+        menuCompanyList_port($("#tableBox tbody tr.active").attr("data-companyuuid"));
+        toastTip("提示",res.info);  
+    };
+};
+
+//  删除按钮
+function menuButtonDelete_port(id,menuId) {
+    var data={
+            id:id
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuButtonDelete,param,menuButtonDelete_callback,menuId);
+};
+function menuButtonDelete_callback(res,menuId) {
+    if(res.code==200){
+        menuButtonList_port(menuId);
+        toastTip("提示",res.info);  
+    };
+};
+
+//  菜单详情
+function menuDetail_port(id) {
+    var data={
+            id:id
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuDetail,param,menuDetail_callback,id);
+};
+function menuDetail_callback(res,id) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        data.iconArr=data.icon.split(",");
+        data.path_img=httpUrl.path_img;
+        $(".modalTitle").text("编辑内容");
+        $("#modal-dialog-img input#menuName").val(data.name);
+        $("#modal-dialog-img input#url").val(data.url);
+
+        $(".newPic").attr("data-md5",data.iconArr[0]).attr("src",data.path_img+data.iconArr[0]+"&minpic=1");
+        $(".newPic01").attr("data-md5",data.iconArr[1]).attr("src",data.path_img+data.iconArr[1]+"&minpic=1");
+        if(data.type==1){
+            $("#modal-dialog-img .newTopBtn").addClass("active").find("span").text("开");
+        }else{
+            $("#modal-dialog-img .newTopBtn").removeClass("active").find("span").text("关");
+        };
+
+        $("#menuNew").attr("data-id",data.id);
+        $("#menuNew").attr("data-parentId",data.parentId);
+        if(data.parentId =="0"){
+            $(".newPic01,.newPicBtn01").addClass("hide");
+        }else{
+            $(".newPic01,.newPicBtn01").removeClass("hide");
+        };
+
+        $("#modal-dialog-img").modal("show");
+    };
+};
+
+//  按钮详情
+function menuButtonDetail_port(id) {
+    var data={
+            id:id
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuButtonDetail,param,menuButtonDetail_callback,id);
+};
+function menuButtonDetail_callback(res,id) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        data.path_img=httpUrl.path_img;
+        $("#modal-button .modalTitle").text("编辑按钮");
+        $("#modal-button input#buttonName").val(data.name);
+        $("#modal-button input#code").val(data.buttonCode);
+        $(".newPic02").attr("data-md5",data.icon).attr("src",data.path_img+data.icon+"&minpic=1");
+        $("#buttonNew").attr("data-id",data.id).attr("data-menuid",data.menuId);
+
+        $("#modal-button").modal("show");
     };
 };
 
@@ -195,11 +462,49 @@ function loadFiles() {
                     path_img:httpUrl.path_img
             };
             var url=data.path_img+data.md5+"&minpic=1";
-            $(".newPicBtn").next("img").attr("src",url);
-            console.log(data);
-            
+            $(".newPic").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
         });
         myDropzone.on('error',function(file,errorMessage,httpRequest){
+            alert('没有上传成功,请重试:'+errorMessage);
+            this.removeFile(file);
+        });
+
+        var myDropzone01=new Dropzone('.newPic01',{
+            url: httpUrl.picUrl,//84服务器图片
+            paramName: "mbFile", // The name that will be used to transfer the file
+            maxFilesize: 50, // MB
+            addRemoveLinks: true,
+            acceptedFiles: 'image/*'
+        });
+        myDropzone01.on('success',function(file,responseText){
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
+            };
+            var url=data.path_img+data.md5+"&minpic=1";
+            $(".newPic01").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+        });
+        myDropzone01.on('error',function(file,errorMessage,httpRequest){
+            alert('没有上传成功,请重试:'+errorMessage);
+            this.removeFile(file);
+        });
+
+        var myDropzone02=new Dropzone('.newPic02',{
+            url: httpUrl.picUrl,//84服务器图片
+            paramName: "mbFile", // The name that will be used to transfer the file
+            maxFilesize: 50, // MB
+            addRemoveLinks: true,
+            acceptedFiles: 'image/*'
+        });
+        myDropzone02.on('success',function(file,responseText){
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
+            };
+            var url=data.path_img+data.md5+"&minpic=1";
+            $(".newPic02").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+        });
+        myDropzone02.on('error',function(file,errorMessage,httpRequest){
             alert('没有上传成功,请重试:'+errorMessage);
             this.removeFile(file);
         });
