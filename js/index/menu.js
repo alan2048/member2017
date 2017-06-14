@@ -17,6 +17,7 @@ function menuList_callback(res) {
     			arr:JSON.parse(res.data),
     			path_img:httpUrl.path_img
     	};
+    	console.log(data);
 		var html=template("menuBox_script",data);
 		$("#menuBox").empty().append(html);
 		$("#menuBox").on({
