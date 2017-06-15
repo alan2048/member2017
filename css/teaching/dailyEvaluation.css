@@ -16,8 +16,8 @@ ul,li{
 	margin-bottom: 0 !important;
 }
 #members >li{
-	width:114px;
-	height: 150px;
+	width:150px;
+	height: 190px;
 	margin-top: 24px;
 	margin-right: 40px;
 	float: left;
@@ -39,35 +39,39 @@ ul,li{
 #members >li >.membersBg{
 	display: block;
 	cursor: pointer;
-	width: 114px;
-	height: 114px;
+	width: 150px;
+	height: 150px;
 	border-radius: 16px;
 	overflow: hidden;
 	background-image: url(../../img/teaching/showImg.png);
+	border: 2px solid #666;
 	background-size: 100%;
 }
 #members >li >.membersBg >div{
 	text-align: center;
 	line-height: 32px;
-	margin-top: 82px;
-	height: 32px;
-	background-color: rgba(20,20,20,0.5);
+	margin-top: 108px;
+	height: 40px;
+	background-color: rgba(0,0,0,0.4);
 }
 #members >li >.membersBg .icon01{
 	display: inline-block;
 	min-width: 20px;
-	min-height: 20px;
-	padding-left: 24px;
+	min-height: 40px;
+	padding-left: 32px;
 	padding-right: 10px;
+	line-height: 40px;
 	background:  url(../../img/teaching/list01.png) 0 center no-repeat;
 	color: #fff;
+	margin-left: 8px;
 }
 #members >li >.membersBg .icon02{
 	display: inline-block;
-	min-width: 20px;
-	min-height: 20px;
-	padding-left: 26px;
+	min-width: 48px;
+	min-height: 40px;
+	padding-left: 32px;
 	color: #fff;
+	line-height: 40px;
 	background:  url(../../img/teaching/list02.png) 0 center no-repeat;
 }
 #members >li >.membersBg .icon02.redBtn{

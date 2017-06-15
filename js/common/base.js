@@ -1,156 +1,154 @@
 var user={
-		// useruuid:GetQueryString("useruuid") || "ca47d137-90eb-4a60-8c4b-fd46d14c0966",// 许
 		useruuid:GetQueryString("useruuid") || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",// 鱼
 		pid:GetQueryString("pid"),
 		sid:GetQueryString("sid"),
-		classId:GetQueryString("classId") || 2,
-		perssionNames:GetQueryString("perssionNames")
+		classId:GetQueryString("classId") || 2
 };
 var serverUrl01="http://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
+var serverUrl03="http://121.43.150.38";//38测试服务器
 var serverHost="http://www.member361.com";
 
-var path01="http://172.168.90.101";//38测试服务器
-
 var path=serverUrl02; //更改服务器地址可设置此值
+var path01=serverUrl03; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础接口
 		
-		// login:path+"/jfinal_mbjy_basic/login",// 首页登入
-		back:path+"/jfinal_mbjy_basic/back",//首页登入回调
-		loginHttp:path+"/jfinal_mbjy_basic/", // 登入地址
-		logoutHttp:path, // 注销地址
+		// login:path01+"/jfinal_mbjy_basic/login",// 首页登入
+		back:path01+"/jfinal_mbjy_basic/back",//首页登入回调
+		loginHttp:path01+"/jfinal_mbjy_basic/", // 登入地址
+		logoutHttp:path01, // 注销地址
 		// path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // 图片地址
 		
 		
-		memberRecord:path+"/sample_front/memberRecord/memberRecord.html",//成长档案网址
+		memberRecord:path01+"/sample_front/memberRecord/memberRecord.html",//成长档案网址
 
 		// 00公共接口
-		permission:path+"/jfinal_mbjy_basic/permission",// NAV导航栏和右侧树结构
-		getTeacherList:path+"/jfinal_mbjy_basic/account/getTeacherList", // 获取学校教师信息
-		getUserClassInfo01:path+"/jfinal_mbjy_basic/basic/GetUserClassInfo",//获取用户班级信息 与下面一接口相同
-		getAllClassInfo:path+"/jfinal_mbjy_basic/basic/getAllClassInfo",//获取全部班级列表
-		getClassMemberInfo:path+"/jfinal_mbjy_basic/basic/getClassMemberInfo",//获取班级成员信息
-		getClassStudentInfo:path+"/jfinal_mbjy_basic/basic/getClassStudentInfo",//获取学生信息
+		permission:path01+"/jfinal_mbjy_basic/permission",// NAV导航栏和右侧树结构
+		getTeacherList:path01+"/jfinal_mbjy_basic/account/getTeacherList", // 获取学校教师信息
+		getUserClassInfo01:path01+"/jfinal_mbjy_basic/basic/GetUserClassInfo",//获取用户班级信息 与下面一接口相同
+		getAllClassInfo:path01+"/jfinal_mbjy_basic/basic/getAllClassInfo",//获取全部班级列表
+		getClassMemberInfo:path01+"/jfinal_mbjy_basic/basic/getClassMemberInfo",//获取班级成员信息
+		getClassStudentInfo:path01+"/jfinal_mbjy_basic/basic/getClassStudentInfo",//获取学生信息
 		
 		// 01师资管理
-		teacher:path+"/jfinal_mbjy_basic/teacher",// 教师信息查询
+		teacher:path01+"/jfinal_mbjy_basic/teacher",// 教师信息查询
 
 		// 02班务管理
 
 		// 03教学管理
-		courseList:path+"/jfinal_mbjy_sample/course/list",// 获取课程计划列表
-		courseSave:path+"/jfinal_mbjy_sample/course/save",// 新增课程
-		courseUpdate:path+"/jfinal_mbjy_sample/course/update",// 编辑课程
-		courseDelete:path+"/jfinal_mbjy_sample/course/delete",// 删除课程
-		courseDetail:path+"/jfinal_mbjy_sample/course/detail", // 查看课程详情
-		getPersonCourse:path+"/jfinal_mbjy_sample/course/getPersonCourse",// 获取个人观察计划列表
-		courseDim:path+"/jfinal_mbjy_sample/dim/courseDim",// 获取观察计划的维度列表
+		courseList:path01+"/jfinal_mbjy_sample/course/list",// 获取课程计划列表
+		courseSave:path01+"/jfinal_mbjy_sample/course/save",// 新增课程
+		courseUpdate:path01+"/jfinal_mbjy_sample/course/update",// 编辑课程
+		courseDelete:path01+"/jfinal_mbjy_sample/course/delete",// 删除课程
+		courseDetail:path01+"/jfinal_mbjy_sample/course/detail", // 查看课程详情
+		getPersonCourse:path01+"/jfinal_mbjy_sample/course/getPersonCourse",// 获取个人观察计划列表
+		courseDim:path01+"/jfinal_mbjy_sample/dim/courseDim",// 获取观察计划的维度列表
 		
-		dailyEvaluationList:path+"/jfinal_mbjy_sample/record/list", //获取日常评价记录列表
-		dailyEvaluationTypicalList:path+"/jfinal_mbjy_sample/record/typicalList", //获取典型案例记录列表
-		dailyEvaluationDelete:path+"/jfinal_mbjy_sample/record/delete", // 日常评价删除
-		dailyEvaluationSaveLevel:path+"/jfinal_mbjy_sample/record/saveLevel", // 评价日常观察记录
-		dailyEvaluationUpdate:path+"/jfinal_mbjy_sample/record/update", // 更新日常观察记录
-		dailyEvaluationDetail:path+"/jfinal_mbjy_sample/record/detail", // 日常评价详情
-		studentRecordList:path+"/jfinal_mbjy_sample/record/studentRecordList",//获取班级学生观察记录列表
+		dailyEvaluationList:path01+"/jfinal_mbjy_sample/record/list", //获取日常评价记录列表
+		dailyEvaluationTypicalList:path01+"/jfinal_mbjy_sample/record/typicalList", //获取典型案例记录列表
+		dailyEvaluationDelete:path01+"/jfinal_mbjy_sample/record/delete", // 日常评价删除
+		dailyEvaluationSaveLevel:path01+"/jfinal_mbjy_sample/record/saveLevel", // 评价日常观察记录
+		dailyEvaluationUpdate:path01+"/jfinal_mbjy_sample/record/update", // 更新日常观察记录
+		dailyEvaluationDetail:path01+"/jfinal_mbjy_sample/record/detail", // 日常评价详情
+		studentRecordList:path01+"/jfinal_mbjy_sample/record/studentRecordList",//获取班级学生观察记录列表
 
-		watchDimensions:path+"/jfinal_mbjy_sample/dim/list", // 观察维度树结构
-		dimSave:path+"/jfinal_mbjy_sample/dim/save",// 新增观察维度
-		dimUpdate:path+"/jfinal_mbjy_sample/dim/update",// 编辑观察维度
-		dimDelete:path+"/jfinal_mbjy_sample/dim/delete", // 删除观察维度
+		watchDimensions:path01+"/jfinal_mbjy_sample/dim/list", // 观察维度树结构
+		dimSave:path01+"/jfinal_mbjy_sample/dim/save",// 新增观察维度
+		dimUpdate:path01+"/jfinal_mbjy_sample/dim/update",// 编辑观察维度
+		dimDelete:path01+"/jfinal_mbjy_sample/dim/delete", // 删除观察维度
 		
-		getDimLevelList:path+"/jfinal_mbjy_sample/dim/getDimLevelList", // 获取观察维度的水平描述
-		saveDimLevel:path+"/jfinal_mbjy_sample/dim/saveDimLevel", // 新增观察维度水平描述
-		updateDimLevel:path+"/jfinal_mbjy_sample/dim/updateDimLevel", // 编辑观察维度水平描述
-		deleteDimLevel:path+"/jfinal_mbjy_sample/dim/deleteDimLevel", // 删除观察维度水平描述
+		getDimLevelList:path01+"/jfinal_mbjy_sample/dim/getDimLevelList", // 获取观察维度的水平描述
+		saveDimLevel:path01+"/jfinal_mbjy_sample/dim/saveDimLevel", // 新增观察维度水平描述
+		updateDimLevel:path01+"/jfinal_mbjy_sample/dim/updateDimLevel", // 编辑观察维度水平描述
+		deleteDimLevel:path01+"/jfinal_mbjy_sample/dim/deleteDimLevel", // 删除观察维度水平描述
 		
 		//月周计划
-		fileUpload:path+":18081/FileCloud/fileUpload", // 上传
-		fileDownload:path+":18081/FileCloud/fileDownload", // 下载
-		insertFileInfo:path+":18081/FileCloud/insertFileInfo", // 添加新文件（夹）
-		deleteFileInfo:path+":18081/FileCloud/deleteFileInfo", // 删除文件（夹）
-		updateFileName:path+":18081/FileCloud/updateFileName", // 重命名文件（夹）
-		updateEvaluate:path+":18081/FileCloud/updateEvaluate", // 更改文件评级
-		getRootFileUUID:path+":18081/FileCloud/getRootFileUUID", // 获取根文件夹UUID
-		getParentUUID:path+":18081/FileCloud/getParentUUID", // 获取上级文件夹UUID
-		getAllChildInfo:path+":18081/FileCloud/getAllChildInfo", // 获取子级全部文件（夹）
+		fileUpload:path01+":18081/FileCloud/fileUpload", // 上传
+		fileDownload:path01+":18081/FileCloud/fileDownload", // 下载
+		insertFileInfo:path01+":18081/FileCloud/insertFileInfo", // 添加新文件（夹）
+		deleteFileInfo:path01+":18081/FileCloud/deleteFileInfo", // 删除文件（夹）
+		updateFileName:path01+":18081/FileCloud/updateFileName", // 重命名文件（夹）
+		updateEvaluate:path01+":18081/FileCloud/updateEvaluate", // 更改文件评级
+		getRootFileUUID:path01+":18081/FileCloud/getRootFileUUID", // 获取根文件夹UUID
+		getParentUUID:path01+":18081/FileCloud/getParentUUID", // 获取上级文件夹UUID
+		getAllChildInfo:path01+":18081/FileCloud/getAllChildInfo", // 获取子级全部文件（夹）
 		// 04保健管理
-		getClassHealthInfo:path+":18082/HealthInfo/getClassHealthInfo",//获得班级健康信息
-		calculateAge:path+":18082/HealthInfo/calculateAge",//根据导入日期计算年龄
-		getExamDateListByClass:path+":18082/HealthInfo/getExamDateListByClass",//根据班级获得检查日期列表
-		insertHealthInfo:path+":18082/HealthInfo/insertHealthInfo",//增加健康信息
-		deleteHealthInfo:path+":18082/HealthInfo/deleteHealthInfo",//删除健康信息
-		updateHealthInfo:path+":18082/HealthInfo/updateHealthInfo",//更新健康信息
-		getPValue:path+":18082/HealthInfo/getPValue",//取得p值
-		getFatnessValue:path+":18082/HealthInfo/getFatnessValue",//取得肥胖值
-		getBirthdaySex:path+":18082/HealthInfo/getBirthdaySex",//取得学员生日和性别
-		getSingleHealthInfo:path+":18082/HealthInfo/getSingleHealthInfo",// 健康信息编辑详情
-		importHealthInfo:path+":18082/HealthInfo/importHealthInfo",// 批量导入
+		getClassHealthInfo:path01+":18082/HealthInfo/getClassHealthInfo",//获得班级健康信息
+		calculateAge:path01+":18082/HealthInfo/calculateAge",//根据导入日期计算年龄
+		getExamDateListByClass:path01+":18082/HealthInfo/getExamDateListByClass",//根据班级获得检查日期列表
+		insertHealthInfo:path01+":18082/HealthInfo/insertHealthInfo",//增加健康信息
+		deleteHealthInfo:path01+":18082/HealthInfo/deleteHealthInfo",//删除健康信息
+		updateHealthInfo:path01+":18082/HealthInfo/updateHealthInfo",//更新健康信息
+		getPValue:path01+":18082/HealthInfo/getPValue",//取得p值
+		getFatnessValue:path01+":18082/HealthInfo/getFatnessValue",//取得肥胖值
+		getBirthdaySex:path01+":18082/HealthInfo/getBirthdaySex",//取得学员生日和性别
+		getSingleHealthInfo:path01+":18082/HealthInfo/getSingleHealthInfo",// 健康信息编辑详情
+		importHealthInfo:path01+":18082/HealthInfo/importHealthInfo",// 批量导入
 
-		getDateList:path+":18082/HealthInfo/getTableInfoList",// 获得菜谱日期列表
-		healthGetTable:path+":18082/HealthInfo/getTable",// 获得整张表的内容
-		healthSaveTable:path+":18082/HealthInfo/saveTable",// 新增编辑菜谱新表
-		healthDeleteTable:path+":18082/HealthInfo/deleteTable",// 删除菜谱
+		getDateList:path01+":18082/HealthInfo/getTableInfoList",// 获得菜谱日期列表
+		healthGetTable:path01+":18082/HealthInfo/getTable",// 获得整张表的内容
+		healthSaveTable:path01+":18082/HealthInfo/saveTable",// 新增编辑菜谱新表
+		healthDeleteTable:path01+":18082/HealthInfo/deleteTable",// 删除菜谱
 
 		//风险预警
-		getCompanyHealthAlert:path+":18082/HealthInfo/getCompanyHealthAlert",//获得预警信息
-		insertHealthAlert:path+":18082/HealthInfo/insertHealthAlert",//增加健康预警
-		getAlertType:path+":18082/HealthInfo/getAlertType",//获得预警类型
-		getAlertAge:path+":18082/HealthInfo/getAlertAge",//获得预警年龄
-		deleteHealthAlert:path+":18082/HealthInfo/deleteHealthAlert",//删除健康预警
-		updateHealthAlert:path+":18082/HealthInfo/updateHealthAlert",//编辑健康预警
-		getHealthAlert:path+":18082/HealthInfo/getHealthAlert",//编辑获得单条预警信息记录
+		getCompanyHealthAlert:path01+":18082/HealthInfo/getCompanyHealthAlert",//获得预警信息
+		insertHealthAlert:path01+":18082/HealthInfo/insertHealthAlert",//增加健康预警
+		getAlertType:path01+":18082/HealthInfo/getAlertType",//获得预警类型
+		getAlertAge:path01+":18082/HealthInfo/getAlertAge",//获得预警年龄
+		deleteHealthAlert:path01+":18082/HealthInfo/deleteHealthAlert",//删除健康预警
+		updateHealthAlert:path01+":18082/HealthInfo/updateHealthAlert",//编辑健康预警
+		getHealthAlert:path01+":18082/HealthInfo/getHealthAlert",//编辑获得单条预警信息记录
 
 		// 05家园互动
-		recordStudent:path+":15001/mbtrack/dan/student",// 获取学生列表（含档案信息）
-		recordList:path+":15001/mbtrack/danbook/list",// 获取档案册列表
-		recordMonthList:path+":15001/mbtrack/danbook/danList",// 获取档案册档案页详情
-		recordNewDanbook:path+":15001/mbtrack/danbook/save",// 新建档案册
-		recordDownload:path+":15001/file/patch/download",//图片批量下载（档案页）
-		recordDanbookUpdate:path+":15001/mbtrack/danbook/update",// 档案册名更新
+		recordStudent:path01+":15001/mbtrack/dan/student",// 获取学生列表（含档案信息）
+		recordList:path01+":15001/mbtrack/danbook/list",// 获取档案册列表
+		recordMonthList:path01+":15001/mbtrack/danbook/danList",// 获取档案册档案页详情
+		recordNewDanbook:path01+":15001/mbtrack/danbook/save",// 新建档案册
+		recordDownload:path01+":15001/file/patch/download",//图片批量下载（档案页）
+		recordDanbookUpdate:path01+":15001/mbtrack/danbook/update",// 档案册名更新
 
-		GetSchoolIds:path+":15001/imsInterface/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
-		GetSchoolJYIds:path+":15001/imsInterface/TSCourse_GetSchoolJYIds",//剧场活动 id
-		GetSchoolCourses:path+":15001/imsInterface/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
-		AddCourse:path+":15001/imsInterface/TSCourse_AddCourse",//特色课程 新增
-		GetCourseDetails:path+":15001/imsInterface/TSCourse_GetCourseDetails",//获取学校课程详情
-		tsDelCourse:path+":15001/imsInterface/TSCourse_DelCourse",// 删除学校课程
-		tsGetBookedChildren:path+":15001/imsInterface/TSCourse_GetBookedChildren",// 签到学生列表
-		tsCallRoll:path+":15001/imsInterface/TSCourse_CallRoll",// 签到
-		tsCancelRoll:path+":15001/imsInterface/TSCourse_CancelRoll",// 取消签到
+		GetSchoolIds:path01+":15001/imsInterface/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
+		GetSchoolJYIds:path01+":15001/imsInterface/TSCourse_GetSchoolJYIds",//剧场活动 id
+		GetSchoolCourses:path01+":15001/imsInterface/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
+		AddCourse:path01+":15001/imsInterface/TSCourse_AddCourse",//特色课程 新增
+		GetCourseDetails:path01+":15001/imsInterface/TSCourse_GetCourseDetails",//获取学校课程详情
+		tsDelCourse:path01+":15001/imsInterface/TSCourse_DelCourse",// 删除学校课程
+		tsGetBookedChildren:path01+":15001/imsInterface/TSCourse_GetBookedChildren",// 签到学生列表
+		tsCallRoll:path01+":15001/imsInterface/TSCourse_CallRoll",// 签到
+		tsCancelRoll:path01+":15001/imsInterface/TSCourse_CancelRoll",// 取消签到
 
 		// 06消息发布
-		GetClassNotifyInfos:path+":12001/YY/GetClassNotifyInfos",// 获得班级活动列表
-		getUserClassInfo:path+":12001/YY/GetUserClassInfo",//获取用户班级信息
-		AddNewClassInfo:path+":12001/YY/AddNewClassInfo",// 获取班级信息
+		GetClassNotifyInfos:path01+":12001/YY/GetClassNotifyInfos",// 获得班级活动列表
+		getUserClassInfo:path01+":12001/YY/GetUserClassInfo",//获取用户班级信息
+		AddNewClassInfo:path01+":12001/YY/AddNewClassInfo",// 获取班级信息
 
-		GetSchoolNotifyInfos:path+":12001/YY/GetSchoolNotifyInfos",// 获得学校通知列表
-		AddNewSchoolInfo:path+":12001/YY/AddNewSchoolInfo",// 新增学校通知
+		GetSchoolNotifyInfos:path01+":12001/YY/GetSchoolNotifyInfos",// 获得学校通知列表
+		AddNewSchoolInfo:path01+":12001/YY/AddNewSchoolInfo",// 新增学校通知
 
-		GetParentsLessionInfos:path+":12001/YY/GetParentsLessionInfos",// 获得家长课堂列表
-		AddParentsLessionInfo:path+":12001/YY/AddParentsLessionInfo",// 新增家长课堂
+		GetParentsLessionInfos:path01+":12001/YY/GetParentsLessionInfos",// 获得家长课堂列表
+		AddParentsLessionInfo:path01+":12001/YY/AddParentsLessionInfo",// 新增家长课堂
 
-		GetHealthColumnInfos:path+":12001/YY/GetHealthColumnInfos",// 获得健康专栏列表
-		AddHealthColumnInfo:path+":12001/YY/AddHealthColumnInfo",// 新增健康专栏
+		GetHealthColumnInfos:path01+":12001/YY/GetHealthColumnInfos",// 获得健康专栏列表
+		AddHealthColumnInfo:path01+":12001/YY/AddHealthColumnInfo",// 新增健康专栏
 
-		GetNotify2Info:path+":12001/YY/GetNotify2Info",// 长桥 新闻总口
-		AddNotify2Info:path+":12001/YY/AddNotify2Info",// 长桥 新闻总口 新增
+		GetNotify2Info:path01+":12001/YY/GetNotify2Info",// 长桥 新闻总口
+		AddNotify2Info:path01+":12001/YY/AddNotify2Info",// 长桥 新闻总口 新增
 
 		// 07管理与统计
-		getPersonEvaluate:path+":48080/jfinal_mbjy_sample/report/getPersonEvaluate",// 个人综合能力评价
-		getClassEvaluate:path+":48080/jfinal_mbjy_sample/report/getClassEvaluate",// 班级综合能力水平
-		classRecord:path+":15001/jfinal_mbjy_sample/report/classRecord",// 班级观察记录统计
-		classRecordDim:path+":15001/jfinal_mbjy_sample/report/classRecordDim",// 观察指标对应观察记录统计
-		getStudentAbility:path+":15001/imsInterface/TJ_GCJL_GetStudentAbilityStrong",// 个人综合能力评价 雷达图
-		getStudentCourseAbility:path+":15001/imsInterface/TJ_GCJL_GetStudentCourseAbility",// 个人课程 能力评价 雷达图
-		getClassesAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetClassesAbilibySimple",// 班级综合能力水平 
-		getCourseAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetCourseAbilibySimple",// 班级课程能力水平 
-		getClassAbilibySimple:path+":15001/imsInterface/TJ_GCJL_GetClassAbilibySimple",// 班级综合能力水平 雷达图
-		getCourseSimpleTJ:path+":15001/imsInterface/TSCourse_getCourseSimpleTJ",// 自选活动 活动统计 
-		getCourseClassTJ:path+":15001/imsInterface/TSCourse_getCourseClassTJ",// 自选活动 班级统计 
-		getCourseStudentTJ:path+":15001/imsInterface/TSCourse_getCourseStudentTJ",// 自选活动 学生统计 
-		getCourseStudentDetailTJ:path+":15001/imsInterface/TSCourse_getCourseStudentDetailTJ",// 自选活动 活动统计详情 
+		getPersonEvaluate:path01+":48080/jfinal_mbjy_sample/report/getPersonEvaluate",// 个人综合能力评价
+		getClassEvaluate:path01+":48080/jfinal_mbjy_sample/report/getClassEvaluate",// 班级综合能力水平
+		classRecord:path01+":15001/jfinal_mbjy_sample/report/classRecord",// 班级观察记录统计
+		classRecordDim:path01+":15001/jfinal_mbjy_sample/report/classRecordDim",// 观察指标对应观察记录统计
+		getStudentAbility:path01+":15001/imsInterface/TJ_GCJL_GetStudentAbilityStrong",// 个人综合能力评价 雷达图
+		getStudentCourseAbility:path01+":15001/imsInterface/TJ_GCJL_GetStudentCourseAbility",// 个人课程 能力评价 雷达图
+		getClassesAbilibySimple:path01+":15001/imsInterface/TJ_GCJL_GetClassesAbilibySimple",// 班级综合能力水平 
+		getCourseAbilibySimple:path01+":15001/imsInterface/TJ_GCJL_GetCourseAbilibySimple",// 班级课程能力水平 
+		getClassAbilibySimple:path01+":15001/imsInterface/TJ_GCJL_GetClassAbilibySimple",// 班级综合能力水平 雷达图
+		getCourseSimpleTJ:path01+":15001/imsInterface/TSCourse_getCourseSimpleTJ",// 自选活动 活动统计 
+		getCourseClassTJ:path01+":15001/imsInterface/TSCourse_getCourseClassTJ",// 自选活动 班级统计 
+		getCourseStudentTJ:path01+":15001/imsInterface/TSCourse_getCourseStudentTJ",// 自选活动 学生统计 
+		getCourseStudentDetailTJ:path01+":15001/imsInterface/TSCourse_getCourseStudentDetailTJ",// 自选活动 活动统计详情 
 
 
 
@@ -240,6 +238,16 @@ var httpUrl={
 		menuDetail:path+"/web/ops/menu/detail",// 菜单详情
 		menuButtonDetail:path+"/web/ops/menu/button/detail",// 按钮详情
 
+		// 观察记录
+		watchCourseList:path+"/web/sample/search/course/list",// (查询)个人观察计划列表
+		watchClassList:path+"/web/sample/search/class/list",// (查询)获取个人所在班级
+		watchTeacherList:path+"/web/sample/search/teacher/list",// (查询)获取班级所有老师
+		watchDimList:path+"/web/sample/search/dim/list",// (查询)观察计划维度列表
+		watchRecordUpdate:path+"/web/sample/student/record/update",// 更新观察记录
+		watchRecordList:path+"/web/sample/student/record/list",// 获取学生观察记录列表
+		watchStudentList:path+"/web/sample/record/student/list",// 获取观察记录学生列表
+		watchRecordDetail:path+"/web/sample/student/record/detail",// 获取观察记录详情
+		
 		// 08设置
 		setting:'' 
 };
@@ -369,7 +377,7 @@ function chooseNiceScroll(AA,color) {
 };
 
 // 消息提示函数
-function toastTip(heading,text,hideAfter) {
+function toastTip(heading,text,hideAfter,afterHidden) {
     $.toast({
             heading: heading,
             text: text,
@@ -378,9 +386,7 @@ function toastTip(heading,text,hideAfter) {
             hideAfter: hideAfter || 1500,
             loaderBg: '#13b5dd',
             position: 'bottom-right',
-            afterHidden: function () {
-                // window.location.href=httpUrl.loginHttp;
-            }
+            afterHidden: afterHidden
     });
 };
 
