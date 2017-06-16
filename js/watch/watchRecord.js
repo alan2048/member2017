@@ -144,17 +144,14 @@ function watchRecordList_callback(res) {
 // 删除接口函数
 function dailyEvaluationDelete_port() {
     var data={
-            recordIdList:[]
+            id:$("#email-content tbody tr i.fa-check-square-o").attr("data-id")
     };
-    var num=$("#email-content tbody tr i.fa-check-square-o");
-    for(var i=0;i<num.length;i++){
-        data.recordIdList.push(num.eq(i).attr('data-id'));
-    }
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     
-    initAjax(httpUrl.dailyEvaluationDelete,param,dailyEvaluationDelete_callback);
+    initAjax(httpUrl.watchRecordDelete,param,dailyEvaluationDelete_callback);
 };
 function dailyEvaluationDelete_callback(res) {
     $("#evaluation").empty();//评价详情初始化

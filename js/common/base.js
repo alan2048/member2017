@@ -248,7 +248,8 @@ var httpUrl={
 		watchRecordList:path+"/web/sample/student/record/list",// 获取学生观察记录列表
 		watchStudentList:path+"/web/sample/record/student/list",// 获取观察记录学生列表
 		watchRecordDetail:path+"/web/sample/student/record/detail",// 获取观察记录详情
-		
+		watchRecordDelete:path+"/web/sample/record/delete",// 删除观察记录
+
 		// 08设置
 		setting:'' 
 };
