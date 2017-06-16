@@ -16,7 +16,7 @@
 	margin-bottom: 0.3rem;
 }
 #search >label{
-	line-height: 0.38rem;
+	line-height: 0.5rem;
 }
 #search >label >select{
 	min-width: 1.2rem;
@@ -60,7 +60,7 @@
 	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
 	text-align: center;
 	background-color: #fff;
-	vertical-align: top;
+	vertical-align: middle;
 }
 #searchBtn:hover{
 	background-color: #e1e1e1;
@@ -103,7 +103,7 @@
 	background: url(../../images/common/checkedAllBtn.png) 0 center no-repeat;
 }
 #buttonBox{
-	margin-bottom: 0.2rem;
+	margin-bottom: 0;
 }
 .disable{
 	opacity:0.3;

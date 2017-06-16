@@ -178,6 +178,7 @@ var httpUrl={
 		basicMyClassInfo:path+"/web/basic/myClassInfo",// 获得当前人 所在班级列表
 		basicAllClassInfo:path+"/web/basic/allClassInfo",// 获得登录人所在学校所有班级列表
 		basicCompanyList:path+"/web/ops/company/list",// 获取所有的学校
+		basicZip:path+"/file/zip",// 获取打包下载zip
 
 		// 菜单
 		menuList:path+"/web/ops/user/menu/list",// 菜单接口

@@ -114,7 +114,9 @@
                         {{/each}}
                     </script>
                 </label>
-      			<span id="searchBtn">查询</span>
+                <label>
+                    <span id="searchBtn">查询</span>
+                </label>
 			</div>
 			<div id="buttonBox">
                 <script type="text/html" id="buttonBox_script">
@@ -132,7 +134,7 @@
                 <script type="text/html" id="members_script">
                     {{each data as value i}}
                     <li>
-                        <a class="membersBg" data-id="{{value.id}}" data-useruuid="{{value.useruuid}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal">
+                        <a class="membersBg" data-id="{{value.id}}" data-useruuid="{{value.userUuid}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal">
                             <div>
                                 <span class="icon01">{{value.recordNum}}</span>
                                 {{if value.evaNum==0}}
@@ -142,7 +144,7 @@
                                 {{/if}}
                             </div>
                         </a>
-                        <div class="membersTitle"><span data-useruuid="{{value.useruuid}}" class="unchecked">{{value.userName}}</span></div>
+                        <div class="membersTitle"><span data-useruuid="{{value.userUuid}}" class="unchecked">{{value.userName}}</span></div>
                     </li>
                     {{/each}}
                 </script>
@@ -236,8 +238,8 @@
                                                 <ul id="carousel" class="pagination">
                                                     {{each picMd5List as value i}}
                                                     <li>
-                                                            <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
-                                                                  <img src="{{path_img}}{{value}}&Thumbnail=1">
+                                                            <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}&minpic=0" class="pic" data-pic="{{value}}">
+                                                                  <img src="{{path_img}}{{value}}&minpic=1">
                                                                  <span class="deleteBtn"></span>
                                                             </a>
                                                     </li>
@@ -268,51 +270,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="jxgl-pjgl-rcpj-box" style="margin-top:150px">
-                                            <h5>量表记录</h5>
-                                            <div class="jxgl-pjgl-rcpj-lbjl" id="measureTable">
-                                                {{if measure.type== 1}}
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width:30%;">{{measure.name}}</th>
-                                                            {{each measure.detail.xlist as value i}}
-                                                            <th><strong>{{value}}</strong></th>
-                                                            {{/each}}
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {{each measure.detail.ylist as value i}}
-                                                        <tr>
-                                                            <td><strong>{{value}}</strong></td>
-                                                            {{each measure.detail.ylist as value01 j}}
-                                                            <td></td>
-                                                            {{/each}}
-                                                        </tr>
-                                                        {{/each}}
-                                                    </tbody>
-                                                </table>
-                                                {{else}}
-                                                <div class='typeRadio'>
-                                                    <ul>
-                                                        {{each measure.detail as value i}}
-                                                        <li>
-                                                            <div class="measureheader">{{value.yvalue}}</div>
-                                                            <div class="measurebody">
-                                                                {{each value.xvalues as first j}}
-                                                                <label>
-                                                                    <input type="radio" name="radio{{i}}">
-                                                                    <span>{{first}}</span>
-                                                                </label>
-                                                                {{/each}}
-                                                            </div>
-                                                        </li>
-                                                        {{/each}}
-                                                    </ul>
-                                                </div>
-                                                {{/if}}
-                                            </div>
-                                        </div>
+                                        
                                         <div class="clearfix"></div>
                                     </div>
                                 </form>
@@ -328,7 +286,7 @@
                                             <div class="col-md-10 ui-sortable">
                                                 <select class="form-control" id="level">
                                                     <option value="" data-desc="">请选择</option>
-                                                    {{each recordLevelInfo.dimLevelList as value i}}
+                                                    {{each recordLevel.dimLevelVOList as value i}}
                                                     <option value="{{value.id}}" data-id="{{value.id}}" data-desc="{{value.description}}">{{value.level}}</option>
                                                     {{/each}}
                                                 </select>
@@ -357,9 +315,11 @@
                                 
                                 <div class="form-group pull-right" style="margin-top:20px">
                                     <div class="col-md-12 ui-sortable">
-                                        {{if operation == 2}}
+                                        {{if operation == 1}}
                                         是否标记为典型案例:
                                         <span id="switchBtn" {{if typical==1}} class="has-hover" {{else}} class="has-hover off" {{/if}}></span>
+
+                                        <span id="switchBtn" {{if recordLevel.share==1}} class="has-hover" {{else}} class="has-hover off" {{/if}}></span>
                                         <button type="submit" class="btn btn-sm btn-success" id="finalBtn" data-id="{{id}}">提交</button>
                                         {{/if}}
                                     </div>

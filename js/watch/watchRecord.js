@@ -33,7 +33,7 @@ function init() {
         var html=template("page-header_script",data);
         $("#page-header").empty().append(html);
         $("#dailyEvaluationDelete").attr("data-childid",childUuid);//删除Btn 埋藏childid
-        dailyEvaluationList_port(childUuid);// 获取课程计划列表
+        watchRecordList_port(childUuid);// 获取课程计划列表
     });
      
     // 删除接口
@@ -55,7 +55,7 @@ function init() {
         var num=$("#level option").length;
         // num==1 解决option为空时能提交
         if(level || num ==1){
-            dailyEvaluationUpdate_port(id);
+            watchRecordUpdate_port(id);
         }else{
             alert("请先选择水平。。");
         };
@@ -88,44 +88,25 @@ function init() {
     chooseNiceScroll("#modal-dialog-qunzu .second-content");
 };
 
-
-
-// 删除图片函数
-function deletePic() {
-    $("#evaluation").on({
-        mouseover:function () {
-            $(this).find("span.deleteBtn").addClass("current");
-        },
-        mouseout:function () {
-            $(this).find("span.deleteBtn").removeClass("current");
-        }
-    },"#carousel li");
-    $("#evaluation").on("click","#carousel > li span.deleteBtn",function (event) {
-        $(this).parents("li").remove();
-        event.stopPropagation();
-    });
-};
-
 // 查询接口函数
-function dailyEvaluationList_port(childUuid,pageNumber) {
+function watchRecordList_port(childUuid,pageNumber) {
     var data={
-            useruuid:user.userUuid,
             childUuid:childUuid,
             teacherUuid:$("#teachers").val(),
-            courseid:$("#courses").val(),
-            dimid:$("#coursesDim").val(),
+            courseId:$("#courses").val(),
+            dimId:$("#coursesDim").val(),
             year:$("#year01").val(),
             month:$("#month01").val(),
             pageSize:12,
-            curPageNumber:pageNumber || 1
+            pageNumber:pageNumber || 1
         };
     var param={
             params:JSON.stringify(data),
-            loginid:''
+            loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.dailyEvaluationList,param,dailyEvaluationList_callback);
+    initAjax(httpUrl.watchRecordList,param,watchRecordList_callback);
 };
-function dailyEvaluationList_callback(res) {
+function watchRecordList_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         // console.log(data);
@@ -152,7 +133,7 @@ function dailyEvaluationList_callback(res) {
             cssStyle:'',
             // cssStyle: 'pagination-without-border pull-right m-t-0',
             onPageClick: function (pageNumber, event) {
-                dailyEvaluationList_port($("#dailyEvaluationDelete").attr("data-childid"),pageNumber);
+                watchRecordList_port($("#dailyEvaluationDelete").attr("data-childid"),pageNumber);
             }
         });
     }else{
@@ -178,41 +159,10 @@ function dailyEvaluationDelete_port() {
 function dailyEvaluationDelete_callback(res) {
     $("#evaluation").empty();//评价详情初始化
     var pageNumber=Number($("#pagination span.current:not(.prev,.next)").text());   
-    dailyEvaluationList_port($("#dailyEvaluationDelete").attr("data-childid"),pageNumber);// 获取课程计划列表
+    watchRecordList_port($("#dailyEvaluationDelete").attr("data-childid"),pageNumber);// 获取课程计划列表
     watchStudentList_port();// 学生初始化
 };
-// Row行选择函数
-function chooseRow() {
-    $("#email-content tbody tr").click(function () {
-        var aa=$(this).find('i').hasClass('fa-check-square-o');
-        if(aa){
-            $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
-            $("#evaluation").empty();//评价详情初始化
-        }else{
-            $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
-            $(this).siblings().find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
-            var id=$(this).find('i').attr("data-id");
-            dailyEvaluationDetail_port(id); 
-        };
-    });
-}
 
-// 评价行
-function editRow() {
-    //  编辑接口函数
-    $("#dailyEvaluation").click(function () {
-        var num=$("#email-content tbody tr i.fa-check-square-o").length;
-        if(num>1){
-            alert("编辑时为单选，请重新选择。。");
-            $("#email-content tbody tr i.fa-check-square-o").removeClass('fa-check-square-o').addClass('fa-square-o');
-        }else if(num==0){
-            alert("请先选择。。");
-        }else{
-            var dailyEvaluationId=$("#email-content tbody tr i.fa-check-square-o").attr('data-id');  
-            window.location.href="dailyEvaluation_new.html"+"?userUuid="+user.userUuid+"&classId="+user.classId+"&perssionNames=教学管理过程性监测日常监测"+"&dailyEvaluationId="+dailyEvaluationId;
-        }
-    });   
-};
 
 // 获得教职工所在班级列表
 function watchClassList_port() {
@@ -229,8 +179,8 @@ function watchClassList_callback(res) {
         var html=template("teacherClass_script",data);
         $("#teacherClass").empty().append(html);
 
-        watchTeacherList_port();// 获得班级教职工列表
         watchCourseList_port();// 获取个人观察计划列表
+        watchTeacherList_port();// 获得班级教职工列表
         $("#teacherClass").change(function () {
             watchTeacherList_port($(this).val());
         });
@@ -343,52 +293,32 @@ function watchStudentList_callback(res) {
 
 
 // 查询接口函数
-function dailyEvaluationDetail_port(id) {
+function watchRecordDetail_port(id) {
     var data={
-            id:id || 107,
-            useruuid:user.userUuid
+            id:id || 107
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.dailyEvaluationDetail,param,dailyEvaluationDetail_callback);
+    initAjax(httpUrl.watchRecordDetail,param,watchRecordDetail_callback);
 };
-function dailyEvaluationDetail_callback(res) {
+function watchRecordDetail_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         data.path_img=httpUrl.path_img;
         for(var i=0;i<data.voiceMd5List.length;i++){
-            data.voiceMd5List[i]=httpUrl.path_img+data.voiceMd5List[i]+'&Thumbnail=1'
+            data.voiceMd5List[i]=httpUrl.path_img+data.voiceMd5List[i]+'&minpic=1'
         };
-        if(data.measure.detail){
-            data.measure.detail=JSON.parse(data.measure.detail);
-        };
-        
-        data.measureResultList=JSON.parse(data.measureResultList);
 
         var html=template("evaluation_script",data);
         $("#evaluation").empty().append(html);
-       
-        
-        if(data.measure.type==1){
-            for(var i=0;i<data.measureResultList.length;i++){
-                $("#measureTable tbody >tr").eq(i).children("td").eq(data.measureResultList[i].xvalue).append('<img src="../../img/jxgl-pjgl-rcpj-lbjl-icon.png" width="20" height="20">');
-            };
-        }else{
-            for(var i=0;i<data.measureResultList.length;i++){
-                $("#measureTable .typeRadio >ul >li").eq(i).find("input[type=radio]").eq(data.measureResultList[i].xvalue-1).click();
-            };
-        };
-        
 
         // 已评价的初始化
-        if(data.state==1){
-            $("#level option[value="+data.recordLevelInfo.levelId+"]").prop("selected", true);
-            $("#description").text($("#level option[value="+data.recordLevelInfo.levelId+"]").attr("data-desc"));
-            $("#evaluate").val(data.recordLevelInfo.evaluate);
-            $("#advice").val(data.recordLevelInfo.advice);
-
-        };
+        $("#level option[value="+data.recordLevel.levelId+"]").prop("selected", true);
+        $("#description").text($("#level option[value="+data.recordLevel.levelId+"]").attr("data-desc"));
+        $("#evaluate").val(data.recordLevel.evaluate);
+        $("#advice").val(data.recordLevel.advice);
 
         loadFiles();// 上传图片接口
         
@@ -398,17 +328,15 @@ function dailyEvaluationDetail_callback(res) {
 };
 
 // 先执行 更新日常观察记录
-function dailyEvaluationUpdate_port(id) {
+function watchRecordUpdate_port(id) {
     var picMd5List=[];
     for(var i=0;i<$("#carousel a.pic").length;i++){
         var pic=$("#carousel a.pic").eq(i).attr("data-pic");
         picMd5List.push(pic);
     };
-    // console.log(picMd5List);
-    
     
     var data={
-                id:id,
+                recordId:id,
                 comment:$("#comment").val(),
                 picMd5List:picMd5List,
                 typical:function () {
@@ -417,38 +345,25 @@ function dailyEvaluationUpdate_port(id) {
                     }else{
                         return 1;
                     }
-                }()
-        };
-    var param={
-            params:JSON.stringify(data)
-    };
-    initAjax(httpUrl.dailyEvaluationUpdate,param,dailyEvaluationUpdate_callback,id);
-};
-function dailyEvaluationUpdate_callback(res,id) {
-    dailyEvaluationSaveLevel_port(id);
-};
-
-
-function dailyEvaluationSaveLevel_port(id) {
-    var data={
-                recordid:id,
-                levelId:$("#level").val(),
+                }(),
+                share:0,
+                advice:$("#advice").val(),
                 evaluate:$("#evaluate").val(),
-                advice:$("#advice").val()
+                levelId:$("#level").val(),
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.dailyEvaluationSaveLevel,param,dailyEvaluationSaveLevel_callback,id);
+    initAjax(httpUrl.watchRecordUpdate,param,watchRecordUpdate_callback,id);
 };
-function dailyEvaluationSaveLevel_callback(res,id) {
-
+function watchRecordUpdate_callback(res,id) {
     // 刷新一次评价列表
     var pageNumber=Number($("#pagination span.current:not(.prev,.next)").text());   
-    dailyEvaluationList_port($("#dailyEvaluationDelete").attr("data-childid"),pageNumber);// 获取课程计划列表
+    watchRecordList_port($("#dailyEvaluationDelete").attr("data-childid"),pageNumber);// 获取课程计划列表
 
     // 刷新一次评价详情
-    dailyEvaluationDetail_port(id);
+    watchRecordDetail_port(id);
     $.toast({
         heading: 'Success',
         text: '修改成功',
@@ -487,14 +402,15 @@ function loadFiles() {
             acceptedFiles: 'image/*'
         });
         myDropzone.on('success',function(file,responseText){
-            if(responseText.uploadFileMd5==undefined){
-                alert('没有上传成功,请重试');
-                return ;
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
             };
-            var imgUrl=httpUrl.path_img+responseText.uploadFileMd5;
+            var url=data.path_img+data.md5;
+            // var imgUrl=httpUrl.path_img+responseText.uploadFileMd5;
             var html="<li>"+
-                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+imgUrl+" class=\"pic\" data-pic="+responseText.uploadFileMd5+">"+
-                            "<img src="+imgUrl+"&Thumbnail=1>"+
+                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+"&minpic=0 class=\"pic\" data-pic="+data.md5+">"+
+                            "<img src="+url+"&minpic=1>"+
                             "<span class=\"deleteBtn\"></span>"+
                         "</a>"+
                     "</li>";
@@ -505,18 +421,6 @@ function loadFiles() {
             this.removeFile(file);
         });
 }
-// niceScroll滚动条
-function chooseNiceScroll(AA) {
-    $(AA).niceScroll({ 
-        cursorcolor: "#ccc",//#CC0071 光标颜色 
-        cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0 
-        touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备 
-        cursorwidth: "6px", //像素光标的宽度 
-        cursorborder: "0", //     游标边框css定义 
-        cursorborderradius: "5px",//以像素为光标边界半径 
-        autohidemode: false //是否隐藏滚动条 
-    });
-};
 
 // 导出
 function exportAll() {
@@ -525,7 +429,7 @@ function exportAll() {
         $(this).find("span").toggleClass("checked");
     });
     // 全选
-    $("#checkedAll").click(function () {
+    $("#buttonBox").on("click","#checkedAll",function () {
         var n=0;
         for(var i=0;i<$(".membersTitle >span").length;i++){
             if(!$(".membersTitle >span").eq(i).hasClass("checked")){
@@ -539,7 +443,7 @@ function exportAll() {
         };
     });   
     // 导出
-    $("#export").click(function () {
+    $("#buttonBox").on("click","#export",function () {
         if(!$("#year01").val()){
             $.toast({
                 heading: 'Success',
@@ -550,7 +454,7 @@ function exportAll() {
                 loaderBg: '#13b5dd',
                 position: 'bottom-right'
             }); 
-        }
+        };
         if(!$("#month01").val()){
             $.toast({
                 heading: 'Success',
@@ -561,14 +465,19 @@ function exportAll() {
                 loaderBg: '#13b5dd',
                 position: 'bottom-right'
             }); 
-        }
+        };
         if($("#year01").val() && $("#month01").val()){
             if($(".membersTitle >span.checked").length >0){
                 var arr=[];
                 for(var i=0;i<$(".membersTitle >span.checked").length;i++){
                     arr.push($(".membersTitle >span.checked").eq(i).attr("data-useruuid"))
                 };
-                window.open(httpUrl.recordToWord+"?studentUuidList="+arr.join()+"&year="+$("#year01").val()+"&month="+$("#month01").val())
+                var data={
+                        studentUuidList:arr.join(),
+                        year:$("#year01").val(),
+                        month:$("#month01").val(),
+                };
+                window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&params="+JSON.stringify(data)+"&url=/web/sample/record/word/download");
             }else{
                 $.toast({
                     heading: 'Success',
@@ -582,7 +491,70 @@ function exportAll() {
             }
         }  
     });
-}
+};
+
+// 删除图片函数
+function deletePic() {
+    $("#evaluation").on({
+        mouseover:function () {
+            $(this).find("span.deleteBtn").addClass("current");
+        },
+        mouseout:function () {
+            $(this).find("span.deleteBtn").removeClass("current");
+        }
+    },"#carousel li");
+    $("#evaluation").on("click","#carousel > li span.deleteBtn",function (event) {
+        $(this).parents("li").remove();
+        event.stopPropagation();
+    });
+};
+
+// Row行选择函数
+function chooseRow() {
+    $("#email-content tbody tr").click(function () {
+        var aa=$(this).find('i').hasClass('fa-check-square-o');
+        if(aa){
+            $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+            $("#evaluation").empty();//评价详情初始化
+        }else{
+            $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
+            $(this).siblings().find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+            var id=$(this).find('i').attr("data-id");
+            watchRecordDetail_port(id); 
+        };
+    });
+};
+
+
+// 评价行
+function editRow() {
+    //  编辑接口函数
+    $("#dailyEvaluation").click(function () {
+        var num=$("#email-content tbody tr i.fa-check-square-o").length;
+        if(num>1){
+            alert("编辑时为单选，请重新选择。。");
+            $("#email-content tbody tr i.fa-check-square-o").removeClass('fa-check-square-o').addClass('fa-square-o');
+        }else if(num==0){
+            alert("请先选择。。");
+        }else{
+            var dailyEvaluationId=$("#email-content tbody tr i.fa-check-square-o").attr('data-id');  
+            window.location.href="dailyEvaluation_new.html"+"?userUuid="+user.userUuid+"&classId="+user.classId+"&perssionNames=教学管理过程性监测日常监测"+"&dailyEvaluationId="+dailyEvaluationId;
+        }
+    });   
+};
+// niceScroll滚动条
+function chooseNiceScroll(AA) {
+    $(AA).niceScroll({ 
+        cursorcolor: "#ccc",//#CC0071 光标颜色 
+        cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0 
+        touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备 
+        cursorwidth: "6px", //像素光标的宽度 
+        cursorborder: "0", //     游标边框css定义 
+        cursorborderradius: "5px",//以像素为光标边界半径 
+        autohidemode: false //是否隐藏滚动条 
+    });
+};
+
 
 
 
