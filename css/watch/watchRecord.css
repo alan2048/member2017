@@ -102,6 +102,9 @@
 #checkedAll >span{
 	background: url(../../images/common/checkedAllBtn.png) 0 center no-repeat;
 }
+#dailyEvaluationDelete >span{
+	background: url(../../images/common/checkedAllBtn.png) 0 center no-repeat;
+}
 #buttonBox{
 	margin-bottom: 0;
 }

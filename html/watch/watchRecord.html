@@ -134,7 +134,7 @@
                 <script type="text/html" id="members_script">
                     {{each data as value i}}
                     <li>
-                        <a class="membersBg" data-id="{{value.id}}" data-useruuid="{{value.userUuid}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal">
+                        <a class="membersBg" data-username="{{value.userName}}" data-useruuid="{{value.userUuid}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal">
                             <div>
                                 <span class="icon01">{{value.recordNum}}</span>
                                 {{if value.evaNum==0}}
@@ -158,7 +158,7 @@
                 <div class="col-md-6 first-content">
                     <h1 class="page-header" id="page-header"></h1>
                     <script id="page-header_script" type="text/html">
-                        日常监测&nbsp;&nbsp;
+                        <i class="curName"></i>
                         <span>关联课程：{{courses}}</span>
                         <span>关联指标：{{coursesDim}}</span>
                         <span>{{year}}</span>
@@ -166,9 +166,9 @@
                     </script>
                     <!--begin 功能板块 -->
                     <div class="email-btn-row hidden-xs">
-                        <!-- <a href="javascript:void(0);" class="btn btn-sm btn-inverse" id="dailyEvaluation">评价</a> -->
-                        <a href="#" class="btn btn-sm btn-inverse" id="dailyEvaluationDelete" data-childid="">删除</a>
+                        <a href="#" class="defaultBtn" id="dailyEvaluationDelete" data-childid=""><span>删除</span></a>
                         <span>未评价</span>
+                        <span>典型案例</span>
                     </div>
                     <div class="panel panel-inverse" style="text-align: center;">
                         <div class="email-content" id="email-content"></div>
@@ -176,13 +176,14 @@
                             <table class="table table-email">
                                 <thead>
                                     <tr>
-                                        <th class="email-select"><a href="#" data-click="email-select-all"></a></th>
-                                        <th style="text-align: center;">ID</th>
-                                        <th style="text-align: center;">记录时间</th>
-                                        <th style="text-align: center;">观察人</th>
-                                        <th style="text-align: center;">观察维度</th>
-                                        <th style="text-align: center;">评价状态</th>
-                                        <th style="text-align: center;">评价时间</th>
+                                        <th style="text-align: center;width: 5%;" class="email-select"><a href="#" data-click="email-select-all"></a></th>
+                                        <th style="text-align: center;width: 5%;">ID</th>
+                                        <th style="text-align: center;width: 15%;">记录时间</th>
+                                        <th style="text-align: center;width: 15%;">观察人</th>
+                                        <th style="text-align: center;width: 15%;">观察维度</th>
+                                        <th style="text-align: center;width: 15%;">评价状态</th>
+                                        <th style="text-align: center;width: 15%;">评价时间</th>
+                                        <th style="text-align: center;width: 15%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -202,7 +203,8 @@
                                                 {{item.state}}
                                             {{/if}}
                                         </td>
-                                        <td class="email-sender" {{if item.typical ==1}} style="background: url(../../img/teaching/typicalBtn.png) center center no-repeat;" {{/if}}>{{item.evaluateDate}}</td>
+                                        <td class="email-sender">{{item.evaluateDate}}</td>
+                                        <td class="email-sender">{{if item.typical ==1}}<span class="typical"></span>{{/if}}</td>
                                     </tr>
                                     {{/each}}
                                 </tbody>
@@ -225,10 +227,10 @@
                               <img src="../../img/teaching/typicalIcon.png" alt="" style="position: absolute;top: 80px;right: 20px;z-index: 1;">
                               {{/if}}
                                 <div class="col-md-12 ui-sortable ysjh-fzmb-jbxx" style="padding-bottom:10px; background:#fff">
-                                    <div class="form-group col-md-3">姓名：{{childUserName}}</div>
-                                    <div class="form-group col-md-3">关联课程：{{courseName}}</div>
-                                    <div class="form-group col-md-3">关联观察维度：{{dimName}}</div>
-                                    <div class="form-group col-md-3">记录时间：{{createDate}}</div>
+                                    <div class="form-group col-md-6">姓名：{{childUserName}}</div>
+                                    <div class="form-group col-md-6">关联课程：{{courseName}}</div>
+                                    <div class="form-group col-md-6">关联观察维度：{{dimName}}</div>
+                                    <div class="form-group col-md-6">记录时间：{{createDate}}</div>
                                 </div>
                                 <form class="form-horizontal">
                                     <div class="col-md-12 ui-sortable">

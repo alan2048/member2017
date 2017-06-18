@@ -32,6 +32,7 @@ function init() {
         };
         var html=template("page-header_script",data);
         $("#page-header").empty().append(html);
+        $("#page-header i").text($(this).attr("data-username"));
         $("#dailyEvaluationDelete").attr("data-childid",childUuid);//删除Btn 埋藏childid
         watchRecordList_port(childUuid);// 获取课程计划列表
     });
@@ -39,12 +40,24 @@ function init() {
     // 删除接口
     $("#dailyEvaluationDelete").click(function () {
         if($("#email-content tbody tr i.fa-check-square-o").length !=0){
-            var right=confirm("确认删除吗？");
-            if(right){
-                dailyEvaluationDelete_port();
-            };
+            swal({
+                title: "是否删除此信息？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        dailyEvaluationDelete_port();
+                    };
+            });
         }else{
-            alert("请先选择删除项。。")
+            toastTip("提示","请先选择删除项。。");
         };
     });
 
@@ -57,7 +70,7 @@ function init() {
         if(level || num ==1){
             watchRecordUpdate_port(id);
         }else{
-            alert("请先选择水平。。");
+            toastTip("提示","请先选择水平。。");
         };
         
     });
@@ -176,7 +189,7 @@ function watchClassList_callback(res) {
         var html=template("teacherClass_script",data);
         $("#teacherClass").empty().append(html);
 
-        watchCourseList_port();// 获取个人观察计划列表
+        
         watchTeacherList_port();// 获得班级教职工列表
         $("#teacherClass").change(function () {
             watchTeacherList_port($(this).val());
@@ -200,7 +213,9 @@ function watchTeacherList_callback(res,userUUID) {
         var data={arr:JSON.parse(res.data)};
         var html=template("teachers_script",data);
         $("#teachers").empty().append(html);
-        if($("#courses").children().length !=0){
+        if($("#courses").children().length ==0){
+            watchCourseList_port();// 获取个人观察计划列表
+        }else{
             watchStudentList_port();
         };
     }else{
@@ -222,6 +237,7 @@ function watchCourseList_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("courses_script",data);
         $("#courses").append(html);
+
 
         watchDimList();// 获取观察计划的维度列表
         $("#courses").change(function () {

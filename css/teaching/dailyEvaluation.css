@@ -112,19 +112,33 @@ ul,li{
 #page-header span{
 	font-size: 12px;
 	color: #fff;
-	background-color: #13b5dd;
+	background-color: #5cdee1;
 	border-radius: 5px;
 	padding: 2px 8px;
 }
-.email-btn-row >span{
+.email-btn-row >span:nth-of-type(1){
 	font-size: 12px;
 	padding-left: 20px;
 	float: right;
-	background: url(../../img/teaching/delete.png) no-repeat 0 center;
+	background: url(../../images/watch/delete.png) no-repeat 0 center;
 	line-height: 50px;
 }
+.email-btn-row >span:nth-of-type(2){
+	font-size: 12px;
+	padding-left: 20px;
+	margin-right: 15px;
+	float: right;
+	background: url(../../images/watch/typicalBtn.png) no-repeat 0 center;
+	line-height: 50px;
+}
+.typical{
+	display:inline-block;
+	width: 0.4rem;
+	height: 0.35rem;
+	background: url(../../images/watch/typicalBtn01.png) no-repeat center center;
+}
 .email-btn-row {
-	margin: 15px 0 0 0;
+	margin: 25px 0 25px 0;
 }
 .closeBtn {
 	display: inline-block;
@@ -143,6 +157,8 @@ ul,li{
 	width: 100%;
 	height: 100%;
 	margin-bottom: 0;
+	padding:0;
+	border: none;
 }
 #second-content .panel-body {
 	background-color: #fff;
@@ -151,8 +167,9 @@ ul,li{
 	background: url(../../img/teaching/dimBg.png) no-repeat center center;
 	height: 100%;
 }
-#second-content .panel-body .col-md-12{
-	background-color: #fff;
+#second-content .panel-body >.col-md-12{
+	background-color: #fafcfc;
+	border-left: 1px solid #d9e0e7;
 }
 .dimBg{
 	position: absolute;
@@ -417,4 +434,25 @@ textarea.form-control {
 .btn.btn-success.active, .btn.btn-success:active, .btn.btn-success:focus, .btn.btn-success:hover, .open .dropdown-toggle.btn-success {
 	background: #008a8a;
 	border-color: #008a8a;
+}
+.modal-content{
+	overflow: hidden;
+	border-radius: 0.12rem;
+}
+#page-header i.curName{
+	color:#656666;
+	font-size: 0.24rem;
+	line-height: 0.24rem;
+	margin-right: 0.1rem;
+	vertical-align: bottom;
+}
+#modal-dialog-qunzu .modal-content{
+	background-color: #fff;
+}
+#second-content .panel-body{
+	background-color: #fafcfc;
+}
+#second-content .panel{
+	border-radius: 0;
+	background-color: #fafcfc;
 }
