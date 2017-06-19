@@ -187,9 +187,7 @@ function watchClassList_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("teacherClass_script",data);
-        $("#teacherClass").empty().append(html);
-
-        
+        $("#teacherClass").empty().append(html);        
         watchTeacherList_port();// 获得班级教职工列表
         $("#teacherClass").change(function () {
             watchTeacherList_port($(this).val());

@@ -4,8 +4,24 @@ $(function () {
 function init() {
     // 切换班级
     $("#logo .curClass").click(function () {
-        growthStudent_port(user.classId);
+        $("#modal-class").modal("show");
     });  
+    $("#classBox").on("click","span",function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".curClass").text($(this).text()).attr("data-classid",$(this).attr("data-id"));
+        user.classId=$(this).attr("data-id");
+        $("#teacherClass option[value="+$(this).attr("data-id")+"]").prop("selected",true);
+        $("#modal-class").modal("hide");
+        growthStudent_port(user.classId);// 加载所有学生
+        growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
+    });
+    $("#changeClass").on("change","#teacherClass",function () {
+        $(".curClass").text($(this).find("option:checked").text()).attr("data-classid",$(this).val());
+        user.classId=$(this).val();
+        growthStudent_port(user.classId);// 加载所有学生
+        growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
+    });
+
 
     newInit();// 发帖
     listInit();// 帖子列表
@@ -23,6 +39,11 @@ function init() {
         }else{
             $("[data-click=scroll-top]").removeClass("in");
         };
+        if(e>=200){
+            $("#changeClass").addClass("active");
+        }else{
+            $("#changeClass").removeClass("active");
+        };
     });
 
     // banner自动缩放
@@ -35,7 +56,8 @@ function init() {
 // 发帖
 function newInit() {
     loadFiles();
-    growthBanner_port(user.classId);
+
+    watchClassList_port();
     
     chooseNiceScroll("#upload");
     chooseNiceScroll("#whoBox");
@@ -198,7 +220,7 @@ function newInit() {
 };
 // 帖子列表
 function listInit() {
-    growthLabel_port();
+    
     // 点击标签 切换list内容
     $("#label").on("click","span",function () {
         $(this).addClass("active").siblings().removeClass("active");
@@ -302,6 +324,31 @@ function listInit() {
     $("#list").on("click",".cancelBtn",function () {
         $(this).parents(".commentBox").removeClass("active"); 
     });
+};
+
+// 获得教职工所在班级列表
+function watchClassList_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.watchClassList,param,watchClassList_callback);
+};
+function watchClassList_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("classBox_script",data);
+        $("#classBox").empty().append(html); 
+        $(".curClass").text(data.arr[0].className).attr("data-classid",data.arr[0].classUuid); 
+        user.classId=$(".curClass").attr("data-classid");  
+
+        var html=template("teacherClass_script",data);
+        $("#teacherClass").empty().append(html); 
+        
+        growthBanner_port();
+        growthLabel_port();
+    };
 };
 
 // 新增一条内容
@@ -507,19 +554,29 @@ function growthList_callback(res,type) {
                 path_img:httpUrl.path_img,
                 useruuid:user.useruuid
         };
-        for(var i=0;i<data.arr.length;i++){
-            data.arr[i].createTime=new Date(data.arr[i].createTime*1000).Format("yyyy年MM月dd日 hh:mm");
-            // 最多显示5行
-            if(data.arr[i].content.length > 210){
-                data.arr[i].content01=data.arr[i].content.slice(209);
-                data.arr[i].content=data.arr[i].content.slice(0,209);
-            };
-            // 最多显示12张图片
-            if(data.arr[i].pictureList.length > 12){
+
+        if(data.arr.length==0){
+            if(type==0){
+                toastTip("提示","此班级下暂无记录。。");
+            }else{
+                toastTip("提示","已没有记录。。")
+            }
+            
+        }else{
+            for(var i=0;i<data.arr.length;i++){
+                data.arr[i].createTime=new Date(data.arr[i].createTime*1000).Format("yyyy年MM月dd日 hh:mm");
+                // 最多显示5行
+                if(data.arr[i].content.length > 210){
+                    data.arr[i].content01=data.arr[i].content.slice(209);
+                    data.arr[i].content=data.arr[i].content.slice(0,209);
+                };
+                // 最多显示12张图片
+                if(data.arr[i].pictureList.length > 12){
                 
+                };
             };
         };
-        
+
         var html=template("list_script",data);
         if(type ==0){
             $("#list").empty().append(html);
@@ -549,7 +606,7 @@ function growthStudent_callback(res) {
                 path_img:httpUrl.path_img
         };
         var html=template("who_script",data);
-        $("#modal-who .whoBody").append(html);
+        $("#modal-who .whoBody").empty().append(html);
     };
 };
 

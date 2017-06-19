@@ -75,6 +75,9 @@ header >#logo{
 	cursor: pointer;
 	background: url(../../images/growth/curClass.png) center center no-repeat;
 }
+#logo >.logo >span a{
+	display:inline-block;
+}
 /*ÂÖ²¥ end*/
 
 /*main start*/
@@ -203,11 +206,12 @@ header >#logo{
 	height: 74%;
 	margin: 1.2rem auto;
 }
-#modal-label .modal-dialog{
+#modal-label .modal-dialog,#modal-class .modal-dialog{
 	width: 7rem;
 	min-width: 6.2rem;
 	height: 40%;
 	margin: 3rem auto;
+	min-height:4rem;
 }
 #picLib {
 	background: url(../../images/growth/tabPic01.png) 110% 35px no-repeat, url(../../images/growth/tabPic02.png) 0 -60px no-repeat, url(../../images/growth/tabPic03.png) 70px 90px no-repeat;
@@ -1026,4 +1030,67 @@ footer >span:nth-of-type(3){
 }
 #modal-dialog-img .modal-content{
 	overflow: visible;
+}
+
+
+#modal-class .modal-content{
+	height: 100%;
+	padding: 1rem 0.7rem 0;
+}
+
+#classBox > span {
+	display: inline-block;
+	width: 1.5rem;
+	height: 0.4rem;
+	line-height: 0.38rem;
+	text-align: center;
+	margin: 0 0.32rem 0.2rem 0;
+	color: #fff;
+	background-color: #5cdfe2;
+	border: 0.02rem solid #666;
+	border-radius: 0.2rem;
+	cursor: pointer;
+}
+#classBox > span.active{
+	background-color: #f7e463;
+}
+
+
+#changeClass {
+	position: fixed;
+	text-align: center;
+	width: 100%;
+	top:0;
+	z-index: 1000;
+	display:none;
+}
+#changeClass.active{
+	display: block;
+}
+#teacherClass {
+	width: 3.1rem;
+	height: 0.6rem;
+	border: 0.02rem solid #646766;
+	border-top: none;
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../../images/common/selectArrow01.png) 2.2rem center no-repeat;
+	color: #fff;
+	font-size:0.24rem;
+	font-weight: 900;
+	text-align: center;
+	background-color: #f7e463;
+	cursor:pointer;
+}
+#teacherClass >option{
+	display:block;
+	height: 0.4rem;
+	padding:0.05rem;
+	vertical-align: middle;
+}
+.modal-backdrop {
+	z-index: 1020;
 }

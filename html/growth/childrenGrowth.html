@@ -44,8 +44,8 @@
 		</div>
 		<div id="logo">
 			<div class="col-lg-12 logo">
-				<span><img src="../../images/growth/logo.png"></span><br>
-				<span class="curClass">小萌班</span>
+				<span><a href="../../menu.html"><img src="../../images/growth/logo.png"></a></span><br>
+				<span class="curClass"></span>
 			</div>
 		</div>
 	</header>
@@ -286,8 +286,7 @@
 
     <div class="modal fade" id="modal-label" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content" id="labelLib">
-            </div>
+            <div class="modal-content" id="labelLib"></div>
             <span class="closeBtn" data-dismiss="modal" ></span>
         </div>
     </div>
@@ -327,6 +326,29 @@
         <span class="closeBtn01" data-dismiss="modal"></span>
         <span class="deleteBtn01 hide"></span>
     </div>
+
+	<div class="modal fade" id="modal-class" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" id="classBox"></div>
+            <script id="classBox_script" type="text/html">
+				{{each arr as value i}}
+				<span data-id="{{value.classUuid}}" class="{{if i==0}}active{{/if}}">{{value.className}}</span>
+				{{/each}}
+            </script>
+            <span class="closeBtn" data-dismiss="modal" ></span>
+        </div>
+    </div>
+
+	<div id="changeClass">
+		<select id="teacherClass"></select>
+    	<script id="teacherClass_script" type="text/html">
+      		{{each arr as value i}}
+			<option value="{{value.classUuid}}">{{value.className}}</option>
+      		{{/each}}
+      	</script>
+	</div>
+
+    
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/bootstrap.min.js"></script>
 	<script src="../../js/common/dropzone.min.js"></script>

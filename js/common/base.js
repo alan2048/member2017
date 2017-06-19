@@ -2,7 +2,7 @@ var user={
 		useruuid:GetQueryString("useruuid") || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",// 鱼
 		pid:GetQueryString("pid"),
 		sid:GetQueryString("sid"),
-		classId:GetQueryString("classId") || 2
+		classId:GetQueryString("classId")
 };
 var serverUrl01="http://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
