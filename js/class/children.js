@@ -451,8 +451,10 @@ function menuChildList_callback(res,menuId) {
 
         loginUserInfo_port();
         basicButton_port();
-    }else if(res.coed =404){
-        // window.location.href=path;
+    }else if(res.code ==404){
+        toastTip("提示",res.info,1500,function () {
+            window.location.href="../../index.html";
+        });
     };
 };
 

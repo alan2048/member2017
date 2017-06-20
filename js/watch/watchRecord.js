@@ -68,7 +68,11 @@ function init() {
         var num=$("#level option").length;
         // num==1 解决option为空时能提交
         if(level || num ==1){
-            watchRecordUpdate_port(id);
+            if($(".validate").hasClass("max")){
+                toastTip("提示","红色区域的最大字数为1000字。。");
+            }else{
+                watchRecordUpdate_port(id);
+            };
         }else{
             toastTip("提示","请先选择水平。。");
         };
@@ -86,7 +90,7 @@ function init() {
     });
 
      // 是否标记为典型案例
-    $("#evaluation").on("click","#switchBtn",function () {
+    $("#evaluation").on("click","#switchBtn,#switchBtn01",function () {
         $(this).toggleClass("off");
     });
 
@@ -96,10 +100,13 @@ function init() {
 
     exportAll();// 导出
 
+    validate();
+
     // niceScroll滚动条
     chooseNiceScroll("#modal-dialog-qunzu .first-content");
     chooseNiceScroll("#modal-dialog-qunzu .second-content");
 };
+
 
 // 查询接口函数
 function watchRecordList_port(childUuid,pageNumber) {
@@ -287,7 +294,6 @@ function watchStudentList_callback(res) {
     if(res.code==200){
         if(res.data){
             var data=JSON.parse(res.data);
-            console.log(data);
             for(var i=0;i<data.length;i++){
                 data[i].portrait=httpUrl.path_img+data[i].portrait+"&minpic=1";
             };
@@ -306,7 +312,7 @@ function watchStudentList_callback(res) {
 // 查询接口函数
 function watchRecordDetail_port(id) {
     var data={
-            id:id || 107
+            id:id
         };
     var param={
             params:JSON.stringify(data),
@@ -319,9 +325,11 @@ function watchRecordDetail_callback(res) {
         var data=JSON.parse(res.data);
         data.path_img=httpUrl.path_img;
         for(var i=0;i<data.voiceMd5List.length;i++){
-            data.voiceMd5List[i]=httpUrl.path_img+data.voiceMd5List[i]+'&minpic=1'
+            data.voiceMd5List[i]=httpUrl.path_img+data.voiceMd5List[i]+"&minpic=0"
         };
-
+        data.commentNum=data.comment.length;
+        data.recordLevel.evaluateNum=data.recordLevel.evaluate.length;
+        data.recordLevel.adviceNum=data.recordLevel.advice.length;
         var html=template("evaluation_script",data);
         $("#evaluation").empty().append(html);
 
@@ -357,7 +365,13 @@ function watchRecordUpdate_port(id) {
                         return 1;
                     }
                 }(),
-                share:0,
+                share:function () {
+                    if($("#switchBtn01").hasClass("off")){
+                        return 0;
+                    }else{
+                        return 1;
+                    }
+                }(),
                 advice:$("#advice").val(),
                 evaluate:$("#evaluate").val(),
                 levelId:$("#level").val(),
@@ -566,6 +580,35 @@ function chooseNiceScroll(AA) {
     });
 };
 
+// 验证字数
+function validate() {
+    $("#evaluation").on("keyup","#comment",function () {
+        $(this).next(".maxNum").find("span").text($(this).val().length);
+        if($(this).val().length >1000){
+            $(this).addClass("max").next(".maxNum").find("span").addClass("max");
+        }else{
+            $(this).removeClass("max").next(".maxNum").find("span").removeClass("max");
+        };
+    });
+
+    $("#evaluation").on("keyup","#evaluate",function () {
+        $(this).next(".maxNum").find("span").text($(this).val().length);
+        if($(this).val().length >1000){
+            $(this).addClass("max").next(".maxNum").find("span").addClass("max");
+        }else{
+            $(this).removeClass("max").next(".maxNum").find("span").removeClass("max");
+        };
+    });
+
+    $("#evaluation").on("keyup","#advice",function () {
+        $(this).next(".maxNum").find("span").text($(this).val().length);
+        if($(this).val().length >1000){
+            $(this).addClass("max").next(".maxNum").find("span").addClass("max");
+        }else{
+            $(this).removeClass("max").next(".maxNum").find("span").removeClass("max");
+        };
+    });
+};
 
 
 
