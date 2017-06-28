@@ -2,7 +2,7 @@ $(function () {
 	menuList_port();
 	winResize();
 });
-// å·¦ä¾§ èœå•æŽ¥å£
+// ×ó²à ²Ëµ¥½Ó¿Ú
 function menuList_port() {
     var data={};
     var param={
@@ -17,17 +17,16 @@ function menuList_callback(res) {
     			arr:JSON.parse(res.data),
     			path_img:httpUrl.path_img
     	};
-    	console.log(data);
 		var html=template("menuBox_script",data);
 		$("#menuBox").empty().append(html);
 		$("#menuBox").on({
 			mouseover:function () {
-				$(this).addClass("active").siblings().removeClass("active");
+				$(this).parent().addClass("active").siblings().removeClass("active");
 			},
 			mouseout:function () {
-				$(this).removeClass("active").siblings().removeClass("active");
+				$(this).parent().removeClass("active").siblings().removeClass("active");
 			}
-		},">li.has-list");
+		},"li>.has-list");
 		chooseNiceScroll(".hasBox");
     };
 };

@@ -270,7 +270,7 @@ ul,li{
 }
 .modal-open .modal {
 	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow-y: scroll;
 }
 #switchBtn,#switchBtn01 {
 	display: inline-block;
@@ -442,6 +442,7 @@ textarea.form-control {
 .modal-content{
 	overflow: hidden;
 	border-radius: 0.12rem;
+	height:auto;
 }
 #page-header i.curName{
 	color:#656666;

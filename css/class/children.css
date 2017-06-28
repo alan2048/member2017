@@ -90,6 +90,9 @@
 #deleteBtn >span{
 	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
 }
+#importBtn{
+	display:none;
+}
 #importBtn >span{
 	background: url(../../images/common/importBtn.png) 0 center no-repeat;
 }

@@ -14,6 +14,11 @@ body {
     margin-top: -2.4rem;
     padding-top: 2.4rem;
 }
+body{
+    background: url(../../images/index/animate.gif) center 100% no-repeat #5cdfe2;
+    background-size:100%;
+}
+
 .login{
     width: 6.45rem;
     height: 6.30rem;
@@ -43,10 +48,11 @@ body {
     margin: 0 .35rem;
     padding: .05rem 0;
     line-height: .3rem;
-    border-bottom: 0.01rem solid #666;
+    border-bottom: 1px solid #666;
+    border-width: ;
 }
 .login > .loginBox >.name >div.nameBox.empty{
-    border-bottom: 0.01rem solid #ff1b1b;
+    border-bottom: 1px solid #ff1b1b;
 }
 .login > .loginBox >.password >div{
     margin-top: .7rem;

@@ -1002,19 +1002,19 @@ footer >span:nth-of-type(3){
 @media (min-height: 100px){
 	#modal-dialog-img .modal-dialog {
 		width: 250px;
-		margin: 2rem auto 0;
+		margin: 1rem auto 0;
 	}
 }
 @media (min-height: 500px){
 	#modal-dialog-img .modal-dialog {
 		width: 450px;
-		margin: 2rem auto 0;
+		margin: 1rem auto 0;
 	}
 }
 @media (min-height: 900px){
 	#modal-dialog-img .modal-dialog {
 		width: 550px                                                                                                                                                                                                                                                                                                         ;
-		margin: 2rem auto 0;
+		margin: 1rem auto 0;
 	}
 }
 #carousel_img {
@@ -1082,6 +1082,7 @@ footer >span:nth-of-type(3){
 	font-size:0.24rem;
 	font-weight: 900;
 	text-align: center;
+	text-align-last: center;
 	background-color: #f7e463;
 	cursor:pointer;
 }

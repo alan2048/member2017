@@ -1,8 +1,6 @@
 var user={
-		useruuid:GetQueryString("useruuid") || "db951cc0-a6b4-41d3-8ebb-607c04a1f812",// 鱼
 		pid:GetQueryString("pid"),
-		sid:GetQueryString("sid"),
-		classId:GetQueryString("classId")
+		sid:GetQueryString("sid")
 };
 var serverUrl01="http://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
@@ -249,6 +247,21 @@ var httpUrl={
 		watchStudentList:path+"/web/sample/record/student/list",// 获取观察记录学生列表
 		watchRecordDetail:path+"/web/sample/student/record/detail",// 获取观察记录详情
 		watchRecordDelete:path+"/web/sample/record/delete",// 删除观察记录
+
+		// 观察计划
+		watchPlanList:path+"/web/sample/company/course/list",// 获取观察计划列表
+		watchPlanDetail:path+"/web/sample/company/course/detail",// 获取观察计划详情
+		watchPlanAddOrUpdate:path+"/web/sample/company/course/addOrUpdate",// 新增或更新观察计划
+		watchPlanDelete:path+"/web/sample/company/course/delete",// 删除观察计划
+		watchPlanTeacherList:path+"/web/sample/company/teacherList",// 关联教师
+
+		// 观察维度
+		dimLevelDelete:path+"/web/sample/company/dimLevel/delete",// 删除学校维度水平
+		dimDelete:path+"/web/sample/company/dim/delete",// 删除学校观察维度
+		dimLevelAddOrUpdate:path+"/web/sample/company/dimLevel/addOrUpdate",// 新增或更新学校维度水平
+		dimAddOrUpdate:path+"/web/sample/company/dim/addOrUpdate",// 新增或更新学校观察维度
+		dimLevelList:path+"/web/sample/company/dimLevel/list",// 获取学校维度水平列表
+		dimList:path+"/web/sample/company/dim/list",// 获取学校观察维度
 
 		// 08设置
 		setting:'' 

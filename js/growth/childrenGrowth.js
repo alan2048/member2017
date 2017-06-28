@@ -1,4 +1,5 @@
 $(function () {
+    loadingOut();//关闭loading
     init();
 });
 function init() {

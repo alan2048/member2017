@@ -5,13 +5,25 @@ function init() {
     // 月份选择初始化
     var month=[1,2,3,4,5,6,7,8,9,10,11,12];
     var htmlMonth=template("month_script",{month});
-    $("#month01").append(htmlMonth);
+    var d=new Date();
+    $("#month01").append(htmlMonth).find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
+    $("#year01").find("option[value="+d.getFullYear()+"]").prop("selected",true);
 
     watchClassList_port();// 获得教职工所在班级列表
 
     // 查询条件改变执行函数
-    $("#coursesDim,#year01,#month01,#teachers").change(function () {
+    $("#coursesDim,#month01,#teachers").change(function (e) {
         watchStudentList_port();
+    });
+    $("#year01").change(function (e) {
+        if($(this).val()){
+            $("#month01").find("option[value=\"\"]").remove();
+            watchStudentList_port();
+        }else{
+            $("#month01").prepend("<option value=\"\" selected=\"selected\">所有月份</option>");
+            watchStudentList_port();
+        }
+        
     });
     // 点击查询按钮
     $("#searchBtn").click(function () {
@@ -698,6 +710,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userPic").css({
             background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
         });
+        loadingOut();//关闭loading
         init();// 取得登入信息之后 init初始化
     }else if(res.code ==404){
         toastTip("提示",res.info,2000,function () {

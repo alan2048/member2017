@@ -15,7 +15,7 @@
 	<link href="../../css/growth/childrenGrowth.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<header>
     	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
@@ -30,7 +30,7 @@
 				{{each arr as value i}}
 				<div class="item {{if i ==0}}active{{/if}}">
 					<a href="{{value.url}}">
-			    		<img src="{{path_img}}{{value.imageMd5}}&minpic=0" alt="{{i}} slide">
+			    		<img src="{{path_img}}{{value.imageMd5}}&minpic=0">
 			    	</a>
 			    </div>
 			    {{/each}}

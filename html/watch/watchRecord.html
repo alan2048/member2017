@@ -18,7 +18,7 @@
 	<link href="../../css/watch/watchRecord.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<div id="page-container" class="">
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
@@ -66,7 +66,7 @@
                     <script type="text/html" id="teachers_script">
                         <option value="" selected="selected">所有老师</option>
                         {{each arr as value i}}
-                        <option value="{{value.id}}" data-teacherid="{{value.teacherUuid}}">{{value.teacherName}}</option>
+                        <option value="{{value.teacherUuid}}" data-teacherid="{{value.teacherUuid}}">{{value.teacherName}}</option>
                         {{/each}}
                     </script>
                 </label>
@@ -103,7 +103,6 @@
                     <select id="month01">
                     </select>
                     <script type="text/html" id="month_script">
-                        <option value="" selected="selected">所有月份</option>
                         {{each month as value i}}
                         <option value="{{value}}">{{value}}月</option>
                         {{/each}}

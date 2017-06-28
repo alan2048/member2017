@@ -278,6 +278,7 @@ function classChange_callback(res,data) {
     if(res.code==200){
         classMemberBasic_port($("#teacherClass").val(),$("#teacherClass"));
         classMemberBasic_port($("#teacherClass01").val(),$("#teacherClass01"),data);
+        classInfo_port();
         toastTip("提示","调班成功");
     }else{
         toastTip("提示",res.info);
@@ -719,6 +720,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userPic").css({
             background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
         });
+        loadingOut();//关闭loading
     };
 };
 

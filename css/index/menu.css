@@ -16,7 +16,8 @@ body{
 				url(../../images/index/menuBg.png) center 100%  no-repeat #e8fcf8;
 	-webkit-background-size: 80%,50%;
 	background-size: 80%,50%;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y:scroll; 
 	z-index: 100;
 }
 .menuTitle{
@@ -36,12 +37,15 @@ body{
 #menuBox{
 	margin: 0.4rem 1.2rem;
 }
-#menuBox >li.has-list{
+#menuBox >li{
 	width: 25%;
 	float: left;
 	text-align: center;
 	margin-bottom: 0.4rem;
 	position: relative;
+}
+.has-list{
+	display:inline-block;
 }
 .hasTitle{
 	font-size: 0.2rem;
@@ -125,7 +129,7 @@ body{
 .hasBox >ul{
 	height: 100%;
 }
-#menuBox >li.has-list.active .hasBox,#menuBox >li.has-list.active .hasBoxBg{
+#menuBox >li.active >.has-list .hasBox,#menuBox >li.active >.has-list .hasBoxBg{
 	display: block;
 }
 .hasBox >.menuBox >li{

@@ -7,6 +7,9 @@ body{
 	font-size: 0.16rem;
 	background-color: #f9fcfb;
 }
+body {
+	background: url(../../images/common/pet.png) 98% 95% no-repeat #f9fcfb;
+}
 .sidebar {
 	position: fixed;
 	left: 0;
