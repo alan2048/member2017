@@ -291,6 +291,7 @@ th,td {
 	border: 0.01rem solid #c9cccb;
 	border-radius: 0.1rem;
 	padding: 0.05rem 0.1rem;
+	color:#555;
 }
 .newBox input.dateInput {
 	width: 1.32rem;
@@ -336,6 +337,8 @@ th,td {
 	padding: 0.1rem;
 	border: 0.01rem solid #c9cccb;
 	border-radius: 0.1rem;
+	color: #555;
+	font-size:0.14rem;
 }
 .baseTitle{
 	margin: 0.2rem 0;
