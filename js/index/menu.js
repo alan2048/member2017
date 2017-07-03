@@ -2,7 +2,7 @@ $(function () {
 	menuList_port();
 	winResize();
 });
-// ×ó²à ²Ëµ¥½Ó¿Ú
+// å·¦ä¾§ èœå•æ¥å£
 function menuList_port() {
     var data={};
     var param={
@@ -28,6 +28,10 @@ function menuList_callback(res) {
 			}
 		},"li>.has-list");
 		chooseNiceScroll(".hasBox");
+    }else{
+    	toastTip("æç¤º",res.info,2000,function () {
+    		// window.location.href="index.html";
+    	})
     };
 };
 

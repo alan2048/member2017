@@ -37,6 +37,7 @@ function init() {
         $("#jsmind_container jmnode").removeClass("activeselected");
         $(".aboutTeacher span").removeClass("active");
         $(".aboutTeacher span[data-useruuid="+$(".userName").attr("data-useruuid")+"]").addClass("active");
+        jsMind.current.collapse_all();// 恢复默认折叠效果
     });
 
     // 编辑按钮
@@ -67,9 +68,9 @@ function init() {
         language:'zh-CN'
     }).on("changeDate",function (ev) {
         if($("#planEndtime").val()){
-            $("#planEndtime").removeClass("empty");
+            $("#planEndtime").removeClass("textbox-invalid");
         }else{
-            $("#planEndtime").addClass("empty");
+            $("#planEndtime").addClass("textbox-invalid");
         };
         $('#planEndtime').datepicker("hide");
     });
@@ -233,30 +234,19 @@ function ValidateBtn() {
 
 
 // 维度能力接口函数
-function getTeacherList_port(teacherList) {
+function getTeacherList_port() {
     var data={};
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.watchPlanTeacherList,param,getTeacherList_callback,teacherList);
+    initAjax(httpUrl.watchPlanTeacherList,param,getTeacherList_callback);
 };
-function getTeacherList_callback(res,teacherList) {
+function getTeacherList_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("aboutTeacher_script",data);
         $(".aboutTeacher").empty().append(html).find("span[data-useruuid="+$(".userName").attr("data-useruuid")+"]").addClass("active");
-        if(teacherList){
-            console.log(teacherList);
-            $(".aboutTeacher span[data-useruuid="+$(".userName").attr("data-useruuid")+"]").removeClass("active");
-            for(var i=0;i<teacherList.length;i++){
-                $(".aboutTeacher >span").each(function (index,value) {
-                   if($(value).attr("data-useruuid")==teacherList[i]){
-                        $(value).addClass("active"); 
-                   }
-                });
-            }
-        }
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -276,7 +266,6 @@ function watchDimensions_callback(res,dimList) {
         loadingOut();//关闭loading
         var data=JSON.parse(res.data);
         $("#jsmind_container").empty();
-
         var newdata=res.data.replace(/name/g,'topic').replace(/childDimList/g,'children');
         
         var mind={
@@ -287,7 +276,7 @@ function watchDimensions_callback(res,dimList) {
                 },
                 "format":"node_tree",
                 "data":{"id":"root","topic":"维度能力","children":JSON.parse(newdata)}
-        }
+        };
         var options={
                 container:'jsmind_container',
                 editable:false,
@@ -342,15 +331,7 @@ function watchDimensions_callback(res,dimList) {
             }
         });
 
-        if(dimList && dimList.length>0){
-            for(var i=0;i<dimList.length;i++){
-                $("#jsmind_container jmnode").each(function (index,value) {
-                   if($(value).attr("nodeid")==dimList[i]){
-                        $(value).addClass("activeselected"); 
-                   }
-                });
-            }
-        }
+        
         if(!dimList){
             $("#content01").addClass("hide");//解决jmind适配问题
         }
@@ -361,7 +342,123 @@ function watchDimensions_callback(res,dimList) {
     }
 };
 
-// 查询接口函数
+// 编辑观察计划详情
+function courseDetail_port(id) {
+    var data={
+            id:id
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.watchPlanDetail,param,courseDetail_callback);
+}
+function courseDetail_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        data.begintime01=new Date(data.begintime*1000).Format("yyyy-MM-dd");
+        data.endtime01=new Date(data.endtime*1000).Format("yyyy-MM-dd");
+
+        $("#planName").val(data.name);
+        $("#planTarget").val(data.target);
+        $("#planDiffpoint").val(data.diffpoint);
+        $("#planKeypoint").val(data.keypoint);
+        $("#planPrepare").val(data.prepare);
+        $("#planBegintime").val(data.begintime01);
+        $("#planEndtime").val(data.endtime01);
+
+        // 观察维度接口
+        $("#jsmind_container").empty();
+        var newdata=JSON.stringify(data.companyDimList).replace(/name/g,'topic').replace(/childDimList/g,'children');
+        var mind={
+                "meta":{
+                    "name":"jsMind remote",
+                    "author":"hizzgdev@163.com",
+                    "version":"0.2"
+                },
+                "format":"node_tree",
+                "data":{"id":"root","topic":"维度能力","children":JSON.parse(newdata)}
+        };
+        var options={
+                container:'jsmind_container',
+                editable:false,
+                theme:'primary',
+                view:{
+                    hmargin:0
+                },
+                layout:{
+                    hspace:45,
+                    vspace:10,
+                    pspace:15
+                }
+
+        }
+        jsMind.show(options,mind);
+
+        $("#jsmind_container jmnode").click(function () {
+            var jm=jsMind.current;
+            var curId=jm.get_selected_node().id;
+            var parent=jm.get_selected_node().parent;
+            var parent2;
+            if(parent.parent){
+                parent2=parent.parent;
+            };
+            var children=jm.get_selected_node().children;
+            var isChild=function () {
+                    var num=0;
+                    for(var i=0;i<children.length;i++){
+                        var aa=$("#jsmind_container jmnode[nodeid="+children[i].id+"]").hasClass("activeselected");
+                        if(aa){
+                            num++;
+                        }
+                    }
+                    if(num==0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+            }
+
+            if($(this).hasClass("activeselected")){
+                $(this).removeClass("activeselected");
+            }else{
+                $(this).addClass("activeselected");
+                $("#jsmind_container jmnode[nodeid="+parent.id+"]").removeClass("activeselected");
+                if(parent.parent){
+                    $("#jsmind_container jmnode[nodeid="+parent2.id+"]").removeClass("activeselected");
+                };
+                if(isChild()){
+                    $(this).removeClass("activeselected");
+                }
+            }
+        });
+
+        var dimList=data.dimList;
+        if(dimList && dimList.length>0){
+            for(var i=0;i<dimList.length;i++){
+                $("#jsmind_container jmnode").each(function (index,value) {
+                   if($(value).attr("nodeid")==dimList[i]){
+                        $(value).addClass("activeselected"); 
+                   }
+                });
+            }
+        }
+
+        // 关联教师
+        if(data.teacherList){
+            $(".aboutTeacher span[data-useruuid="+$(".userName").attr("data-useruuid")+"]").removeClass("active");
+            for(var i=0;i<data.teacherList.length;i++){
+                $(".aboutTeacher >span").each(function (index,value) {
+                   if($(value).attr("data-useruuid")==data.teacherList[i]){
+                        $(value).addClass("active"); 
+                   }
+                });
+            }
+        };
+    }
+}
+
+// 新增观察计划函数
 function courseSave_port(id) {
     var teacherList=[];
     var teachers=$(".aboutTeacher span.active");
@@ -397,6 +494,7 @@ function courseSave_callback(res) {
     var currentNum=$("#pagination span.current:not(.next,.prev)").text()
     watchPlanList_port(currentNum);
     $("#cancel").click();
+    toastTip("提示","添加成功。。")
 };
 
 function isValid() {
@@ -433,35 +531,7 @@ function onValid() {
     });
 };
 
-function courseDetail_port(id) {
-    var data={
-            id:id
-        };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.watchPlanDetail,param,courseDetail_callback);
-}
-function courseDetail_callback(res) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        data.begintime01=new Date(data.begintime*1000).Format("yyyy-MM-dd");
-        data.endtime01=new Date(data.endtime*1000).Format("yyyy-MM-dd");
 
-        $("#planName").val(data.name);
-        $("#planTarget").val(data.target);
-        $("#planDiffpoint").val(data.diffpoint);
-        $("#planKeypoint").val(data.keypoint);
-        $("#planPrepare").val(data.prepare);
-        $("#planBegintime").val(data.begintime01);
-        $("#planEndtime").val(data.endtime01);
-
-        watchDimensions_port(data.dimList); // 观察维度接口
-        getTeacherList_port(data.teacherList); // 获取学校教师信息接口
-
-    }
-}
 
 
 

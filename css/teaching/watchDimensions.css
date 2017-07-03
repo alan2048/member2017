@@ -413,3 +413,12 @@ a:hover{
 	color: #000;
 }
 
+.panel {
+	margin-bottom: 0.2rem;
+	padding: 0.15rem;
+	background-color: #fff;
+	border: 0.01rem solid #e8ebea;
+	border-radius: 0.1rem;
+	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
+	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+}

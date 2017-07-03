@@ -12,7 +12,7 @@
     // __name__ should be a const value, Never try to change it easily.
     var __name__ = 'jsMind';
     // library version
-    var __version__ = '0.4a';
+    var __version__ = '0.4.3';
     // author
     var __author__ = 'hizzgdev@163.com';
 
@@ -34,6 +34,9 @@
     var $c = function(tag){return $d.createElement(tag);};
     var $t = function(n,t){if(n.hasChildNodes()){n.firstChild.nodeValue = t;}else{n.appendChild($d.createTextNode(t));}};
     var $h = function(n,t){n.innerHTML = t;};
+    // detect isElement
+    var $i = function(el){return !!el&&(typeof el==='object')&&(el.nodeType===1)&&(typeof el.style==='object')&&(typeof el.ownerDocument==='object');};
+    if(typeof String.prototype.startsWith != 'function'){String.prototype.startsWith=function(p){return this.slice(0,p.length)===p;};}
 
     var DEFAULT_OPTIONS = {
         container : '',   // id of the container
@@ -45,7 +48,7 @@
         view:{
             hmargin:100,
             vmargin:50,
-            line_width:1,
+            line_width:2,
             line_color:'#49b6d6'
         },
         layout:{
@@ -85,8 +88,8 @@
         jm.util.json.merge(opts, DEFAULT_OPTIONS);
         jm.util.json.merge(opts, options);
 
-        if(opts.container == null || opts.container.length == 0){
-            logger.error('the options.container should not be empty.');
+        if(!opts.container){
+            logger.error('the options.container should not be null or empty.');
             return;
         }
         this.options = opts;
@@ -203,59 +206,65 @@
         },
 
         add_node:function(parent_node, nodeid, topic, data, idx, direction, expanded){
-            if(typeof parent_node === 'string'){
-                return this.add_node(this.get_node(parent_node), nodeid, topic, data, idx, direction, expanded);
+            if(!jm.util.is_node(parent_node)){
+                var the_parent_node = this.get_node(parent_node);
+                if(!the_parent_node){
+                    logger.error('the parent_node[id='+parent_node+'] can not be found.');
+                    return null;
+                }else{
+                    return this.add_node(the_parent_node, nodeid, topic, data, idx, direction, expanded);
+                }
             }
             var nodeindex = idx || -1;
-            if(!!parent_node){
-                //logger.debug(parent_node);
-                var node = null;
-                if(parent_node.isroot){
-                    var d = jm.direction.right;
-                    if(isNaN(direction)){
-                        var children = parent_node.children;
-                        var children_len = children.length;
-                        var r = 0;
-                        for(var i=0;i<children_len;i++){if(children[i].direction === jm.direction.left){r--;}else{r++;}}
-                        d = (children_len > 1 && r > 0) ? jm.direction.left : jm.direction.right
-                    }else{
-                        d = (direction != jm.direction.left) ? jm.direction.right : jm.direction.left;
-                    }
-                    node = new jm.node(nodeid,nodeindex,topic,data,false,parent_node,d,expanded);
+            var node = null;
+            if(parent_node.isroot){
+                var d = jm.direction.right;
+                if(isNaN(direction)){
+                    var children = parent_node.children;
+                    var children_len = children.length;
+                    var r = 0;
+                    for(var i=0;i<children_len;i++){if(children[i].direction === jm.direction.left){r--;}else{r++;}}
+                    d = (children_len > 1 && r > 0) ? jm.direction.left : jm.direction.right
                 }else{
-                    node = new jm.node(nodeid,nodeindex,topic,data,false,parent_node,parent_node.direction,expanded);
+                    d = (direction != jm.direction.left) ? jm.direction.right : jm.direction.left;
                 }
-                if(this._put_node(node)){
-                    parent_node.children.push(node);
-                    this._reindex(parent_node);
-                }else{
-                    logger.error('fail, the nodeid \''+node.id+'\' has been already exist.');
-                    node = null;
-                }
-                return node;
+                node = new jm.node(nodeid,nodeindex,topic,data,false,parent_node,d,expanded);
             }else{
-                logger.error('fail, the [node_parent] can not be found.');
-                return null;
+                node = new jm.node(nodeid,nodeindex,topic,data,false,parent_node,parent_node.direction,expanded);
             }
+            if(this._put_node(node)){
+                parent_node.children.push(node);
+                this._reindex(parent_node);
+            }else{
+                logger.error('fail, the nodeid \''+node.id+'\' has been already exist.');
+                node = null;
+            }
+            return node;
         },
 
         insert_node_before:function(node_before, nodeid, topic, data){
-            if(typeof node_before === 'string'){
-                return this.insert_node_before(this.get_node(node_before), nodeid, topic, data);
+            if(!jm.util.is_node(node_before)){
+                var the_node_before = this.get_node(node_before);
+                if(!the_node_before){
+                    logger.error('the node_before[id='+node_before+'] can not be found.');
+                    return null;
+                }else{
+                    return this.insert_node_before(the_node_before, nodeid, topic, data);
+                }
             }
-            if(!!node_before){
-                var node_index = node_before.index-0.5;
-                return this.add_node(node_before.parent, nodeid, topic, data, node_index);
-            }else{
-                logger.error('fail, the [node_before] can not be found.');
-                return null;
-            }
+            var node_index = node_before.index-0.5;
+            return this.add_node(node_before.parent, nodeid, topic, data, node_index);
         },
 
         get_node_before:function(node){
-            if(!node){return null;}
-            if(typeof node === 'string'){
-                return this.get_node_before(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return null;
+                }else{
+                    return this.get_node_before(the_node);
+                }
             }
             if(node.isroot){return null;}
             var idx = node.index - 2;
@@ -267,22 +276,28 @@
         },
 
         insert_node_after:function(node_after, nodeid, topic, data){
-            if(typeof node_after === 'string'){
-                return this.insert_node_after(this.get_node(node_after), nodeid, topic, data);
+            if(!jm.util.is_node(node_after)){
+                var the_node_after = this.get_node(node_before);
+                if(!the_node_after){
+                    logger.error('the node_after[id='+node_after+'] can not be found.');
+                    return null;
+                }else{
+                    return this.insert_node_after(the_node_after, nodeid, topic, data);
+                }
             }
-            if(!!node_after){
-                var node_index = node_after.index + 0.5;
-                return this.add_node(node_after.parent, nodeid, topic, data, node_index);
-            }else{
-                logger.error('fail, the [node_after] can not be found.');
-                return null;
-            }
+            var node_index = node_after.index + 0.5;
+            return this.add_node(node_after.parent, nodeid, topic, data, node_index);
         },
 
         get_node_after:function(node){
-            if(!node){return null;}
-            if(typeof node === 'string'){
-                return this.get_node_after(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return null;
+                }else{
+                    return this.get_node_after(the_node);
+                }
             }
             if(node.isroot){return null;}
             var idx = node.index;
@@ -295,8 +310,14 @@
         },
 
         move_node:function(node, beforeid, parentid, direction){
-            if(typeof node === 'string'){
-                return this.move_node(this.get_node(node), beforeid, parentid, direction);
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return null;
+                }else{
+                    return this.move_node(the_node, beforeid, parentid, direction);
+                }
             }
             if(!parentid){
                 parentid = node.parent.id;
@@ -367,8 +388,14 @@
         },
 
         remove_node:function(node){
-            if(typeof node === 'string'){
-                return this.remove_node(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return false;
+                }else{
+                    return this.remove_node(the_node);
+                }
             }
             if(!node){
                 logger.error('fail, the node can not be found');
@@ -795,13 +822,10 @@
             _load_attributes:function(xml_node){
                 var children = xml_node.childNodes;
                 var attr = null;
-                var attr_data = null;
+                var attr_data = {};
                 for(var i=0;i<children.length;i++){
                     attr = children[i];
                     if(attr.nodeType == 1 && attr.tagName === 'attribute'){
-                        if(attr_data == null){
-                            attr_data = {};
-                        }
                         attr_data[attr.getAttribute('NAME')] = attr.getAttribute('VALUE');
                     }
                 }
@@ -846,6 +870,9 @@
     // ============= utility object =============================================
 
     jm.util = {
+        is_node: function(node){
+            return !!node && node instanceof jm.node;
+        },
         ajax:{
             _xhr:function(){
                 var xhr = null;
@@ -865,7 +892,7 @@
                 var a = jm.util.ajax;
                 var p = null;
                 var tmp_param = [];
-                for(k in param){
+                for(var k in param){
                     tmp_param.push(a._eurl(k)+'='+a._eurl(param[k]));
                 }
                 if(tmp_param.length>0){
@@ -877,8 +904,12 @@
                     if(xhr.readyState == 4){
                         if(xhr.status == 200 || xhr.status == 0){
                             if(typeof callback === 'function'){
-                                var data = eval('('+xhr.responseText+')');
-                                callback(data);
+                                var data = jm.util.json.string2json(xhr.responseText);
+                                if(data != null){
+                                    callback(data);
+                                }else{
+                                    callback(xhr.responseText);
+                                }
                             }
                         }else{
                             if(typeof fail_callback === 'function'){
@@ -1152,15 +1183,17 @@
         },
 
         begin_edit:function(node){
-            if(typeof node === 'string'){
-                return this.begin_edit(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return false;
+                }else{
+                    return this.begin_edit(the_node);
+                }
             }
             if(this.get_editable()){
-                if(!!node){
-                    this.view.edit_node_begin(node);
-                }else{
-                    logger.error('the node can not be found');
-                }
+                this.view.edit_node_begin(node);
             }else{
                 logger.error('fail, this mind map is not editable.');
                 return;
@@ -1172,46 +1205,63 @@
         },
 
         toggle_node:function(node){
-            if(typeof node === 'string'){
-                return this.toggle_node(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return;
+                }else{
+                    return this.toggle_node(the_node);
+                }
             }
-            if(!!node){
-                if(node.isroot){return;}
-                this.layout.toggle_node(node);
-                this.view.relayout();
-            }else{
-                logger.error('the node can not be found.');
-            }
+            if(node.isroot){return;}
+            this.view.save_location(node);
+            this.layout.toggle_node(node);
+            this.view.relayout();
+            this.view.restore_location(node);
         },
 
         expand_node:function(node){
-            if(typeof node === 'string'){
-                return this.expand_node(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return;
+                }else{
+                    return this.expand_node(the_node);
+                }
             }
-            if(!!node){
-                if(node.isroot){return;}
-                this.layout.expand_node(node);
-                this.view.relayout();
-            }else{
-                logger.error('the node can not be found.');
-            }
+            if(node.isroot){return;}
+            this.view.save_location(node);
+            this.layout.expand_node(node);
+            this.view.relayout();
+            this.view.restore_location(node);
         },
 
         collapse_node:function(node){
-            if(typeof node === 'string'){
-                return this.collapse_node(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return;
+                }else{
+                    return this.collapse_node(the_node);
+                }
             }
-            if(!!node){
-                if(node.isroot){return;}
-                this.layout.collapse_node(node);
-                this.view.relayout();
-            }else{
-                logger.error('the node can not be found.');
-            }
+            if(node.isroot){return;}
+            this.view.save_location(node);
+            this.layout.collapse_node(node);
+            this.view.relayout();
+            this.view.restore_location(node);
         },
 
         expand_all:function(){
             this.layout.expand_all();
+            this.view.relayout();
+        },
+
+        collapse_all:function(){
+            this.layout.collapse_all();
             this.view.relayout();
         },
 
@@ -1295,7 +1345,7 @@
 
         insert_node_before:function(node_before, nodeid, topic, data){
             if(this.get_editable()){
-                var beforeid = (typeof node_before === 'string') ? node_before : node_before.id;
+                var beforeid = jm.util.is_node(node_before) ? node_before.id : node_before;
                 var node = this.mind.insert_node_before(node_before, nodeid, topic, data);
                 if(!!node){
                     this.view.add_node(node);
@@ -1312,12 +1362,13 @@
 
         insert_node_after:function(node_after, nodeid, topic, data){
             if(this.get_editable()){
+                var afterid = jm.util.is_node(node_after) ? node_after.id : node_after;
                 var node = this.mind.insert_node_after(node_after, nodeid, topic, data);
                 if(!!node){
                     this.view.add_node(node);
                     this.layout.layout();
                     this.view.show(false);
-                    this.invoke_event_handle(jm.event_type.edit,{evt:'insert_node_after',data:[node_after.id,nodeid,topic,data],node:nodeid});
+                    this.invoke_event_handle(jm.event_type.edit,{evt:'insert_node_after',data:[afterid,nodeid,topic,data],node:nodeid});
                 }
                 return node;
             }else{
@@ -1327,29 +1378,34 @@
         },
 
         remove_node:function(node){
-            if(typeof node === 'string'){
-                return this.remove_node(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return false;
+                }else{
+                    return this.remove_node(the_node);
+                }
             }
             if(this.get_editable()){
-                if(!!node){
-                    if(node.isroot){
-                        logger.error('fail, can not remove root node');
-                        return false;
-                    }
-                    var nodeid = node.id;
-                    var parentid = node.parent.id;
-                    this.view.remove_node(node);
-                    this.mind.remove_node(node);
-                    this.layout.layout();
-                    this.view.show(false);
-                    this.invoke_event_handle(jm.event_type.edit,{evt:'remove_node',data:[nodeid],node:parentid});
-                }else{
-                    logger.error('fail, node can not be found');
+                if(node.isroot){
+                    logger.error('fail, can not remove root node');
                     return false;
                 }
+                var nodeid = node.id;
+                var parentid = node.parent.id;
+                var parent_node = this.get_node(parentid);
+                this.view.save_location(parent_node);
+                this.view.remove_node(node);
+                this.mind.remove_node(node);
+                this.layout.layout();
+                this.view.show(false);
+                this.view.restore_location(parent_node);
+                this.invoke_event_handle(jm.event_type.edit,{evt:'remove_node',data:[nodeid],node:parentid});
+                return true;
             }else{
                 logger.error('fail, this mind map is not editable');
-                return;
+                return false;
             }
         },
 
@@ -1394,16 +1450,20 @@
         },
 
         select_node:function(node){
-            if(typeof node === 'string'){
-                return this.select_node(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return;
+                }else{
+                    return this.select_node(the_node);
+                }
             }
-            if(!node || !this.layout.is_visible(node)){
+            if(!this.layout.is_visible(node)){
                 return;
             }
             this.mind.selected = node;
-            if(!!node){
-                this.view.select_node(node);
-            }
+            this.view.select_node(node);
         },
 
         get_selected_node:function(){
@@ -1426,10 +1486,16 @@
         },
 
         find_node_before:function(node){
-            if(typeof node === 'string'){
-                return this.find_node_before(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return;
+                }else{
+                    return this.find_node_before(the_node);
+                }
             }
-            if(!node || node.isroot){return null;}
+            if(node.isroot){return null;}
             var n = null;
             if(node.parent.isroot){
                 var c = node.parent.children;
@@ -1451,10 +1517,16 @@
         },
 
         find_node_after:function(node){
-            if(typeof node === 'string'){
-                return this.find_node_after(this.get_node(node));
+            if(!jm.util.is_node(node)){
+                var the_node = this.get_node(node);
+                if(!the_node){
+                    logger.error('the node[id='+node+'] can not be found.');
+                    return;
+                }else{
+                    return this.find_node_after(the_node);
+                }
             }
-            if(!node || node.isroot){return null;}
+            if(node.isroot){return null;}
             var n = null;
             if(node.parent.isroot){
                 var c = node.parent.children;
@@ -1489,6 +1561,77 @@
                         node.data['foreground-color'] = fgcolor;
                     }
                     this.view.reset_node_custom_style(node);
+                }
+            }else{
+                logger.error('fail, this mind map is not editable');
+                return null;
+            }
+        },
+
+        set_node_font_style:function(nodeid, size, weight, style){
+            if(this.get_editable()){
+                var node = this.mind.get_node(nodeid);
+                if(!!node){
+                    if(!!size){
+                        node.data['font-size'] = size;
+                    }
+                    if(!!weight){
+                        node.data['font-weight'] = weight;
+                    }
+                    if(!!style){
+                        node.data['font-style'] = style;
+                    }
+                    this.view.reset_node_custom_style(node);
+                    this.view.update_node(node);
+                    this.layout.layout();
+                    this.view.show(false);
+                }
+            }else{
+                logger.error('fail, this mind map is not editable');
+                return null;
+            }
+        },
+
+        set_node_background_image:function(nodeid, image, width, height, rotation){
+            if(this.get_editable()){
+                var node = this.mind.get_node(nodeid);
+                if(!!node){
+                    if(!!image){
+                        node.data['background-image'] = image;
+                    }
+                    if(!!width){
+                        node.data['width'] = width;
+                    }
+                    if(!!height){
+                        node.data['height'] = height;
+                    }
+                    if(!!rotation){
+                        node.data['background-rotation'] = rotation;
+                    }
+                    this.view.reset_node_custom_style(node);
+                    this.view.update_node(node);
+                    this.layout.layout();
+                    this.view.show(false);
+                }
+            }else{
+                logger.error('fail, this mind map is not editable');
+                return null;
+            }
+        },
+
+        set_node_background_rotation:function(nodeid, rotation){
+            if(this.get_editable()){
+                var node = this.mind.get_node(nodeid);
+                if(!!node){
+                    if(!node.data['background-image']) {
+                        logger.error('fail, only can change rotation angle of node with background image');
+                        return null;
+                    }
+                    node.data['background-rotation'] = rotation;
+                    this.view.reset_node_custom_style(node);
+                    this.view.update_node(node);
+                    this.layout.layout();
+                    this.view.show(false);
                 }
             }else{
                 logger.error('fail, this mind map is not editable');
@@ -1742,14 +1885,12 @@
             while(i--){
                 node = nodes[i];
                 node._data.layout.offset_y += middle_height;
-                //logger.debug(node._data.layout.offset_y);
             }
             return total_height;
         },
 
         // layout the y axis only, for collapse/expand a node
         _layout_offset_subnodes_height:function(nodes){
-            return this._layout_offset_subnodes(nodes);
             var total_height = 0;
             var nodes_count = nodes.length;
             var i = nodes_count;
@@ -1895,14 +2036,12 @@
         },
 
         expand_node:function(node){
-            //logger.debug('expand');
             node.expanded = true;
             this.part_layout(node);
             this.set_visible(node.children,true);
         },
 
         collapse_node:function(node){
-            //logger.debug('collapse');
             node.expanded = false;
             this.part_layout(node);
             this.set_visible(node.children,false);
@@ -1910,12 +2049,37 @@
 
         expand_all:function(){
             var nodes = this.jm.mind.nodes;
+            var c = 0;
             var node;
             for(var nodeid in nodes){
                 node = nodes[nodeid];
                 if(!node.expanded){
-                    this.expand_node(node);
+                    node.expanded = true;
+                    c++;
                 }
+            }
+            if(c>0){
+                var root = this.jm.mind.root;
+                this.part_layout(root);
+                this.set_visible(root.children,true);
+            }
+        },
+
+        collapse_all:function(){
+            var nodes = this.jm.mind.nodes;
+            var c = 0;
+            var node;
+            for(var nodeid in nodes){
+                node = nodes[nodeid];
+                if(node.expanded && !node.isroot){
+                    node.expanded = false
+                    c++;
+                }
+            }
+            if(c>0){
+                var root = this.jm.mind.root;
+                this.part_layout(root);
+                this.set_visible(root.children,true);
             }
         },
 
@@ -1942,14 +2106,18 @@
         },
 
         part_layout:function(node){
-            //logger.debug('part_layout');
             var root = this.jm.mind.root;
             if(!!root){
                 var root_layout_data = root._data.layout;
-                if(node._data.layout.direction == jm.direction.right){
+                if(node.isroot){
                     root_layout_data.outer_height_right=this._layout_offset_subnodes_height(root_layout_data.right_nodes);
-                }else{
                     root_layout_data.outer_height_left=this._layout_offset_subnodes_height(root_layout_data.left_nodes);
+                }else{
+                    if(node._data.layout.direction == jm.direction.right){
+                        root_layout_data.outer_height_right=this._layout_offset_subnodes_height(root_layout_data.right_nodes);
+                    }else{
+                        root_layout_data.outer_height_left=this._layout_offset_subnodes_height(root_layout_data.left_nodes);
+                    }
                 }
                 this.bounds.s = Math.max(root_layout_data.outer_height_left,root_layout_data.outer_height_right);
                 this.cache_valid = false;
@@ -1970,7 +2138,9 @@
                 }else{
                     this.set_visible(node.children,false);
                 }
-                node._data.layout.visible = visible;
+                if(!node.isroot){
+                    node._data.layout.visible = visible;
+                }
             }
         },
 
@@ -2010,7 +2180,7 @@
         init:function(){
             logger.debug('view.init');
 
-            this.container = $g(this.opts.container);
+            this.container = $i(this.opts.container) ? this.opts.container : $g(this.opts.container);
             if(!this.container){
                 logger.error('the options.view.container was not be found in dom');
                 return;
@@ -2026,6 +2196,11 @@
 
             this.e_editor.className = 'jsmind-editor';
             this.e_editor.type = 'text';
+
+            this.actualZoom = 1;
+            this.zoomStep = 0.1;
+            this.minZoom = 0.5;
+            this.maxZoom = 2;
 
             var v = this;
             jm.util.dom.add_event(this.e_editor,'keydown',function(e){
@@ -2086,7 +2261,7 @@
 
         reset_custom_style:function(){
             var nodes = this.jm.mind.nodes;
-            for(nodeid in nodes){
+            for(var nodeid in nodes){
                 this.reset_node_custom_style(nodes[nodeid]);
             }
         },
@@ -2165,36 +2340,8 @@
             }
             d.setAttribute('nodeid',node.id);
             d.style.visibility='hidden';
-            if('width' in node.data){
-                d.style.width = node.data.width+'px';
-            }
-            if('height' in node.data){
-                d.style.height = node.data.height+'px';
-            }
-            if ('background-image' in node.data) {
-                var backgroundImage = node.data['background-image'];
-                if (backgroundImage.startsWith('data') && node.data.width && node.data.height) {
-                    var img = new Image();
+            this._reset_node_custom_style(d, node.data);
 
-                    img.onload = function() {
-                        var c = document.createElement('canvas');
-                        c.width = d.clientWidth;
-                        c.height = d.clientHeight;
-                        var img = this;
-                        if(c.getContext) {
-                            var ctx = c.getContext('2d');
-                            ctx.drawImage(img, 2, 2, d.clientWidth, d.clientHeight);
-                            var scaledImageData = c.toDataURL();
-                            d.style.backgroundImage='url('+scaledImageData+')';
-                        }
-                    };
-                    img.src = backgroundImage;
-
-                } else {
-                    d.style.backgroundImage='url('+backgroundImage+')';
-                }
-                d.style.backgroundSize='99%';
-            }
             parent_node.appendChild(d);
             view_data.element = d;
         },
@@ -2273,7 +2420,9 @@
             var view_data = node._data.view;
             var element = view_data.element;
             var topic = node.topic;
+            var ncs = getComputedStyle(element);
             this.e_editor.value = topic;
+            this.e_editor.style.width = (element.clientWidth-parseInt(ncs.getPropertyValue('padding-left'))-parseInt(ncs.getPropertyValue('padding-right')))+'px';
             element.innerHTML = '';
             element.appendChild(this.e_editor);
             element.style.zIndex = 5;
@@ -2330,6 +2479,27 @@
             this.jm.invoke_event_handle(jm.event_type.resize,{data:[]});
         },
 
+        zoomIn: function() {
+            return this.setZoom(this.actualZoom + this.zoomStep);
+        },
+
+        zoomOut: function() {
+            return this.setZoom(this.actualZoom - this.zoomStep);
+        },
+
+        setZoom: function(zoom) {
+            if ((zoom < this.minZoom) || (zoom > this.maxZoom)) {
+                return false;
+            }
+            this.actualZoom = zoom;
+            for (var i=0; i < this.e_panel.children.length; i++) {
+                this.e_panel.children[i].style.transform = 'scale(' + zoom + ')';
+            };
+            this.show(true);
+            return true;
+
+        },
+
         _center_root:function(){
             // center root node
             var outer_w = this.e_panel.clientWidth;
@@ -2355,6 +2525,20 @@
         relayout:function(){
             this.expand_size();
             this._show();
+        },
+
+        save_location:function(node){
+            var vd = node._data.view;
+            vd._saved_location={
+                x:parseInt(vd.element.style.left)-this.e_panel.scrollLeft,
+                y:parseInt(vd.element.style.top)-this.e_panel.scrollTop,
+            };
+        },
+        
+        restore_location:function(node){
+            var vd = node._data.view;
+            this.e_panel.scrollLeft = parseInt(vd.element.style.left)-vd._saved_location.x;
+            this.e_panel.scrollTop = parseInt(vd.element.style.top)-vd._saved_location.y;
         },
 
         clear_nodes:function(){
@@ -2418,17 +2602,60 @@
         },
 
         reset_node_custom_style:function(node){
-            var node_element = node._data.view.element;
-            if('background-color' in node.data){
-                node_element.style.backgroundColor = node.data['background-color'];
-            }
-            if('foreground-color' in node.data){
-                node_element.style.color = node.data['foreground-color'];
-            }
-            if('background-image' in node.data){
-                node_element.style.backgroundImage = node.data['background-image'];
-            }
+            this._reset_node_custom_style(node._data.view.element, node.data);
+        },
 
+        _reset_node_custom_style:function(node_element, node_data){
+            if('background-color' in node_data){
+                node_element.style.backgroundColor = node_data['background-color'];
+            }
+            if('foreground-color' in node_data){
+                node_element.style.color = node_data['foreground-color'];
+            }
+            if('width' in node_data){
+                node_element.style.width = node_data['width']+'px';
+            }
+            if('height' in node_data){
+                node_element.style.height = node_data['height']+'px';
+            }
+            if('font-size' in node_data){
+                node_element.style.fontSize = node_data['font-size']+'px';
+            }
+            if('font-weight' in node_data){
+                node_element.style.fontWeight = node_data['font-weight'];
+            }
+            if('font-style' in node_data){
+                node_element.style.fontStyle = node_data['font-style'];
+            }
+            if('background-image' in node_data) {
+                var backgroundImage = node_data['background-image'];
+                if (backgroundImage.startsWith('data') && node_data['width'] && node_data['height']) {
+                    var img = new Image();
+
+                    img.onload = function() {
+                        var c = $c('canvas');
+                        c.width = node_element.clientWidth;
+                        c.height = node_element.clientHeight;
+                        var img = this;
+                        if(c.getContext) {
+                            var ctx = c.getContext('2d');
+                            ctx.drawImage(img, 2, 2, node_element.clientWidth, node_element.clientHeight);
+                            var scaledImageData = c.toDataURL();
+                            node_element.style.backgroundImage='url('+scaledImageData+')';
+                        }
+                    };
+                    img.src = backgroundImage;
+
+                } else {
+                    node_element.style.backgroundImage='url('+backgroundImage+')';
+                }
+                node_element.style.backgroundSize='99%';
+
+                if('background-rotation' in node_data){
+                    node_element.style.transform = 'rotate(' + node_data['background-rotation'] + 'deg)';
+                }
+
+            }
         },
 
         clear_node_custom_style:function(node){
