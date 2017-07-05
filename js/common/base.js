@@ -98,14 +98,8 @@ var httpUrl={
 		updateHealthAlert:path01+":18082/HealthInfo/updateHealthAlert",//编辑健康预警
 		getHealthAlert:path01+":18082/HealthInfo/getHealthAlert",//编辑获得单条预警信息记录
 
-		// 05家园互动
-		recordStudent:path01+":15001/mbtrack/dan/student",// 获取学生列表（含档案信息）
-		recordList:path01+":15001/mbtrack/danbook/list",// 获取档案册列表
-		recordMonthList:path01+":15001/mbtrack/danbook/danList",// 获取档案册档案页详情
-		recordNewDanbook:path01+":15001/mbtrack/danbook/save",// 新建档案册
-		recordDownload:path01+":15001/file/patch/download",//图片批量下载（档案页）
-		recordDanbookUpdate:path01+":15001/mbtrack/danbook/update",// 档案册名更新
-
+		
+		// 自选课程 剧场活动
 		GetSchoolIds:path01+":15001/imsInterface/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
 		GetSchoolJYIds:path01+":15001/imsInterface/TSCourse_GetSchoolJYIds",//剧场活动 id
 		GetSchoolCourses:path01+":15001/imsInterface/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
@@ -183,6 +177,25 @@ var httpUrl={
 		menuChildList:path+"/web/ops/user/menu/childList",// 获取子菜单列表
 		menuButtonList:path+"/web/ops/menu/button/list",// 获取菜单功能按钮列表
 
+		// 菜单管理
+		menuButtonAddOrUpdate:path+"/web/ops/menu/button/addOrUpdate",// 新增或更新按钮信息
+		menuAddOrUpdate:path+"/web/ops/menu/addOrUpdate",// 新增或更新菜单信息
+		menuCompanyUpdate:path+"/web/ops/company/menu/update",// 更新学校菜单信息
+		menuCompanyList:path+"/web/ops/company/menu/list",// 获取学校菜单列表
+		menuButtonList:path+"/web/ops/button/list",// 获取菜单按钮列表
+		menuDelete:path+"/web/ops/menu/delete",// 删除菜单
+		menuButtonDelete:path+"/web/ops/menu/button/delete",// 删除菜单按钮
+		menuDetail:path+"/web/ops/menu/detail",// 菜单详情
+		menuButtonDetail:path+"/web/ops/menu/button/detail",// 按钮详情
+
+		menuRoleButtonUpdate:path+"/web/ops/role/button/update",// 更新角色按钮权限
+		menuRoleButtonList:path+"/web/ops/role/buttonList",// 获得角色所有按钮(含选中信息)
+		
+		// 学校角色管理
+		schoolTypeList:path+"/web/ops/role/typeList",// 获取所有的角色
+		schoolMenuList:path+"/web/ops/company/role/menuList",// 获取学校角色菜单
+		schoolMenuUpdate:path+"/web/ops/company/role/menu/update",// 更新学校角色菜单
+
 		// 教师信息
 		teacherAdd:path+"/web/basic/staff/add",// 新建教职工
 		teacherSingleStaffInfo:path+"/web/basic/staff/singleStaffInfo",//  获得单项教职工条目
@@ -226,17 +239,6 @@ var httpUrl={
 		growthCommentDelete:path+"/web/growth/comment/delete",// 萌宝成长 删除某一条评论
 		growthMessageDelete:path+"/web/growth/message/delete",// 萌宝成长 删除一条内容
 
-		// 菜单管理
-		menuButtonAddOrUpdate:path+"/web/ops/menu/button/addOrUpdate",// 新增或更新按钮信息
-		menuAddOrUpdate:path+"/web/ops/menu/addOrUpdate",// 新增或更新菜单信息
-		menuCompanyUpdate:path+"/web/ops/company/menu/update",// 更新学校菜单信息
-		menuCompanyList:path+"/web/ops/company/menu/list",// 获取学校菜单列表
-		menuButtonList:path+"/web/ops/button/list",// 获取菜单按钮列表
-		menuDelete:path+"/web/ops/menu/delete",// 删除菜单
-		menuButtonDelete:path+"/web/ops/menu/button/delete",// 删除菜单按钮
-		menuDetail:path+"/web/ops/menu/detail",// 菜单详情
-		menuButtonDetail:path+"/web/ops/menu/button/detail",// 按钮详情
-
 		// 观察记录
 		watchCourseList:path+"/web/sample/search/course/list",// (查询)个人观察计划列表
 		watchClassList:path+"/web/sample/search/class/list",// (查询)获取个人所在班级
@@ -262,6 +264,14 @@ var httpUrl={
 		dimAddOrUpdate:path+"/web/sample/company/dim/addOrUpdate",// 新增或更新学校观察维度
 		dimLevelList:path+"/web/sample/company/dimLevel/list",// 获取学校维度水平列表
 		dimList:path+"/web/sample/company/dim/list",// 获取学校观察维度
+
+		// 家园互动
+		recordStudent:path+"/web/mbtrack/dan/student",// 获取学生列表（含档案信息）
+		recordList:path+"/web/mbtrack/danbook/list",// 获取档案册列表
+		recordMonthList:path+":/web/mbtrack/danbook/danList",// 获取档案册档案页详情
+		recordNewDanbook:path+":/web/mbtrack/danbook/save",// 新建档案册
+		recordDownload:path+":/web/file/patch/download",//图片批量下载（档案页）
+		recordDanbookUpdate:path+":/web/mbtrack/danbook/update",// 档案册名更新
 
 		// 08设置
 		setting:'' 

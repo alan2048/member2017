@@ -1,21 +1,21 @@
 $(function () {
-    permission_port(loginSuccess);
+    init();
 });
-function loginSuccess() {
-    App.init();// 侧边树结构、loading载入
+function init() {
+    menu();
     dateInit();// 年份 月份初始化
-    changeClass();// 切班函数
-
-    recordStudent_port(); // 获取学生列表（含档案信息）
     mousehover();
 
     // 查询条件改变执行函数
-    $("#year01,#month01").change(function () {
+    $("#year01,#month01,#teacherClass").change(function () {
         recordStudent_port(); // 获取学生列表（含档案信息）
     });
-    
-    
+    $("#searchBtn").click(function () {
+        recordStudent_port(); // 获取学生列表（含档案信息）
+    });
+
 };
+
 // 年份 月份初始化 
 function dateInit() {
     var d=new Date();
@@ -25,22 +25,76 @@ function dateInit() {
     var year=[2016,2017,2018];
     var htmlYear=template("year_script",{year});
     $("#year01").append(htmlYear).find("option[value="+d.getFullYear()+"]").prop("selected",true);
+    watchClassList_port();
+};
+// 获得教职工所在班级列表
+function watchClassList_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.watchClassList,param,watchClassList_callback);
+};
+function watchClassList_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("teacherClass_script",data);
+        $("#teacherClass").empty().append(html);        
+        recordStudent_port(); // 获取学生列表（含档案信息）
+    };
+};
+// 获得学生列表
+function recordStudent_port() {
+    var data={
+            year:$("#year01").val(),
+            month:$("#month01").val(),
+            classId:$("#teacherClass").val()
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId    
+        };
+    initAjax(httpUrl.recordStudent,param,recordStudent_callback);
+};
+function recordStudent_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        if(data.length !=0){
+            for(var i=0;i<data.length;i++){
+                data[i].userPic=httpUrl.path_img+data[i].userPhoto+"&minpic=0";
+                data[i].year=$("#year01").val();
+                data[i].month=$("#month01").val();
+                data[i].classId=$("#teacherClass").val();
+                data[i].value=JSON.stringify(data[i]);
+            };
+            var html=template("members_script",{data});
+            $("#members").empty().append(html);
+        }else{
+            toastTip("提示","此班级下无学生。。");
+            $("#members").empty();
+        }
+    }else{
+        if(res.info =="登录信息过期" || res.code == 404){
+            $.toast({
+                heading: "提示",
+                text: "登录信息过期,请重新登录。。",
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 2500,
+                loaderBg: '#13b5dd',
+                position: 'bottom-right',
+                afterHidden: function () {
+                    window.location.href="../../index.html";
+                }
+            });
+        }
+        // console.log('请求错误，返回code非200');
+    }
 }
 
-// 切班函数
-function changeClass() {
-    $("#changeClass #classid").attr("data-classid",user.classId);
-    $("#header ul.nav > li:nth-of-type(3) ul.dropdown-menu a").attr("href","#");
-    $("#changeClass ul.dropdown-menu").on("click",'li.media a',function () {
-       var classId=$(this).attr("data-classid");
 
-       var name=$(this).attr("data-name");
-       $("#changeClass >a >i").text(name).attr("data-classid",classId); 
-       $("#breadcrumb li:nth-of-type(2)").text(name);
-       user.classId=classId;
-       recordStudent_port();// 获取学生列表（含档案信息）
-    });
-};
+
 function mousehover() {
     // hover显示子图标
     $("#members").on({
@@ -88,7 +142,7 @@ function mousehover() {
             $("#finalBtn").attr("data-value",$(this).attr("data-value")).attr("data-useruuid",$(this).attr("data-useruuid"));
             $("#myModal").modal("show");
         }else{
-          window.open(httpUrl.memberRecord+"?userUuid="+data.userUuid+"&userName="+data.userName+"&userPhoto="+data.userPhoto+"&bookId="+data.needCreate+"&classId="+data.classId+"&month="+data.month+"&year="+data.year+"&loginId="+getCookie("loginId"));  
+          window.open("../../memberRecord/memberRecord.html?userUuid="+data.userUuid+"&userName="+data.userName+"&userPhoto="+data.userPhoto+"&bookId="+data.needCreate+"&classId="+data.classId+"&month="+data.month+"&year="+data.year+"&loginId="+getCookie("loginId"));  
         }
     });
 
@@ -231,50 +285,7 @@ function mousehover() {
     });
 
 }
-function recordStudent_port() {
-    var data={
-            year:$("#year01").val(),
-            month:$("#month01").val(),
-            classId:$("#classid").attr("data-classid")
-        };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId    
-        };
-    initAjax(httpUrl.recordStudent,param,recordStudent_callback);
-};
-function recordStudent_callback(res) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        for(var i=0;i<data.length;i++){
-                data[i].userPic=httpUrl.path_img+data[i].userPhoto+"&Thumbnail=1";
-                data[i].year=$("#year01").val();
-                data[i].month=$("#month01").val();
-                data[i].classId=$("#classid").attr("data-classid");
-                data[i].value=JSON.stringify(data[i]);
-            };
-        var html=template("members_script",{data});
-        $("#members").empty().append(html);
 
-        
-    }else{
-        if(res.info =="登录信息过期" || res.code == 404){
-            $.toast({
-                heading: "提示",
-                text: "登录信息过期,请重新登录。。",
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 2500,
-                loaderBg: '#13b5dd',
-                position: 'bottom-right',
-                afterHidden: function () {
-                    window.location.href=path;
-                }
-            });
-        }
-        // console.log('请求错误，返回code非200');
-    }
-}
 
 // 查看当前学生年度档案列表 接口
 function recordList_port(childUserUuid,value) {
@@ -352,13 +363,12 @@ function recordNewDanbook_port(childUserUuid,name) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId    
         };
-        // console.log(param);
     initAjax(httpUrl.recordNewDanbook,param,recordNewDanbook_callback);
 };
 function recordNewDanbook_callback(res) {
     if(res.code==200 && res.data){
         var data=JSON.parse($("#finalBtn").attr("data-value"));
-        window.open(httpUrl.memberRecord+"?userUuid="+data.userUuid+"&userName="+data.userName+"&userPhoto="+data.userPhoto+"&bookId="+res.data+"&classId="+data.classId+"&month="+data.month+"&year="+data.year+"&loginId="+getCookie("loginId"));  
+        window.open("../../memberRecord/memberRecord.html?userUuid="+data.userUuid+"&userName="+data.userName+"&userPhoto="+data.userPhoto+"&bookId="+res.data+"&classId="+data.classId+"&month="+data.month+"&year="+data.year+"&loginId="+getCookie("loginId"));  
 
         $("#myModal").modal("hide");
         recordStudent_port();//重新刷新主学生列表
@@ -384,17 +394,111 @@ function recordDanbookUpdate_callback(res) {
     if(res.code==200){
 
     }
-}
+};
 
-// 消息提示函数
-function toastTip(heading,text,hideAfter) {
-    $.toast({
-            heading: heading,
-            text: text,
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: hideAfter || 1500,
-            loaderBg: '#13b5dd',
-            position: 'bottom-right'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 菜单
+function menu() {
+    menuChildList_port(user.pid);
+    $("#switch").click(function () {
+        var aa=$(this);
+        $(this).prev("#sidebarBox").fadeToggle(function () {
+            aa.toggleClass("active");
+            $(".content").toggleClass("active");
+        });
     });
-}
+    $("#subMenu").on("click","a.hasTitle",function () {
+        $(this).toggleClass("active");
+    });
+};
+// 左侧 菜单接口
+function menuChildList_port(menuId) {
+    var data={
+            menuId:menuId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
+};
+function menuChildList_callback(res,menuId) {
+    if(res.code==200){
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img
+        };
+        for(var i=0;i<data.arr.length;i++){
+            data.arr[i].iconArr=data.arr[i].icon.split(",");
+            data.arr[i].pid=menuId;
+            data.arr[i].url=data.arr[i].url.split("/")[2];
+            if(data.arr[i].id == user.sid){
+                data.arr[i].current=true;
+            }else{
+                data.arr[i].current=false;
+            };
+        };
+        
+        var html=template("menu_script",data);
+        $("#subMenu").empty().append(html);
+        chooseNiceScroll("#sidebarBox","transparent");
+
+        loginUserInfo_port();
+    }else if(res.coed =404){
+        // window.location.href=path;
+    };
+};
+
+
+// 获得登录人信息
+function loginUserInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+};
+function loginUserInfo_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        data.path_img=httpUrl.path_img;
+        $("#user >.userName").text(data.name);
+        $("#user >.userRole").text(data.jobTitle);
+        $("#user >.userPic").css({
+            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+        });
+        loadingOut();//关闭loading
+    };
+};
