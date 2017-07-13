@@ -77,7 +77,7 @@ function savePic() {
 	var h=$("#canvasMain").height();
 
     // 背景图初始化
-    fabric.Image.fromURL(httpUrl.path_img+"bbb1e18765f9cae4f6d5448ca241ed37",function(Img) {
+    fabric.Image.fromURL(httpUrl.path_img+"bbb1e18765f9cae4f6d5448ca241ed37&minpic=0",function(Img) {
             var w01=$("#canvasMain").width()-20;
             var h01=$("#canvasMain").height()-20;
             Img.scaleToWidth(w01).scaleToHeight(h01).set({
@@ -100,7 +100,7 @@ function savePic() {
     $("#templateA").on("click","ul.has-menu > li",function () {
     	var md5=$(this).attr("data-md5");
         var type=$(this).parent("ul.has-menu").attr("data-type");// 父级data-type
-    	var imgUrl=httpUrl.path_img+md5;
+    	var imgUrl=httpUrl.path_img+md5+"&minpic=0";
 
     	fabric.Image.fromURL(imgUrl,function(Img) {
     		var w01=$("#canvasMain").width()-20;
@@ -211,7 +211,7 @@ function savePic() {
     	var AA=$("#picTabContent .picMain ul.picBody >li.active");
     	if(AA.length >0){
     		$.each(AA,function (index,value) {
-    			var pic=httpUrl.path_img+$(value).attr("data-md5");
+    			var pic=httpUrl.path_img+$(value).attr("data-md5")+"&minpic=0";
 
     			fabric.Image.fromURL(pic,function(Img) {
     				var w01=$("#canvasMain").width()/2;
@@ -228,6 +228,16 @@ function savePic() {
     	$("#modal-dialog-qunzu").modal("hide");
     	toastTip("Success","正在加载，请稍候。。");
     });
+
+     // 显示>2张图片
+    $("#upload").on("click",".twelve",function () {
+        $(this).addClass("hide").parent("li").nextAll(".more").removeClass("hide").parents(".pictureList").next(".foldPic").removeClass("hide");
+    });
+    // 折叠>2张图片
+    $("#upload").on("click",".addBtn02",function () {
+        $(this).addClass("hide").prevAll(".more").addClass("hide");
+        $(this).prevAll(".current").find(".twelve").removeClass("hide");
+    });    
 
     // 底部 图片列表 添加图片及文字
     $("#autoMatch-list").on("click","> ul >li >span.matchPic",function () {
@@ -275,7 +285,7 @@ function savePic() {
 		    
 		        if(ArrPic.length >0){
 			       for(var i=0;i<ArrPic.length;i++){
-				        var pic=httpUrl.path_img+ArrPic[i];
+				        var pic=httpUrl.path_img+ArrPic[i]+"&minpic=0";
 				            fabric.Image.fromURL(pic,function(Img) {
     				            var w01=$("#canvasMain").width()/2;
     				            Img.scaleToWidth(w01).set({
@@ -330,7 +340,7 @@ function savePic() {
 
         if(ArrPic.length >0){
             for(var i=0;i<ArrPic.length;i++){
-                var pic=httpUrl.path_img+ArrPic[i];
+                var pic=httpUrl.path_img+ArrPic[i]+"&minpic=0";
                     fabric.Image.fromURL(pic,function(Img) {
                         var w01=$("#canvasMain").width()/2;
                         Img.scaleToWidth(w01).set({
@@ -365,7 +375,7 @@ function savePic() {
         $("#evaluate").removeClass("active");
         $("#canvas").addClass("active");
         $("#modal-dialog-img").modal("show");
-        var src=httpUrl.path_img+$(this).attr("data-pic")+"&Thumbnail=0";
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
         $("#carousel_img").empty().append("<img src="+src+" data-curpic="+$(this).attr("data-pic")+" />");
         
         /*if($("#canvas").hasClass("active")){
@@ -670,7 +680,7 @@ function savePic() {
     		$("#myModal").modal("show");
     	}else{
     		$("#user").attr("data-useruuid",$(this).attr("data-useruuid")).attr("data-bookid",$(this).attr("data-bookid"));
-    		$("#user #userImg >img").attr("src",httpUrl.path_img+$(this).attr("data-userphoto")+"&Thumbnail=1");
+    		$("#user #userImg >img").attr("src",httpUrl.path_img+$(this).attr("data-userphoto")+"&minpic=1");
     		$("#user #userName").text($(this).attr("data-username"));
 
             $("#classMembers >li").removeClass("hide");//档案页复制时 除去当前学生
@@ -849,7 +859,7 @@ function recordPageList_callback(res,pageType) {
 	if(res.code==200){
 		var data=JSON.parse(res.data);
 		for(var i=0;i<data.length;i++){
-			data[i].pic=httpUrl.path_img+data[i].imgUrl+"&Thumbnail=1";
+			data[i].pic=httpUrl.path_img+data[i].imgUrl+"&minpic=1";
 		};
 		var html=template("templateB_script",{data});
 		$("#toolbarList ul[data-type="+pageType+"]").append(html);
@@ -885,7 +895,7 @@ function recordPageDetail_callback(res) {
         // 评价模板pageType=-1
         if(data.pageType==-1){
             if(data.body){
-                var imgUrl=httpUrl.path_img+data.imgUrl;
+                var imgUrl=httpUrl.path_img+data.imgUrl+"&minpic=0";
                 $("#evaluateBox").empty().append(data.body);
                 $("#evaluateBox .temark1 > div").css("background","#fff url("+imgUrl+") center center no-repeat");
                 $("#evaluate-wrapper").width($("#evaluateBox > .temark1 > div").outerWidth()+30);
@@ -1039,7 +1049,7 @@ function recordDanList_callback(res) {
 	if(res.code==200 && res.data){
 		var data=JSON.parse(res.data);
 		for(var i=0;i<data.mbdanList.length;i++){
-			data.mbdanList[i].pic=httpUrl.path_img+data.mbdanList[i].imgUrl+"&Thumbnail=1";
+			data.mbdanList[i].pic=httpUrl.path_img+data.mbdanList[i].imgUrl+"&minpic=1";
 		};
 		var html=template("recordList_script",data);
         $("#recordOk").nextAll("h3").children("span.has-hover:first").text(data.childNum+"页");// 定位教师学生各自制档案数
@@ -1160,6 +1170,14 @@ function autoMatch() {
 		$("#autoMatch-list span.matchPic").not(this).removeClass("current");
 		$(this).toggleClass("current");	
 	});
+    $(".autoMatchBtn").click(function () {
+        $("#autoMatch-wrapper").fadeOut();
+        $(".autoMatchBtn01").fadeIn();
+    });
+    $(".autoMatchBtn01").click(function () {
+        $("#autoMatch-wrapper").fadeIn();
+        $(".autoMatchBtn01").fadeOut();
+    });
 };
 
 
@@ -1180,7 +1198,7 @@ function recordDanMessage_callback(res) {
 		var data=JSON.parse(res.data);
 		for(var i=0;i<data.length;i++){
 			for(var j=0;j<data[i].messageList.length;j++){
-				data[i].messageList[j].pic=httpUrl.path_img+data[i].messageList[j].fileList[0]+"&Thumbnail=1";
+				data[i].messageList[j].pic=httpUrl.path_img+data[i].messageList[j].fileList[0]+"&minpic=1";
 				data[i].messageList[j].picArr=JSON.stringify(data[i].messageList[j].fileList);
 			};
 		};
@@ -1245,7 +1263,7 @@ function recordDanMessage_callback(res) {
 // 用户信息初始化
 function userMessage() {
 	$("#userName").text(user.userName);
-	$("#userImg >img").attr("src",httpUrl.path_img+user.userPhoto+"&Thumbnail=1");
+	$("#userImg >img").attr("src",httpUrl.path_img+user.userPhoto+"&minpic=1");
 	$("#user").attr("data-useruuid",user.userUuid).attr("data-classid",user.classId).attr("data-bookid",user.bookId).attr("data-month",user.month).attr("data-year",user.year);
 	recordStudent_port($("#user").attr("data-classid"));
 
@@ -1299,7 +1317,7 @@ function dateInit() {
 		recordPiclib_port();
 	});
 
-	$(".picMain >ul").on("click",".picBody >li",function () {
+	$(".picMain >ul").on("click",".picBody >li:not(.addBtn01,.addBtn02)",function () {
 		$(this).toggleClass("active");
 	});
 
@@ -1398,7 +1416,8 @@ function copyRecord() {
                 timer: 3000,
                 type: "warning",
                 showConfirmButton: true,
-                confirmButtonText: "确定",
+                confirmButtonText: "知道啦",
+                confirmButtonColor: "#f8e264"
             });
         };
 	});
@@ -1419,7 +1438,8 @@ function copyRecord() {
                 timer: 3000,
                 type: "warning",
                 showConfirmButton: true,
-                confirmButtonText: "确定",
+                confirmButtonText: "知道啦",
+                confirmButtonColor: "#f8e264",
             });
         };
     });
@@ -1451,7 +1471,7 @@ function recordStudent_callback(res) {
 	if(res.code==200){
 		  var data=JSON.parse(res.data);
 		  for(var i=0;i<data.length;i++){
-			 data[i].portrait=httpUrl.path_img+data[i].userPhoto+"&Thumbnail=1";
+			 data[i].portrait=httpUrl.path_img+data[i].userPhoto+"&minpic=0";
 		  };
 		  var html=template("classMembers_script",{data});
 		  $("#classMembers").empty().append(html);
@@ -1474,7 +1494,7 @@ function recordStudent_callback(res) {
             loaderBg: '#13b5dd',
             position: 'bottom-right',
             afterHidden: function () {
-                window.location.href=httpUrl.loginHttp;
+                window.location.href="../index.html";
             }
         });
 	};
@@ -1539,6 +1559,7 @@ function tiphover() {
 	});
 	$("#childrenBtn").on("click",function () {
 		$(this).find("span").toggleClass("upBtn");
+        $(this).nextAll(".triangle").toggleClass("active");
 		$("#childrenList").toggleClass("active");
 	});
 };
@@ -1554,11 +1575,11 @@ function loadFiles() {
             acceptedFiles: 'image/*'
         });
         myDropzone.on('success',function(file,responseText){
-            if(responseText.uploadFileMd5==undefined){
-                alert('没有上传成功,请重试');
-                return ;
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
             };
-            recordUploadSave_port(responseText.uploadFileMd5);
+            recordUploadSave_port(data.md5);
             $("#addBtn").find("div").remove();
         });
         myDropzone.on('error',function(file,errorMessage,httpRequest){

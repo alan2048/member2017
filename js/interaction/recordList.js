@@ -150,7 +150,7 @@ function mousehover() {
     $("#monthRecord").on("click","span.editBtn",function () {
         var data=JSON.parse($(this).attr("data-value"));
         var month=$(this).attr("data-month");
-        window.open(httpUrl.memberRecord+"?userUuid="+data.userUuid+"&userName="+data.userName+"&userPhoto="+data.userPhoto+"&bookId="+data.needCreate+"&classId="+data.classId+"&month="+month+"&year="+data.year+"&loginId="+getCookie("loginId"));  
+        window.open("../../memberRecord/memberRecord.html?userUuid="+data.userUuid+"&userName="+data.userName+"&userPhoto="+data.userPhoto+"&bookId="+data.needCreate+"&classId="+data.classId+"&month="+month+"&year="+data.year+"&loginId="+getCookie("loginId"));  
     });
 
     // 新建档案册函数
@@ -176,7 +176,7 @@ function mousehover() {
     $("#monthRecord").on("click","span.lookBtn",function () {
         var data=JSON.parse($(this).attr("data-picMd5List"));
         for(var i=0;i<data.length;i++){
-          data[i]=httpUrl.path_img+data[i];
+          data[i]=httpUrl.path_img+data[i]+"&minpic=0";
         };
         var html=template("carousel_img_script",{data});
         $("#carousel_img > .carousel-inner").empty().append(html);
@@ -228,19 +228,14 @@ function mousehover() {
 
 
     // 返回上一层级按钮执行函数
-    $("#backBtn").on({
-        click:function () {
-          $(".content:not(.hide01)").addClass("hide01").prev(".content").removeClass("hide01");
-          if($("#content01").hasClass("hide01")){
-            $("#backBtn").addClass("hide01");
-          };
-        },
-        mouseover:function () {
-          $(this).children("span").addClass("current");
-        },
-        mouseout:function () {
-          $(this).children("span").removeClass("current");
-        }
+    $("#content01").on("click",".backBtn",function () {
+         $(".content").addClass("hide01");
+         $("#content").removeClass("hide01");
+    });
+
+    $("#content02").on("click",".backBtn",function () {
+         $(".content").addClass("hide01");
+         $("#content01").removeClass("hide01");
     });
 
 
@@ -337,7 +332,7 @@ function recordMonthList_callback(res) {
     if(res.code==200 && res.data){
         var data=JSON.parse(res.data);
         for(var i=0;i<data.length;i++){
-                data[i].coverMd5=httpUrl.path_img+data[i].coverMd5;
+                data[i].coverMd5=httpUrl.path_img+data[i].coverMd5+"&minpic=0";
                 data[i].picMd5List=JSON.stringify(data[i].picMd5List);
                 data[i].value=$("#yearRecord .lookBtn").attr("data-value");
           };

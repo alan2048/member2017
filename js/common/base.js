@@ -268,11 +268,20 @@ var httpUrl={
 		// 家园互动
 		recordStudent:path+"/web/mbtrack/dan/student",// 获取学生列表（含档案信息）
 		recordList:path+"/web/mbtrack/danbook/list",// 获取档案册列表
-		recordMonthList:path+":/web/mbtrack/danbook/danList",// 获取档案册档案页详情
-		recordNewDanbook:path+":/web/mbtrack/danbook/save",// 新建档案册
-		recordDownload:path+":/web/file/patch/download",//图片批量下载（档案页）
-		recordDanbookUpdate:path+":/web/mbtrack/danbook/update",// 档案册名更新
+		recordMonthList:path+"/web/mbtrack/danbook/danList",// 获取档案册档案页详情
+		recordNewDanbook:path+"/web/mbtrack/danbook/save",// 新建档案册
+		recordDownload:path+"/file/patch/download",//图片批量下载（档案页）
+		recordDanbookUpdate:path+"/web/mbtrack/danbook/update",// 档案册名更新
 
+		// 考勤
+		attendGetChildOfClass:path+"/web/attendance/teacher/getChildOfClass",// 获得班级所有幼儿信息
+		attendGetAttendanceRecord:path+"/web/attendance/teacher/getAttendanceRecord",// 获得考勤记录
+		attendCheckConfirm:path+"/web/attendance/teacher/checkConfirm",// 教师端检查确认
+		attendDisPlayAttendDays:path+"/web/attendance/teacher/disPlayAttendDays",// 查看已设置的考勤天数
+		attendUpdateAttendDays:path+"/web/attendance/teacher/updateAttendDays",// 修改考勤天数设置
+		attendResetAttendDays:path+"/web/attendance/teacher/resetAttendDays",// 复位考勤天数设置
+		attendGetClassAttendanceInfo:path+"/web/attendance/teacher/getClassAttendanceInfo",// 获得班级考勤
+		attendGetPersonalAttendance:path+"/web/attendance/parent/getPersonalAttendance",// 获得个人考勤
 		// 08设置
 		setting:'' 
 };

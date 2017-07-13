@@ -52,10 +52,12 @@
 							<span id="userName"></span>
 						</div>
 					</li>
-					<li>
+					<li style="position: relative;">
 						<div id="childrenBtn">
 							<span>学生切换列表</span>
 						</div>
+						<span class="triangle01 triangle"></span>
+						<span class="triangle02 triangle"></span>
 						<ul id="childrenList"></ul>
 					</li>
 				</ul>
@@ -320,6 +322,7 @@
 					<span><i></i>月图片列表</span>
 					<div></div>
 				</h3>
+				<h3 class="autoMatchBtn">收起</h3>
 				<div id="autoMatch-list">
 					<ul></ul>
 					<script type="text/html" id="autoMatch-list_script">
@@ -334,6 +337,7 @@
 					</script>
 				</div>
 			</div>
+			<h3 class="autoMatchBtn01">展开</h3>
 		</div>
     </div>
 
@@ -397,7 +401,7 @@
 								<div class="picTitle">{{value.day}}日</div>
 								<ul class="picBody">
 									{{each value.picList as value01 j}}
-									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}&Thumbnail=1" alt=""></li>
+									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}&minpic=1" alt=""></li>
 									{{/each}}
 								</ul>
 							</li>
@@ -436,13 +440,23 @@
 						<script type="text/html" id="picMain01_script">
 							{{each data as value i}}
 							<li>
-								<div class="picTitle">{{value.day}}日</div>
+								<div class="picTitle">{{value.day}}</div>
 								<ul class="picBody">
-									{{each value.picList as value01 j}}
-									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}&Thumbnail=1" alt=""></li>
-									{{/each}}
 									{{if i == 0}}
 									<li class="addBtn01"></li>
+									{{/if}}
+									{{each value.picList as value01 j}}
+										{{if j ==2}}
+										<li data-md5="{{value01}}" class="current">
+											<img src="{{value.path}}{{value01}}&minpic=1">
+											<span class="twelve">+{{value.picList.length-3}}</span>
+										</li>
+										{{else}}
+										<li data-md5="{{value01}}" class="{{if j >2}}more hide{{/if}}"><img src="{{value.path}}{{value01}}&minpic=1"></li>
+										{{/if}}
+									{{/each}}
+									{{if value.picList.length >2}}
+									<li class="addBtn02 more hide"></li>
 									{{/if}}
 								</ul>
 							</li>
@@ -465,7 +479,7 @@
 					</div>
 					<script type="text/html" id="picMatch_script">
 						{{each arr as value i}}
-						<li data-md5="{{value}}"><img src="{{path}}{{value}}&Thumbnail=1" alt=""></li>
+						<li data-md5="{{value}}"><img src="{{path}}{{value}}&minpic=1" alt=""></li>
 						{{/each}}
 					</script>
 				</div>

@@ -17,20 +17,22 @@ body.stop-scrolling {
   z-index: 10000; }
 
 .sweet-alert {
-  background-color: white;
+  background-color: #5cdfe2;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  width: 478px;
+  width: 400px;
   padding: 17px;
-  border-radius: 5px;
+  border-radius: 20px;
   text-align: center;
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -256px;
+  margin-left: -200px;
   margin-top: -200px;
   overflow: hidden;
   display: none;
-  z-index: 99999; }
+  z-index: 99999;
+  border: 2px solid #646766;
+}
   @media all and (max-width: 540px) {
     .sweet-alert {
       width: auto;
@@ -39,16 +41,17 @@ body.stop-scrolling {
       left: 15px;
       right: 15px; } }
   .sweet-alert h2 {
-    color: #575757;
-    font-size: 30px;
-    text-align: center;
-    font-weight: 600;
-    text-transform: none;
-    position: relative;
-    margin: 25px 0;
-    padding: 0;
-    line-height: 40px;
-    display: block; }
+  color: #f8f8f8;
+  font-size: 28px;
+  text-align: center;
+  font-weight: 500;
+  text-transform: none;
+  position: relative;
+  margin: 25px 0;
+  padding: 0;
+  line-height: 28px;
+  display: block;
+}
   .sweet-alert p {
     color: #797979;
     font-size: 16px;
@@ -181,8 +184,9 @@ body.stop-scrolling {
     -webkit-border-radius: 4px;
     border-radius: 5px;
     padding: 10px 32px;
-    margin: 26px 5px 0 5px;
-    cursor: pointer; }
+    margin: 20px 15px 0 15px;
+    cursor: pointer;
+}
     .sweet-alert button:focus {
       outline: none;
       box-shadow: 0 0 2px rgba(128, 179, 235, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.05); }

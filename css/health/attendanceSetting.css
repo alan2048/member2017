@@ -1,0 +1,219 @@
+*{
+    box-sizing: border-box;
+}
+body{
+	background: url(../../images/common/pet.png) 98% 95% no-repeat #f9fcfb;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+
+
+/*table start*/
+.panel {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 0.2rem;
+	padding: 0.15rem;
+	background-color: #fff;
+	border: 0.01rem solid #e8ebea;
+	border-radius: 0.1rem;
+	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
+	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#tableBox{
+	max-height: 100%;
+}
+
+
+
+/*·ÖÒ³ start*/
+#main{
+	height: 9.5rem;
+}
+
+.closeBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1.08rem;
+	right: 0rem;
+	z-index: 0;
+}
+/*ÐÂÔö end*/
+
+
+.content{
+	min-width:10.5rem;
+}
+.yearTitle{
+	color:#656666;
+	font-size:0.2rem;
+	padding-left: 0.2rem;
+	padding-top: 0.1rem;
+}
+.attend {
+	font-size: 0.14rem;
+	display: inline-block;
+	vertical-align: top;
+	margin: 0.2rem;
+	min-width: 320px;
+	max-width: 470px;
+}
+.attend > .title {
+	width: 1.8rem;
+	height: 0.24rem;
+	background-color: #5cdee1;
+	color: #fff;
+	text-align: center;
+	font-size: 0.14rem;
+	line-height: 0.24rem;
+	border-radius: 0.15rem 0.15rem 0 0;
+}
+.attendBox {
+	width: 3.4rem;
+	height: 3rem;
+	border: 1px solid #e8ebeb;
+	border-radius: 0 20px 20px 20px;
+	padding: 0.2rem;
+	position: relative;
+	color:#656666;
+	text-align: center;
+}
+.attendBox:hover{
+	border: 1px solid #f8e264;
+}
+.attendBox >div:first-of-type{
+	line-height:1.4rem;
+	padding-top: 0.5rem;
+}
+.attendBox >div:first-of-type >span.day{
+	vertical-align: bottom;
+	font-size: 0.4rem;
+	color:#5cdee1;
+	padding-left: 0.05rem;
+}
+.attendBox >div:first-of-type >span.num{
+	display:inline-block;
+	background-color: #5cdee1;
+	color:#fff;
+	width: 0.7rem;
+	height: 1.16rem;
+	line-height:1.16rem;
+	font-size: 0.6rem;
+	border-radius:0.1rem;	
+}
+.attendBox >div:last-of-type{
+	display:none;
+	text-align: right;
+}
+.attendBox >div:last-of-type >span{
+	margin-top: 0.25rem;
+	padding-left: 0.25rem;
+	height: 0.3rem;
+	width: 0.6rem;
+	line-height: 0.3rem;
+	display:inline-block;
+	cursor:pointer;
+}
+.attendBox >div:last-of-type >span:hover{
+	color: #5cdee1;
+}
+.attendBox >div:last-of-type >span:first-of-type{
+	background: url(../../images/health/edit.png) 0 center no-repeat;
+}
+.attendBox >div:last-of-type >span:last-of-type{
+	margin-left: 0.1rem;
+	background: url(../../images/health/reset.png) 0 center no-repeat;
+}
+.attendBox:hover >div:last-of-type{
+	display:block;
+}
+#editor{
+	padding:0.2rem;
+	display:none;
+	position: fixed;
+	height: 100%;
+	width: 4rem;
+	top:0;
+	bottom:0;
+	right:0;
+	z-index: 10000;
+	color:#656666;
+	background-color: #fff;
+	box-shadow:0 0 0.1rem #777;
+}
+#editor.active{
+	display:block;
+}
+#editor >.close >span{
+	cursor:pointer;
+	display:inline-block;
+	width: 0.25rem;
+	height: 0.25rem;
+	background: url(../../images/health/close.png) center center no-repeat;
+}
+#editor >.close >span:hover{
+	border-radius:0.05rem;
+	background-color: #eeee;
+}
+.editorBox >div:first-of-type{
+	font-weight: bold;
+	font-size:0.2rem;
+	line-height:0.6rem;
+	text-align: center;
+}
+.editorBox >div{
+	margin:0 0 0.2rem 0.1rem;
+}
+.editorBox >div:nth-of-type(4){
+	margin-bottom: 0.05rem;
+}
+.editorBox input {
+	width: 2.6rem;
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+	color: #969998;
+}
+#day.empty{
+	border: 0.01rem solid #f07e7e;
+}
+.editorBtn{
+	position:absolute;
+	background-color: #5cdee1;
+	text-align: center;
+	line-height: 0.4rem;
+	bottom:0.3rem;
+	right:0.3rem;
+	color:#fff;
+	border-radius:0.1rem;
+	height: 0.4rem;
+	width: 0.8rem;
+	cursor:pointer;
+}
+.editorBtn:hover{
+	background-color: #24d1d5;
+}
+.tip{
+	text-align: right;
+	padding-right: 0.45rem;
+	color:#f07e7e;
+	font-size:0.12rem;
+}

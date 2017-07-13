@@ -1,57 +1,52 @@
 var user={
-		userUuid:GetQueryString("userUuid") || "b2e0b426-b5b6-450b-80d4-423294cb49d5",
-		userName:GetQueryString("userName") || "单丽",
-		userPhoto:GetQueryString("userPhoto") || "2be080e8b6d8c878cdee163325605567",
-		bookId:GetQueryString("bookId") || "238",
-		classId:GetQueryString("classId") || "11",
-		month:GetQueryString("month") || "6",
-		year:GetQueryString("year") || "2017"
+		userUuid:GetQueryString("userUuid"),
+		userName:GetQueryString("userName"),
+		userPhoto:GetQueryString("userPhoto"),
+		bookId:GetQueryString("bookId"),
+		classId:GetQueryString("classId"),
+		month:GetQueryString("month"),
+		year:GetQueryString("year")
 };
 
 var serverUrl01="http://www.member361.com";//84正式服务器
-var serverUrl02="http://121.43.150.38";//38测试服务器
+var serverUrl02="https://121.43.150.38";//38测试服务器
 
 var path=serverUrl02; //更改服务器地址可设置此值
 
-setCookie("loginId",GetQueryString("loginId") || "ecf545ed9419f4397df9ac41f336fd50","d30");// 打开本地文件时，默认设置本地cookie
 if(window.location.protocol=="file:"){
-	setCookie("loginId",GetQueryString("loginId") || "ecf545ed9419f4397df9ac41f336fd50","d30");// 打开本地文件时，默认设置本地cookie
+	setCookie("loginId",GetQueryString("loginId"),"d30");// 打开本地文件时，默认设置本地cookie
 };
 var httpUrl={
 		loginId:getCookie("loginId"),// cookie
 		// 基础接口
-		login:path+"/jfinal_mbjy_basic/login",// 首页登入
-		back:path+"/jfinal_mbjy_basic/back",//首页登入回调
-		loginHttp:path, // 登入地址
-		logoutHttp:path+"/jfinal_mbjy_basic/logout", // 注销地址
-		path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // 图片地址
-		picUrl:path+"/jfinal_mbjy_basic/file/upload", // 图片上传地址
+		path_img:path+"/file/getImage?md5=", // 图片地址
+		picUrl:path+"/file/upload", // 图片上传地址
 
 		// 成长档案
-		recordPageType:path+":15001/mbtrack/page/type",// 获取模板类型列表
-		recordPageList:path+":15001/mbtrack/page/list",// 获取模板页列表
-		recordPageDetail:path+":15001/mbtrack/page/detail", // 获取模板页详情
-		recordStudent:path+":15001/mbtrack/dan/student",// 获取学生列表（含档案信息）
-		recordNewDanbook:path+":15001/mbtrack/danbook/save",// 新建档案册
+		recordPageType:path+"/web/mbtrack/page/type",// 获取模板类型列表
+		recordPageList:path+"/web/mbtrack/page/list",// 获取模板页列表
+		recordPageDetail:path+"/web/mbtrack/page/detail", // 获取模板页详情
+		recordStudent:path+"/web/mbtrack/dan/student",// 获取学生列表（含档案信息）
+		recordNewDanbook:path+"/web/mbtrack/danbook/save",// 新建档案册
 
-		recordDanList:path+":15001/mbtrack/dan/list", // 获取成长档案页列表
-		recordDanDelete:path+":15001/mbtrack/dan/delete", // 删除档案页
-		recordDanDetail:path+":15001/mbtrack/dab/detail", // 获取档案页详情
-		recordDanbookList:path+":15001/mbtrack/danbook/list", // 获取档案册列表
-		recordUploadList:path+":15001/mbtrack/upload/list", // 获取上传的文件列表
-		recordUploadSave:path+":15001/mbtrack/upload/save", // 添加上传文件成功之后的保持图片
-		recordDanCopy:path+":15001/mbtrack/dan/copy", // 档案复制
-		recordAdjustPosition:path+":15001/mbtrack/dan/adjustPosition", // 档案顺序
-		recordDanMessage:path+":15001/mbtheme/dan/message", // 获取对应幼儿帖子列表
+		recordDanList:path+"/web/mbtrack/dan/list", // 获取成长档案页列表
+		recordDanDelete:path+"/web/mbtrack/dan/delete", // 删除档案页
+		recordDanDetail:path+"/web/mbtrack/dab/detail", // 获取档案页详情
+		recordDanbookList:path+"/web/mbtrack/danbook/list", // 获取档案册列表
+		recordUploadList:path+"/web/mbtrack/upload/list", // 获取上传的文件列表
+		recordUploadSave:path+"/web/mbtrack/upload/save", // 添加上传文件成功之后的保持图片
+		recordDanCopy:path+"/web/mbtrack/dan/copy", // 档案复制
+		recordAdjustPosition:path+"/web/mbtrack/dan/adjustPosition", // 档案顺序
+		recordDanMessage:path+"/web/mbtheme/dan/message", // 获取对应幼儿帖子列表
 
-		recordLabelList:path+":15001/mbtheme/label/list", // 获取学校所有标签
-		recordPiclib:path+":15001/mbtheme/dan/piclib", // 获取图片库(成长档案)
+		recordLabelList:path+"/web/mbtheme/label/list", // 获取学校所有标签
+		recordPiclib:path+"/web/mbtheme/dan/piclib", // 获取图片库(成长档案)
 
-		recordSaveOrUpdate:path+":15001/mbtrack/dan/saveOrUpdate", // 新增或者编辑档案页(成长档案)
+		recordSaveOrUpdate:path+"/web/mbtrack/dan/saveOrUpdate", // 新增或者编辑档案页(成长档案)
 
 		// 成长主题系统档案
-		themeMessage:path+":15001/mbtheme/dan/message",// 获取对应幼儿帖子列表
-		themePic:path+":15001/mbtheme/dan/piclib",// 获取图片库(成长档案)
+		themeMessage:path+"/web/mbtheme/dan/message",// 获取对应幼儿帖子列表
+		themePic:path+"/web/mbtheme/dan/piclib",// 获取图片库(成长档案)
 		// 08设置
 		setting:'' 
 };
