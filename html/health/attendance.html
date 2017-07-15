@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>幼儿考勤</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="幼教产品" name="description" />
+	<meta content="上海紫越网络科技有限公司" name="author" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../css/health/simple-calendar.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/health/attendance.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container" class="fade">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">幼儿考勤</div>
+            <div id="search">
+                <label>
+                    任职班级：
+                    <select id="teacherClass"></select>
+                    <script id="teacherClass_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value.classUuid}}">{{value.className}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <span id="searchBtn">查询</span>
+            </div>
+			<div id="main">
+                <div id='container'></div>
+			</div>
+	    </div> 
+	</div>
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/health/simple-calendar.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/health/attendance.js"></script>
+</body>
+</html>
