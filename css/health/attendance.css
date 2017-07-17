@@ -335,3 +335,53 @@ th,td {
 	z-index: 0;
 }
 /*ÐÂÔö end*/
+.empty{
+	display:none;
+}
+#curDay {
+	width: 800px;
+	height: 400px;
+	padding:30px 20px;
+	text-align: left;
+	font-family: "Microsoft Yahei";
+	color: #4A4A4A;
+	box-shadow: 0 0 5px #ddd;
+	background-color: #fff;
+	margin: 12px auto 0;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	font-size: 16px;
+	border-radius: 20px;
+	overflow: hidden;
+}
+#curDay.emptyBox{
+	background: url(../../images/health/emptyBox.png) center center no-repeat;
+}
+.curTitle{
+	color:#5cdee1;
+}
+.curTitle >span{
+	font-size:30px;
+}
+.attend{
+	margin-bottom: 20px;
+}
+.attend >.title{
+	color:#656666;
+	font-size:16px;
+	padding-left:12px;
+	border-left: 4px solid #5cdee1;
+}
+.attendBox{
+	padding-left:16px;
+}
+.attendBox > div > span:first-of-type {
+	color: #979999;
+	vertical-align: top;
+}
+.attendBox > div {
+	color: #666;
+}

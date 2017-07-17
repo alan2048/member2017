@@ -217,7 +217,7 @@ var SimpleCalendar = function () {
 
     //默认配置
     this._defaultOptions = {
-      width: '500px',
+      width: '800px',
       height: '500px',
       language: 'CH', //语言
       showLunarCalendar: false, //阴历
@@ -227,7 +227,7 @@ var SimpleCalendar = function () {
       showSolarTerm: false, //节气
       showMark: false, //标记
       timeRange: {
-        startYear: 2010,
+        startYear: 2015,
         endYear: 2020
       },
       timeZone: "", //时区
@@ -295,16 +295,16 @@ var SimpleCalendar = function () {
       //actions
       header.innerHTML = header.innerHTML + '<div class="sc-actions">' + '      <div class="sc-yleft">' + '        &lsaquo;</div>' + '      <select class="sc-select-year" name="">' + '      </select>' + '      <div class="sc-yright">&rsaquo;</div>' + '  </div>';
       header.innerHTML = header.innerHTML + '<div class="sc-actions">' + '    <div class="sc-mleft">' + '      &lsaquo;</div>' + '    <select class="sc-select-month" name="">' + '    </select>' + '    <div class="sc-mright">&rsaquo;</div>' + '</div>';
-      header.innerHTML = header.innerHTML + '<div class="sc-actions"><span class="sc-return-today ">今天</span></div>';
-      header.innerHTML = header.innerHTML + '<div class="sc-actions"></div>';
+      header.innerHTML = header.innerHTML + '<div class="sc-actions"><span class="sc-return-today ">今</span></div>';
+      // header.innerHTML = header.innerHTML + '<div class="sc-actions"></div>';
       // header.innerHTML = header.innerHTML + '<div class="sc-actions"><span class="sc-time"></span></div>';
-      scbody.innerHTML = ' <div class="sc-week"> </div> <div class="sc-days"> </div>';
+      scbody.innerHTML = ' <div class="sc-week"> </div> <div class="sc-days" id="sc-days"> </div>';
       var week = scbody.querySelector('.sc-week');
       var days = scbody.querySelector('.sc-days');
       for (var i = 0; i < 7; i++) {
         week.innerHTML = week.innerHTML + ' <div class="sc-week-item"></div>';
       }
-      for (var i = 0; i < 35; i++) {
+      for (var i = 0; i < 42; i++) {
         days.innerHTML = days.innerHTML + '<div class="sc-item"><div class="day"></div><div class="lunar-day"></div></div>';
       }
       //添加下拉框数据
@@ -431,8 +431,9 @@ var SimpleCalendar = function () {
       //计算得到第一个格子的日期
       var thispageStart = new Date(Date.parse(day) - (week - 1) * 24 * 3600 * 1000);
 
+
       //对每一个格子遍历
-      for (var i = 0; i < 35; i++) {
+      for (var i = 0; i < 42; i++) {
         daysElement[i].className = 'sc-item';
         var theday = new Date(Date.parse(thispageStart) + i * 24 * 3600 * 1000);
         var writeyear = theday.getFullYear();
@@ -440,8 +441,12 @@ var SimpleCalendar = function () {
         var writemonth = theday.getMonth() + 1;
         if (writemonth != month) {
           daysElement[i].classList.add('sc-othermenth');
+          if(i>7){
+            daysElement[i].classList.add('sc-nextmenth');// 解决31号另一月显示的bug
+          }
         }
         daysElement[i].querySelector('.day').innerHTML = writeday;
+        $(daysElement[i]).attr("data-day",writeday);
         //判断是否添加阴历
         if (this._options.showLunarCalendar) {
           daysElement[i].querySelector('.lunar-day').innerHTML = new LunarHelp(writeyear, writemonth, writeday).getLunarDayName();
@@ -455,7 +460,15 @@ var SimpleCalendar = function () {
           this.selectDay = daysElement[i];
           daysElement[i].classList.add("sc-today");
         }
-      }
+      };
+
+      // 解决多显示一行下个月日期BUG
+      if($(".sc-nextmenth").length >6){
+        for(var i=$(".sc-nextmenth").length-1;i>$(".sc-nextmenth").length-8;i--){
+          $(".sc-nextmenth").eq(i).addClass("empty");
+        }
+      };
+      
     }
 
     //刷新标记日期
@@ -617,7 +630,15 @@ var SimpleCalendar = function () {
           var pre = container.querySelector('.sc-selected');
           if (pre) pre.classList.remove('sc-selected');
           this.classList.add('sc-selected');
-          clalendarClick();
+
+          // 连接接口
+          if($(this).hasClass("sc-othermenth")){
+            toastTip("提示","请先切换月份来查询数据。。",3000);
+            $("#curDay").empty().removeClass("emptyBox");
+          }else{
+            clalendarClick();
+          };
+          
         };
       });
 
@@ -627,12 +648,14 @@ var SimpleCalendar = function () {
         var m = selectMonth.value;
         var y = this.value;
         calendar.update(m, y);
+        attendGetClassAttendanceInfo_port();
       };
 
       selectMonth.onchange = function () {
         var y = selectYear.value;
         var m = this.value;
         calendar.update(m, y);
+        attendGetClassAttendanceInfo_port();
       };
 
       var yearadd = container.querySelector('.sc-yright');
@@ -645,12 +668,14 @@ var SimpleCalendar = function () {
         if (currentyear < 2099) currentyear++;
         selectYear.value = currentyear;
         calendar.update(this.tmonth, currentyear);
+        attendGetClassAttendanceInfo_port();
       };
       yearsub.onclick = function () {
         var currentyear = selectYear.value;
         if (currentyear > 1900) currentyear--;
         selectYear.value = currentyear;
         calendar.update(this.tmonth, currentyear);
+        attendGetClassAttendanceInfo_port();
       };
       monthadd.onclick = function () {
         var currentmonth = selectMonth.value;
@@ -672,6 +697,7 @@ var SimpleCalendar = function () {
         }
         selectMonth.value = currentmonth;
         calendar.update(currentmonth, currentyear);
+        attendGetClassAttendanceInfo_port();
       };
 
       var returntoday = container.querySelector('.sc-return-today');
@@ -679,6 +705,7 @@ var SimpleCalendar = function () {
         selectYear.value = calendar.tyear;
         selectMonth.value = calendar.tmonth;
         calendar.update();
+        attendGetClassAttendanceInfo_port(1);// 查询当天请假情况
       };
     }
 
@@ -881,7 +908,7 @@ SimpleCalendar.prototype.languageData = {
   days_EN: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   days_CH: ["一", "二", "三", "四", "五", "六", "日"],
   months_EN: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-  months_CH: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+  months_CH: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
   vocation: {
     data_2016: ['1-1', '1-2', '1-3', '2-7', '2-8', '2-9', '2-10', '2-11', '2-12', '2-13', '4-2', '4-3', '4-4', '4-30', '5-1', '5-2', '6-9', '6-10', '6-11', '9-15', '9-16', '9-17',, '10-1', '10-2', '10-3', '10-4', '10-5', '10-6', '10-7']
   }

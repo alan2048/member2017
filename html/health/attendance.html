@@ -63,6 +63,35 @@
             </div>
 			<div id="main">
                 <div id='container'></div>
+                <div id="curDay"></div>
+                <script id="curDay_script" type="text/html">
+                    <div class="curTitle"><span>{{curDay}}日</span>请假详情</div>
+                    <ul>
+                        {{each arr as value i}}
+                        <li class="attend">
+                            <div class="title">{{value.leaveUserName}}</div>
+                            <div class="attendBox">
+                                <div>
+                                    <span>请假类型：</span>
+                                    <span>{{value.leaveType}}</span>
+                                 </div>
+                                <div>
+                                    <span>{{value.leaveType}}类型：</span>
+                                    <span>{{value.leaveType2}}</span>
+                                </div>
+                                <div>
+                                    <span>请假时间：</span>
+                                    <span>{{value.leaveTime}}</span>
+                                </div>
+                                <div>
+                                    <span>请假理由：</span>
+                                    <span>{{value.description}}</span>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </script>
 			</div>
 	    </div> 
 	</div>

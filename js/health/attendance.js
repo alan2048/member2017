@@ -1,43 +1,77 @@
+var monthObj;
 $(function () {
     menu();
     init();
 });
 function init() {
     var myCalendar = new SimpleCalendar('#container');
-    watchClassList_port();
 
     // 获得考勤记录
-    $("#teacherClass,.sc-select-month,.sc-select-year").change(function () {
+    $("#teacherClass").change(function () {
         attendGetClassAttendanceInfo_port();
     });
 
     $("#searchBtn").click(function () {
         attendGetClassAttendanceInfo_port();
     });
-
-    
 };
+
+// 点击具体天的请假详情
 function clalendarClick() {
-    attendGetClassAttendanceInfo_port();
+    var Arr=monthObj[$(".sc-selected").attr("data-day")]
+    var data={
+            curDay:$(".sc-selected").attr("data-day"),
+            arr:Arr
+    };
+    var html=template("curDay_script",data);
+    $("#curDay").empty().append(html);
+    chooseNiceScroll("#curDay");
+    if(data.arr.length ==0){
+        $("#curDay").addClass("emptyBox");
+    }else{
+        $("#curDay").removeClass("emptyBox");
+    };
 };
 
 // 获得班级考勤
-function attendGetClassAttendanceInfo_port() {
+function attendGetClassAttendanceInfo_port(today) {
     var data={
             classUUID:$("#teacherClass").val(),
             month:$(".sc-select-month").val(),
-            year:$(".sc-select-year").val()
+            year:$(".sc-select-year").val(),
+            leaveUserUUID:$(".userName").attr("data-uuid")
     };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.attendGetClassAttendanceInfo,param,attendGetClassAttendanceInfo_callback);
+    if($(".userRole").attr("data-typeid") ==20){
+        var curUrl=httpUrl.attendGetPersonalAttendance;
+    }else{
+        var curUrl=httpUrl.attendGetClassAttendanceInfo
+    };
+    initAjax(curUrl,param,attendGetClassAttendanceInfo_callback,today);
 };
-function attendGetClassAttendanceInfo_callback(res) {
+function attendGetClassAttendanceInfo_callback(res,today) {
     if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
-        console.log(data);
+        var data=JSON.parse(res.data);
+        $(".sc-item:not(.sc-othermenth) .lunar-day").removeClass("active").text("");
+
+        var num=0;
+        for(i in data){
+            if(data[i].length !=0){
+                num++;
+                $(".sc-item:not(.sc-othermenth)[data-day="+i+"]").children(".lunar-day").text(data[i].length).addClass("active");
+            };
+        };
+        if(num ==0){
+            toastTip("提示","此班级此月暂无请假记录。。");
+            $("#curDay").empty().removeClass("emptyBox");
+        };
+        monthObj=data;// 获得当前全月数据
+        if(today ==1){
+            $(".sc-today").click();
+        }
     };
 };
 
@@ -72,7 +106,7 @@ function watchClassList_callback(res) {
         var html=template("teacherClass_script",data);
         $("#teacherClass").empty().append(html);
 
-        attendGetClassAttendanceInfo_port();// 获得班级考勤        
+        attendGetClassAttendanceInfo_port(1);// 获得班级考勤        
     };
 };
 
@@ -143,11 +177,19 @@ function loginUserInfo_callback(res) {
         var data=JSON.parse(res.data);
         console.log(data);
         data.path_img=httpUrl.path_img;
-        $("#user >.userName").text(data.name);
-        $("#user >.userRole").text(data.jobTitle);
+        $("#user >.userName").text(data.name).attr("data-uuid",data.userUUID);
+        $("#user >.userRole").text(data.jobTitle).attr("data-typeid",data.typeID);
         $("#user >.userPic").css({
             background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
         });
         loadingOut();//关闭loading
+
+        // 判断是否为家长还是教师
+        if(data.typeID ==20){
+            $("#search").hide();
+            attendGetClassAttendanceInfo_port(1);// 获得班级考勤  
+        }else{
+            watchClassList_port();
+        };
     };
 };
