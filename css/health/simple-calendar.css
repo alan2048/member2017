@@ -107,7 +107,7 @@
 }
 .sc-item .lunar-day {
   position:absolute;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: normal;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -123,6 +123,12 @@
 }
 .sc-item .lunar-day.active{
   display:inline-block;
+}
+.sc-item .lunar-day.active.sick{
+  background-color: #fce878;
+}
+.sc-item .lunar-day.active.thing{
+  background-color: #f8b9d7;
 }
 .sc-festival .lunar-day {
   color: #E00808;

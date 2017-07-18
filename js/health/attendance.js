@@ -39,7 +39,7 @@ function attendGetClassAttendanceInfo_port(today) {
             classUUID:$("#teacherClass").val(),
             month:$(".sc-select-month").val(),
             year:$(".sc-select-year").val(),
-            leaveUserUUID:$(".userName").attr("data-uuid")
+            leaveUserUUID:$(".userName").attr("data-childuuid")
     };
     var param={
             params:JSON.stringify(data),
@@ -55,17 +55,32 @@ function attendGetClassAttendanceInfo_port(today) {
 function attendGetClassAttendanceInfo_callback(res,today) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        console.log(data);
         $(".sc-item:not(.sc-othermenth) .lunar-day").removeClass("active").text("");
 
         var num=0;
         for(i in data){
             if(data[i].length !=0){
                 num++;
-                $(".sc-item:not(.sc-othermenth)[data-day="+i+"]").children(".lunar-day").text(data[i].length).addClass("active");
+                if($(".userRole").attr("data-typeid") ==20){
+                    if(data[i][0].leaveType =="病假"){
+                        $(".sc-item:not(.sc-othermenth)[data-day="+i+"]").children(".lunar-day").text("病").addClass("active sick");// 个人考勤时显示病假还是事假
+                    }else{
+                        $(".sc-item:not(.sc-othermenth)[data-day="+i+"]").children(".lunar-day").text("事").addClass("active thing");// 个人考勤时显示病假还是事假
+                    }
+                    
+                }else{
+                    $(".sc-item:not(.sc-othermenth)[data-day="+i+"]").children(".lunar-day").text(data[i].length).addClass("active");// 班级考勤时显示具体天数tip
+                };
+                
             };
         };
         if(num ==0){
-            toastTip("提示","此班级此月暂无请假记录。。");
+            if($(".userRole").attr("data-typeid") ==20){
+                toastTip("提示","该学生此月暂无请假记录。。");
+            }else{
+                toastTip("提示","此班级此月暂无请假记录。。");
+            };
             $("#curDay").empty().removeClass("emptyBox");
         };
         monthObj=data;// 获得当前全月数据
@@ -177,7 +192,7 @@ function loginUserInfo_callback(res) {
         var data=JSON.parse(res.data);
         console.log(data);
         data.path_img=httpUrl.path_img;
-        $("#user >.userName").text(data.name).attr("data-uuid",data.userUUID);
+        $("#user >.userName").text(data.name).attr("data-uuid",data.userUUID).attr("data-childuuid",data.childUUID);
         $("#user >.userRole").text(data.jobTitle).attr("data-typeid",data.typeID);
         $("#user >.userPic").css({
             background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
