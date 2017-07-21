@@ -282,6 +282,12 @@ var httpUrl={
 		attendResetAttendDays:path+"/web/attendance/teacher/resetAttendDays",// 复位考勤天数设置
 		attendGetClassAttendanceInfo:path+"/web/attendance/teacher/getClassAttendanceInfo",// 获得班级考勤
 		attendGetPersonalAttendance:path+"/web/attendance/parent/getPersonalAttendance",// 获得个人考勤
+
+		// 公告
+		noticeReaded:path+"/web/notice/markNoticeReaded",// 公告置为已读
+		noticeAddNew:path+"/web/notice/addNewNotice",// 新增新的公告内容
+		noticeGetContentList:path+"/web/notice/getNoticeContent",// 获取某个公告内容列表
+		noticeGetReadDetail:path+"/web/notice/getReadDetail",// 获取某条公告内容阅读详情
 		// 08设置
 		setting:'' 
 };
