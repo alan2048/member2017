@@ -10,23 +10,67 @@ function init() {
         if(!$(this).parent().attr("data-url")){
             $(".content").addClass("hide");
             $("#content02").removeClass("hide");
+            var json=JSON.parse($(this).parent().attr("data-json"));
+            json.path_img=httpUrl.path_img;
+            var html=template("detail_script",json);
+            $("#detail").empty().append(html);
+
+            if($(this).parent().hasClass("isReaded")){
+                $("#read").addClass("active").attr("data-contentid","").attr("data-noticeid","");
+            }else{
+                $("#read").removeClass("active").attr("data-contentid",json.contentId).attr("data-noticeid",json.noticeId);
+            };
         }else{
             noticeReaded_port($(this).parent().attr("data-contentid"));
             window.open($(this).parent().attr("data-url"));
         };
     });
 
-    // 是否已阅读
+    // 返回上一级
+    $(".backBtn").on("click",function () {
+        if($("#read").hasClass("active")){
+            $(".content").addClass("hide");
+            $("#content").removeClass("hide");
+        }else{
+            toastTip("提示","请先点击下部的已阅读确认按钮");
+        };
+    });
+
+    // 是否阅读
+    $("#read").click(function () {
+        if($(this).hasClass("active")){
+            $(".backBtn").click();
+        }else{
+            $(this).addClass("active");
+            noticeReaded_port($("#read").attr("data-contentid"));
+        };
+    });
+
+    // 阅读人详情
     $("#tableBox").on("click","tbody >tr >td.email-sender.read",function () {
         noticeGetReadDetail_port($(this).attr("data-contentid"));
     });
 
+    // 阅读详情 标签页
+    $("#detailRead").on("click",".detailNav li",function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".detailBody >li").removeClass("active").eq($(this).index()).addClass("active"); 
+    });
+    // 阅读详情 展开此班级学生数量
+    $("#detailRead").on("click","li.class",function () {
+        $(this).toggleClass("active");
+    });
+    
     // 新增
     $("#buttonBox").on("click","#newBtn",function () {
         $(".content").addClass("hide");
-        $("#content01").removeClass("hide").find(".pageTitle >small").text("新增").attr("data-useruuid","");
-        $("#content01").find("input[type=text]").val("");
-        $("#content01").find("input[type=checkbox]:checked").prop("checked",false);
+        $("#person").attr("data-toclasses","").attr("data-topersons","");
+        $("#carousel >li:not(.addPic)").remove();
+        $("#content01").removeClass("hide").find("input[type=text]").val("");
+        $("#content01").find("textarea").val("");
+        $("#allInput").prop("checked",false);
+        $(".right").removeClass("active all num empty");
+        $(".childPic").removeClass("active");
     });
 
     // 新增图层返回主界面
@@ -34,53 +78,54 @@ function init() {
         $(".content").addClass("hide");
         $("#content").removeClass("hide");
     });
+    
+    $("#new").click(function () {
+        noticeAddNew_port();
+    });
 
-    // 编辑老师按钮
-    $("#buttonBox").on("click","#editBtn",function () {
-        if($(this).hasClass("disable")){
-            toastTip("提示","请先选择编辑项。。");
-        }else{
-            teacherSingleStaffInfo_port();
+    // 验证标题字数
+    $(".newBox #newTitle").keyup(function () {
+        $(this).next(".newNumBtn").find("span").text($(this).val().length);
+        if ($(this).val().length > 30) {
+            $(this).addClass("more");
+        } else {
+            $(this).removeClass("more");
         };
     });
 
-    // 验证keyup去除必填项
-    $("#userName,#birthday").keyup(function () {
-        if(!$(this).val()){
-            $(this).addClass("empty");
-        }else{
-            if($(this).val().length >20){
-                $(this).addClass("empty");
-                toastTip("提示","姓名最长为20字。。");
-            }else{
-                $(this).removeClass("empty");
-            };
+    // 验证内容字数
+    $(".newBox textarea").keyup(function () {
+        $(this).next(".newNumBtn").find("span").text($(this).val().length);
+        if ($(this).val().length > 1000) {
+            $(this).addClass("more");
+        } else {
+            $(this).removeClass("more");
         };
     });
     
-    $("#phoneNum").keyup(function () {
-        var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
-        var phone=$("#phoneNum").val();
-        if(!reg.test(phone) && phone.length >=11){
-            $("#phoneNum").addClass("empty").next("span").removeClass("hide");
-        }else{
-            $("#phoneNum").removeClass("empty").next("span").addClass("hide");
-        };
+    $("#person").click(function () {
+        if($("#classBox").children().length ==0){
+            getMyClassInfo_port();
+        }
+        
+        $("#modal-class").modal("show"); 
     });
 
-    // 新增老师按钮
-    $("#new").click(function () {
-        ValidateInput();
-        if($(".newBox .empty").length ==0){
-            var text=$("#content01 >.pageTitle >small").text();
-            if(text =="新增"){
-                teacherAdd_port();
-            }else{
-                teacherUpdate_port($("#content01 >.pageTitle >small").attr("data-useruuid"));
-            };
+    // 选择新增学生
+    $("#classBox").on("click",".child >div",function () {
+        $(this).toggleClass("active");
+
+        var num=$(this).parents(".children").find(".childPic.active").length;
+        var allNum=$(this).parents(".children").find(".childPic").length;
+        if(num ==0){
+            $(this).parents(".children").prev(".classTitle").find(".right").addClass("empty").text("");
+        }else if(num ==allNum){
+            $(this).parents(".children").prev(".classTitle").find(".right").addClass("all active").text("");
         }else{
-            toastTip("提示","请先填写完整。。");   
+            $(this).parents(".children").prev(".classTitle").find(".right").addClass("num active").removeClass("empty all").text(num);
         };
+        console.log(num,allNum);
+        $(this).parents(".children").prev(".classTitle").find(".right").text();
     });
 };
 
@@ -103,14 +148,6 @@ function ValidateInput() {
         $("#birthday").addClass("empty");
     }else{
         $("#birthday").removeClass("empty");
-    };
-
-    var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
-    var phone=$("#phoneNum").val();
-    if(!reg.test(phone)){
-        $("#phoneNum").addClass("empty").next("span").removeClass("hide");
-    }else{
-        $("#phoneNum").removeClass("empty").next("span").addClass("hide");
     };
 };
 
@@ -142,11 +179,10 @@ function noticeGetContentList_callback(res) {
             data.noticeContents[i].time=new Date(data.noticeContents[i].time*1000).Format("yyyy-MM-dd");
             data.noticeContents[i].json=JSON.stringify(data.noticeContents[i]);
         };
+        // console.log(data);
         
-        console.log(data);
         var html=template("tableBox_script",data);
         $("#tableBox").empty().append(html);
-        chooseRow();
 
         // 渲染分页
         $("#pagination").pagination({
@@ -177,7 +213,11 @@ function noticeGetReadDetail_port(contentId) {
 function noticeGetReadDetail_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
+        data.path_img=httpUrl.path_img;
+        var html=template("detailRead_script",data);
+        $("#detailRead").empty().append(html);
+        chooseNiceScroll("#modal-read .modal-content");
+        $("#modal-read").modal("show");
     };
 };
 
@@ -197,45 +237,152 @@ function noticeReaded_port(contentId) {
 function noticeReaded_callback(res) {
     if(res.code==200){
         noticeGetContentList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
+        $(".backBtn").click();
     };
 };
 
-// Row行选择函数
-function chooseRow() {
-    $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
-    $(".table thead tr i").click(function () {
-        var aa=$(".table thead tr i").hasClass('fa-check-square-o');
-        if(aa){
-            $(".table tbody tr i").removeClass('fa-check-square-o').addClass('fa-square-o');
-            $(this).removeClass('fa-check-square-o').addClass('fa-square-o');
-        }else{
-            $(".table tbody tr i").removeClass('fa-square-o').addClass('fa-check-square-o');
-            $(this).removeClass('fa-square-o').addClass('fa-check-square-o');
-        };
-        ValidateBtn();
-    });
-    $(".table tbody tr").click(function () {
-        var aa=$(this).find('i').hasClass('fa-check-square-o');
-        if(aa){
-            $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
-        }else{
-            $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o'); 
-        };
-        ValidateBtn();
-    });
+// 获取我的班级信息
+function getMyClassInfo_port() {
+    var data={
+            uuid:$(".userName").attr("data-useruuid")
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.getMyClassInfo,param,getMyClassInfo_callback);
+};
+function getMyClassInfo_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("classBox_script",data);
+        $("#classBox").empty().append(html);
+        chooseNiceScroll("#classBox");
+
+        $(".classTitle").click(function () {
+            if($(this).next(".children").children().length ==0){
+                getClassStuAndTeachers_port($(this).attr("data-id"));
+            };
+            $(this).parent().toggleClass("active");
+        });
+
+        // 选择班级
+        $(".right").click(function (e) {
+            $(this).removeClass("num").toggleClass("active all").text("");
+            if($(this).hasClass("active")){
+                $(this).parents(".class").find(".childPic").addClass("active");
+            }else{
+                $(this).parents(".class").find(".childPic").removeClass("active");
+            }
+            e.stopPropagation();
+        });
+
+        // 全选班级
+        $("#allInput").click(function () {
+            if($(this).is(":checked")){
+                $(".right").addClass("active all");
+                $(".childPic").addClass("active");
+            }else{
+                $(".right").removeClass("active all num empty").text("");
+                $(".childPic").removeClass("active");
+            }
+        });
+
+        $("#cancel").click(function () {
+            $("#modal-class").modal("hide"); 
+        });
+
+        $("#save").click(function () {
+            if($(".right.all").length ==0 && $(".right.num").length ==0){
+                toastTip("提示","请先选择班级、个人。。");
+            }else{
+                var toClasses=[];
+                var name=[];
+                var toPersons=[];
+                for(var i=0;i<$(".right.all").length;i++){
+                    toClasses.push($(".right.all").eq(i).attr("data-id"));
+                    name.push($(".right.all").eq(i).attr("data-classname"));
+                };
+
+                for(var i=0;i<$(".right.num").length;i++){
+                    for(var j=0;j<$(".right.num").eq(i).parents(".class").find(".childPic.active").length;j++){
+                        var obj={};
+                        obj.classId=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-classid");
+                        obj.useruuid=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-uuid");
+                        toPersons.push(obj);
+                        name.push($(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-name"))
+                    };
+                };
+
+                $("#person").val(name.join()).attr("data-toclasses",JSON.stringify(toClasses)).attr("data-topersons",JSON.stringify(toPersons));
+                $("#modal-class").modal("hide"); 
+            };
+        });
+    };
 };
 
-// 验证编辑删除按钮
-function ValidateBtn() {
-    var num=$(".table tbody tr i.fa-check-square-o").length;
-    if(num ==0){
-        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
-    }else if( num ==1){
-        $("#editBtn,#deleteBtn").removeClass("disable");
-    }else{
-        $("#editBtn").addClass("disable");
-        $("#deleteBtn").removeClass("disable");
-    }
+// 获取班级所有学生和老师
+function getClassStuAndTeachers_port(classId) {
+    var data={
+            classId:classId,
+            useruuid:$(".userName").attr("data-useruuid")
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.getClassStuAndTeachers,param,getClassStuAndTeachers_callback,classId);
+};
+function getClassStuAndTeachers_callback(res,classId) {
+    if(res.code==200){
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img,
+                classId:classId
+            };
+        var html=template("children_script",data);
+        $("#classBox li.class[data-id="+classId+"] >.children").append(html);
+
+        if($("#classBox li.class[data-id="+classId+"] >.classTitle >.right").hasClass("active")){
+            $("#classBox li.class[data-id="+classId+"] >.children .childPic").addClass("active");
+        }
+        console.log(data);
+    };
+};
+
+// 新增新的公告内容
+function noticeAddNew_port() {
+    console.log($("#content"))
+    var data={
+            content:$("#newContent").val(),
+            noticeId:"1",
+            pictures:function () {
+                var arr=[];
+                for(var i=0;i<$("#carousel >li >a.pic").length;i++){
+                    arr.push($("#carousel >li >a.pic").eq(i).attr("data-pic"))
+                };
+                return arr;
+            }(),
+            tempId:new Date().getTime(),
+            title:$("#newTitle").val(),
+            toClasses:JSON.parse($("#person").attr("data-toclasses")),
+            toPersons:JSON.parse($("#person").attr("data-topersons")),
+            url:$("#newUrl").val(),
+            uuid:$(".userName").attr("data-useruuid"),
+            voice:""
+    };
+    console.log(data);
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.noticeAddNew,param,noticeAddNew_callback);
+};
+function noticeAddNew_callback(res) {
+    if(res.code==200){
+        noticeGetContentList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
+        $(".backBtn").click();
+    };
 };
 
 function loadFiles() {
@@ -408,17 +555,3 @@ function basicButton_callback(res) {
         $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     };
 };
-
-
-(function($){
-    $.fn.datepicker.dates['zh-CN'] = {
-            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-            monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-            today: "今天",
-            suffix: [],
-            meridiem: ["上午", "下午"]
-    };
-}(jQuery));

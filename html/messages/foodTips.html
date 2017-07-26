@@ -9,15 +9,15 @@
 	<link rel="shortcut icon" href="../../images/favicon.png">
 
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
-    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
 	<link href="../../css/messages/foodTips.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-	<div id="page-container" class="fade">
+	<div id="page-container">
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
 				<div id="user">
@@ -78,9 +78,9 @@
                             </thead>
                            	 <tbody>
                            	 	{{each noticeContents as item i}}
-                            	<tr data-json="{{item.json}}" data-url="{{item.url}}" data-contentid="{{item.contentId}}">
+                            	<tr data-json="{{item.json}}" data-url="{{item.url}}" data-contentid="{{item.contentId}}" class="{{if item.isReaded==1}}isReaded{{/if}}">
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{i+1}}</td>
-                                  	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}"><img src="{{path_img}}{{item.pictures[0]}}&minpic=1" alt=""></td>
+                                  	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}"><img src="{{path_img}}{{item.coverPicture}}&minpic=1" alt=""></td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{if item.url}}<a href="javascript:void(0);">{{item.title}}</a>{{else}}{{item.title}}{{/if}}</td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{item.time}}</td>
                                     <td class="email-sender {{if item.isReaded==1}}isReaded{{/if}} read" data-contentid="{{item.contentId}}">{{item.readedPeople}}/{{item.totalPeople}}</td>
@@ -104,7 +104,7 @@
                             <i class="redIcon">*</i> 选择通知群组/个人：
                         </span>
                         <span class="col02">
-                            <input type="text" id="userName" placeholder="请单击选择群组/个人">
+                            <input type="text" id="person" placeholder="请单击选择群组/个人">
                         </span>
                     </li>
                     <li>
@@ -113,7 +113,7 @@
                         </span>
                         <span class="col02">
                             <ul id="carousel">
-                                <li>
+                                <li class="addPic">
                                     <a href="#" id="addPicBtn"></a>
                                 </li>
                             </ul>
@@ -124,7 +124,8 @@
                             <i class="redIcon">*</i> 标题：
                         </span>
                         <span class="col02">
-                            <input type="text" id="userName" placeholder="请输入标题名称（限30字）">
+                            <input type="text" id="newTitle" placeholder="请输入标题名称（限30字）">
+                            <span class="newNumBtn"><span>0</span>/30</span>
                         </span>
                     </li>
                     <li>
@@ -132,7 +133,7 @@
                             外链：
                         </span>
                         <span class="col02">
-                            <input type="text" id="userName" placeholder="请输入外部链接网址">
+                            <input type="text" id="newUrl" placeholder="请输入外部链接网址">
                         </span>
                     </li>
                     <li>
@@ -140,7 +141,7 @@
                             内容：
                         </span>
                         <span class="col02">
-                            <textarea name="input" placeholder="请在此输入内容"></textarea>
+                            <textarea name="input" placeholder="请在此输入内容" id="newContent"></textarea>
                             <span class="newNumBtn"><span>0</span>/1000</span>
                         </span>
                     </li>
@@ -159,58 +160,137 @@
             <div>
                 <a href="#" class="backBtn tip defaultBtn"><span>返回上级</span></a>
             </div>
-            <div class="classUpBox">
-                <div class="classNow">
+            <div class="panel01">
+                <div id="detail"></div>
+                <div id="read"></div>
+                <script type="text/html" id="detail_script">
+                    <div class="title">{{title}}</div>
+                    <div class="time">{{time}}</div>
+                    <div>{{if voice}}<audio controls="controls" src="{{path_img}}{{voice}}&minpic=0"></audio>{{/if}}</div>
                     <div>
-                        <span class="classNowBtn">现在</span>
-                    </div>
-                    <ul id="allClass"></ul>
-                    <script id="allClass_script" type="text/html">
-                        {{each arr as value i}}
-                            <li>
-                                <div class="gradeTitle">{{value.name}}</div>
-                                {{each value.list as value01 j}}
-                                <div class="flower">{{value01.className}}</div>
-                                {{/each}}
-                            </li>
+                        {{each pictures as value i}}
+                        <img src="{{path_img}}{{value}}&minpic=0" alt="">
                         {{/each}}
-                    </script>
-                    <span class="arrayBtn"></span>
-                </div>
-                <div class="classAfter">
-                    <div>
-                        <span class="classAfterBtn">升班后</span>
-                        <div class="classAfterTip">
-                            <i></i>
-                            小提示：请在升班前，双击编辑班级名称
-                        </div>
                     </div>
-                    <ul id="allClass01"></ul>
-                    <script id="allClass01_script" type="text/html">
-                        {{each arr as value i}}
-                            <li>
-                                <div class="gradeTitle">{{value.name}}</div>
-                                {{each value.list as value01 j}}
-                                <div class="flower">
-                                    <span data-classuuid="{{value01.classUUID}}">{{if i==3}}{{year}}届{{else}}编辑{{/if}}</span>
-                                    <textarea placeholder="请输入班级名称"></textarea>
-                                </div>
-                                {{/each}}
-                            </li>
-                        {{/each}}
-                    </script>
-                </div>
+                    <div>{{content}}</div>
+                </script>
             </div>
         </div> 
 	</div>
+
+    <div class="modal fade" id="modal-read" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="detailRead"></div>
+                <span class="closeBtn" data-dismiss="modal"></span>
+            </div>
+            <script id="detailRead_script" type="text/html">
+                <div>阅读详情</div>
+                <ul class="detailNav">
+                    <li class="active">已阅读</li>
+                    <li>未阅读</li>
+                </ul>
+                <ul class="detailBody">
+                    <li class="active">
+                        <ul>
+                            {{each readed as value i}}
+                            <li class="class">
+                                <div>
+                                    <span>
+                                        {{value.className}}
+                                        <span class="tipNum">{{value.userList.length}}</span>
+                                    </span>
+                                    <span class="array"></span>
+                                </div>
+                                <ul class="children">
+                                    {{each value.userList as value01 j}}
+                                    <li>
+                                        <img src="{{path_img}}{{value01.photo}}&minpic=1" alt="">
+                                        <span>{{value01.name}}</span>
+                                        <span></span>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                    <li>
+                        <ul>
+                            {{each unReaded as value i}}
+                            <li class="class">
+                                <div>
+                                    <span>
+                                        {{value.className}}
+                                        <span class="tipNum01">{{value.userList.length}}</span>
+                                    </span>
+                                    <span class="array"></span>
+                                </div>
+                                <ul class="children">
+                                    {{each value.userList as value01 j}}
+                                    <li>
+                                        <img src="{{path_img}}{{value01.photo}}&minpic=1" alt="">
+                                        <span>{{value01.name}}</span>
+                                        <span></span>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                </ul>
+            </script>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-class" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="classBox"></div>
+            </div>
+            <script id="classBox_script" type="text/html">
+                <div class="title">选择班级/个人</div>
+                <div><label><input type="checkbox" id="allInput">全选</label></div>
+                <ul>
+                    {{each arr as value i}}
+                    <li class="class" data-id="{{value.classId}}">
+                        <div class="classTitle" data-id="{{value.classId}}">
+                            <span class="right" data-id="{{value.classId}}" data-classname="{{value.className}}"></span>
+                            <span>
+                                {{value.className}}
+                            </span>
+                            <span class="array"></span>
+                        </div>
+                        <div class="children"></div>
+                    </li>
+                    {{/each}}
+                </ul>
+                <div class="buttonBox">
+                    <span id="cancel">取消</span>
+                    <span id="save">确定</span>
+                </div>
+            </script>
+            <script id="children_script" type="text/html">
+                {{each arr as value i}}
+                <div class="child">
+                    <div class="childPic" style="background: url({{path_img}}{{value.photo}}&minpic=1) no-repeat scroll center center / 100%;" data-uuid="{{value.uuid}}" data-classid="{{classId}}" data-name="{{value.name}}">
+                        <img src="../../images/messages/bigRight.png" alt="">
+                    </div>
+                    <span>{{value.name}}</span>
+                </div>
+                {{/each}}
+            </script>
+        </div>
+    </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/simplePagination.js" ></script>
-    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
+    <script src="../../js/common/modal.js"></script>
 
 	<script src="../../js/common/base.js"></script>
 	<script src="../../js/messages/foodTips.js"></script>

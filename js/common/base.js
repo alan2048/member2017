@@ -284,6 +284,8 @@ var httpUrl={
 		attendGetPersonalAttendance:path+"/web/attendance/parent/getPersonalAttendance",// 获得个人考勤
 
 		// 公告
+		getMyClassInfo:path+"/web/basic/getMyClassInfo",// 获取我的班级信息
+		getClassStuAndTeachers:path+"/web/basic/getClassStuAndTeachers",// 获取班级所有学生和老师
 		noticeReaded:path+"/web/notice/markNoticeReaded",// 公告置为已读
 		noticeAddNew:path+"/web/notice/addNewNotice",// 新增新的公告内容
 		noticeGetContentList:path+"/web/notice/getNoticeContent",// 获取某个公告内容列表
