@@ -265,8 +265,8 @@ ul,li{
 	background: url(../../images/watch/addBtn.png) center center no-repeat;
 }
 .jq-icon-success{
-	background-color: #13b5dd !important;
-	color: #fff !important;
+	background-color: #f7e463 !important;
+	color: #555 !important;
 }
 .modal-open .modal {
 	overflow-x: hidden;

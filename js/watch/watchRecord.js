@@ -401,15 +401,7 @@ function watchRecordUpdate_callback(res,id) {
 
     // 刷新一次评价详情
     watchRecordDetail_port(id);
-    $.toast({
-        heading: 'Success',
-        text: '修改成功',
-        showHideTransition: 'slide',
-        icon: 'success',
-        hideAfter: 1500,
-        loaderBg: '#13b5dd',
-        position: 'bottom-right'
-    });
+    toastTip("提示","修改成功");
 };
 
 function carousel() {
@@ -488,7 +480,7 @@ function exportAll() {
                 showHideTransition: 'slide',
                 icon: 'success',
                 hideAfter: 1500,
-                loaderBg: '#13b5dd',
+                loaderBg: '#edd42e',
                 position: 'bottom-right'
             }); 
         };
@@ -499,7 +491,7 @@ function exportAll() {
                 showHideTransition: 'slide',
                 icon: 'success',
                 hideAfter: 1500,
-                loaderBg: '#13b5dd',
+                loaderBg: '#edd42e',
                 position: 'bottom-right'
             }); 
         };
@@ -522,7 +514,7 @@ function exportAll() {
                     showHideTransition: 'slide',
                     icon: 'success',
                     hideAfter: 1500,
-                    loaderBg: '#13b5dd',
+                    loaderBg: '#edd42e',
                     position: 'bottom-right'
                 }); 
             }
@@ -708,7 +700,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
         init();// 取得登入信息之后 init初始化

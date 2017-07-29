@@ -641,7 +641,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name).attr("data-useruuid",data.userUUID);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
         });
 
         watchDimensions_port(); // 观察维度接口

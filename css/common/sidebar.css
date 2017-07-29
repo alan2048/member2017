@@ -44,16 +44,23 @@ body {
 #user >.userRole{
 	color: #979a99;
 }
-#home >.homePic{
+#home > .homePic {
 	display: block;
 	margin: 0.6rem auto 0.6rem;
 	padding-top: 0.6rem;
-	width: 0.6rem;
+	width: 1.2rem;
 	cursor: pointer;
-	background: url(../../images/common/home.png) center 0 no-repeat;
+	background: url(../../images/common/home.png) center 0.3rem no-repeat;
+	height: 1.2rem;
+	border: 0.02rem solid transparent;
+	border-radius: 0.5rem;
+	line-height: 0.8rem;
+	box-sizing: border-box;
 }
 #home >.homePic:hover{
 	color: #5ae0e2;
+	border: 0.02rem solid #656868;
+	background-color: #aaa3;
 }
 .hasTitle {
 	font-weight: 500;

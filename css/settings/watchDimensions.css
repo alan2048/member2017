@@ -40,7 +40,7 @@
 	cursor: pointer;
 }
 #trees >ul >li.has-sub01 li.addbtn{
-	background: url(../../img/addbtn.png) no-repeat center center;
+	background: url(../../images/settings/addbtn.png) no-repeat center center;
 	background-color: #6e7179;
 	border: 2px dashed #8b8f99;
 	margin:2px;
@@ -51,7 +51,7 @@
 	background-color: #a2a6b3;
 }
 #trees li.maxAddBtn{
-	background: url(../../img/maxAddBtn.png) no-repeat center center;
+	background: url(../../images/settings/maxAddBtn.png) no-repeat center center;
 	background-color: #6e7179;
 	border: 2px dashed #13b5dd;
 	margin:2px;
@@ -91,7 +91,7 @@
 	display: inline-block;
 	position: absolute;
 	right: 5px;
-	background: url(../../img/delete.png) no-repeat center center;
+	background: url(../../images/settings/delete.png) no-repeat center center;
 	width: 10px;
 	height: 10px;
 	z-index: 2;
@@ -152,21 +152,21 @@ ul.showOther li.leftArrow{
 	width:40px;
 	height:32px;
 	line-height: 32px;
-	background: url(../../img/leftArrow.png) no-repeat 0 center;
+	background: url(../../images/settings/leftArrow.png) no-repeat 0 center;
 }
 ul.showOther li.rightArrow{
 	display: inline-block;
 	width:80px;
 	height:32px;
 	line-height: 32px;
-	background: url(../../img/rightArrow.png) no-repeat center center;
+	background: url(../../images/settings/rightArrow.png) no-repeat center center;
 }
 ul.showOther li.addsmall{
 	display: inline-block;
 	width:32px;
 	height:32px;
 	line-height: 32px;
-	background: url(../../img/addsmall.png) no-repeat center center;
+	background: url(../../images/settings/addsmall.png) no-repeat center center;
 	border: 2px dashed #cfd4e6;
 }
 #trees .tree-menu li{
@@ -233,14 +233,14 @@ ul.showOther li.addsmall{
 	border-radius: 3px;
 	min-height: 230px;
 	border: 2px dashed #cfd4e6;
-	background: url(../../img/add.png) no-repeat center center;
+	background: url(../../images/settings/add.png) no-repeat center center;
 }
 #treesbody .treesbodytitle .downIcon{
 	display: inline-block;
 	float: right;
 	width:40px;
 	height: 32px;
-	background: url(../../img/down.png) no-repeat center center;
+	background: url(../../images/settings/down.png) no-repeat center center;
 	background-color: #d9e0e7;
 	border-radius: 3px;
 	cursor: pointer;
@@ -268,7 +268,7 @@ ul.showOther li.addsmall{
 	width: 100%;
 	left: 0;
 	top: 0;
-	background: url(../../img/maxAddBtn.png) no-repeat center center;
+	background: url(../../images/settings/maxAddBtn.png) no-repeat center center;
 	background-color: rgba(180,180,180,0.6);
 }
 #treesmain .tree-menu{
@@ -322,14 +322,14 @@ ul.showOther li.addsmall{
 	width: 40px;
 	height: 32px;
 	line-height: 32px;
-	background: url(../../img/leftArrow.png) no-repeat 0 center;
+	background: url(../../images/settings/leftArrow.png) no-repeat 0 center;
 }
 #treesmain ul li.addsmall {
 	display: inline-block;
 	width: 32px;
 	height: 32px;
 	line-height: 32px;
-	background: url(../../img/addsmall.png) no-repeat center center;
+	background: url(../../images/settings/addsmall.png) no-repeat center center;
 	border: 2px dashed #cfd4e6;
 	cursor: pointer;
 }
@@ -338,7 +338,7 @@ ul.showOther li.addsmall{
 	width: 80px;
 	height: 32px;
 	line-height: 32px;
-	background: url(../../img/rightArrow.png) no-repeat center center;
+	background: url(../../images/settings/rightArrow.png) no-repeat center center;
 }
 #descTrees .descTitle >span:first-of-type{
 	display:inline-block;
@@ -348,7 +348,7 @@ ul.showOther li.addsmall{
 	float:right;
 	margin:6px 10px 0 0; 
 	cursor: pointer;
-	background: url(../../img/delete.png) no-repeat center center;
+	background: url(../../images/settings/delete.png) no-repeat center center;
 	display: inline-block;
 	width: 15px;
 	height: 15px;

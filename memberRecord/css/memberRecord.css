@@ -1579,9 +1579,10 @@ span.line01{
 }
 
 .jq-icon-success {
-	color: #fff;
-	background-color: #13b5dd;
-	border-color: #13b5dd;
+	color: #555;
+	background-color: #f7e463;
+	border-color: #f7e463;
+	box-sizing:border-box;
 }
 .jq-toast-wrap.bottom-right {
 	bottom: 20px;

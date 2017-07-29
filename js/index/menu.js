@@ -17,6 +17,18 @@ function menuList_callback(res) {
     			arr:JSON.parse(res.data),
     			path_img:httpUrl.path_img
     	};
+    	
+    	// 判断是否url自带参数
+    	for(var i=0;i<data.arr.length;i++){
+    		for(var j=0;j<data.arr[i].childMenuList.length;j++){
+    			if(data.arr[i].childMenuList[j].url.indexOf("?") >=0){
+    				data.arr[i].childMenuList[j].search=true;
+    			}else{
+    				data.arr[i].childMenuList[j].search=false;
+    			};
+    		};
+    	};
+    	
 		var html=template("menuBox_script",data);
 		$("#menuBox").empty().append(html);
 		$("#menuBox").on({

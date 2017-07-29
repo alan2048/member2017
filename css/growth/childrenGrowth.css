@@ -8,10 +8,13 @@ body{
 	background-color: #e8fcf8;
 	overflow-x: hidden;
 }
+textarea{
+	resize:none;
+}
 /*ÂÖ²¥ start*/
 .carousel-inner >.item >a >img{
 	width: 100%;
-	height: 8rem;
+	height: 6rem;
 }
 .carousel-control.right,.carousel-control.left{
 	background-image: -webkit-linear-gradient(left,rgba(0,0,0,0) 0,rgba(0,0,0,0) 100%); 
@@ -166,7 +169,7 @@ header >#logo{
 	color: #a6a9a8;
 }
 #editor .newWhoBtn{
-	display: inline-block;
+	display:none;
 	width: 0.9rem;
 	height: 0.3rem;
 	line-height: 0.3rem;
@@ -174,14 +177,20 @@ header >#logo{
 	cursor: pointer;
 	background: url(../../images/growth/newWhoBtn.png) 0 center no-repeat;
 }
-#editor .newTopBtn{
+#editor .newWhoBtn.current{
 	display: inline-block;
+}
+#editor .newTopBtn{
+	display: none;
 	width: 1.2rem;
 	height: 0.3rem;
 	line-height: 0.3rem;
 	padding-left: 0.35rem;
 	cursor: pointer;
 	background: url(../../images/growth/switchBtn02.png) 0 center no-repeat;
+}
+#editor .newTopBtn.current{
+	display:inline-block;
 }
 #editor .newTopBtn.active{
 	background: url(../../images/growth/switchBtn01.png) 0 center no-repeat;
@@ -862,7 +871,6 @@ li:hover >.commentDelete{
 	left: -0.8rem;
 	-webkit-background-size: contain;
 	background-size: contain;
-	cursor: pointer;
 }
 .createUserPhoto:hover{
 	border: 0.02rem solid #5cdfe2;
@@ -957,7 +965,7 @@ a:focus{
 
 /*footer start*/
 footer{
-	height: 8rem;
+	height: 6.4rem;
 	position: relative;
 	background: url(../../images/growth/glass.png) center 100% no-repeat;
 	-webkit-background-size: contain;
@@ -969,7 +977,7 @@ footer > span:nth-of-type(1) {
 	right: 10%;
 	display: inline-block;
 	width: 3.8rem;
-	height: 6rem;
+	height: 4.8rem;
 	background: url(../../images/growth/flower.png) center center no-repeat;
 	-webkit-background-size: contain;
 	background-size: contain;

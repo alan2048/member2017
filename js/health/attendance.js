@@ -195,7 +195,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name).attr("data-uuid",data.userUUID).attr("data-childuuid",data.childUUID);
         $("#user >.userRole").text(data.jobTitle).attr("data-typeid",data.typeID);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / contain"
+            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
 

@@ -57,8 +57,7 @@ function init() {
 // 发帖
 function newInit() {
     loadFiles();
-
-    watchClassList_port();
+    loginUserInfo_port();// 谁可见
     
     chooseNiceScroll("#upload");
     chooseNiceScroll("#whoBox");
@@ -278,12 +277,15 @@ function listInit() {
         if($(this).find(".commentTip").length==1){
             $(this).parents(".commentList").next(".commentBox").addClass("active").find("textarea").val("").attr("placeholder","回复 "+$(this).attr("data-commentUserName")+":").focus();
             $(this).parents(".commentList").next(".commentBox").addClass("active").find(".comment").attr("data-cuseruuid",$(this).attr("data-commentUseruuid"));
+        }else{
+            $(this).parents(".commentList").next(".commentBox").addClass("active").find(".cancelBtn").click();// 不可评论自己 同时关闭回复框
         };
     });
 
     // 新增 回复 评论
     $("#list").on("click",".comment",function () {
-        if($(this).prev("textarea").val()){
+        // 去空去回车去空白符
+        if($(this).prev("textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
             var data={
                 classId:user.classId,
                 cuseruuid:$(this).attr("data-cuseruuid"),
@@ -327,6 +329,30 @@ function listInit() {
     });
 };
 
+// 获得登录人信息
+function loginUserInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+};
+function loginUserInfo_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        // 家长权限控制
+        if(data.typeID != "20"){
+            $("#editor .newWhoBtn,#editor .newTopBtn").addClass("current");
+        };
+
+        user.useruuid=data.userUUID;// UUid 初始化
+        watchClassList_port();
+        console.log(data);
+    };
+};
+
+
 // 获得教职工所在班级列表
 function watchClassList_port() {
     var data={};
@@ -339,6 +365,7 @@ function watchClassList_port() {
 function watchClassList_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
+        console.log(data);
         var html=template("classBox_script",data);
         $("#classBox").empty().append(html); 
         $(".curClass").text(data.arr[0].className).attr("data-classid",data.arr[0].classUuid); 
@@ -555,6 +582,7 @@ function growthList_callback(res,type) {
                 path_img:httpUrl.path_img,
                 useruuid:user.useruuid
         };
+        console.log(data);
 
         if(data.arr.length==0){
             if(type==0){
@@ -676,18 +704,6 @@ function chooseNiceScroll(AA,color) {
         cursorborder: "0", //     游标边框css定义 
         cursorborderradius: "5px",//以像素为光标边界半径 
         autohidemode: false //是否隐藏滚动条 
-    });
-};
-// 消息提示函数
-function toastTip(heading,text,hideAfter) {
-    $.toast({
-            heading: heading,
-            text: text,
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: hideAfter || 1500,
-            loaderBg: '#13b5dd',
-            position: 'bottom-right'
     });
 };
 
@@ -872,7 +888,7 @@ function distinct(arr) {
 // window resize
 function windowResize() {
     var w=document.body.clientWidth;
-    var h=w*800/1920;
+    var h=w*620/1920;
     if(h >500){
         $(".carousel-inner > .item img").css("height",h);
     }else{

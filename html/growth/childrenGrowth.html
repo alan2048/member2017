@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>萌宝成长</title>
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta content="幼教产品" name="description" />
-	<meta content="上海紫越网络科技有限公司" name="author" />
+	<meta name="renderer" content="webkit" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="幼教产品" />
+	<meta name="author" content="上海紫越网络科技有限公司" />
 	<link rel="shortcut icon" href="../../images/favicon.png">
 
 	<link href="../../css/common/bootstrap.min.css" rel="stylesheet">
@@ -61,7 +62,7 @@
 				</div>
 				<div id="editor">
 					<div id="input">
-						<textarea name="input" placeholder="这一刻的想法..."></textarea>
+						<textarea name="input" placeholder="这一刻的想法..." maxlength="1000"></textarea>
 					</div>
 					<div id="picList">
 						<ul id="picListUl"></ul>
@@ -200,7 +201,7 @@
 							</div>
 							<div class="commentBox" data-messageId="{{value.id}}">
 								<div class="commentInput">
-									<textarea name="input" placeholder=""></textarea>
+									<textarea name="input" placeholder="" maxlength="1000"></textarea>
 									<div class="comment" data-messageId="{{value.id}}" data-cuseruuid="">发表</div>
 									<span class="cancelBtn">取消</span>
 								</div>
