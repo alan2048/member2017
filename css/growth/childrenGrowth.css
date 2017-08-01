@@ -209,7 +209,7 @@ header >#logo{
 	height: 74%;
 	margin: 1.2rem auto;
 }
-#modal-who .modal-dialog{
+#modal-who .modal-dialog,#modal-who01 .modal-dialog{
 	width: 53%;
 	min-width: 6.2rem;
 	height: 74%;
@@ -234,13 +234,13 @@ header >#logo{
 	background-color: #fff;
 	overflow: visible !important;
 }
-#modal-who .modal-content{
+#modal-who .modal-content,#modal-who01 .modal-content{
 	height: 100%;
 	background-color: #fff;
 	overflow: visible !important;
 	padding: 0.52rem 0 0.65rem;
 }
-#picBtn,#whoBtn {
+#picBtn,#whoBtn,#whoBtn01 {
 	position: absolute;
 	display: inline-block;
 	width: 1rem;
@@ -255,11 +255,11 @@ header >#logo{
 	cursor: pointer;
 	border-radius: 0.03rem;
 }
-#picBtn:hover,#whoBtn:hover {
+#picBtn:hover,#whoBtn:hover,#whoBtn01:hover {
 	background-color: #2ca5c9;
 	box-shadow: 0 0 0.02rem #777;
 }
-#modal-who .modal-header {
+#modal-who .modal-header,#modal-who01 .modal-header {
 	background-color: #5cdfe2;
 	text-align: center;
 	color: #fff;
@@ -297,7 +297,7 @@ header >#logo{
 .whoBody{
 	padding: 0 0.1rem;
 }
-#modal-who .tab-content {
+#modal-who .tab-content,#modal-who01 .tab-content {
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
@@ -326,6 +326,11 @@ header >#logo{
 	border: 0.02rem solid  #49b6d6;
 	box-shadow: 0 0 5px #000;
 }
+#modal-who01 .whoBody >li:hover >img{
+	border: 0.02rem solid  transparent;
+	box-shadow: none;
+	cursor: inherit;
+}
 #addBtn {
 	display: inline-block;
 	width: 2rem;
@@ -348,6 +353,9 @@ header >#logo{
 }
 .modal-open .modal {
 	overflow: hidden;
+}
+#modal-dialog-img{
+	overflow-y: auto;
 }
 .picMain .picTitle {
 	font-size: 0.18rem;
@@ -711,6 +719,17 @@ ul#list >li{
 	background: url(../../images/growth/heart.png) 0 center no-repeat;
 	cursor: pointer;
 }
+.visibleBtn{
+	height: 0.2rem;
+	font-size: 0.12rem;
+	color: #666;
+	display: inline-block;
+	padding: 0 0.2rem 0 0.25rem;
+	line-height: 0.2rem;
+	background: url(../../images/growth/visible.png) 0 center no-repeat;
+	background-size: contain;
+	cursor: pointer;
+}
 .praiseBtn.hover{
 	height: 0.25rem;
 	font-size: 0.12rem;
@@ -721,7 +740,7 @@ ul#list >li{
 	background: url(../../images/growth/heart01.png) 0 center no-repeat;
 	cursor: pointer;
 }
-.praiseBtn:hover,.praiseBtn.hover:hover{
+.praiseBtn:hover,.praiseBtn.hover:hover,.visibleBtn:hover{
 	color: #5ae0e2;
 }
 .praiseListBox{
@@ -873,7 +892,7 @@ li:hover >.commentDelete{
 	background-size: contain;
 }
 .createUserPhoto:hover{
-	border: 0.02rem solid #5cdfe2;
+	// border: 0.02rem solid #5cdfe2;
 }
 .createUserName{
 	color: #666;
@@ -891,9 +910,12 @@ li:hover >.commentDelete{
 	border-radius: 0.5rem;
 	border: 0.02rem solid #636665;
 	line-height: 0.22rem;
-	cursor: pointer;
+	cursor: context-menu;
 	float: right;
 	position: relative;
+}
+.stickyPost.active{
+	cursor: pointer;
 }
 .stickyPost >span{
 	display: none;

@@ -252,7 +252,7 @@ function listInit() {
                     if (isConfirm) {
                         growthMessageDelete_port(user.classId,messageId);
                     };
-            });
+        });
     });
 
     // 删除一条内容
@@ -260,10 +260,37 @@ function listInit() {
         growthAddordelete_port(user.classId,$(this).attr("data-messageId"),$(this).attr("data-praiseid"))
     });
 
+    // 一条里面的谁可见
+    $("#list").on("click",".visibleBtn",function () {
+        var data={
+                arr:JSON.parse($(this).attr("data-visible")),
+                path_img:httpUrl.path_img
+        };
+        var html=template("who01_script",data);
+        $("#modal-who01 .whoBody").empty().append(html);
+        $("#modal-who01").modal("show");
+    });
+
     // 删除某一条评论
     $("#list").on("click",".commentDelete",function (e) {
-        e.stopPropagation();    
-        growthCommentDelete_port(user.classId,$(this).attr("data-messageId"),$(this).attr("data-commentId"))
+        e.stopPropagation(); 
+        var mId=$(this).attr("data-messageId"),cId=$(this).attr("data-commentId");
+        swal({
+                title: "是否删除此信息？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        growthCommentDelete_port(user.classId,mId,cId);
+                    };
+        });   
     });
 
     // 发表评论 弹框
@@ -348,7 +375,6 @@ function loginUserInfo_callback(res) {
 
         user.useruuid=data.userUUID;// UUid 初始化
         watchClassList_port();
-        console.log(data);
     };
 };
 
@@ -365,7 +391,6 @@ function watchClassList_port() {
 function watchClassList_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        console.log(data);
         var html=template("classBox_script",data);
         $("#classBox").empty().append(html); 
         $(".curClass").text(data.arr[0].className).attr("data-classid",data.arr[0].classUuid); 
@@ -582,7 +607,6 @@ function growthList_callback(res,type) {
                 path_img:httpUrl.path_img,
                 useruuid:user.useruuid
         };
-        console.log(data);
 
         if(data.arr.length==0){
             if(type==0){
@@ -593,6 +617,7 @@ function growthList_callback(res,type) {
             
         }else{
             for(var i=0;i<data.arr.length;i++){
+                data.arr[i].visible=JSON.stringify(data.arr[i].visibleList);
                 data.arr[i].createTime=new Date(data.arr[i].createTime*1000).Format("yyyy年MM月dd日 hh:mm");
                 // 最多显示5行
                 if(data.arr[i].content.length > 210){

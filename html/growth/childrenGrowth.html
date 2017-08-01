@@ -109,7 +109,7 @@
 								<span data-labelId="{{value01.labelId}}" class="labelName">{{value01.labelName}}</span>
 								{{/each}}
 								{{if value.stickyPost ==1}}
-								<span class="stickyPost">置顶 ﹀{{if value.topOperation ==1}}<span data-messageId="{{value.id}}">取消置顶</span>{{/if}}</span>
+								<span class="stickyPost {{if value.topOperation ==1}}active{{/if}}">置顶 ﹀{{if value.topOperation ==1}}<span data-messageId="{{value.id}}">取消置顶</span>{{/if}}</span>
 								{{/if}}
 							</div>
 							<div class="createTime">{{value.createTime}}</div>
@@ -162,6 +162,9 @@
 							<div class="praiseBox">
 								{{if value.canDelete == 1}}
 								<span class="canDelete" data-messageId="{{value.id}}">删除</span>
+								{{/if}}
+								{{if value.canDelete == 1 && value.visibleList.length >0}}
+								<span class="visibleBtn" data-visible="{{value.visible}}">谁可见</span>
 								{{/if}}
 								{{if value.selfPraise ==0}}
 								<span class="praiseBtn" data-messageId="{{value.id}}" data-praiseid="{{value.selfPraise}}">赞</span>
@@ -311,6 +314,29 @@
 					</script>
 				</div>
 				<span id="whoBtn">确定</span>
+            </div>
+            <span class="closeBtn" data-dismiss="modal" ></span>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-who01" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            	<div class="modal-header">
+                    <h4 class="modal-title">谁可见</h4>
+            	</div>
+				<div class="tab-content" style="clear: both;" id="whoBox">
+					<ul class="whoBody"></ul>
+					<script type="text/html" id="who01_script">
+						{{each arr as value i}}
+						<li data-studentuuid="{{value.visibleUseruuid}}">
+							<img src="{{path_img}}{{value.visibleUserPhoto}}&minpic=1" alt="">
+							<div>{{value.visibleUserName}}</div>
+						</li>	
+						{{/each}}
+					</script>
+				</div>
+				<span id="whoBtn01" data-dismiss="modal" >关闭</span>
             </div>
             <span class="closeBtn" data-dismiss="modal" ></span>
         </div>
