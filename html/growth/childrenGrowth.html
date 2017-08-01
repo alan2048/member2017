@@ -18,40 +18,10 @@
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<header>
-    	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			<ol class="carousel-indicators">
-			  	<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-			</ol>
-			<div class="carousel-inner"></div>
-			<script type="text/html" id="banner_script">
-				{{each arr as value i}}
-				<div class="item {{if i ==0}}active{{/if}}">
-					<a href="{{value.url}}">
-			    		<img src="{{path_img}}{{value.imageMd5}}&minpic=0">
-			    	</a>
-			    </div>
-			    {{/each}}
-			</script>
-			<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-		    	<span class="glyphicon-left"></span>
-			</a>
-			<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-		    	<span class="glyphicon-right"></span>
-			</a>
-		</div>
-		<div id="logo">
-			<div class="col-lg-12 logo">
-				<span><a href="../../menu.html"><img src="../../images/growth/logo.png"></a></span><br>
-				<span class="curClass"></span>
-			</div>
+		<div id="carousel-example-generic">
+			<a href="javascript:void(0);"></a>
 		</div>
 	</header>
-
-
 	<div id="main">
 		<div id="mainBox">
 			<div id="new">
@@ -354,20 +324,8 @@
         <span class="deleteBtn01 hide"></span>
     </div>
 
-	<div class="modal fade" id="modal-class" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content" id="classBox"></div>
-            <script id="classBox_script" type="text/html">
-				{{each arr as value i}}
-				<span data-id="{{value.classUuid}}" class="{{if i==0}}active{{/if}}">{{value.className}}</span>
-				{{/each}}
-            </script>
-            <span class="closeBtn" data-dismiss="modal" ></span>
-        </div>
-    </div>
-
 	<div id="changeClass">
-		<select id="teacherClass"></select>
+		<div><select id="teacherClass"></select></div>
     	<script id="teacherClass_script" type="text/html">
       		{{each arr as value i}}
 			<option value="{{value.classUuid}}">{{value.className}}</option>

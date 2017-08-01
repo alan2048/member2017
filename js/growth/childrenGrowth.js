@@ -375,6 +375,10 @@ function loginUserInfo_callback(res) {
 
         user.useruuid=data.userUUID;// UUid 初始化
         watchClassList_port();
+    }else{
+        toastTip("提示",res.info,"",function () {
+           window.location.href="../../index.html"; 
+        });
     };
 };
 
@@ -390,17 +394,53 @@ function watchClassList_port() {
 };
 function watchClassList_callback(res) {
     if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
-        var html=template("classBox_script",data);
-        $("#classBox").empty().append(html); 
-        $(".curClass").text(data.arr[0].className).attr("data-classid",data.arr[0].classUuid); 
-        user.classId=$(".curClass").attr("data-classid");  
-
+        var data={arr:JSON.parse(res.data)}; 
         var html=template("teacherClass_script",data);
         $("#teacherClass").empty().append(html); 
+        user.classId=$("#teacherClass").val(); 
         
-        growthBanner_port();
         growthLabel_port();
+        growthStudent_port(user.classId);// 加载所有学生
+    };
+};
+
+// 获取学校所有的标签
+function growthLabel_port() {
+    var data={};
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.growthLabel,param,growthLabel_callback);
+};
+function growthLabel_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("lable_script",data);
+        $("#label,#labelLib").empty().append(html);
+        growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
+    };
+};
+
+// 获取当前班级学生列表
+function growthStudent_port(classId) {
+    var data={
+            classId:classId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.growthStudent,param,growthStudent_callback);
+};
+function growthStudent_callback(res) {
+    if(res.code=200){
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img
+        };
+        var html=template("who_script",data);
+        $("#modal-who .whoBody").empty().append(html);
     };
 };
 
@@ -430,45 +470,7 @@ function growthAdd_callback(res) {
     };
 };
 
-// 获取学校banner
-function growthBanner_port() {
-    var data={};
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.growthBanner,param,growthBanner_callback);
-};
-function growthBanner_callback(res) {
-    if(res.code==200){
-        var data={
-                arr:JSON.parse(res.data),
-                path_img:httpUrl.path_img
-            };
-        var html=template("banner_script",data);
-        $(".carousel-inner").empty().append(html);
-        growthStudent_port(user.classId);// 加载所有学生
-        windowResize();
-    };
-};
 
-// 获取学校所有的标签
-function growthLabel_port() {
-    var data={};
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.growthLabel,param,growthLabel_callback);
-};
-function growthLabel_callback(res) {
-    if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
-        var html=template("lable_script",data);
-        $("#label,#labelLib").empty().append(html);
-        growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
-    };
-};
 
 
 // 删除一条内容
@@ -639,28 +641,6 @@ function growthList_callback(res,type) {
         };
     }else{
         console.log(res.info);
-    };
-};
-
-// 获取当前班级学生列表
-function growthStudent_port(classId) {
-    var data={
-            classId:classId
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.growthStudent,param,growthStudent_callback);
-};
-function growthStudent_callback(res) {
-    if(res.code=200){
-        var data={
-                arr:JSON.parse(res.data),
-                path_img:httpUrl.path_img
-        };
-        var html=template("who_script",data);
-        $("#modal-who .whoBody").empty().append(html);
     };
 };
 

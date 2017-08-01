@@ -30,6 +30,12 @@ a {
     text-decoration: none;
     outline: 0
 }
+select:focus,input:focus{
+    outline-style:none;
+}
+textarea{
+    resize:none;
+}
 a:hover {
     text-decoration: none
 }　
