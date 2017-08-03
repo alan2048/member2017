@@ -291,6 +291,14 @@ var httpUrl={
 		noticeAddNew:path+"/web/notice/addNewNotice",// 新增新的公告内容
 		noticeGetContentList:path+"/web/notice/getNoticeContent",// 获取某个公告内容列表
 		noticeGetReadDetail:path+"/web/notice/getReadDetail",// 获取某条公告内容阅读详情
+
+		// 每周菜谱
+		menuSaveTable:path+"/web/cookbook/saveTable",// 保存表格
+		menuDeleteTable:path+"/web/cookbook/deleteTable",// 删除整张表
+		menuUpdateTitle:path+"/web/cookbook/updateTitle",// 更新菜谱标题
+		menuSelectCell:path+"/web/cookbook/selectCell",// 获得某个单元
+		menuGetTitleList:path+"/web/cookbook/getTitleList",// 获得菜谱标题列表
+		menuStructuringTableCell:path+"/web/cookbook/structuringTableCell",// 通过开始日期获取表单
 		// 08设置
 		setting:'' 
 };

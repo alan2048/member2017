@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>每周菜谱</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+	<!-- <link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/health/everydayMenu.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a5f7b5;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">每周菜谱</div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+			<div id="main">
+                <div class="panel panel-inverse long">
+                        <div class="panel-body">
+                            <div id="menuMain"></div>
+                            <div class="menuBtn">
+                                <span class="btn btn-success" id="saveBtn">保存</span>
+                                <span class="btn btn-quit">取消</span>
+                            </div>
+                            <script type="text/html" id="menuMain_script">
+                                <h3 class="conTitle" style="" data-json="{{json}}">{{title}}</h3>
+                                <div class="conTime">{{startDate}}至{{endDate}}</div>
+                                <table class="table health-info">
+                                    <thead>
+                                    {{each data as value i}}
+                                        {{if i ==0}}
+                                        <tr>
+                                            {{each value as value01 j}}
+                                            <th>{{value01}}</th>
+                                            {{/each}}
+                                        </tr>
+                                        {{/if}}
+                                    {{/each}}
+                                    </thead>
+                                    <tbody>
+                                    {{each data as value i}}
+                                        {{if i !=0}}
+                                        <tr>
+                                            {{each value as value01 j}}
+                                            <td>{{value01}}</td>
+                                            {{/each}}
+                                        </tr>
+                                        {{/if}}
+                                    {{/each}}
+                                    </tbody>
+                                </table>
+                            </script>
+                        </div>
+                    </div>
+			</div>
+	    </div> 
+        <div id="menuList">
+            <div class="hideBtn"><span>菜谱列表</span></div>
+            <ul id="menu"></ul>
+            <script id="menu_script01" type="text/html">
+                {{each data as value i}}
+                    <li data-startdate="{{value.startDate}}" data-json="{{value.json}}">
+                        <span class="menuIcon">{{i+1}}</span>
+                        <span class="menuTitle">{{value.title}}</span>
+                        <span class="menuTime">{{value.startDate}}</span>
+                    </li>
+                {{/each}}
+            </script>
+        </div>
+	</div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        新建菜谱
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label ui-sortable">标题：</label>
+                        <label class="col-md-10 control-label ui-sortable"><input type="text" style="width: 100%;height: 30px;" id="healthTitle" class="fill"></label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label ui-sortable">日期：</label>
+                        <div class="col-md-10 ui-sortable">
+                            <div class="input-group input-daterange" style="float:left;margin-bottom:12px">
+                                <input id="planBegintime" data-date-format="yyyy-mm-dd" class="form-control fill" name="start" placeholder="开始日期" type="text">
+                                <span class="input-group-addon">至</span>
+                                <input id="planEndtime" class="form-control fill" name="end" placeholder="结束日期" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label ui-sortable">行数：</label>
+                        <label class="col-md-4 control-label ui-sortable"><input type="number" value="6" id="healthLine" min="1"></label>
+                        <label class="col-md-2 control-label ui-sortable">列数：</label>
+                        <label class="col-md-4 control-label ui-sortable"><input type="number" value="5" id="healthCol" min="1"></label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="finalBtn">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/modal.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/health/everydayMenu.js"></script>
+</body>
+</html>
