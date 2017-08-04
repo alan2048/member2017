@@ -12,7 +12,7 @@ function init() {
     });
 
     $("#menuList >.hideBtn").click(function () {
-        $(this).next("#menu").fadeToggle(200,"linear");
+        $(this).next("#menu").fadeToggle(50,"linear");
         $("#main >.panel").toggleClass("long");
     });
     menuGetTitleList_port(); //获得菜谱日期列表
@@ -44,6 +44,7 @@ function editTable() {
 
     // 新增菜谱
     $("#buttonBox").on("click","#newMenu",function () {
+        $("input.fill").removeClass("empty").val("");
         $("#myModal").modal("show");
     });
 
@@ -60,8 +61,8 @@ function editTable() {
         }else{
             var json={
                     title:$("#healthTitle").val(),
-                    startTime:$("#planBegintime").val(),
-                    endTime:$("#planEndtime").val()
+                    startDate:$("#planBegintime").val(),
+                    endDate:$("#planEndtime").val()
             };
         
             var arr=[];
@@ -157,23 +158,38 @@ function editTable() {
     // 删除表格
     $("#buttonBox").on("click","#deleteMenu",function () {
         if($("#menuMain").children().length !=0){
-            var r=confirm("确定删除吗？");
-            if(r == true){
-                healthDeleteTable_port(JSON.parse($("#menuMain >.conTitle").attr("data-json")));
-            };
+            swal({
+                title: "是否删除此表格？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        healthDeleteTable_port(JSON.parse($("#menuMain >.conTitle").attr("data-json")));
+                    };
+            });
         }else{
             toastTip("提示","请先选择表格。。。")
         }
         
     });
 
-    // 删除列
+    // 编辑
     $("#buttonBox").on({
         mouseover:function () {
+            if($(this).find(".hoverBtn").length ==0){
+                $(this).find("span").append("<span class=\"hoverBtn\">双击单元格可编辑</span>")
+            };
             $(this).find("span").addClass("current");
         },
         mouseout:function () {
-            $(this).find("span").removeClass("current")
+            $(this).find("span").removeClass("current");
         }
     },"#editMenu");
 
@@ -271,7 +287,6 @@ function healthGetTable_callback(res,json) {
         var data=JSON.parse(res.data);
         json.json=JSON.stringify(json);
         json.data=data;
-        console.log(json);
         var html=template("menuMain_script",json);
         $("#menuMain").empty().append(html).find("th").css("width",(1/data[0].length)*100+"%");
     }else{
@@ -422,3 +437,16 @@ function basicButton_callback(res) {
         $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     };
 };
+
+(function($){
+    $.fn.datepicker.dates['zh-CN'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            today: "今天",
+            suffix: [],
+            meridiem: ["上午", "下午"]
+    };
+}(jQuery));
