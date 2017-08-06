@@ -14,7 +14,6 @@
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
     <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
-	<!-- <link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" /> -->
 
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
 	<link href="../../css/health/everydayMenu.css" rel="stylesheet" type="text/css" />
@@ -60,42 +59,42 @@
             </script>
 			<div id="main">
                 <div class="panel panel-inverse long">
-                        <div class="panel-body">
-                            <div id="menuMain"></div>
-                            <div class="menuBtn">
-                                <span class="btn btn-success" id="saveBtn">保存</span>
-                                <span class="btn btn-quit">取消</span>
-                            </div>
-                            <script type="text/html" id="menuMain_script">
-                                <h3 class="conTitle" style="" data-json="{{json}}">{{title}}</h3>
-                                <div class="conTime">{{startDate}}至{{endDate}}</div>
-                                <table class="table health-info">
-                                    <thead>
-                                    {{each data as value i}}
-                                        {{if i ==0}}
-                                        <tr>
-                                            {{each value as value01 j}}
-                                            <th>{{value01}}</th>
-                                            {{/each}}
-                                        </tr>
-                                        {{/if}}
-                                    {{/each}}
-                                    </thead>
-                                    <tbody>
-                                    {{each data as value i}}
-                                        {{if i !=0}}
-                                        <tr>
-                                            {{each value as value01 j}}
-                                            <td>{{value01}}</td>
-                                            {{/each}}
-                                        </tr>
-                                        {{/if}}
-                                    {{/each}}
-                                    </tbody>
-                                </table>
-                            </script>
+                    <div class="panel-body">
+                        <div id="menuMain"></div>
+                        <div class="menuBtn">
+                            <span class="btn btn-success" id="saveBtn">保存</span>
+                            <span class="btn btn-quit">取消</span>
                         </div>
+                        <script type="text/html" id="menuMain_script">
+                            <h3 class="conTitle" style="" data-json="{{json}}">{{title}}</h3>
+                            <div class="conTime">{{startDate}}至{{endDate}}</div>
+                            <table class="table health-info">
+                                <thead>
+                                {{each data as value i}}
+                                    {{if i ==0}}
+                                    <tr>
+                                        {{each value as value01 j}}
+                                        <th>{{value01}}</th>
+                                        {{/each}}
+                                    </tr>
+                                    {{/if}}
+                                {{/each}}
+                                </thead>
+                                <tbody>
+                                {{each data as value i}}
+                                    {{if i !=0}}
+                                    <tr>
+                                        {{each value as value01 j}}
+                                        <td>{{value01}}</td>
+                                        {{/each}}
+                                    </tr>
+                                    {{/if}}
+                                {{/each}}
+                                </tbody>
+                            </table>
+                        </script>
                     </div>
+                </div>
 			</div>
 	    </div> 
         <div id="menuList">
@@ -113,7 +112,7 @@
         </div>
 	</div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -124,12 +123,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="col-md-2 control-label ui-sortable">标题：</label>
-                        <label class="col-md-10 control-label ui-sortable"><input type="text" style="width: 100%;height: 30px;" id="healthTitle" class="fill"></label>
+                        <label class="col-md-2">标题：</label>
+                        <label class="col-md-10"><input type="text" style="width: 100%;height: 30px;" id="healthTitle" class="fill"></label>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label ui-sortable">日期：</label>
-                        <div class="col-md-10 ui-sortable">
+                        <label class="col-md-2">日期：</label>
+                        <div class="col-md-10">
                             <div class="input-group input-daterange" style="float:left;margin-bottom:12px">
                                 <input id="planBegintime" data-date-format="yyyy-mm-dd" class="form-control fill" name="start" placeholder="开始日期" type="text" readonly="readonly">
                                 <span class="input-group-addon">至</span>
@@ -138,10 +137,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label ui-sortable">行数：</label>
-                        <label class="col-md-4 control-label ui-sortable"><input type="number" value="6" id="healthLine" min="1"></label>
-                        <label class="col-md-2 control-label ui-sortable">列数：</label>
-                        <label class="col-md-4 control-label ui-sortable"><input type="number" value="5" id="healthCol" min="1"></label>
+                        <label class="col-md-2">行数：</label>
+                        <label class="col-md-4"><input type="number" value="6" id="healthLine" min="1"></label>
+                        <label class="col-md-2">列数：</label>
+                        <label class="col-md-4"><input type="number" value="5" id="healthCol" min="1"></label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -157,7 +156,6 @@
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
-    <script src="../../js/common/simplePagination.js" ></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 	<script src="../../js/common/base.js"></script>
