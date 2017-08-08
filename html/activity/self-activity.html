@@ -21,7 +21,7 @@
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-	<div id="page-container" class="fade">
+	<div id="page-container">
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
 				<div id="user">
@@ -54,29 +54,13 @@
 			<div class="pageTitle">自选活动</div>
 			<div id="search">
 				<label>
-      				任职类型：
-      				<select id="teacherType">
-                        <option value="">所有类型</option>
-                    </select>
-      				<script id="teacherType_script" type="text/html">
-      					{{each arr as value i}}
-						<option value="{{value.typeID}}">{{value.typeName}}</option>
-      					{{/each}}
-      				</script>
-      			</label>
-      			<label>
-      				任职班级：
-      				<select id="teacherClass"></select>
-    				<script id="teacherClass_script" type="text/html">
-      					<option value="">所有班级</option>
-      					{{each arr as value i}}
-						<option value="{{value.classUUID}}">{{value.className}}</option>
-      					{{/each}}
-      				</script>
-      			</label>
-      			<label>
-      				教师姓名：
-      				<input type="text" placeholder="请输入姓名" id="teacherName">
+      				分园切换：
+      				<select id="school"></select>
+      				<script type="text/html" id="school_script">
+                        {{each data as value i}}
+                        <option value="{{value.id}}" data-id="{{value.id}}">{{value.name}}</option>
+                        {{/each}}
+                    </script>
       			</label>
       			<span id="searchBtn">查询</span>
 			</div>
@@ -87,64 +71,31 @@
                 {{/each}}
             </script>
 			<div id="main">
-				<div class="row">
-                <div class="col-md-12">
-                    <div class="result-container">
-                        <div class="input-group m-b-20">
-                            <div class="form-control input-white" style="padding-top:3px; padding-bottom:0px; min-height:34px; height:auto">
-                                <div id="data-table_length" class="dataTables_length">
-                                    <label style="margin-bottom:3px">分园切换：
-                                        <select size="1" name="data-table_length" aria-controls="data-table" id="school"></select>
-                                        <script type="text/html" id="school_script">
-                                            {{each data as value i}}
-                                            <option value="{{value.id}}" data-id="{{value.id}}">{{value.name}}</option>
-                                            {{/each}}
-                                        </script>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="input-group-btn">
-                                <button id="btn01" type="button" class="btn btn-inverse" style="padding-top:10px; padding-bottom:10px"><i class="fa fa-search"></i> 查询</button>
-                            </div>
-                        </div>   
-                    </div>
-                    <!-- end 搜索板块 -->
-                     <div class="email-btn-row hidden-xs" style="display:inline-block">
-                        <a href="#" class="btn btn-sm btn-inverse" id="activity_new">新建</a>
-                    </div>
-
-                    <div>
-                        <ul id="activityList"></ul>
-                        <ul id="pagination"></ul>
-                        <script type="text/html" id="activityList_script">
-                            {{each data as value i}}
-                            <li>
-                                <div class="yearBg" style="background-image: url({{value.pic}});">
-                                    <span class="editBtn" data-id="{{value.id}}" data-name="{{value.title}}"></span>
-                                    <span class="signInBtn" data-id="{{value.id}}" data-name="{{value.title}}" data-time="{{value.time}}"></span>
-                                    <span class="deleteBtn" data-id="{{value.id}}"></span>
-                                </div>
-                                <div class="yearTitle">
-                                    <span class="current">{{value.title}}</span>
-                                </div>
-                            </li>
-                            {{/each}}
-                        </script>
-                    </div>
-                    <div style="clear:both;"></div>
-                </div>
+                <ul id="activityList"></ul>
+                <script type="text/html" id="activityList_script">
+                    {{each data as value i}}
+                    <li>
+                        <div class="yearBg {{if value.isStop =='1'}}isStop{{/if}}" style="background-image: url({{value.pic}});">
+                            <span class="editBtn" data-id="{{value.id}}" data-name="{{value.title}}"></span>
+                            <span class="signInBtn" data-id="{{value.id}}" data-name="{{value.title}}" data-time="{{value.time}}"></span>
+                            <span class="deleteBtn" data-id="{{value.id}}"></span>
+                        </div>
+                        <div class="yearTitle">
+                            <span class="current">{{value.title}}</span>
+                        </div>
+                    </li>
+                    {{/each}}
+                </script>
             </div>
-			</div>
 	    </div> 
 
         <div id="content01" class="content hide01">
-            <h1 class="page-header"><span></span>&nbsp;&nbsp;<small></small></h1>
+            <h1 class="pageTitle">自选活动 <small></small></h1>
             <div class="row">
-                <div class="col-md-12">
                     <div class="panel panel-inverse">
                         <div class="panel-body">
                             <form class="form-horizontal">
-                                <div class="col-md-12 ui-sortable">
+                                <div class="ui-sortable">
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 封面</label>
                                         <div class="col-md-9 ui-sortable">
@@ -157,31 +108,31 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 活动名称：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <input class="form-control fill" placeholder="" type="text" id="activityTitle" name="title">
+                                            <input class="form-control fill" placeholder="来起一个活动名称吧！（限30字）" type="text" id="activityTitle" name="title" maxlength="30">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"> 副标题：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <textarea class="form-control" placeholder="（您还可以输入120个文字）" rows="5" id="activitySummary" name="content"></textarea>
+                                            <textarea class="form-control" placeholder="来对活动名称做一个合理的解释..." rows="5" id="activitySummary" name="content" maxlength="120"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 活动时间：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <input class="form-control fill" placeholder=" " type="text" id="activityTitle" name="displayTime">
+                                            <input class="form-control fill" placeholder="别急，我们来举个栗子：9:30~11:00" type="text" id="activityTitle" name="displayTime" >
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 容纳人数：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <input class="form-control fillnum" placeholder=" " type="text" id="activityTitle" name="maxPeople">
+                                            <input class="form-control fillnum" placeholder="想想可以驾驭多少个朋友？" type="text" id="activityTitle" name="maxPeople">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"> 活动介绍：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <textarea class="form-control" placeholder="（您还可以输入120个文字）" rows="5" id="activitySummary" name="detailContent"></textarea>
+                                            <textarea class="form-control" placeholder="这个活动是什么样子呢？" rows="5" id="activitySummary" name="detailContent"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -191,8 +142,8 @@
                                             <script type="text/html" id="addPicBtn01_script">
                                                 {{each coursePics as value i}}
                                                 <li>
-                                                    <a href="javascript:void;" class="pic" data-pic="{{value}}">
-                                                        <img src="{{path}}{{value}}&Thumbnail=1">
+                                                    <a href="javascript:void(0);" class="pic" data-pic="{{value}}">
+                                                        <img src="{{path}}{{value}}&minpic=1">
                                                         <span class="deleteIcon"></span>
                                                     </a>
                                                 </li>
@@ -204,25 +155,25 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"> 活动材料：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <textarea class="form-control" placeholder="（您还可以输入120个文字）" rows="5" id="activitySummary" name="gameMaterial"></textarea>
+                                            <textarea class="form-control" placeholder="想想需要准备什么材料，千万不要漏掉..." rows="5" id="activitySummary" name="gameMaterial"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 活动地点：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <input class="form-control fill" placeholder=" " type="text" id="activityTitle" name="place">
+                                            <input class="form-control fill" placeholder="呀...在哪里上课呢？哪个地方大？@#￥%" type="text" id="activityTitle" name="place">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 指导教师：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <input class="form-control fill" placeholder=" " type="text" id="activityTitle" name="teachers">
+                                            <input class="form-control fill" placeholder="不就是我嘛...报我大名" type="text" id="activityTitle" name="teachers">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"> 温馨提示：</label>
                                         <div class="col-md-9 ui-sortable">
-                                            <textarea class="form-control" placeholder="（您还可以输入120个文字）" rows="5" id="activitySummary" name="reminder"></textarea>
+                                            <textarea class="form-control" placeholder="想想需要准备什么材料，千万不要漏掉..."" rows="5" id="activitySummary" name="reminder"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -232,8 +183,8 @@
                                             <script type="text/html" id="addPicBtn02_script">
                                                 {{each workShow as value i}}
                                                 <li>
-                                                    <a href="javascript:void;" class="pic" data-pic="{{value}}">
-                                                        <img src="{{path}}{{value}}&Thumbnail=1">
+                                                    <a href="javascript:void(0);" class="pic" data-pic="{{value}}">
+                                                        <img src="{{path}}{{value}}&minpic=1">
                                                         <span class="deleteIcon"></span>
                                                     </a>
                                                 </li>
@@ -250,6 +201,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable">备注：“<span style="color:#ff0000">*</span>”为必填项</label>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"></label>
                                         <div class="col-md-9 ui-sortable">
                                             <span id="submit" class="btn btn-success">提交</span>
@@ -260,12 +214,12 @@
                             </form>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
 
         <div id="content02" class="content hide01">
-            <h1 class="page-header"><span></span>&nbsp;&nbsp;<small></small></h1>
+            <h1 class="pageTitle"><span></span>&nbsp;&nbsp;<small></small></h1>
+            <div><a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a></div>
             <div class="row">
                 <div class="col-md-12">
                     <div>
@@ -273,120 +227,59 @@
                         <script type="text/html" id="members_script">
                             {{each data as value i}}
                             <li>
-                                <a class="membersBg" data-courseId="{{courseId}}" data-time="{{time}}" data-useruuid="{{value.useruuid}}" style="background-image: url({{path}}{{value.pic}}&Thumbnail=1);" href="javascript:void(0);" >
+                                <a class="membersBg" data-courseId="{{courseId}}" data-time="{{time}}" data-useruuid="{{value.useruuid}}" style="background-image: url({{path}}{{value.pic}}&minpic=1);" href="javascript:void(0);" >
                                     <span class="icon02 {{if value.callRoll==1}}active{{/if}}" ></span>
                                 </a>
                                 <div class="membersTitle">{{value.className}}—{{value.name}}</div>
                             </li>
                             {{/each}}
                             <li class="addmembersBtn">
-                                <a class="membersNewBg" href="#modal-dialog-qunzu" data-toggle="modal" data-courseId="{{courseId}}" data-time="{{time}}"></a>
+                                <a class="membersNewBg" href="#modal-class" data-toggle="modal" data-courseId="{{courseId}}" data-time="{{time}}"></a>
                             </li>
                         </script>
                     </div>
-                    <div style="clear:both;"></div>
                 </div>
             </div>
         </div>
-    
-        <a href="javascript:;" id="backBtn" class="hide01" >
-            <span>返回上一层级</span>
-        </a>
-        
 	</div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-class" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        提示
-                    </h4>
+                <div id="classBox"></div>
+                <span class="closeBtn" data-dismiss="modal"></span>
             </div>
-                <div class="modal-body">
-                    <label><span>确定删除此活动吗？</span></label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="finalBtn">确认</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-    <!-- end page container -->
-
-    <div class="modal fade" id="modal-dialog-qunzu">
-        <div class="modal-dialog" style="width: 600px;">
-            <div class="modal-content">                                     
-                <div class="col-md-6" style="width:100%; margin-top:15px;">
-                    <ul class="nav nav-pills">
-                        <li class="active">
-                            <a href="#nav-pills-tab-1" data-toggle="tab">按部门发送</a>
+            <script id="classBox_script" type="text/html">
+                <div class="title">添加人员</div>
+                <div class="classTabs">
+                    <ul>
+                        {{each arr as value i}}
+                        <li class="class" data-id="{{value.classId}}">
+                            <span class="classTitle" data-id="{{value.classId}}">{{value.className}}</span>
                         </li>
+                        {{/each}}
                     </ul>
-                    <div class="tab-content" style="border:1px solid #e2e7eb; padding-bottom:0px;">
-                        <div class="tab-pane fade active in" id="nav-pills-tab-1">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width:30%; padding:0px; border-top:0px;">
-                                            <div class="col-md-6" style=" width:100%; min-height:240px; border-right:1px solid #e2e7eb">    
-                                                <ul class="nav nav-tabs" style="background:none" id="allClass"></ul>
-                                                <script type="text/html" id="allClass_script">
-                                                    {{each data as value i}}
-                                                    <li style="width:100%">
-                                                        <a href="#default-tab-{{i+1}}" data-toggle="tab" style="float:left; width:100%" data-orgid="{{value.orgId}}" data-tab="{{i+1}}">{{value.orgName}}</a>
-                                                        <!-- <input value="" type="checkbox" style="float:right; margin-top:-25px;display: none;" data-orgid="{{value.orgId}}" data-tab="{{i+1}}"> -->
-                                                    </li>
-                                                    {{/each}}
-                                                </script>
-                                                <script type="text/html" id="allClassTab_script">
-                                                    {{each data as value i}}
-                                                        {{if i==0}}
-                                                        <div class="tab-pane fade active in" id="default-tab-{{i+1}}" data-orgid="{{value.orgId}}"></div>
-                                                        {{/if}}
-                                                        {{if i!=0}}
-                                                        <div class="tab-pane fade" id="default-tab-{{i+1}}" data-orgid="{{value.orgId}}"></div>
-                                                        {{/if}}
-                                                    {{/each}}
-                                                </script>
-                                            </div>
-                                        </td>
-                                        <td style="width:70%; padding:0px; border-top:0px;">
-                                            <div class="col-md-6" style="width:100%; padding-left:0px; padding-right:0px; background:none;">
-                                                <div class="tab-content" style="padding-right:0px" id="classMember"></div>
-                                                <script type="text/html" id="classMember_script">
-                                                    {{each data as value i}}
-                                                    <label class="checkbox-inline" style="margin: 5px 10px;width: 80px;">
-                                                        <input value="{{value.id}}" data-id="{{value.id}}" data-portrait="{{value.portrait}}" type="checkbox" >{{value.userName}}
-                                                    </label>
-                                                    {{/each}}
-                                                </script>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <ul>
+                        {{each arr as value i}}
+                        <li class="classTabsBody" data-id="{{value.classId}}"></li>
+                        {{/each}}
+                    </ul>
                 </div>
-                <div style="clear:both"></div>
-                <div class="modal-footer">
-                    <label style="float:left;display: none;">         
-                        <input value="" type="checkbox" id="chooseAll"> 全选
-                    </label>
-                    <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">取消</a>
-                    <a href="javascript:;" class="btn btn-sm btn-success" data-dismiss="modal" id="chooseMemberBtn">确定</a>
+                <div class="buttonBox">
+                    <span id="save">确定</span>
                 </div>
-            </div>
+            </script>
+            <script id="children_script" type="text/html">
+                {{each arr as value i}}
+                <div class="child" data-uuid="{{value.uuid}}">{{value.name}}</div>
+                {{/each}}
+            </script>
         </div>
     </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->

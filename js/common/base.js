@@ -4,11 +4,11 @@ var user={
 };
 var serverUrl01="http://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
-var serverUrl03="http://121.43.150.3800";//38测试服务器
+var serverUrl03="http://121.43.150.38";//38测试服务器
 var serverHost="http://www.member361.com";
 
 var path=serverUrl02; //更改服务器地址可设置此值
-var path01=serverUrl03; //更改服务器地址可设置此值
+var path01=serverUrl01; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础接口
 		
@@ -97,18 +97,6 @@ var httpUrl={
 		deleteHealthAlert:path01+":18082/HealthInfo/deleteHealthAlert",//删除健康预警
 		updateHealthAlert:path01+":18082/HealthInfo/updateHealthAlert",//编辑健康预警
 		getHealthAlert:path01+":18082/HealthInfo/getHealthAlert",//编辑获得单条预警信息记录
-
-		
-		// 自选课程 剧场活动
-		GetSchoolIds:path01+":15001/imsInterface/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
-		GetSchoolJYIds:path01+":15001/imsInterface/TSCourse_GetSchoolJYIds",//剧场活动 id
-		GetSchoolCourses:path01+":15001/imsInterface/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
-		AddCourse:path01+":15001/imsInterface/TSCourse_AddCourse",//特色课程 新增
-		GetCourseDetails:path01+":15001/imsInterface/TSCourse_GetCourseDetails",//获取学校课程详情
-		tsDelCourse:path01+":15001/imsInterface/TSCourse_DelCourse",// 删除学校课程
-		tsGetBookedChildren:path01+":15001/imsInterface/TSCourse_GetBookedChildren",// 签到学生列表
-		tsCallRoll:path01+":15001/imsInterface/TSCourse_CallRoll",// 签到
-		tsCancelRoll:path01+":15001/imsInterface/TSCourse_CancelRoll",// 取消签到
 
 		// 06消息发布
 		GetClassNotifyInfos:path01+":12001/YY/GetClassNotifyInfos",// 获得班级活动列表
@@ -299,6 +287,17 @@ var httpUrl={
 		menuSelectCell:path+"/web/cookbook/selectCell",// 获得某个单元
 		menuGetTitleList:path+"/web/cookbook/getTitleList",// 获得菜谱标题列表
 		menuStructuringTableCell:path+"/web/cookbook/structuringTableCell",// 通过开始日期获取表单
+
+		// 自选课程 剧场活动
+		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
+		GetSchoolJYIds:path+"/web/activity/TSCourse_GetSchoolJYIds",//剧场活动 id
+		GetSchoolCourses:path+"/web/activity/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
+		AddCourse:path+"/web/activity/TSCourse_AddCourse",//特色课程 新增
+		GetCourseDetails:path+"/web/activity/TSCourse_GetCourseDetails",//获取学校课程详情
+		tsDelCourse:path+"/web/activity/TSCourse_DelCourse",// 删除学校课程
+		tsGetBookedChildren:path+"/web/activity/TSCourse_GetBookedChildren",// 签到学生列表
+		tsCallRoll:path+"/web/activity/TSCourse_CallRoll",// 签到
+		tsCancelRoll:path+"/web/activity/TSCourse_CancelRoll",// 取消签到
 		// 08设置
 		setting:'' 
 };

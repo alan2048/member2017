@@ -96,6 +96,10 @@
 #importBtn >span{
 	background: url(../../images/common/importBtn.png) 0 center no-repeat;
 }
+.backBtn >span{
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
+}
 #buttonBox{
 	margin-bottom: 0.2rem;
 }
@@ -209,9 +213,9 @@ th,td {
 	text-decoration: none;
 	background-color: #fff;
 	border: 1px solid #ddd;
-	-webkit-border-radius: 3px !important;
-	-moz-border-radius: 3px !important;
-	border-radius: 3px !important;
+	-webkit-border-radius: 10px !important;
+	-moz-border-radius: 10px !important;
+	border-radius: 10px !important;
 	/*background: url(../../images/common/pagination.png) 0 center no-repeat;
 	background-size: contain;*/
 }
