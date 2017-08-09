@@ -242,6 +242,7 @@ function tsDelCourse_callback(res) {
 
 // 签到学生列表
 function tsGetBookedChildren_port(id,time) {
+    $("#members").empty();
     var data={
             courseId:id,
             time:time,
@@ -331,7 +332,6 @@ function AddCourse_callback(res) {
         // console.log('请求错误，返回code非200');
     }
 };
-
 
 // 课程详情 
 function GetCourseDetails_port(id,name) {
@@ -518,78 +518,39 @@ function tsTempBookCourse() {
     $("#members").on("click","li.addmembersBtn > a.membersNewBg",function () {
         if($("#classBox").children().length==0){
             getMyClassInfo_port();
-        } 
+        }else{
+            $(".child").removeClass("active");
+        }; 
     });
 
+    // 获得选中班级的学生列表
     $("#classBox").on("click",".classTitle",function () {
-            $(".classTitle,.classTabsBody").removeClass("active");
-            $(this).addClass("active");
-            $(".classTabsBody[data-id="+$(this).attr("data-id")+"]").addClass("active");
+        $(".classTitle,.classTabsBody").removeClass("active");
+        $(this).addClass("active");
+        $(".classTabsBody[data-id="+$(this).attr("data-id")+"]").addClass("active");
 
-            if($(".classTabsBody[data-id="+$(this).attr("data-id")+"]").children().length ==0){
-                getClassStuAndTeachers_port($(this).attr("data-id"));
-            };
-    });
-
-    // 点击班级链接班级成员项接口函数
-    $("#allClass").on("click","li > a",function () {
-        var tabIndex=$(this).attr("data-tab");
-        if($("#default-tab-"+tabIndex+" label").length==0){
-            var classId=$(this).attr("data-orgid");
-            getClassMemberInfo_port(classId,tabIndex);
-        }
-    });
-
-    // 点击班级全选按钮判断是否选择班级全体成员
-    $("#allClass").on("click","li > input",function () {
-        $(this).prev("a").click();
-        var tabIndex=$(this).attr("data-tab");
-        var ArrLabel=$("#default-tab-"+tabIndex+" label >input");
-        if($(this).is(":checked")){
-            $.each(ArrLabel,function (index,value) {
-                $(value).prop("checked",true);
-            });
-        }else{
-            $.each(ArrLabel,function (index,value) {
-                $(value).prop("checked",false);
-            });
-        }
-    });
-
-    // 班级成员项点击判断是否全选
-    $("#classMember").on("click","input",function () {
-        var parent=$(this).parents(".tab-pane").eq(0);
-        var AA=0;
-        $.each(parent.find("input"),function (index,value) {
-            if(!$(value).is(":checked")){
-                AA++;
-            }
-        });
-
-        var curOrgid=parent.attr("data-orgid");
-        if(AA>0){
-            $("#allClass input[data-orgid="+curOrgid+"]").attr("checked",false);
-        }else{
-            $("#allClass input[data-orgid="+curOrgid+"]").attr("checked",true);
-        }
-    });
-
-    // 全选按钮函数
-    $("#chooseAll").click(function () {
-        if($(this).is(":checked")){
-            $("#allClass li input").attr("checked",true);
-        }else{
-            $("#allClass li input").attr("checked",false);
-        }
-    });
-
-    // 判断是否选中通知成员
-    $("#chooseMemberBtn").click(function () {
-        var Arr=[];
-        for(var i=0;i<$("#classMember input:checked").length;i++){
-            Arr.push($("#classMember input:checked").eq(i).val());
-            tsTempBookCourse_port($("#classMember input:checked").eq(i).val());
+        if($(".classTabsBody[data-id="+$(this).attr("data-id")+"]").children().length ==0){
+            getClassStuAndTeachers_port($(this).attr("data-id"));
         };
+    });
+
+    // 添加临时人员
+    $("#classBox").on("click","#save",function () {
+        if($(".child.active").length ==0){
+            toastTip("提示","请先选择班级、个人。。");
+        }else{
+            var arr=[];
+            for(var i=0;i<$(".child.active").length;i++){
+                arr.push($(".child.active").eq(i).attr("data-uuid"));
+                tsTempBookCourse_port($(".child.active").eq(i).attr("data-uuid"));
+            };
+            $("#modal-class").modal("hide"); 
+        };
+    });
+
+    // 选中人员
+    $("#classBox").on("click",".child",function () {
+        $(this).toggleClass("active"); 
     });
 };
 
@@ -633,19 +594,6 @@ function getMyClassInfo_callback(res) {
         chooseNiceScroll(".classTabs >ul");
 
         $(".classTabs >ul:first >li:first >span.classTitle").click();// 默认第一班选中；
-
-        $("#save").click(function () {
-            if($(".child.active").length ==0){
-                toastTip("提示","请先选择班级、个人。。");
-            }else{
-                var arr=[];
-                for(var i=0;i<$(".child.active").length;i++){
-                    arr.push($(".child.active").eq(i).attr("data-uuid"));
-                };
-                console.log(arr);
-                $("#modal-class").modal("hide"); 
-            };
-        });
     };
 };
 
@@ -653,13 +601,15 @@ function getMyClassInfo_callback(res) {
 function getClassStuAndTeachers_port(classId) {
     var data={
             classId:classId,
-            useruuid:$(".userName").attr("data-useruuid")
+            useruuid:$(".userName").attr("data-useruuid"),
+            classUUID:classId
     };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getClassStuAndTeachers,param,getClassStuAndTeachers_callback,classId);
+    // initAjax(httpUrl.getClassStuAndTeachers,param,getClassStuAndTeachers_callback,classId);
+    initAjax(httpUrl.attendGetChildOfClass,param,getClassStuAndTeachers_callback,classId);
 };
 function getClassStuAndTeachers_callback(res,classId) {
     if(res.code==200){
@@ -669,10 +619,9 @@ function getClassStuAndTeachers_callback(res,classId) {
         };
         var html=template("children_script",data);
         $(".classTabsBody[data-id="+classId+"]").append(html);
-
-        $(".child").click(function () {
-            $(this).toggleClass("active"); 
-        });
+        if(data.arr.length==0){
+            toastTip("提示","此班级暂时人员。。");
+        };
     };
 };
 

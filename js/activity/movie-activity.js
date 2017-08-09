@@ -1,12 +1,12 @@
 $(function () {
-    permission_port(loginSuccess);
+    init();
 });
-function loginSuccess() {
-    App.init();// 侧边树结构、loading载入
+function init() {
+    menu();
     mousehover();
-    GetSchoolJYIds_port();
     deletePic();
     loadFiles();
+    tsTempBookCourse();
 };
 function mousehover() {
     // 年度档案册hover效果
@@ -26,7 +26,7 @@ function mousehover() {
     });
 
     // 新建活动
-    $("#activity_new").click(function () {
+    $("#buttonBox").on("click","#newBtn",function () {
         $(".content").addClass("hide01");
         $("#content01").removeClass("hide01");
         $("#content01 > h1 > span").text("自选活动");
@@ -47,7 +47,7 @@ function mousehover() {
     // 活动 签到学生列表
     $("#activityList").on("click","span.signInBtn",function () {
         $(".content").addClass("hide01");
-        $("#backBtn").removeClass("hide01");
+        // $("#backBtn").removeClass("hide01");
         $("#content02").removeClass("hide01");
         $("#content02 > h1 > span").text($(this).attr("data-name"));
         $("#content02 > h1 > small").text("签到");
@@ -60,29 +60,37 @@ function mousehover() {
             tsCancelRoll_port($(this).attr("data-courseId"),$(this).attr("data-time"),$(this).attr("data-useruuid"));
         }else{
             tsCallRoll_port($(this).attr("data-courseId"),$(this).attr("data-time"),$(this).attr("data-useruuid"));
-        }
+        };
     });
 
     // 删除活动
     $("#activityList").on("click","span.deleteBtn",function () {
+        var id=$(this).attr("data-id");
+        swal({
+                title: "确定删除此活动吗?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        tsDelCourse_port(id);
+                    };
+        });
         $("#myModal").modal("show");
-    });
-    $("#finalBtn").click(function () {
-        tsDelCourse_port($(this).attr("data-id"));
     });
 
     // 返回上一层级按钮执行函数
-    $("#backBtn").on({
+    $(".backBtn").on({
         click:function () {
           $(".content").addClass("hide01")
           $("#content").removeClass("hide01");
-          $("#backBtn").addClass("hide01");
-        },
-        mouseover:function () {
-          $(this).children("span").addClass("current");
-        },
-        mouseout:function () {
-          $(this).children("span").removeClass("current");
+          // $("#backBtn").addClass("hide01");
         }
     });
 
@@ -149,17 +157,19 @@ function mousehover() {
 
 
 
+
 // 获取园区ID
-function GetSchoolJYIds_port() {
+function GetSchoolIds_port() {
     var data={
             useruuid:user.userUuid
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.GetSchoolJYIds,param,GetSchoolJYIds_callback);
+    initAjax(httpUrl.GetSchoolJYIds,param,GetSchoolIds_callback);
 };
-function GetSchoolJYIds_callback(res) {
+function GetSchoolIds_callback(res) {
     if(res.code==200){
         if(res.data =="[]"){
             $("#modal03").modal("show");
@@ -170,9 +180,38 @@ function GetSchoolJYIds_callback(res) {
             $("#school").empty().append(html);
 
             GetSchoolCourses_port($("#school").val());
+            $("#searchBtn").click(function () {
+                GetSchoolCourses_port($("#school").val());
+            });
         }
     }else{
         // alert("系统故障，请稍候重试。。");
+        // console.log('请求错误，返回code非200');
+    }
+};
+
+// 获取学校课程
+function GetSchoolCourses_port(id) {
+    var data={
+            schoolId:id,
+            useruuid:user.userUuid
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.GetSchoolCourses,param,GetSchoolCourses_callback,id);
+};
+function GetSchoolCourses_callback(res,id) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        for(var i=0;i<data.length;i++){
+            data[i].pic=httpUrl.path_img+data[i].pic+"&minpic=0"
+        };
+        var data01={data:data};
+        var html=template("activityList_script",data01);
+        $("#activityList").empty().append(html);
+    }else{
         // console.log('请求错误，返回code非200');
     }
 };
@@ -184,7 +223,8 @@ function tsDelCourse_port(id) {
             useruuid:user.userUuid
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     initAjax(httpUrl.tsDelCourse,param,tsDelCourse_callback);
 };
@@ -200,13 +240,15 @@ function tsDelCourse_callback(res) {
 
 // 签到学生列表
 function tsGetBookedChildren_port(id,time) {
+    $("#members").empty();
     var data={
             courseId:id,
             time:time,
             useruuid:user.userUuid
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     initAjax(httpUrl.tsGetBookedChildren,param,tsGetBookedChildren_callback,data);
 };
@@ -219,7 +261,8 @@ function tsGetBookedChildren_callback(res,json) {
                 time:json.time,
                 path:httpUrl.path_img
         };
-    
+        
+        // console.log(data01);
         var html=template("members_script",data01);
         $("#members").empty().append(html);
     }else{
@@ -236,7 +279,8 @@ function tsCallRoll_port(id,time,userUuid) {
             useruuid:userUuid
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     initAjax(httpUrl.tsCallRoll,param,tsCallRoll_callback,data);
 };
@@ -256,7 +300,8 @@ function tsCancelRoll_port(id,time,userUuid) {
             useruuid:userUuid
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     initAjax(httpUrl.tsCancelRoll,param,tsCancelRoll_callback,data);
 };
@@ -268,36 +313,12 @@ function tsCancelRoll_callback(res,json) {
     }
 };
 
-// 获取学校课程
-function GetSchoolCourses_port(id) {
-    var data={
-            schoolId:id,
-            useruuid:user.userUuid
-        };
-    var param={
-            params:JSON.stringify(data)
-    };
-    initAjax(httpUrl.GetSchoolCourses,param,GetSchoolCourses_callback,id);
-};
-function GetSchoolCourses_callback(res,id) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        for(var i=0;i<data.length;i++){
-            data[i].pic=httpUrl.path_img+data[i].pic
-        };
-        var data01={data:data};
-        var html=template("activityList_script",data01);
-        $("#activityList").empty().append(html);
-       
-    }else{
-        // console.log('请求错误，返回code非200');
-    }
-};
 
 // 获取学校课程
 function AddCourse_port(data) {
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     initAjax(httpUrl.AddCourse,param,AddCourse_callback);
 };
@@ -310,7 +331,6 @@ function AddCourse_callback(res) {
     }
 };
 
-
 // 课程详情 
 function GetCourseDetails_port(id,name) {
     var data={
@@ -318,7 +338,8 @@ function GetCourseDetails_port(id,name) {
             useruuid:user.userUuid
         };
     var param={
-            params:JSON.stringify(data)
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
     };
     initAjax(httpUrl.GetCourseDetails,param,GetCourseDetails_callback,name);
 };
@@ -328,7 +349,6 @@ function GetCourseDetails_callback(res,name) {
 
         $(".content").addClass("hide01");
         $("#content01").removeClass("hide01");
-        $("#content01 > h1 > span").text(name);
         $("#content01 > h1 > small").text("编辑");
         $("form.form-horizontal input,form.form-horizontal textarea").val("");
         $("form.form-horizontal input[name=id]").val($(this).attr("data-id"));
@@ -340,9 +360,13 @@ function GetCourseDetails_callback(res,name) {
             $("textarea[name="+i+"]").val(data[i]);
         };
 
-        data.pic=httpUrl.path_img+data.pic;
-        data.coursePics=JSON.parse(data.coursePics);
-        data.workShow=JSON.parse(data.workShow);
+        data.pic=httpUrl.path_img+data.pic+"&minpic=1";
+        if(data.coursePics){
+            data.coursePics=JSON.parse(data.coursePics);
+        };
+        if(data.workShow){
+            data.workShow=JSON.parse(data.workShow);
+        };
         data.path=httpUrl.path_img;
         
         $("#addPicBtn").css({
@@ -352,7 +376,6 @@ function GetCourseDetails_callback(res,name) {
 
         var html01=template("addPicBtn01_script",data);
         $("#addPicBtn01").before(html01);
-
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -368,35 +391,23 @@ function deletePic() {
             $(this).find("span.deleteIcon").removeClass("current");
         }
     },".pagination li");
+
     $(".form-horizontal").on("click",".pagination > li span.deleteIcon",function (event) {
         $(this).parents("li").remove();
         var arr01=[];
-            for(var i=0;i<$("#addPicBtn01").parent("ul").find("a.pic").length;i++){
-                arr01.push($("#addPicBtn01").parent("ul").find("a.pic").eq(i).attr("data-pic"))
-            };
+        for(var i=0;i<$("#addPicBtn01").parent("ul").find("a.pic").length;i++){
+            arr01.push($("#addPicBtn01").parent("ul").find("a.pic").eq(i).attr("data-pic"))
+        };
         $("input[name=coursePics]").val(JSON.stringify(arr01));
 
         var arr02=[];
-            for(var i=0;i<$("#addPicBtn02").parent("ul").find("a.pic").length;i++){
-                arr02.push($("#addPicBtn02").parent("ul").find("a.pic").eq(i).attr("data-pic"))
-            };
+        for(var i=0;i<$("#addPicBtn02").parent("ul").find("a.pic").length;i++){
+            arr02.push($("#addPicBtn02").parent("ul").find("a.pic").eq(i).attr("data-pic"))
+        };
         $("input[name=workShow]").val(JSON.stringify(arr02));
         event.stopPropagation();
     });
 };
-
-// 消息提示函数
-function toastTip(heading,text,hideAfter) {
-    $.toast({
-            heading: heading,
-            text: text,
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: hideAfter || 1500,
-            loaderBg: '#13b5dd',
-            position: 'bottom-right'
-    });
-}
 
 function loadFiles() {
         Dropzone.options.myAwesomeDropzone=false;
@@ -410,16 +421,17 @@ function loadFiles() {
             acceptedFiles: 'image/*'
         });
         myDropzone.on('success',function(file,responseText){
-            if(responseText.uploadFileMd5==undefined){
-                alert('没有上传成功,请重试');
-                return ;
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
             };
-            var imgUrl=httpUrl.path_img+responseText.uploadFileMd5;
+            var imgUrl=data.path_img+data.md5+"&minpic=1";
             $("#addPicBtn").css({
                 "background":"transparent url("+imgUrl+") center center no-repeat",
                 "background-size":"contain"
             });
-            $("#addPicBtn").removeClass("empty").empty().next("input[name=pic]").val(responseText.uploadFileMd5);
+
+            $("#addPicBtn").removeClass("empty").empty().next("input[name=pic]").val(data.md5);
         });
         myDropzone.on('error',function(file,errorMessage,httpRequest){
             alert('没有上传成功,请重试:'+errorMessage);
@@ -436,14 +448,14 @@ function loadFiles() {
             acceptedFiles: 'image/*'
         });
         myDropzone01.on('success',function(file,responseText){
-            if(responseText.uploadFileMd5==undefined){
-                alert('没有上传成功,请重试');
-                return ;
+            var data={
+                    md5:JSON.parse(responseText).result,
+                    path_img:httpUrl.path_img
             };
-            var imgUrl=httpUrl.path_img+responseText.uploadFileMd5;
+            var imgUrl=data.path_img+data.md5;
             var html="<li>"+
-                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" class=\"pic\" data-pic="+responseText.uploadFileMd5+">"+
-                            "<img src="+imgUrl+"&Thumbnail=1>"+
+                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" class=\"pic\" data-pic="+data.md5+">"+
+                            "<img src="+imgUrl+"&minpic=1>"+
                             "<span class=\"deleteBtn\"></span>"+
                         "</a>"+
                     "</li>";
@@ -458,4 +470,216 @@ function loadFiles() {
             alert('没有上传成功,请重试:'+errorMessage);
             this.removeFile(file);
         });
+};
+
+
+// 补加预约人数
+function tsTempBookCourse() {
+    //获取全部班级列表 
+    $("#members").on("click","li.addmembersBtn > a.membersNewBg",function () {
+        if($("#classBox").children().length==0){
+            getMyClassInfo_port();
+        }else{
+            $(".child").removeClass("active");
+        }; 
+    });
+
+    // 获得选中班级的学生列表
+    $("#classBox").on("click",".classTitle",function () {
+        $(".classTitle,.classTabsBody").removeClass("active");
+        $(this).addClass("active");
+        $(".classTabsBody[data-id="+$(this).attr("data-id")+"]").addClass("active");
+
+        if($(".classTabsBody[data-id="+$(this).attr("data-id")+"]").children().length ==0){
+            getClassStuAndTeachers_port($(this).attr("data-id"));
+        };
+    });
+
+    // 添加临时人员
+    $("#classBox").on("click","#save",function () {
+        if($(".child.active").length ==0){
+            toastTip("提示","请先选择班级、个人。。");
+        }else{
+            var arr=[];
+            for(var i=0;i<$(".child.active").length;i++){
+                arr.push($(".child.active").eq(i).attr("data-uuid"));
+                tsTempBookCourse_port($(".child.active").eq(i).attr("data-uuid"));
+            };
+            $("#modal-class").modal("hide"); 
+        };
+    });
+
+    // 选中人员
+    $("#classBox").on("click",".child",function () {
+        $(this).toggleClass("active"); 
+    });
+};
+
+// 获取全部班级列表
+function tsTempBookCourse_port(useruuid) {
+    var data={
+            courseId:$("#members >li.addmembersBtn >a").attr("data-courseid"),
+            useruuid:useruuid,
+            time:$("#members >li.addmembersBtn >a").attr("data-time")
+        };
+    var param={
+            params:JSON.stringify(data)
+    };
+    initAjax(httpUrl.tsTempBookCourse,param,tsTempBookCourse_callback,data);
+};
+function tsTempBookCourse_callback(res,json) {
+    if(res.code==200){
+        tsGetBookedChildren_port(json.courseId,json.time);
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+
+
+// 获取我的班级信息
+function getMyClassInfo_port() {
+    var data={
+            uuid:$(".userName").attr("data-useruuid")
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.getMyClassInfo,param,getMyClassInfo_callback);
+};
+function getMyClassInfo_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("classBox_script",data);
+        $("#classBox").empty().append(html);
+        chooseNiceScroll(".classTabs >ul");
+
+        $(".classTabs >ul:first >li:first >span.classTitle").click();// 默认第一班选中；
+    };
+};
+
+// 获取班级所有学生和老师
+function getClassStuAndTeachers_port(classId) {
+    var data={
+            classId:classId,
+            useruuid:$(".userName").attr("data-useruuid"),
+            classUUID:classId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    // initAjax(httpUrl.getClassStuAndTeachers,param,getClassStuAndTeachers_callback,classId);
+    initAjax(httpUrl.attendGetChildOfClass,param,getClassStuAndTeachers_callback,classId);
+};
+function getClassStuAndTeachers_callback(res,classId) {
+    if(res.code==200){
+        var data={
+                arr:JSON.parse(res.data),
+                classId:classId
+        };
+        var html=template("children_script",data);
+        $(".classTabsBody[data-id="+classId+"]").append(html);
+        if(data.arr.length==0){
+            toastTip("提示","此班级暂时人员。。");
+        };
+    };
+};
+
+// 菜单
+function menu() {
+    menuChildList_port(user.pid);
+    $("#switch").click(function () {
+        var aa=$(this);
+        $(this).prev("#sidebarBox").fadeToggle(function () {
+            aa.toggleClass("active");
+            $(".content").toggleClass("active");
+        });
+    });
+    $("#subMenu").on("click","a.hasTitle",function () {
+        $(this).toggleClass("active");
+    });
+};
+// 左侧 菜单接口
+function menuChildList_port(menuId) {
+    var data={
+            menuId:menuId
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.menuChildList,param,menuChildList_callback,menuId);
+};
+function menuChildList_callback(res,menuId) {
+    if(res.code==200){
+        var data={
+                arr:JSON.parse(res.data),
+                path_img:httpUrl.path_img
+        };
+        for(var i=0;i<data.arr.length;i++){
+            data.arr[i].iconArr=data.arr[i].icon.split(",");
+            data.arr[i].pid=menuId;
+            data.arr[i].url=data.arr[i].url.split("/")[2];
+            if(data.arr[i].id == user.sid){
+                data.arr[i].current=true;
+            }else{
+                data.arr[i].current=false;
+            };
+        };
+        
+        var html=template("menu_script",data);
+        $("#subMenu").empty().append(html);
+        chooseNiceScroll("#sidebarBox","transparent");
+
+        loginUserInfo_port();
+        basicButton_port();
+    }else if(res.coed =404){
+        window.location.href="../../index.html";
+    };
+};
+
+
+// 获得登录人信息
+function loginUserInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+};
+function loginUserInfo_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        data.path_img=httpUrl.path_img;
+        $("#user >.userName").text(data.name).attr("data-useruuid",data.userUUID);
+        $("#user >.userRole").text(data.jobTitle);
+        $("#user >.userPic").css({
+            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+        });
+        user.userUuid=data.userUUID;
+        GetSchoolIds_port();
+        loadingOut();//关闭loading
+    };
+};
+
+// 获取菜单功能按钮列表
+function basicButton_port() {
+    var data={
+            menuId:user.sid
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicButton,param,basicButton_callback);
+};
+function basicButton_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("buttonBox_script",data);
+        $("#buttonBox").append(html);
+        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+    };
 };

@@ -2,27 +2,25 @@
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
-	<title>教师信息</title>
+	<title>剧场活动</title>
 	<meta name="renderer" content="webkit" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="幼教产品" />
-  <meta name="author" content="上海紫越网络科技有限公司" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
 	<link rel="shortcut icon" href="../../images/favicon.png">
 
 	<!-- <link href="../../css/common/bootstrap.min.css" rel="stylesheet" /> -->
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
-    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
-	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
-    
 
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/class/teachers.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/activity/movie-activity.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-	<div id="page-container" class="fade">
+	<div id="page-container">
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
 				<div id="user">
@@ -40,190 +38,217 @@
 						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
 					</li>
 					{{/each}}
-          <style>
-          {{each arr as value i}}
-              a.hasTitle[data-id="{{value.id}}"]{
-                background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);
-              }
-              a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{
-                background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);
-                border: 0.02rem solid #656868;
-                background-color: #f3b369;
-              }
-          {{/each}}
-          </style>
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #c1ec69;}
+                    {{/each}}
+                    </style>
 				</script>
 			</div>
 			<div id="switch" class=""><span></span></div>
 		</div>
 
 		<div id="content" class="content">
-			<div class="pageTitle">教师信息</div>
+			<div class="pageTitle">剧场活动</div>
 			<div id="search">
 				<label>
-      				任职类型：
-      				<select id="teacherType">
-                        <option value="">所有类型</option>
-                    </select>
-      				<script id="teacherType_script" type="text/html">
-      					{{each arr as value i}}
-						<option value="{{value.typeID}}">{{value.typeName}}</option>
-      					{{/each}}
-      				</script>
-      			</label>
-      			<label>
-      				任职班级：
-      				<select id="teacherClass"></select>
-    				<script id="teacherClass_script" type="text/html">
-      					<option value="">所有班级</option>
-      					{{each arr as value i}}
-						<option value="{{value.classUUID}}">{{value.className}}</option>
-      					{{/each}}
-      				</script>
-      			</label>
-      			<label>
-      				教师姓名：
-      				<input type="text" placeholder="请输入姓名" id="teacherName">
+      				分园切换：
+      				<select id="school"></select>
+      				<script type="text/html" id="school_script">
+                        {{each data as value i}}
+                        <option value="{{value.id}}" data-id="{{value.id}}">{{value.name}}</option>
+                        {{/each}}
+                    </script>
       			</label>
       			<span id="searchBtn">查询</span>
 			</div>
-			<div id="buttonBox">
-        <script type="text/html" id="buttonBox_script">
-          {{each arr as value  i}}
-          <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
-          {{/each}}
-        </script>
-			</div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
 			<div id="main">
-				<div class="panel">
-                   	<div class="email-content" id="tableBox"></div>
-                    <script type="text/html" id="tableBox_script">
-                        <table class="table table-email">
-                            <thead>
-                                <tr>
-                                    <th style="width: 5%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw"></i></a></th>
-                                    <th style="width: 14%;">姓名</th>
-                                    <th style="width: 6%;">性别</th>
-                                    <th style="width: 15%;">出生日期</th>
-                                    <th style="width: 15%;">手机号码</th>
-                                    <th style="width: 20%;">任职类型</th>
-                                    <th style="width: 25%;">任职班级</th>
-                                </tr>
-                            </thead>
-                           	 <tbody>
-                           	 	{{each resultList as item i}}
-                            	<tr>
-                                  	<td style="word-break:break-all;" class="email-select">
-                                  		<a href="javascript:void(0);" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-id={{item.staffUUID}}></i></a>
-                                  	</td>
-                                  	<td style="word-break:break-all;" class="email-sender">{{item.name}}</td>
-                                  	<td style="word-break:break-all;" class="email-sender">{{item.sex}}</td>
-                                  	<td style="word-break:break-all;" class="email-sender">{{item.birthday}}</td>
-                                  	<td style="word-break:break-all;" class="email-sender">{{item.phoneNum}}</td>
-                                  	<td style="word-break:break-all;" class="email-sender">{{item.jobTitle}}</td>
-                                  	<td style="word-break:break-all;" class="email-sender email-date">
-                                    {{if !item.className.length ==0}}
-                                  		{{if item.className.length ==1}}
-											{{each item.className as value j}}{{value}}{{/each}}
-                                  		{{else}}
-                                  			<span>...</span>
-                                  			<span class="fade in hide">
-                                  				<span></span>
-                                  				{{each item.className as value j}}
-                                  					{{if j !=0}},{{/if}}
-                                  					{{value}}
-                                  				{{/each}}
-                                  			</span>
-                                  		{{/if}}
-                                    {{/if}}
-                                  	</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    </script>
-                </div>
-                <ul id="pagination"></ul>
-			</div>
+                <ul id="activityList"></ul>
+                <script type="text/html" id="activityList_script">
+                    {{each data as value i}}
+                    <li>
+                        <div class="yearBg {{if value.isStop =='1'}}isStop{{/if}}" style="background-image: url({{value.pic}});">
+                            <span class="editBtn" data-id="{{value.id}}" data-name="{{value.title}}"></span>
+                            <span class="signInBtn" data-id="{{value.id}}" data-name="{{value.title}}" data-time="{{value.time}}"></span>
+                            <span class="deleteBtn" data-id="{{value.id}}"></span>
+                        </div>
+                        <div class="yearTitle">
+                            <span class="current">{{value.title}}</span>
+                        </div>
+                    </li>
+                    {{/each}}
+                </script>
+            </div>
 	    </div> 
 
-        <div id="content01" class="content hide">
-            <div class="pageTitle">教师信息 <small>新增</small></div>
-            <div class="newBox">
-                <span class="closeBtn"></span>
-                <ul>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 姓名：
-                        </span>
-                        <span class="col02">
-                            <input type="text" id="userName">
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 性别：
-                        </span>
-                        <span class="col02">
-                            <select id="sex">
-                                <option value="男">男</option>
-                                <option value="女">女</option>
-                            </select>
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 出生日期：
-                        </span>
-                        <span class="col02">
-                            <input type="text" id="birthday" data-toggle="datepicker" readonly="readonly">
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 手机号码：
-                        </span>
-                        <span class="col02">
-                            <input type="text" id="phoneNum">
-                            <span class="hide">提示：手机格式不正确</span>
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col01">
-                            <i class="redIcon">*</i> 任职类型：
-                        </span>
-                        <span class="col02">
-                            <select id="teacherType01"></select>
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col01">
-                            关联班级：
-                        </span>
-                        <span class="col02" id="teacherClass01"></span>
-                        <script id="teacherClass01_script" type="text/html">
-                            {{each arr as value i}}
-                            <label>
-                                <input type="checkbox" value="{{value.classUUID}}"> {{value.className}}
-                            </label>
-                            {{/each}}
-                        </script>
-                    </li>
-                    <li>备注："<i class="redIcon">*</i>" 为必填项</li>
-                </ul>
-                <div id="new">保存</div>
+        <div id="content01" class="content hide01">
+            <h1 class="pageTitle">剧场活动 <small></small></h1>
+            <div class="row">
+                    <div class="panel panel-inverse">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="ui-sortable">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 封面</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <div class="faceimage fill" id="addPicBtn"></div>
+                                            <input type="hidden" name="pic">
+                                            <input type="hidden" name="id">
+                                            <input type="hidden" name="schoolId">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 影片名称：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <input class="form-control fill" placeholder="来起一个影片名称吧！（限30字）" type="text" id="activityTitle" name="title" maxlength="30">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"> 副标题：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <textarea class="form-control" placeholder="来对影片名称做一个合理的解释..." rows="5" id="activitySummary" name="content" maxlength="120"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 放映时间：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <input class="form-control fill" placeholder="别急，我们来举个栗子：9:30~11:00" type="text" id="activityTitle" name="displayTime" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 放映厅：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <input class="form-control fill" placeholder="在哪个放映厅？" type="text" id="activityTitle" name="place">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 容纳人数：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <input class="form-control fillnum" placeholder="可以容纳多少个小朋友？" type="text" id="activityTitle" name="maxPeople">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"> 影片简介：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <textarea class="form-control" placeholder="这个影片主要讲的是啥？" rows="5" id="activitySummary" name="detailContent"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"> 影片图片：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <ul class="pagination"><li class="faceimage" id="addPicBtn01"></li></ul>
+                                            <script type="text/html" id="addPicBtn01_script">
+                                                {{each coursePics as value i}}
+                                                <li>
+                                                    <a href="javascript:void(0);" class="pic" data-pic="{{value}}">
+                                                        <img src="{{path}}{{value}}&minpic=1">
+                                                        <span class="deleteIcon"></span>
+                                                    </a>
+                                                </li>
+                                                {{/each}}
+                                            </script>
+                                            <input type="hidden" name="coursePics">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable">是否停用此活动：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <span id="switchBtn" class="has-hover">启用</span>
+                                            <input type="hidden" name="isStop" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable">备注：“<span style="color:#ff0000">*</span>”为必填项</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"></label>
+                                        <div class="col-md-9 ui-sortable btnBox">
+                                            <span id="quit" class="btn btn-quit">取消</span>
+                                            <span id="submit" class="btn btn-success">保存</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
             </div>
-        </div> 
+        </div>
+
+        <div id="content02" class="content hide01">
+            <h1 class="pageTitle"><span></span>&nbsp;&nbsp;<small></small></h1>
+            <div><a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <ul id="members"></ul>
+                        <script type="text/html" id="members_script">
+                            {{each data as value i}}
+                            <li>
+                                <a class="membersBg" data-courseId="{{courseId}}" data-time="{{time}}" data-useruuid="{{value.useruuid}}" style="background-image: url({{path}}{{value.pic}}&minpic=1);" href="javascript:void(0);" >
+                                    <span class="icon02 {{if value.callRoll==1}}active{{/if}}" ></span>
+                                </a>
+                                <div class="membersTitle">{{value.className}}—{{value.name}}</div>
+                            </li>
+                            {{/each}}
+                            <li class="addmembersBtn">
+                                <a class="membersNewBg" href="#modal-class" data-toggle="modal" data-courseId="{{courseId}}" data-time="{{time}}"></a>
+                            </li>
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</div>
+
+    <div class="modal fade" id="modal-class" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="classBox"></div>
+                <span class="closeBtn" data-dismiss="modal"></span>
+            </div>
+            <script id="classBox_script" type="text/html">
+                <div class="title">添加人员</div>
+                <div class="classTabs">
+                    <ul>
+                        {{each arr as value i}}
+                        <li class="class" data-id="{{value.classId}}">
+                            <span class="classTitle" data-id="{{value.classId}}">{{value.className}}</span>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <ul>
+                        {{each arr as value i}}
+                        <li class="classTabsBody" data-id="{{value.classId}}"></li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="buttonBox">
+                    <span id="save">确定</span>
+                </div>
+            </script>
+            <script id="children_script" type="text/html">
+                {{each arr as value i}}
+                <div class="child" data-uuid="{{value.personUUID}}">{{value.personName}}</div>
+                {{/each}}
+            </script>
+        </div>
+    </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
-    <script src="../../js/common/simplePagination.js" ></script>
-    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/class/teachers.js"></script>
+    <script src="../../js/activity/movie-activity.js"></script>
 </body>
 </html>

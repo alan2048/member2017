@@ -298,6 +298,7 @@ var httpUrl={
 		tsGetBookedChildren:path+"/web/activity/TSCourse_GetBookedChildren",// 签到学生列表
 		tsCallRoll:path+"/web/activity/TSCourse_CallRoll",// 签到
 		tsCancelRoll:path+"/web/activity/TSCourse_CancelRoll",// 取消签到
+		tsTempBookCourse:path+"/web/activity/TSCourse_tempBookCourse",// 补加预约人数
 		// 08设置
 		setting:'' 
 };

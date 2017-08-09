@@ -17,7 +17,6 @@
 
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
 	<link href="../../css/activity/self-activity.css" rel="stylesheet" type="text/css" />
-    <link href="../../css/activity/self-activity01.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -205,9 +204,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label ui-sortable"></label>
-                                        <div class="col-md-9 ui-sortable">
-                                            <span id="submit" class="btn btn-success">提交</span>
+                                        <div class="col-md-9 ui-sortable btnBox">
                                             <span id="quit" class="btn btn-quit">取消</span>
+                                            <span id="submit" class="btn btn-success">保存</span>
                                         </div>
                                     </div>
                                 </div>
@@ -271,7 +270,7 @@
             </script>
             <script id="children_script" type="text/html">
                 {{each arr as value i}}
-                <div class="child" data-uuid="{{value.uuid}}">{{value.name}}</div>
+                <div class="child" data-uuid="{{value.personUUID}}">{{value.personName}}</div>
                 {{/each}}
             </script>
         </div>
