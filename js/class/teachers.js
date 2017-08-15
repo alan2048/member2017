@@ -298,6 +298,7 @@ function teacherSubmitUserData_callback(res) {
     if(res.code==200){
         toastTip("提示",res.data+" 详情："+res.info,2500);
         teacherGetImportUserInfo_port();
+        teacherStaffInfo_port();
     }else{
         toastTip("提示",res.info);
     };
@@ -353,7 +354,6 @@ function teacherUpdateImportUser_port(userUUID) {
             name:$("#userName01").val(),
             UUID:$("#new01").attr("data-uuid")      
     };
-    console.log(data);
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
