@@ -150,6 +150,10 @@
 .panel:last-of-type{
 	margin-left:1%;
 }
+#main01 .panel{
+	width: 100%;
+	margin:0;
+}
 .table{
 	width: 100%;
 	color: #656565;
@@ -181,6 +185,10 @@ th,td {
 	line-height: 1.42857143;
 	vertical-align: top;
 	border-bottom: 1px solid #ddd;
+}
+.table.table-email tr:hover td {
+	background: #f4f7f6;
+	cursor: pointer;
 }
 .fa.fa-check-square-o{
 	color: #5ce0de;
@@ -346,7 +354,7 @@ th,td {
 	margin-right: 0.1rem;
 	cursor: pointer;
 }
-#new{
+#new,#new01{
 	width: 0.8rem;
 	height: 0.4rem;
 	line-height: 0.4rem;
@@ -357,10 +365,10 @@ th,td {
 	float: right;
 	cursor: pointer;
 }
-#new:hover{
+#new:hover,#new01:hover{
 	background-color: #29d1d5;
 }
-.closeBtn {
+.closeBtn,.closeBtn01{
 	display: inline-block;
 	cursor: pointer;
 	width: 0.5rem;
@@ -477,7 +485,7 @@ th,td {
 	display:inline-block;
 }
 .modal-dialog{
-	height: 6rem;
+	height: 4.5rem;
 	width: 8.5rem;
 	margin:1.6rem auto 0;
 }
@@ -549,4 +557,7 @@ th,td {
 .modal-content{
 	padding:0 1rem;
 	background-color: #f5f7f7;
+}
+#tableBox02{
+	height: 100%;
 }

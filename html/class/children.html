@@ -61,7 +61,7 @@
                     </select>
     				<script id="teacherClass_script" type="text/html">
       					{{each arr as value i}}
-						<option value="{{value.classUUID}}">{{value.className}}</option>
+						<option value="{{value.classUUID}}" data-name="{{value.className}}">{{value.className}}</option>
       					{{/each}}
       				</script>
       			</label>
@@ -111,8 +111,8 @@
                 <div class="panel ui-popup-follow ui-popup-bottom-right">
                     <div class="ui-dialog-arrow-a"></div>
                     <div class="ui-dialog-arrow-b"></div>
-                    <div class="email-content" id="tableBox01"></div>
-                    <script type="text/html" id="tableBox01_script">
+                    <div class="email-content" id="tableBox02"></div>
+                    <script type="text/html" id="tableBox02_script">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -203,16 +203,16 @@
             </form>
             <div id="main01">
                 <div class="panel">
-                    <div class="email-content" id="tableBox02"></div>
-                    <script type="text/html" id="tableBox02_script">
+                    <div class="email-content" id="tableBox01"></div>
+                    <script type="text/html" id="tableBox01_script">
                         <table class="table table-email">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw importIcon"></i></a></th>
-                                    <th style="width: 14%;">姓名</th>
-                                    <th style="width: 6%;">性别</th>
-                                    <th style="width: 15%;">出生日期</th>
-                                    <th style="width: 20%;">班级名称</th>
+                                    <th style="width: 10%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw importIcon"></i></a></th>
+                                    <th style="width: 22.5%;">姓名</th>
+                                    <th style="width: 22.5%;">性别</th>
+                                    <th style="width: 22.5%;">出生日期</th>
+                                    <th style="width: 22.5%;">班级名称</th>
                                 </tr>
                             </thead>
                              <tbody>
@@ -234,7 +234,7 @@
                                     <td style="word-break:break-all;" class="email-sender">
                                         {{item.classInfo.className}}
                                         {{if item.orgError}}
-                                        <span class="warning">
+                                        <span class="warning long">
                                             <span>{{item.orgError}}</span>
                                         </span>
                                         {{/if}}
@@ -282,35 +282,14 @@
                             <input type="text" id="birthday01" data-toggle="datepicker" readonly="readonly">
                         </span>
                     </li>
+                    
                     <li>
                         <span class="col03">
-                            <i class="redIcon">*</i> 手机号码：
+                            <i class="redIcon">*</i> 班级名称：
                         </span>
                         <span class="col04">
-                            <input type="text" id="phoneNum01" maxlength="11">
-                            <span class="hide">提示：手机格式不正确</span>
+                            <select id="teacherClass02"></select>
                         </span>
-                    </li>
-                    <li>
-                        <span class="col03">
-                            <i class="redIcon">*</i> 任职类型：
-                        </span>
-                        <span class="col04">
-                            <select id="teacherType02"></select>
-                        </span>
-                    </li>
-                    <li>
-                        <span class="col03">
-                            关联班级：
-                        </span>
-                        <span class="col04" id="teacherClass02"></span>
-                        <script id="teacherClass01_script" type="text/html">
-                            {{each arr as value i}}
-                            <label>
-                                <input type="checkbox" value="{{value.classUUID}}"> {{value.className}}
-                            </label>
-                            {{/each}}
-                        </script>
                     </li>
                     <li>备注："<i class="redIcon">*</i>" 为必填项</li>
                 </ul>

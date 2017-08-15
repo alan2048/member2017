@@ -3,7 +3,7 @@ $(function () {
     init();
 });
 function init() {
-    basicAllClassInfo_port();// 获得幼儿所在班级列表
+    childrenMyClassInfo_port();// 获得幼儿所在班级列表
 
     // 查询条件改变执行函数
     $("#teacherType,#teacherClass").change(function () {
@@ -72,6 +72,18 @@ function init() {
         $('#birthday').datepicker("hide");
     });
 
+    $('#birthday01').datepicker({
+        todayHighlight:true,
+        language:'zh-CN'
+    }).on("changeDate",function (ev) {
+        if($("#birthday01").val()){
+            $("#birthday01").removeClass("empty");
+        }else{
+            $("#birthday01").addClass("empty");
+        };
+        $('#birthday01').datepicker("hide");
+    });
+
     // 删除老师按钮
     $("#buttonBox").on("click","#deleteBtn",function () {
         if($(this).hasClass("disable")){
@@ -111,6 +123,7 @@ function init() {
     });
 
     importfn(); // 导入函数
+    chooseRow01();
 };
 // 导入函数
 function importfn() {
@@ -124,7 +137,7 @@ function importfn() {
 
     // 返回上级
     $("#buttonBox01").on("click",".backBtn",function () {
-        var num=$("#tableBox02 tbody >tr").length;
+        var num=$("#tableBox01 tbody >tr").length;
         if(num !=0){
             swal({
                 title: "您还有数据未全部提交，是否确认退出？",
@@ -152,19 +165,19 @@ function importfn() {
     // 导入编辑
     $("#buttonBox01").on("click",".importEditBtn",function () {
         if($(this).hasClass("disable")){
-            var num=$("#tableBox02 .fa.fa-check-square-o").length;
+            var num=$("#tableBox01 .fa.fa-check-square-o").length;
             if(num ==0){
                 toastTip("提示","请先选择编辑项。。"); 
             }else{
                 toastTip("提示","编辑时为单选。。"); 
             };
         }else{
-            childrenGetSingleImportUserInfo_port($("#tableBox02 .fa.fa-check-square-o").attr("data-id"));
+            childrenGetSingleImportUserInfo_port($("#tableBox01 .fa.fa-check-square-o").attr("data-id"));
         };
     });
 
     // 双击直接编辑
-    $("#tableBox02").on("dblclick",".table tbody tr",function () {
+    $("#tableBox01").on("dblclick",".table tbody tr",function () {
         childrenGetSingleImportUserInfo_port($(this).find(".fa").attr("data-id"));
     });
 
@@ -253,9 +266,9 @@ function childrenGetImportUserInfo_port() {
 function childrenGetImportUserInfo_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        console.log(data);
-        var html=template("tableBox02_script",data);
-        $("#tableBox02").empty().append(html);
+        console.log(data.arr);
+        var html=template("tableBox01_script",data);
+        $("#tableBox01").empty().append(html);
         $(".importEditBtn,.importDelBtn").addClass("disable");
     }else{
         toastTip("提示",res.info);
@@ -275,6 +288,7 @@ function childrenSubmitUserData_callback(res) {
     if(res.code==200){
         toastTip("提示",res.data+" 详情："+res.info,2500);
         childrenGetImportUserInfo_port();
+        childrenInfo_port();
     }else{
         toastTip("提示",res.info);
     };
@@ -295,18 +309,13 @@ function childrenGetSingleImportUserInfo_callback(res,UUID) {
     if(res.code==200){
         $("#new01").attr("data-uuid",UUID);
         $("#importEditBox").find("input[type=text]").val("");
-        $("#importEditBox").find("input[type=checkbox]:checked").prop("checked",false);
+        $(".empty").removeClass("empty");
 
         var data=JSON.parse(res.data);
         $("#userName01").val(data.name);
         $("#sex01 >option[value="+data.sex+"]").prop("selected",true);
         $("#birthday01").val(data.birthday);
-        $("#phoneNum01").val(data.phoneNumber);
-        $("#teacherType01 >option[value="+data.type+"]").prop("selected",true);
-        
-        for(var i=0;i<data.classList.length;i++){
-            $("#teacherClass02 input[value="+data.classList[i].classUUID+"]").prop("checked",true);
-        };
+        $("#teacherClass02 >option[data-name="+data.classInfo.className+"]").prop("selected",true);
 
         $("#modal-edit").modal("show");
     }else{
@@ -323,14 +332,11 @@ function childrenUpdateImportUser_port(userUUID) {
     };
     var data={
             birthday:$("#birthday01").val(),
-            classUUIDList:classList,
-            typeName:$("#teacherType02 >option:selected").text(),
-            phoneNumber:$("#phoneNum01").val(),
+            classUUID:$("#teacherClass02").val(),
             sex:$("#sex01").val(),
             name:$("#userName01").val(),
             UUID:$("#new01").attr("data-uuid")      
     };
-    console.log(data);
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
@@ -350,7 +356,7 @@ function childrenUpdateImportUser_callback(res) {
 // 用户导入表-删除
 function childrenDeleteImportUser_port() {
     var userUUID=[];
-    var AA=$("#tableBox02 .table tbody tr i.fa-check-square-o");
+    var AA=$("#tableBox01 .table tbody tr i.fa-check-square-o");
     for(var i=0;i<AA.length;i++){
         userUUID.push(AA.eq(i).attr("data-id"))
     };
@@ -390,9 +396,26 @@ function basicAllClassInfo_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("teacherClass_script",data);
+        $("#teacherClass01,#teacherClass02").empty().append(html);
+    };
+};
+
+// 获得幼儿所在班级列表
+function childrenMyClassInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenMyClassInfo,param,childrenMyClassInfo_callback);
+};
+function childrenMyClassInfo_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("teacherClass_script",data);
         $("#teacherClass").append(html);
-        $("#teacherClass01").empty().append(html);
         childrenInfo_port();
+        basicAllClassInfo_port();
     };
 };
 
@@ -454,8 +477,8 @@ function childrenParentInfo_port(userUUID) {
 function childrenParentInfo_callback(res,userUUID) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        var html=template("tableBox01_script",data);
-        $("#tableBox01").empty().append(html);
+        var html=template("tableBox02_script",data);
+        $("#tableBox02").empty().append(html);
     }else{
         toastTip("提示",res.info);
     };
@@ -540,7 +563,7 @@ function childrenUpdate_callback(res) {
 // 删除幼儿
 function childrenDelete_port() {
     var userUUID=[];
-    var AA=$(".table tbody tr i.fa-check-square-o");
+    var AA=$("#tableBox .table tbody tr i.fa-check-square-o");
     for(var i=0;i<AA.length;i++){
         userUUID.push(AA.eq(i).attr("data-id"))
     };
@@ -566,18 +589,18 @@ function childrenDelete_callback(res) {
 function chooseRow() {
     chooseNiceScroll("#tableBox");
     $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
-    $(".table.table-email thead tr i").click(function () {
+    $("#tableBox .table.table-email thead tr i").click(function () {
         var aa=$(".table thead tr i").hasClass('fa-check-square-o');
         if(aa){
-            $(".table tbody tr i").removeClass('fa-check-square-o').addClass('fa-square-o');
+            $("#tableBox .table tbody tr i").removeClass('fa-check-square-o').addClass('fa-square-o');
             $(this).removeClass('fa-check-square-o').addClass('fa-square-o');
         }else{
-            $(".table tbody tr i").removeClass('fa-square-o').addClass('fa-check-square-o');
+            $("#tableBox .table tbody tr i").removeClass('fa-square-o').addClass('fa-check-square-o');
             $(this).removeClass('fa-square-o').addClass('fa-check-square-o');
         };
         ValidateBtn();
     });
-    $(".table.table-email tbody tr >td.email-select").click(function () {
+    $("#tableBox .table.table-email tbody tr >td.email-select").click(function () {
         var aa=$(this).find('i').hasClass('fa-check-square-o');
         if(aa){
             $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
@@ -587,7 +610,7 @@ function chooseRow() {
         ValidateBtn();
     });
 
-    $(".table.table-email tbody tr >td.email-sender").on({
+    $("#tableBox .table.table-email tbody tr >td.email-sender").on({
         mouseover:function () {
             $(this).addClass("active").siblings().addClass("active");
         },
@@ -602,7 +625,34 @@ function chooseRow() {
             childrenParentInfo_port($(this).prevAll("td.email-select").find("i").attr("data-id"));   
         }
     });
-}
+};
+
+function chooseRow01() {
+    $("#tableBox01").on("click",".table thead tr i",function () {
+        if($(this).hasClass("importIcon")){
+            var aa=$("#tableBox01 .table thead tr i").hasClass('fa-check-square-o');
+            if(aa){
+                $("#tableBox01 .table tbody tr i").removeClass('fa-check-square-o').addClass('fa-square-o');
+                $(this).removeClass('fa-check-square-o').addClass('fa-square-o');
+            }else{
+                $("#tableBox01 .table tbody tr i").removeClass('fa-square-o').addClass('fa-check-square-o');
+                $(this).removeClass('fa-square-o').addClass('fa-check-square-o');
+            };
+            ValidateBtn01();
+        }
+    });
+
+    $("#tableBox01").on("click",".table tbody tr",function () {
+        var aa=$(this).find('i').hasClass('fa-check-square-o');
+        if(aa){
+            $(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
+        }else{
+            $(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o'); 
+        };
+        ValidateBtn01();
+    });
+
+};
 
 // 验证编辑删除按钮
 function ValidateBtn() {
@@ -615,6 +665,19 @@ function ValidateBtn() {
         $("#editBtn").addClass("disable");
         $("#deleteBtn").removeClass("disable");
     }
+};
+
+// 验证导入部分 编辑删除按钮
+function ValidateBtn01() {
+    var num=$("#tableBox01 .table tbody tr i.fa-check-square-o").length;
+    if(num ==0){
+        $(".importEditBtn,.importDelBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+    }else if( num ==1){
+        $(".importEditBtn,.importDelBtn").removeClass("disable");
+    }else{
+        $(".importEditBtn").addClass("disable");
+        $(".importDelBtn").removeClass("disable");
+    };
 };
 
 // 验证input输入
@@ -634,6 +697,26 @@ function ValidateInput() {
         $("#birthday").addClass("empty");
     }else{
         $("#birthday").removeClass("empty");
+    };
+};
+
+// 导入验证input输入
+function ValidateInput01() {
+    if(!$("#userName01").val()){
+        $("#userName01").addClass("empty");
+    }else{
+        if($("#userName01").val().length >20){
+            $("#userName01").addClass("empty");
+            toastTip("提示","姓名最长为20字。。");
+        }else{
+            $("#userName01").removeClass("empty");
+        };
+    };
+
+    if(!$("#birthday01").val()){
+        $("#birthday01").addClass("empty");
+    }else{
+        $("#birthday01").removeClass("empty");
     };
 };
 
