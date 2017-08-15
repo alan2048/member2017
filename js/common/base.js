@@ -10,148 +10,11 @@ var serverHost="http://www.member361.com";
 var path=serverUrl02; //更改服务器地址可设置此值
 var path01=serverUrl01; //更改服务器地址可设置此值
 var httpUrl={
-		// 基础接口
-		
-		// login:path01+"/jfinal_mbjy_basic/login",// 首页登入
-		back:path01+"/jfinal_mbjy_basic/back",//首页登入回调
-		loginHttp:path01+"/jfinal_mbjy_basic/", // 登入地址
-		logoutHttp:path01, // 注销地址
-		// path_img:path+"/jfinal_mbjy_basic/file/showImg?fileMd5=", // 图片地址
-		
-		
-		memberRecord:path01+"/sample_front/memberRecord/memberRecord.html",//成长档案网址
-
-		// 00公共接口
-		permission:path01+"/jfinal_mbjy_basic/permission",// NAV导航栏和右侧树结构
-		getTeacherList:path01+"/jfinal_mbjy_basic/account/getTeacherList", // 获取学校教师信息
-		getUserClassInfo01:path01+"/jfinal_mbjy_basic/basic/GetUserClassInfo",//获取用户班级信息 与下面一接口相同
-		getAllClassInfo:path01+"/jfinal_mbjy_basic/basic/getAllClassInfo",//获取全部班级列表
-		getClassMemberInfo:path01+"/jfinal_mbjy_basic/basic/getClassMemberInfo",//获取班级成员信息
-		getClassStudentInfo:path01+"/jfinal_mbjy_basic/basic/getClassStudentInfo",//获取学生信息
-		
-		// 01师资管理
-		teacher:path01+"/jfinal_mbjy_basic/teacher",// 教师信息查询
-
-		// 02班务管理
-
-		// 03教学管理
-		courseList:path01+"/jfinal_mbjy_sample/course/list",// 获取课程计划列表
-		courseSave:path01+"/jfinal_mbjy_sample/course/save",// 新增课程
-		courseUpdate:path01+"/jfinal_mbjy_sample/course/update",// 编辑课程
-		courseDelete:path01+"/jfinal_mbjy_sample/course/delete",// 删除课程
-		courseDetail:path01+"/jfinal_mbjy_sample/course/detail", // 查看课程详情
-		getPersonCourse:path01+"/jfinal_mbjy_sample/course/getPersonCourse",// 获取个人观察计划列表
-		courseDim:path01+"/jfinal_mbjy_sample/dim/courseDim",// 获取观察计划的维度列表
-		
-		dailyEvaluationList:path01+"/jfinal_mbjy_sample/record/list", //获取日常评价记录列表
-		dailyEvaluationTypicalList:path01+"/jfinal_mbjy_sample/record/typicalList", //获取典型案例记录列表
-		dailyEvaluationDelete:path01+"/jfinal_mbjy_sample/record/delete", // 日常评价删除
-		dailyEvaluationSaveLevel:path01+"/jfinal_mbjy_sample/record/saveLevel", // 评价日常观察记录
-		dailyEvaluationUpdate:path01+"/jfinal_mbjy_sample/record/update", // 更新日常观察记录
-		dailyEvaluationDetail:path01+"/jfinal_mbjy_sample/record/detail", // 日常评价详情
-		studentRecordList:path01+"/jfinal_mbjy_sample/record/studentRecordList",//获取班级学生观察记录列表
-
-		watchDimensions:path01+"/jfinal_mbjy_sample/dim/list", // 观察维度树结构
-		dimSave:path01+"/jfinal_mbjy_sample/dim/save",// 新增观察维度
-		dimUpdate:path01+"/jfinal_mbjy_sample/dim/update",// 编辑观察维度
-		dimDelete:path01+"/jfinal_mbjy_sample/dim/delete", // 删除观察维度
-		
-		getDimLevelList:path01+"/jfinal_mbjy_sample/dim/getDimLevelList", // 获取观察维度的水平描述
-		saveDimLevel:path01+"/jfinal_mbjy_sample/dim/saveDimLevel", // 新增观察维度水平描述
-		updateDimLevel:path01+"/jfinal_mbjy_sample/dim/updateDimLevel", // 编辑观察维度水平描述
-		deleteDimLevel:path01+"/jfinal_mbjy_sample/dim/deleteDimLevel", // 删除观察维度水平描述
-		
-		//月周计划
-		fileUpload:path01+":18081/FileCloud/fileUpload", // 上传
-		fileDownload:path01+":18081/FileCloud/fileDownload", // 下载
-		insertFileInfo:path01+":18081/FileCloud/insertFileInfo", // 添加新文件（夹）
-		deleteFileInfo:path01+":18081/FileCloud/deleteFileInfo", // 删除文件（夹）
-		updateFileName:path01+":18081/FileCloud/updateFileName", // 重命名文件（夹）
-		updateEvaluate:path01+":18081/FileCloud/updateEvaluate", // 更改文件评级
-		getRootFileUUID:path01+":18081/FileCloud/getRootFileUUID", // 获取根文件夹UUID
-		getParentUUID:path01+":18081/FileCloud/getParentUUID", // 获取上级文件夹UUID
-		getAllChildInfo:path01+":18081/FileCloud/getAllChildInfo", // 获取子级全部文件（夹）
-		// 04保健管理
-		getClassHealthInfo:path01+":18082/HealthInfo/getClassHealthInfo",//获得班级健康信息
-		calculateAge:path01+":18082/HealthInfo/calculateAge",//根据导入日期计算年龄
-		getExamDateListByClass:path01+":18082/HealthInfo/getExamDateListByClass",//根据班级获得检查日期列表
-		insertHealthInfo:path01+":18082/HealthInfo/insertHealthInfo",//增加健康信息
-		deleteHealthInfo:path01+":18082/HealthInfo/deleteHealthInfo",//删除健康信息
-		updateHealthInfo:path01+":18082/HealthInfo/updateHealthInfo",//更新健康信息
-		getPValue:path01+":18082/HealthInfo/getPValue",//取得p值
-		getFatnessValue:path01+":18082/HealthInfo/getFatnessValue",//取得肥胖值
-		getBirthdaySex:path01+":18082/HealthInfo/getBirthdaySex",//取得学员生日和性别
-		getSingleHealthInfo:path01+":18082/HealthInfo/getSingleHealthInfo",// 健康信息编辑详情
-		importHealthInfo:path01+":18082/HealthInfo/importHealthInfo",// 批量导入
-
-		getDateList:path01+":18082/HealthInfo/getTableInfoList",// 获得菜谱日期列表
-		healthGetTable:path01+":18082/HealthInfo/getTable",// 获得整张表的内容
-		healthSaveTable:path01+":18082/HealthInfo/saveTable",// 新增编辑菜谱新表
-		healthDeleteTable:path01+":18082/HealthInfo/deleteTable",// 删除菜谱
-
-		//风险预警
-		getCompanyHealthAlert:path01+":18082/HealthInfo/getCompanyHealthAlert",//获得预警信息
-		insertHealthAlert:path01+":18082/HealthInfo/insertHealthAlert",//增加健康预警
-		getAlertType:path01+":18082/HealthInfo/getAlertType",//获得预警类型
-		getAlertAge:path01+":18082/HealthInfo/getAlertAge",//获得预警年龄
-		deleteHealthAlert:path01+":18082/HealthInfo/deleteHealthAlert",//删除健康预警
-		updateHealthAlert:path01+":18082/HealthInfo/updateHealthAlert",//编辑健康预警
-		getHealthAlert:path01+":18082/HealthInfo/getHealthAlert",//编辑获得单条预警信息记录
-
-		// 06消息发布
-		GetClassNotifyInfos:path01+":12001/YY/GetClassNotifyInfos",// 获得班级活动列表
-		getUserClassInfo:path01+":12001/YY/GetUserClassInfo",//获取用户班级信息
-		AddNewClassInfo:path01+":12001/YY/AddNewClassInfo",// 获取班级信息
-
-		GetSchoolNotifyInfos:path01+":12001/YY/GetSchoolNotifyInfos",// 获得学校通知列表
-		AddNewSchoolInfo:path01+":12001/YY/AddNewSchoolInfo",// 新增学校通知
-
-		GetParentsLessionInfos:path01+":12001/YY/GetParentsLessionInfos",// 获得家长课堂列表
-		AddParentsLessionInfo:path01+":12001/YY/AddParentsLessionInfo",// 新增家长课堂
-
-		GetHealthColumnInfos:path01+":12001/YY/GetHealthColumnInfos",// 获得健康专栏列表
-		AddHealthColumnInfo:path01+":12001/YY/AddHealthColumnInfo",// 新增健康专栏
-
-		GetNotify2Info:path01+":12001/YY/GetNotify2Info",// 长桥 新闻总口
-		AddNotify2Info:path01+":12001/YY/AddNotify2Info",// 长桥 新闻总口 新增
-
-		// 07管理与统计
-		getPersonEvaluate:path01+":48080/jfinal_mbjy_sample/report/getPersonEvaluate",// 个人综合能力评价
-		getClassEvaluate:path01+":48080/jfinal_mbjy_sample/report/getClassEvaluate",// 班级综合能力水平
-		classRecord:path01+":15001/jfinal_mbjy_sample/report/classRecord",// 班级观察记录统计
-		classRecordDim:path01+":15001/jfinal_mbjy_sample/report/classRecordDim",// 观察指标对应观察记录统计
-		getStudentAbility:path01+":15001/imsInterface/TJ_GCJL_GetStudentAbilityStrong",// 个人综合能力评价 雷达图
-		getStudentCourseAbility:path01+":15001/imsInterface/TJ_GCJL_GetStudentCourseAbility",// 个人课程 能力评价 雷达图
-		getClassesAbilibySimple:path01+":15001/imsInterface/TJ_GCJL_GetClassesAbilibySimple",// 班级综合能力水平 
-		getCourseAbilibySimple:path01+":15001/imsInterface/TJ_GCJL_GetCourseAbilibySimple",// 班级课程能力水平 
-		getClassAbilibySimple:path01+":15001/imsInterface/TJ_GCJL_GetClassAbilibySimple",// 班级综合能力水平 雷达图
-		getCourseSimpleTJ:path01+":15001/imsInterface/TSCourse_getCourseSimpleTJ",// 自选活动 活动统计 
-		getCourseClassTJ:path01+":15001/imsInterface/TSCourse_getCourseClassTJ",// 自选活动 班级统计 
-		getCourseStudentTJ:path01+":15001/imsInterface/TSCourse_getCourseStudentTJ",// 自选活动 学生统计 
-		getCourseStudentDetailTJ:path01+":15001/imsInterface/TSCourse_getCourseStudentDetailTJ",// 自选活动 活动统计详情 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// 新版接口
 		// 基础
 		loginId:getCookie("loginId"),
 		path_img:path+"/file/getImage?md5=", // 图片地址
-		picUrl:path+"/file/upload", // 图片上传地址
+		picUrl:path+"/file/upload2", // 图片上传地址
+		basicFileUpload:path+"/file/business/upload", // 业务文件上传
 		login:path+"/web/login/loginChecking",// 首页登入
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
 		basicButton:path+"/web/ops/menu/button/list",// 获取菜单功能按钮列表
@@ -193,6 +56,12 @@ var httpUrl={
 		teacherMyClassInfo:path+"/web/basic/myClassInfo",//  获得教职工所在班级列表
 		teacherStaffInfo:path+"/web/basic/staff/staffInfo",//  获得教职工列表
 
+		teacherGetImportUserInfo:path+"/web/basic/import/getImportUserInfo",//  获得用户导入表信息
+		teacherDeleteImportUser:path+"/web/basic/import/deleteImportUser",//  用户导入表-删除
+		teacherSubmitUserData:path+"/web/basic/import/submitUserData",//  用户导入表 提交数据
+		teacherGetSingleImportUserInfo:path+"/web/basic/import/getSingleImportUserInfo",//  获得用户导入表单项导入信息
+		teacherUpdateImportUser:path+"/web/basic/import/updateImportUser",//  用户导入表-编辑
+
 		// 幼儿信息
 		childrenAdd:path+"/web/basic/child/add",// 新建幼儿
 		childrenSingleChildInfo:path+"/web/basic/child/singleChildInfo",//  获得单项幼儿条目
@@ -201,6 +70,12 @@ var httpUrl={
 		childrenMyClassInfo:path+"/web/basic/myClassInfo",//  获得幼儿所在班级列表
 		childrenInfo:path+"/web/basic/child/childInfo",//  获得幼儿列表
 		childrenParentInfo:path+"/web/basic/child/parentInfo",//  获得幼儿家长列表
+
+		childrenGetImportUserInfo:path+"/web/basic/import/getImportChildInfo",//  获得用户导入表信息
+		childrenDeleteImportUser:path+"/web/basic/import/deleteImportChild",//  用户导入表-删除
+		childrenSubmitUserData:path+"/web/basic/import/submitChildData",//  用户导入表 提交数据
+		childrenGetSingleImportUserInfo:path+"/web/basic/import/getSingleImportChildInfo",//  获得用户导入表单项导入信息
+		childrenUpdateImportUser:path+"/web/basic/import/updateImportChild",//  幼儿导入表-编辑
 
 		// 班级管理
 		classAdd:path+"/web/basic/org/add",// 新建班级

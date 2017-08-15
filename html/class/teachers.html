@@ -4,25 +4,24 @@
 	<meta charset="UTF-8">
 	<title>教师信息</title>
 	<meta name="renderer" content="webkit" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="幼教产品" />
-  <meta name="author" content="上海紫越网络科技有限公司" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
 	<link rel="shortcut icon" href="../../images/favicon.png">
 
-	<!-- <link href="../../css/common/bootstrap.min.css" rel="stylesheet" /> -->
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
     <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
 	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
     
-
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
 	<link href="../../css/class/teachers.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-	<div id="page-container" class="fade">
+	<div id="page-container">
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
 				<div id="user">
@@ -40,18 +39,12 @@
 						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
 					</li>
 					{{/each}}
-          <style>
-          {{each arr as value i}}
-              a.hasTitle[data-id="{{value.id}}"]{
-                background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);
-              }
-              a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{
-                background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);
-                border: 0.02rem solid #656868;
-                background-color: #f3b369;
-              }
-          {{/each}}
-          </style>
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f3b369;}
+                    {{/each}}
+                    </style>
 				</script>
 			</div>
 			<div id="switch" class=""><span></span></div>
@@ -87,13 +80,12 @@
       			</label>
       			<span id="searchBtn">查询</span>
 			</div>
-			<div id="buttonBox">
-        <script type="text/html" id="buttonBox_script">
-          {{each arr as value  i}}
-          <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
-          {{/each}}
-        </script>
-			</div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
 			<div id="main">
 				<div class="panel">
                    	<div class="email-content" id="tableBox"></div>
@@ -184,7 +176,7 @@
                             <i class="redIcon">*</i> 手机号码：
                         </span>
                         <span class="col02">
-                            <input type="text" id="phoneNum">
+                            <input type="text" id="phoneNum" maxlength="11">
                             <span class="hide">提示：手机格式不正确</span>
                         </span>
                     </li>
@@ -213,9 +205,176 @@
                 </ul>
                 <div id="new">保存</div>
             </div>
-        </div> 
+        </div>
+
+        <div id="content02" class="content hide">
+            <div class="pageTitle">教师信息 <small>导入</small></div>
+            <div id="buttonBox01">
+                <a href="javascript:void(0);" class="backBtn defaultBtn"><span>返回上级</span></a>
+                <a href="javascript:void(0);" class="importEditBtn disable defaultBtn"><span>编辑</span></a>
+                <a href="javascript:void(0);" class="importDelBtn disable defaultBtn"><span>删除数据</span></a>
+                <a href="javascript:void(0);" class="importUpBtn defaultBtn"><span>提交数据</span></a>
+                <a href="teacherImport.xlsx" class="templateBtn defaultBtn"><span>获取模板</span></a>
+            </div>
+            <div class="importFile">
+                文件上传
+                <input type="text" readonly="readonly">
+                <span>选择文件</span>
+            </div>
+            <form action="" method="post" enctype ="multipart/form-data" id="filesUpload" style="display: none;"> 
+                <input name="params" type="hidden" value="" />
+                <input name="loginId" type="hidden" value="" />
+                <input name="url" type="hidden" value="/web/basic/userUploadExl" />
+                <input name="file" type="file" accept="application/vnd.ms-excel,.xlsx" />
+            </form>
+            <div id="main01">
+                <div class="panel">
+                    <div class="email-content" id="tableBox01"></div>
+                    <script type="text/html" id="tableBox01_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%;" class="email-select"><a href="#" data-click="email-select-all"><i class="fa fa-square-o fa-fw importIcon"></i></a></th>
+                                    <th style="width: 14%;">姓名</th>
+                                    <th style="width: 6%;">性别</th>
+                                    <th style="width: 15%;">出生日期</th>
+                                    <th style="width: 15%;">手机号码</th>
+                                    <th style="width: 20%;">任职类型</th>
+                                    <th style="width: 25%;">任职班级</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                {{each arr as item i}}
+                                <tr class="importIcon">
+                                    <td style="word-break:break-all;" class="email-select">
+                                        <a href="javascript:void(0);" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-id={{item.UUID}}></i></a>
+                                    </td>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.name}}</td>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.sex}}</td>
+                                    <td style="word-break:break-all;" class="email-sender">
+                                        {{item.birthday}}
+                                        {{if item.birthdayError}}
+                                        <span class="warning">
+                                            <span>{{item.birthdayError}}</span>
+                                        </span>
+                                        {{/if}}
+                                    </td>
+                                    <td style="word-break:break-all;" class="email-sender">
+                                        {{item.phoneNumber}}
+                                        {{if item.phoneNumberError}}
+                                        <span class="warning">
+                                            <span>{{item.phoneNumberError}}</span>
+                                        </span>
+                                        {{else}}
+                                        <span class="success"></span>
+                                        {{/if}}
+                                    </td>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.typeName}}</td>
+                                    <td style="word-break:break-all;" class="email-sender email-date">
+                                    {{if !item.classList.length ==0}}
+                                        {{if item.classList.length ==1}}
+                                            {{each item.classList as value j}}{{value.className}}{{/each}}
+                                        {{else}}
+                                            <span>...</span>
+                                            <span class="fade in hide">
+                                                <span></span>
+                                                {{each item.classList as value j}}
+                                                    {{if j !=0}},{{/if}}
+                                                    {{value.className}}
+                                                {{/each}}
+                                            </span>
+                                        {{/if}}
+                                    {{else}}
+                                        <span class="warning long">
+                                            <span>{{item.orgError}}</span>
+                                        </span>
+                                    {{/if}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+            </div>
+        </div>  
 	</div>
+
+    <div class="modal fade" id="modal-edit" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="importEditBox">
+                    <h4>编辑</h4>
+                    <ul>
+                    <li>
+                        <span class="col03">
+                            <i class="redIcon">*</i> 姓名：
+                        </span>
+                        <span class="col04">
+                            <input type="text" id="userName01">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col03">
+                            <i class="redIcon">*</i> 性别：
+                        </span>
+                        <span class="col04">
+                            <select id="sex01">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col03">
+                            <i class="redIcon">*</i> 出生日期：
+                        </span>
+                        <span class="col04">
+                            <input type="text" id="birthday01" data-toggle="datepicker" readonly="readonly">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col03">
+                            <i class="redIcon">*</i> 手机号码：
+                        </span>
+                        <span class="col04">
+                            <input type="text" id="phoneNum01" maxlength="11">
+                            <span class="hide">提示：手机格式不正确</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col03">
+                            <i class="redIcon">*</i> 任职类型：
+                        </span>
+                        <span class="col04">
+                            <select id="teacherType02"></select>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col03">
+                            关联班级：
+                        </span>
+                        <span class="col04" id="teacherClass02"></span>
+                        <script id="teacherClass01_script" type="text/html">
+                            {{each arr as value i}}
+                            <label>
+                                <input type="checkbox" value="{{value.classUUID}}"> {{value.className}}
+                            </label>
+                            {{/each}}
+                        </script>
+                    </li>
+                    <li>备注："<i class="redIcon">*</i>" 为必填项</li>
+                </ul>
+                    <div id="new01">保存</div>
+                </div>
+                <span class="closeBtn01" data-dismiss="modal"></span>
+            </div>
+        </div>
+    </div>
+
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/jquery.form.min.js"></script>
+    <script src="../../js/common/modal.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>

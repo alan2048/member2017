@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>萌宝家园 新旧版切换</title>
+	<meta name="renderer" content="webkit" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="幼教产品" />
+	<meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="./images/favicon.png">
+	<style>
+		html {
+    		font-size: 100px;
+    		width: 100%;
+    		height: 100%;
+		}
+		body{
+			width: 100%;
+			height: 100%;
+			font-size: 0.16rem;
+			min-width: 10rem;
+			min-height: 8rem;
+			overflow: auto;
+			margin: 0;
+		}		
+		#switch{
+			width: 100%;
+			height: 100%;
+			background: url(images/index/cloud05.png) 0 0 no-repeat, 
+						url(images/index/switchBg.png) center 100% no-repeat #5cdee1;
+			-webkit-background-size: 100%,50%;
+			background-size: 100%,50%;
+			z-index: 100;
+			text-align: center;
+			min-width: 10rem;
+		}
+		.switchPic{
+			display:inline-block;
+			width: 5.35rem;
+			height: 2.3rem;
+			-webkit-background-size: contain;
+			background-size: contain;
+			border: 2px dashed #ecfbfb;
+			width: 3.8rem;
+			height: 5rem;
+			border-radius:0.1rem;
+		}
+		.switchPic:hover{
+			box-shadow:0 0 10px #444;
+		}
+		.switchPic:first-of-type{
+			background: url(images/index/oldPic.png) center center no-repeat #9ef8fa;
+			margin: 1rem 1rem 0 0;
+		}
+		.switchPic:last-of-type{
+			background: url(images/index/newPic.png) center center no-repeat #f8e264;
+			margin: 1rem 0 0 1rem;
+		}
+		.switchPic >a{
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			position:relative;
+		}
+		.switchPic >a >span{
+			position:absolute;
+			top:-0.4rem;
+			right:0.1rem;
+			width: 0.5rem;
+			height: 0.8rem;
+			display:inline-block;
+		}
+		.switchPic:first-of-type >a >span{
+			background: url(images/index/pin01.png) center center no-repeat;
+		}
+		.switchPic:last-of-type >a >span{
+			background: url(images/index/pin02.png) center center no-repeat;
+		}
+		h4{
+			margin: 0px auto;
+			width: 800px;
+			color: #f2351e;
+			font-size: 24px;
+			line-height: 50px;
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+	<div id="switch">
+		<h4>温馨提示: <br><small>旧版用户请使用旧版入口,如需使用新版请联系我们,联系电话:021-31316233</small></h4>
+		<div class="switchPic"><a href="http://www.member361.com:38080"><span></span></a></div>
+		<div class="switchPic"><a href="https://www.member361.com"><span></span></a></div>
+	</div>
+</body>
+</html>

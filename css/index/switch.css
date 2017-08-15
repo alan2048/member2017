@@ -1,0 +1,67 @@
+html {
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+}
+body{
+	width: 100%;
+	height: 100%;
+	font-size: 0.16rem;
+	min-width: 10rem;
+	min-height: 8rem;
+	overflow: auto;
+	margin: 0;
+}
+#switch{
+	width: 100%;
+	height: 100%;
+	background: url(../../images/index/cloud05.png) 0 0 no-repeat, 
+				url(../../images/index/switchBg.png) center 100% no-repeat #5cdee1;
+	-webkit-background-size: 100%,50%;
+	background-size: 100%,50%;
+	z-index: 100;
+	text-align: center;
+	min-width: 10rem;
+}
+.switchPic{
+	display:inline-block;
+	width: 5.35rem;
+	height: 2.3rem;
+	-webkit-background-size: contain;
+	background-size: contain;
+	border: 2px dashed #ecfbfb;
+	width: 3.8rem;
+	height: 5rem;
+	border-radius:0.1rem;
+}
+.switchPic:hover{
+	box-shadow:0 0 10px #444;
+}
+.switchPic:first-of-type{
+	background: url(../../images/index/oldPic.png) center center no-repeat #9ef8fa;
+	margin: 20% 1rem 0 0;
+}
+.switchPic:last-of-type{
+	background: url(../../images/index/newPic.png) center center no-repeat #f8e264;
+	margin: 20% 0 0 1rem;
+}
+.switchPic >a{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	position:relative;
+}
+.switchPic >a >span{
+	position:absolute;
+	top:-0.4rem;
+	right:0.1rem;
+	width: 0.5rem;
+	height: 0.8rem;
+	display:inline-block;
+}
+.switchPic:first-of-type >a >span{
+	background: url(../../images/index/pin01.png) center center no-repeat;
+}
+.switchPic:last-of-type >a >span{
+	background: url(../../images/index/pin02.png) center center no-repeat;
+}
