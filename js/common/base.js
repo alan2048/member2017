@@ -102,6 +102,11 @@ var httpUrl={
 		growthCommentDelete:path+"/web/growth/comment/delete",// 萌宝成长 删除某一条评论
 		growthMessageDelete:path+"/web/growth/message/delete",// 萌宝成长 删除一条内容
 
+		// 萌宝成长统计
+		growthTeacherStat:path+"/web/growth/report/message/teacher",// 萌宝成长统计 教师发帖数量
+		growthClassStat:path+"/web/growth/report/message/class",// 萌宝成长统计 班级发帖数量
+		growthLivelyStat:path+"/web/growth/report/parent/lively",// 萌宝成长统计 点赞评论数量
+
 		// 观察记录
 		watchCourseList:path+"/web/sample/search/course/list",// (查询)个人观察计划列表
 		watchClassList:path+"/web/sample/search/class/list",// (查询)获取个人所在班级
@@ -128,13 +133,16 @@ var httpUrl={
 		dimLevelList:path+"/web/sample/company/dimLevel/list",// 获取学校维度水平列表
 		dimList:path+"/web/sample/company/dim/list",// 获取学校观察维度
 
-		// 家园互动
+		// 成长档案
 		recordStudent:path+"/web/mbtrack/dan/student",// 获取学生列表（含档案信息）
 		recordList:path+"/web/mbtrack/danbook/list",// 获取档案册列表
 		recordMonthList:path+"/web/mbtrack/danbook/danList",// 获取档案册档案页详情
 		recordNewDanbook:path+"/web/mbtrack/danbook/save",// 新建档案册
 		recordDownload:path+"/file/patch/download",//图片批量下载（档案页）
 		recordDanbookUpdate:path+"/web/mbtrack/danbook/update",// 档案册名更新
+
+		recordTeacherStat:path+"/web/mbtrack/report/teacher",// 教师成长档案统计
+		recordParentStat:path+"/web/mbtrack/report/parent",// 家长成长档案统计
 
 		// 考勤
 		attendGetChildOfClass:path+"/web/attendance/teacher/getChildOfClass",// 获得班级所有幼儿信息
