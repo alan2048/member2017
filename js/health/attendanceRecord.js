@@ -4,8 +4,8 @@ $(function () {
 });
 function init() {
     // 月份选择初始化
-    var month=[1,2,3,4,5,6,7,8,9,10,11,12];
-    var htmlMonth=template("month_script",{month});
+    var month={month:[1,2,3,4,5,6,7,8,9,10,11,12]};
+    var htmlMonth=template("month_script",month);
     var d=new Date();
     $("#month01").append(htmlMonth).find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
     $("#year01").find("option[value="+d.getFullYear()+"]").prop("selected",true);

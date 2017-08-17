@@ -19,11 +19,11 @@ function init() {
 // 年份 月份初始化 
 function dateInit() {
     var d=new Date();
-    var month=[1,2,3,4,5,6,7,8,9,10,11,12];
-    var htmlMonth=template("month_script",{month});
+    var month={month:[1,2,3,4,5,6,7,8,9,10,11,12]};
+    var htmlMonth=template("month_script",month);
     $("#month01").append(htmlMonth).find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
-    var year=[2016,2017,2018];
-    var htmlYear=template("year_script",{year});
+    var year={year:[2016,2017,2018]};
+    var htmlYear=template("year_script",year);
     $("#year01").append(htmlYear).find("option[value="+d.getFullYear()+"]").prop("selected",true);
     watchClassList_port();
 };
@@ -68,7 +68,8 @@ function recordStudent_callback(res) {
                 data[i].classId=$("#teacherClass").val();
                 data[i].value=JSON.stringify(data[i]);
             };
-            var html=template("members_script",{data});
+            var json={data:data};
+            var html=template("members_script",json);
             $("#members").empty().append(html);
         }else{
             toastTip("提示","此班级下无学生。。");
@@ -178,7 +179,8 @@ function mousehover() {
         for(var i=0;i<data.length;i++){
           data[i]=httpUrl.path_img+data[i]+"&minpic=0";
         };
-        var html=template("carousel_img_script",{data});
+        var json={data:data};
+        var html=template("carousel_img_script",json);
         $("#carousel_img > .carousel-inner").empty().append(html);
 
         // 轮播插件功能函数
@@ -306,7 +308,8 @@ function recordList_callback(res,value) {
                 data[i].value=value;
           };
           // console.log(data);
-        var html=template("yearRecord_script",{data});
+        var json={data:data};
+        var html=template("yearRecord_script",json);
         $("#yearRecord").empty().append(html);
 
         $("#content,#content01,#content02").addClass("hide01");
@@ -336,7 +339,8 @@ function recordMonthList_callback(res) {
                 data[i].picMd5List=JSON.stringify(data[i].picMd5List);
                 data[i].value=$("#yearRecord .lookBtn").attr("data-value");
           };
-        var html=template("monthRecord_script",{data});
+        var json={data:data};
+        var html=template("monthRecord_script",json);
         $("#monthRecord").empty().append(html);
 
         // 月份档案成功之后的页面切换函数

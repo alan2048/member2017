@@ -18,13 +18,13 @@ function watchDimensions_port(pageNumber) {
 function watchDimensions_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
         Arr.length=0;
         Arr=tree2json(data);
 
         getDimLevelList_port(Arr[0].id);//默认查询第一项
 
-        var html=template("trees_script",{data});
+        var json={data:data};
+        var html=template("trees_script",json);
         $("#trees").empty().append(html);
         
         watchDimensions_after();
@@ -169,7 +169,8 @@ function addDim() {
             }
         });
         if(newArr.length>0){
-            var html=template('treesmain_script',{newArr});
+            var json={newArr:newArr};
+            var html=template('treesmain_script',json);
             $("#treesmain").empty().append(html);
         }else{
             var html='<ul class="tree-menu" data-level='+(Number($(this).attr("data-level"))+1)+' data-parentid='+$(this).attr("data-dimid")+'>'+
@@ -369,7 +370,8 @@ function keepclick() {
         });
 
         if(newArr.length>0){
-            var html=template('treesmain_script',{newArr});
+            var json={newArr:newArr};
+            var html=template('treesmain_script',json);
             $("#treesmain").append(html);
         }else{
             var html='<ul class="tree-menu" data-level='+(Number($(this).attr("data-level"))+1)+' data-parentid='+$(this).attr("data-dimid")+'>'+
@@ -518,7 +520,8 @@ function getDimLevelList_callback(res,dimid) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         if(data.length>0){
-            var html=template('descTrees_script',{data});
+            var json={data:data};
+            var html=template('descTrees_script',json);
             $("#descTrees").empty().append(html);
             getDimLevelList_after(); 
         }else{

@@ -797,8 +797,8 @@ function autoCanvasWidth() {
 
 // 选择月份初始化函数
 function chooseMonth() {
-	var month=[1,2,3,4,5,6,7,8,9,10,11,12];
-	var html=template("chooseMonth_script",{month});
+	var month={month:[1,2,3,4,5,6,7,8,9,10,11,12]};
+	var html=template("chooseMonth_script",month);
 	$("#chooseMonth").empty().append(html);
 
 	var d=new Date();
@@ -809,8 +809,8 @@ function chooseMonth() {
     
 
     // 水印颜色选择区
-    var colors=["faadad","80d8eb","96a5e7","e6c07e","7ee6a3","c7e67e","ec8f8f","6ad2e8","b687eb","e68e63","4cd57d","376ce4","e376c8","dc6063","9a31bc","a4d03c","dd49df","bc3183","ee6d34","34aaee"];
-    var html01=template("chooseColor_script",{colors});
+    var colors={colors:["faadad","80d8eb","96a5e7","e6c07e","7ee6a3","c7e67e","ec8f8f","6ad2e8","b687eb","e68e63","4cd57d","376ce4","e376c8","dc6063","9a31bc","a4d03c","dd49df","bc3183","ee6d34","34aaee"]};
+    var html01=template("chooseColor_script",colors);
     $("#chooseColor").empty().append(html01);
 
     
@@ -831,7 +831,8 @@ function recordPageType_port() {
 function recordPageType_callback(res) {
 	if(res.code==200){
 		var data=JSON.parse(res.data);
-		var html=template("templateA_script",{data});
+        var json={data:data};
+		var html=template("templateA_script",json);
 		$("#templateA").empty().append(html);
 		
 		recordPageList_port(1);//封面模板初始化
@@ -861,7 +862,8 @@ function recordPageList_callback(res,pageType) {
 		for(var i=0;i<data.length;i++){
 			data[i].pic=httpUrl.path_img+data[i].imgUrl+"&minpic=1";
 		};
-		var html=template("templateB_script",{data});
+        var json={data:data};
+		var html=template("templateB_script",json);
 		$("#toolbarList ul[data-type="+pageType+"]").append(html);
 	}else{
         toastTip("提示","加载失败，请稍候重试。。","2500");
@@ -1202,7 +1204,8 @@ function recordDanMessage_callback(res) {
 				data[i].messageList[j].picArr=JSON.stringify(data[i].messageList[j].fileList);
 			};
 		};
-		var html=template("autoMatch-list_script",{data});
+        var json={data:data};
+		var html=template("autoMatch-list_script",json);
 		$("#autoMatch-list >ul").empty().append(html);
 
 		$("#autoMatch-wrapper >h3 i").text($("#chooseMonth >li.current").attr("data-month"));// 自动匹配当前月份
@@ -1274,8 +1277,8 @@ function userMessage() {
 // 年份 月份初始化 图片库 
 function dateInit() {
     var d=new Date();
-    var month=[1,2,3,4,5,6,7,8,9,10,11,12];
-    var htmlMonth=template("query2017_script",{month});
+    var month={month:[1,2,3,4,5,6,7,8,9,10,11,12]};
+    var htmlMonth=template("query2017_script",month);
     $(".query2017").append(htmlMonth).find("span[data-value="+(d.getMonth()+1)+"]").addClass("current");
 
     // 年度切换按钮
@@ -1371,7 +1374,8 @@ function recordPiclib_callback(res) {
 		for(var i=0;i<data.length;i++){
 			data[i].path=httpUrl.path_img;
 		};
-		var html=template("picMain_script",{data});
+        var json={data:data};
+		var html=template("picMain_script",json);
 		var tabid=$("#picTab >li.active").attr("data-tabid");
 		$("#picTabContent >.tab-pane[data-tabid="+tabid+"] >.picMain >ul").empty().append(html);
 		
@@ -1392,7 +1396,8 @@ function recordUploadList_callback(res) {
 		for(var i=0;i<data.length;i++){
 			data[i].path=httpUrl.path_img;
 		};
-		var html=template("picMain01_script",{data});
+        var json={data:data};
+		var html=template("picMain01_script",json);
 		var tabid=$("#picTab >li.active").attr("data-tabid");
 		$("#picTabContent >.tab-pane[data-tabid="+tabid+"] >.picMain >ul").empty().append(html);
 		
@@ -1473,13 +1478,15 @@ function recordStudent_callback(res) {
 		  for(var i=0;i<data.length;i++){
 			 data[i].portrait=httpUrl.path_img+data[i].userPhoto+"&minpic=0";
 		  };
-		  var html=template("classMembers_script",{data});
+          var json01={data:data};
+		  var html=template("classMembers_script",json01);
 		  $("#classMembers").empty().append(html);
 		  $("#childrenList").empty().append(html);
 
           $("#classMembers >li >.membersBg[data-useruuid="+$("#user").attr("data-useruuid")+"]").parent("li").addClass("hide");
 
-		  var html01=template("student_script",{data});
+          var json02={data:data};
+		  var html01=template("student_script",json02);
 		  $("#student01").empty().append(html01);
 		  $("#student02").empty().append(html01);
 
@@ -1511,7 +1518,8 @@ function recordLabelList_port(classId) {
 function recordLabelList_callback(res) {
 	if(res.code==200){
 		var data=JSON.parse(res.data);
-		var html=template("labelList01_script",{data});
+        var json01={data:data};
+		var html=template("labelList01_script",json01);
 		$("#labelList01,#labelList02").empty().append(html);
 	}else if(res.code==404){
         toastTip("提示","加载失败，请稍候重试。。","2500");
