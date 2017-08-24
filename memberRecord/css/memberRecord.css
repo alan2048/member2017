@@ -761,6 +761,9 @@ ul.has-menu > li >img{
 #autoMatch-list >ul > li > .matchPic >img{
 	width: 100%;
 	height: 100%;
+	display:inline-block;
+	background: url(../images/emptyPic.png) center center no-repeat;
+	background-size: 100%;
 }
 /*Í¼Æ¬ÁÐ±í ×Ô¶¯Æ¥Åä end*/
 

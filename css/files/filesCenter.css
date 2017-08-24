@@ -1,0 +1,319 @@
+*{
+    box-sizing: border-box;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+#search{
+	color: #636665;
+	margin-bottom: 0.3rem;
+}
+#search >label >select{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+#search >label >select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+#search >label >input{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+   	color: #969998;
+}
+#searchBtn{
+	display: inline-block;
+	border: 0.01rem solid #c9cccb;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0 0 0.25rem;
+	border-radius: 0.1rem;
+	width: 0.88rem;
+	cursor: pointer;
+	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
+	text-align: center;
+	background-color: #fff;
+	vertical-align: top;
+}
+#searchBtn:hover{
+	background-color: #e1e1e1;
+}
+.defaultBtn{
+	display: inline-block;
+	width: 1.08rem;
+	margin-right: 0.2rem;
+	height: 0.55rem;
+	text-align: center;
+	line-height: 0.5rem;
+	background: url(../../images/common/btnBg.png) center center no-repeat;
+}
+.defaultBtn:hover{
+	background: url(../../images/common/btnBgHover.png) center center no-repeat;
+}
+.defaultBtn >span{
+	display: inline-block;
+	padding-left: 0.28rem;	
+}
+.defaultBtn:hover >span{
+	color: #5cdfe2;
+}
+#buttonBox{
+	margin-bottom: 0.2rem;
+}
+.backBtn > span {
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
+}
+.disable{
+	opacity:0.3;
+}
+#filesUpload > span {
+	background: url(../../images/files/filesUpload.png) 0.24rem center no-repeat;
+	width: 100%;
+	padding-left: 0.4rem;
+}
+#download >span{
+	background: url(../../images/files/download.png) 0 center no-repeat;
+}
+#preview >span{
+	background: url(../../images/files/preview.png) 0 center no-repeat;
+}
+#deleteBtn >span{
+	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
+}
+#rename >span{
+	background: url(../../images/files/rename.png) 0 center no-repeat;
+}
+#newFiles {
+	width: 1.2rem;
+	background-size: 100% 100%;
+}
+#newFiles >span{
+	background: url(../../images/files/newFiles.png) 0 center no-repeat;
+}
+#allSelect >span{
+	background: url(../../images/files/allSelect.png) 0 center no-repeat;
+}
+
+
+
+
+
+
+/*table start*/
+.panel {
+	margin-bottom: 0.2rem;
+	padding: 0.15rem;
+	background-color: #fff;
+	border: 0.01rem solid #e8ebea;
+	border-radius: 0.1rem;
+	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
+	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+}
+
+
+/*·ÖÒ³ start*/
+
+#main{
+	text-align: left;
+}
+
+.closeBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1.08rem;
+	right: 0rem;
+	z-index: 0;
+}
+/*ÐÂÔö end*/
+.todolistBox >.list{
+	display:inline-block;
+	width: 2rem;
+	height: 1.5rem;
+	text-align: center;
+	padding-top: 0.3rem;
+	overflow: hidden;
+}
+.list >.pic{
+	display:inline-block;
+	width: 1rem;
+	height: 0.8rem;
+	cursor: pointer;
+	border-radius: 0.1rem;
+	background: url(../../images/files/undefined.png) center center no-repeat;
+}
+.list >.pic:hover{
+	border: 1px solid #ccc;
+}
+.list >.todoName{
+	display:inline-block;
+	padding-left: 0.2rem;
+	cursor: pointer;
+	background: url(../../images/files/unSelect.png) 0 center no-repeat;
+	word-break:keep-all;
+}
+.list >.todoName:hover{
+	color:#5cdfe2;
+}
+.list >.todoName.active{
+	background: url(../../images/files/select.png) 0 center no-repeat;
+}
+.list >.pic.png,.list >.pic.jpg{
+	background: url(../../images/files/png.png) center center no-repeat;
+}
+.list >.pic.zip{
+	background: url(../../images/files/zip.png) center center no-repeat;
+}
+.list >.pic.xlsx,.list >.pic.xls{
+	background: url(../../images/files/excel.png) center center no-repeat;
+}
+.list >.pic.pdf{
+	background: url(../../images/files/pdf.png) center center no-repeat;
+}
+.list >.pic.ppt{
+	background: url(../../images/files/ppt.png) center center no-repeat;
+}
+.list >.pic.word{
+	background: url(../../images/files/word.png) center center no-repeat;
+}
+.list >.pic.mp3{
+	background: url(../../images/files/mp3.png) center center no-repeat;
+}
+.list >.pic.txt{
+	background: url(../../images/files/txt.png) center center no-repeat;
+}
+.list >.pic.folder{
+	background: url(../../images/files/folder.png) center center no-repeat;
+}
+
+.modal-dialog{
+	height: 2.4rem;
+	width: 6.6rem;
+	margin:2.4rem auto 0;
+}
+
+
+.modal-content{
+	padding:0 0.6rem;
+	background-color: #f5f7f7;
+}
+.modalTitle {
+	text-align: center;
+	color: #656666;
+	font-size: 0.18rem;
+	font-weight: 900;
+	line-height: 0.8rem;
+}
+.labelBox input {
+	width: 3.8rem;
+	height: 100%;
+	padding: 0.1rem 0.2rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+}
+#newFolderInput{
+	width: 4.3rem;
+}
+#newFolderBtn,#renameBtn{
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	color: #fff;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 0.4rem;
+	margin-right: 0.1rem;
+}
+#newFolderBtn:hover,#renameBtn:hover{
+	background-color: #29d1d5;
+}
+.folder-open{
+	display:inline-block;
+	width: 0.3rem;	
+	height: 0.2rem;
+	background: url(../../images/files/folder01.png) center center no-repeat;
+	vertical-align: top;
+}
+.navgition >div{
+	color:#636665;
+	display:inline-block;
+}
+.navgition >.breadBack{
+	display:none;
+	padding-left: 0.2rem;
+	cursor: pointer;
+	background: url(../../images/files/back.png) 0 center no-repeat;
+}
+.breadBack:hover{
+	color:#5cdfe2;
+}
+.navgition >.breadBack.active{
+	display:inline-block;
+}
+.breadBox >span:hover{
+	cursor: pointer;
+	color:#5cdfe2;
+}
+.breadBox >span::after{
+	content:">";
+	padding-left: 0.05rem;
+}
+#preview {
+	position: relative;
+}
+.hoverBtn{
+	display: none;
+}
+.hoverBtn.current {
+	position: absolute;
+	background-color: #5cdfe2;
+	top: 56px;
+	left: -2px;
+	color: #fff;
+	display: inline-block;
+	line-height: 0.3rem;
+	width: 1.1rem;
+	height: 0.3rem;
+	font-size: 0.12rem;
+}
+#modal-dialog-img .modal-dialog{
+	height:auto;
+}
+#modal-dialog-img .modal-content{
+	padding:0.15rem;
+}
+#modal-dialog-img img{
+	height: 100%;
+	width: 100%;
+}

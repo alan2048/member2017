@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>观察记录统计</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet" />
+    <link href="../../css/common/sweetalert.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/growth/childrenGrowthStat.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container" class="fade">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">观察记录统计</div>
+            <div>
+			    <div id="search01" class="search">
+                    <label>
+                        年份：
+                        <select id="year01" class="year"></select>
+                        <script id="year_script" type="text/html">
+                            {{each arr as value i}}
+                            <option value="{{value}}">{{value}}年</option>
+                            {{/each}}
+                        </script>
+                    </label>
+                    <label>
+                        月份：
+                        <select id="month01" class="month"></select>
+                        <script type="text/html" id="month_script">
+                            {{each arr as value i}}
+                            <option value="{{value}}">{{value}}月</option>
+                            {{/each}}
+                        </script>
+                    </label>
+                </div>
+                <div class="searchBox"><div id="searchBox01"></div></div>
+
+                <div id="search03" class="search">
+                    <label>
+                        年份：
+                        <select id="year03" class="year"></select>
+                    </label>
+                    <label>
+                        月份：
+                        <select id="month03" class="month"></select>
+                    </label>
+                </div>
+                <div class="searchBox"><div id="searchBox03"></div></div>
+            </div>
+	    </div> 
+	</div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/echarts/echarts.min.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/watch/watchRecordStat.js"></script>
+</body>
+</html>

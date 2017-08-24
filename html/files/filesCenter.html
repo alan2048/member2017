@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>文件中心</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/files/filesCenter.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f7a48f;background-size: 0.45rem;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">文件中心</div>
+            <div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+			<div id="main">
+                <div class="navgition">
+                    <div id="breadBack" class="breadBack">返回上级</div>
+                    <i class="folder-open"></i>
+                    <div class="breadBox">
+                        <span class="root">根目录</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0"></div>
+                </div>
+                <div class="filesBox">
+                    <div id="todolist"></div>
+                    <script type="text/html" id="todolist_script">
+                        <ul class="todolistBox">
+                            {{each arr as item i}}
+                                <li data-fileuuid={{item.fileUUID}} class="{{item.fileExt}} list">
+                                    <span class="{{item.fileExt}} pic" data-fileuuid="{{item.fileUUID}}" data-name="{{item.fileName}}" data-md5="{{item.fileMD5}}"></span><br>
+                                    <span class="todoName {{item.fileExt}}" data-fileuuid="{{item.fileUUID}}" data-parentuuid="{{item.parentUUID}}" data-md5="{{item.fileMD5}}" data-name="{{item.fileName}}">{{item.fileName}}</span>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </script>
+                </div>
+			</div>
+	    </div> 
+	</div>
+
+    <div class="modal fade" id="modal-newFolder" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modalTitle">新建文件夹</div>
+                <div class="labelBox">
+                    <label>
+                        文件夹名称：
+                        <input id="newFolderInput" type="text">
+                    </label>
+                </div>
+                <div><span id="newFolderBtn">确定</span></div>
+            </div>
+            <span class="closeBtn" data-dismiss="modal"></span>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-rename" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modalTitle">重命名</div>
+                <div class="labelBox">
+                    <label>
+                        新文件（夹）名称：
+                        <input id="renameInput" type="text">
+                    </label>
+                </div>
+                <div><span id="renameBtn">确定</span></div>
+            </div>
+            <span class="closeBtn" data-dismiss="modal"></span>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-dialog-img" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="carousel_img"></div>
+                <span class="closeBtn" data-dismiss="modal"></span>
+            </div>
+        </div>
+    </div>
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/modal.js"></script>
+    <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/files/filesCenter.js"></script>
+</body>
+</html>

@@ -33,7 +33,7 @@
 				<div class="nameBox">
 					<span class="nameIcon"></span>
 					<label class="loginText">
-						账号：<input type="text" id="username" placeholder="手机号码">
+						账号：<input type="text" id="username" placeholder="手机号码" maxlength="11">
 					</label>
 				</div>
 			</div>
@@ -49,10 +49,17 @@
 				<div id="loginIn">登录</div>
 			</div>
 		</div>
+		<div id="QR" class="QR">
+			<a href="javascript:void(0);"><img src="./images/index/ios.png" alt=""><br>IOS</a>
+			<a href="javascript:void(0);"><img src="./images/index/android.png" alt=""><br>Android</a>
+			<span></span>
+			<span></span>
+		</div>
 	</div>
 	<script src="./js/common/jquery-1.11.1.min.js"></script>
 	<script src="./js/common/jquery.toast.min.js"></script>
 	<script src="./js/common/base.js"></script>
+	<script src="./js/index/jquery.qrcode.min.js"></script>
 	<script src="./js/index/index.js"></script>
 </body>
 </html>

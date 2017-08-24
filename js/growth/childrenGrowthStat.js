@@ -378,7 +378,8 @@ function menu() {
         });
     });
     $("#subMenu").on("click","a.hasTitle",function () {
-        $(this).toggleClass("active");
+        $("a.hasTitle").removeClass("active")
+        $(this).addClass("active");
     });
 };
 // 左侧 菜单接口

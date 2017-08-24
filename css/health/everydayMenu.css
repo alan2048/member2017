@@ -549,7 +549,16 @@ input.fill.empty{
 	color: #676767;
 	font-weight: 700;
 	font-size:0.24rem;
-	margin: 0px 0 10px;
+	margin: 0px auto 10px;
+	width: 50%;
+	height: 0.35rem;
+}
+.conTitle:hover{
+	background-color: #f8f8f8;
+}
+.conTitle >input{
+	height: 100%;
+	width: 100%;
 }
 
 .btn {

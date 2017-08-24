@@ -229,10 +229,10 @@ function importfn() {
     $("#filesUpload input[type=file]").change(function () {
         $("#filesUpload >input[name=loginId]").val(httpUrl.loginId);
         var data={
-                fileName:$(this).val().substring($(this).val().lastIndexOf("\\")+1)
+                extName:$(this).val().substring($(this).val().lastIndexOf(".")+1)
         };
         $("#filesUpload >input[name=params]").val(JSON.stringify(data));
-        $(".importFile >input").val(data.fileName);
+        $(".importFile >input").val($(this).val().substring($(this).val().lastIndexOf("\\")+1));
         ajaxSubmitForm();
     });
 };

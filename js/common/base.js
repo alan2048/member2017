@@ -7,11 +7,12 @@ var serverUrl02="https://121.43.150.38";//38测试服务器
 var serverUrl03="http://121.43.150.38";//38测试服务器
 var serverHost="https://www.member361.com";
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var path=serverUrl02; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
 		path_img:path+"/file/getImage?md5=", // 图片地址
+		download:path+"/file/downloadOne?", // 文件下载
 		picUrl:path+"/file/upload2", // 图片上传地址
 		basicFileUpload:path+"/file/business/upload", // 业务文件上传
 		login:path+"/web/login/loginChecking",// 首页登入
@@ -101,6 +102,10 @@ var httpUrl={
 		growthCommentDelete:path+"/web/growth/comment/delete",// 萌宝成长 删除某一条评论
 		growthMessageDelete:path+"/web/growth/message/delete",// 萌宝成长 删除一条内容
 
+		// 萌宝成长标签
+		growthLabelDelete:path+"/web/growth/label/delete",// 萌宝成长标签 删除
+		growthLabelAddOrUpdate:path+"/web/growth/label/addOrUpdate",// 新增或者编辑标签
+
 		// 萌宝成长统计
 		growthTeacherStat:path+"/web/growth/report/message/teacher",// 萌宝成长统计 教师发帖数量
 		growthClassStat:path+"/web/growth/report/message/class",// 萌宝成长统计 班级发帖数量
@@ -116,6 +121,9 @@ var httpUrl={
 		watchStudentList:path+"/web/sample/record/student/list",// 获取观察记录学生列表
 		watchRecordDetail:path+"/web/sample/student/record/detail",// 获取观察记录详情
 		watchRecordDelete:path+"/web/sample/record/delete",// 删除观察记录
+
+		watchTeacherStat:path+"/web/sample/report/teacher",// 观察记录统计
+		watchClassStat:path+"/web/sample/report/class",// 观察记录统计01
 
 		// 观察计划
 		watchPlanList:path+"/web/sample/company/course/list",// 获取观察计划列表
@@ -181,6 +189,15 @@ var httpUrl={
 		tsCallRoll:path+"/web/activity/TSCourse_CallRoll",// 签到
 		tsCancelRoll:path+"/web/activity/TSCourse_CancelRoll",// 取消签到
 		tsTempBookCourse:path+"/web/activity/TSCourse_tempBookCourse",// 补加预约人数
+
+		// 文件中心
+		fileGetRoot:path+"/web/fileCenter/getRoot",// 获取根目录
+		fileGetChildFileInfo:path+"/web/fileCenter/getChildFileInfo",// 获取文件的所有子级文件
+		fileGetSingleFileInfo:path+"/web/fileCenter/getSingleFileInfo",// 获取单项文件信息
+		fileAddFileInfo:path+"/web/fileCenter/addFileInfo",// 增加一项文件信息
+		fileDeleteFileInfo:path+"/web/fileCenter/deleteFileInfo",// 删除文件信息
+		fileUpdateFileName:path+"/web/fileCenter/updateFileName",// 更新文件名
+
 		// 08设置
 		setting:'' 
 };
@@ -211,7 +228,7 @@ function initAjax(url,param,callback,callback01,callback02) {
                 // loadingOut(); // loading退出
             },
             error:function(result){
-                console.log("请求失败 error!");
+                console.log("请求失败 ajax error!");
                 // window.location.href=httpUrl.loginHttp;
             }
         });	

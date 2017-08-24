@@ -68,7 +68,6 @@
       				任职班级：
       				<select id="teacherClass"></select>
     				<script id="teacherClass_script" type="text/html">
-      					<option value="">所有班级</option>
       					{{each arr as value i}}
 						<option value="{{value.classUUID}}">{{value.className}}</option>
       					{{/each}}
@@ -221,7 +220,7 @@
                 <input type="text" readonly="readonly">
                 <span>选择文件</span>
             </div>
-            <form action="" method="post" enctype ="multipart/form-data" id="filesUpload" style="display: none;"> 
+            <form action="" method="post" enctype ="multipart/form-data" id="filesUpload" style="display: none;" accept-charset="UTF-8"> 
                 <input name="params" type="hidden" value="" />
                 <input name="loginId" type="hidden" value="" />
                 <input name="url" type="hidden" value="/web/basic/userUploadExl" />

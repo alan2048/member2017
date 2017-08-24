@@ -127,6 +127,8 @@ function attendCheckConfirm_port(leaveUUID) {
 function attendCheckConfirm_callback(res) {
     if(res.code==200){
         attendGetAttendanceRecord_port(); 
+    }else{
+        toastTip("提示",res.info);
     };
 };
 
