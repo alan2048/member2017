@@ -63,7 +63,8 @@ function buttonFn() {
         };
     
         if(num == "text"){
-            var src=httpUrl.download+"md5="+$(".todoName.active").attr("data-md5")+"&fileName="+$(".todoName.active").attr("data-name"); 
+            var src=httpUrl.download+"md5="+$(this).attr("data-md5")+"&fileName="+$(this).attr("data-name"); 
+            console.log(src);
             window.open("http://dcsapi.com/?k=106194529&url="+encodeURIComponent(src));
         }else if(num == "image"){
             $("#carousel_img").empty().append("<img src="+httpUrl.path_img+$(this).attr('data-md5')+"&minpic=0"+" />");
@@ -87,7 +88,8 @@ function buttonFn() {
         }else{
             for(var i=0;i<num;i++){
                 var elemIF = document.createElement("iframe");   
-                elemIF.src = httpUrl.download+"md5="+$(".todoName.active").eq(i).attr("data-md5")+"&fileName="+$(".todoName.active").eq(i).attr("data-name"); 
+                elemIF.src = httpUrl.download+"md5="+$(".todoName.active").eq(i).attr("data-md5")+"&fileName="+encodeURI($(".todoName.active").eq(i).attr("data-name"),"utf-8"); 
+                console.log(elemIF.src);
                 elemIF.style.display = "none";   
                 document.body.appendChild(elemIF);
             };
@@ -369,10 +371,12 @@ function loadFiles() {
         previewTemplate: "<div style='display:none'></div>",
         init:function(){
             this.on("addedfile", function(file) { 
-                $(".ysjh-yzjh-progress").show(); //显示进度条
+                $(".progress .progress-bar").css("width",0);
+                $(".progress").show();//显示进度条
             });
             this.on("queuecomplete",function(file) {
-                $(".ysjh-yzjh-progress").hide(); //隐藏进度条
+                $(".progress").hide(); //隐藏进度条
+                $(".progress .progress-bar").css("width",0);
             });
             this.on("removedfile",function(file){
                 //删除文件时触发的方法
@@ -399,7 +403,7 @@ function loadFiles() {
         this.removeFile(file);
     });
     myDropzone.on('totaluploadprogress',function(x,y,z){
-        $(".ysjh-yzjh-progress .progress-bar").css("width",x+"%");
+        $(".progress .progress-bar").css("width",x+"%");
     });
 };
 

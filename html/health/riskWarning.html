@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>风险预警</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/health/riskWarning.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a5f7b5;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">风险预警</div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">序号</th>
+                                    <th style="width: 20%;">预警类型</th>
+                                    <th style="width: 10%;">预警年龄</th>
+                                    <th style="width: 10%;">预警值</th>
+                                    <th style="width: 20%;">备注</th>
+                                    <th style="width: 15%;">添加人</th>
+                                    <th style="width: 15%;">添加时间</th>
+                                </tr>
+                            </thead>
+                           	 <tbody>
+                           	 	{{each arr as item i}}
+                            	<tr data-id="{{item.alertUUID}}">
+                                  	<td style="word-break:break-all;" class="email-sender">{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.alertTypeName}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.alertAge}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.alertValue}}</td>
+                                  	<td style="word-break:break-all;" class="email-sender">{{item.remark}}</td>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.creatorName}}</td>
+                                    <td style="word-break:break-all;" class="email-sender">{{item.creationTime}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+			</div>
+	    </div> 
+	</div>
+
+    <div class="modal fade" id="modal-edit" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="importEditBox">
+                    <h4>风险预警值设定</h4>
+                    <ul>
+                        <li>
+                            <span class="col03">预警类型：</span>
+                            <span class="col04">
+                                <select id="alertType"></select>
+                            </span>
+                            <script id="alertType_script" type="text/html">
+                                {{each arr as value i}}
+                                <option value="{{value.alertType}}">{{value.alertTypeName}}</option>
+                                {{/each}}
+                            </script>
+                        </li>
+                        <li>
+                            <span class="col03">预警年龄：</span>
+                            <span class="col04">
+                                <select id="alertAge"></select>
+                            </span>
+                            <script id="alertAge_script" type="text/html">
+                                {{each arr as value i}}
+                                <option value="{{value}}">{{value}}</option>
+                                {{/each}}
+                            </script>
+                        </li>
+                        <li>
+                            <span class="col03"><i class="redIcon">*</i>预警值：</span>
+                            <span class="col04">
+                                <input type="text" id="alertValue" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="col03">备注：</span>
+                            <span class="col04">
+                                <textarea name="remark" id="remark"></textarea>
+                            </span>
+                        </li>
+                    </ul>
+                    <div>
+                        <span id="save" data-id="">保存</span>
+                        <span id="quit" data-dismiss="modal">取消</span>
+                    </div>
+                </div>
+                <span class="closeBtn01" data-dismiss="modal"></span>
+            </div>
+        </div>
+    </div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/jquery.form.min.js"></script>
+    <script src="../../js/common/modal.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/health/riskWarning.js"></script>
+</body>
+</html>

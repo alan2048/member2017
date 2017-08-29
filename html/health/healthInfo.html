@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>健康信息</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png" />
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/health/healthInfo.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a5f7b5;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">健康信息</div>
+			<div id="search">
+      			<label>
+      				班级：
+      				<select id="teacherClass"></select>
+    				<script id="teacherClass_script" type="text/html">
+      					{{each arr as value i}}
+						<option value="{{value.classUUID}}">{{value.className}}</option>
+      					{{/each}}
+      				</script>
+      			</label>
+                <label>
+                    体检日期：
+                    <select id="examDate"></select>
+                    <script id="examDate_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value}}">{{value}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+			</div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+            <form action="" method="post" enctype ="multipart/form-data" id="filesUpload" style="display: none;" accept-charset="UTF-8"> 
+                <input name="params" type="hidden" value="" />
+                <input name="loginId" type="hidden" value="" />
+                <input name="url" type="hidden" value="/web/basic/userUploadExl" />
+                <input name="file" type="file" accept="application/vnd.ms-excel,.xlsx" />
+            </form>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 4%;">序号</th>
+                                    <th style="width: 9%;">体检日期</th>
+                                    <th style="width: 7%;">姓名</th>
+                                    <th style="width: 4%;">性别</th>
+                                    <th style="width: 6%;">年龄</th>
+                                    <th style="width: 8%;">身高（cm）</th>
+                                    <th style="width: 8%;">体重（kg）</th>
+                                    <th style="width: 10%;">血色素（g/l）</th>
+                                    <th style="width: 11%;">视力</th>
+                                    <th style="width: 6%;">身高P值</th>
+                                    <th style="width: 6%;">体重P值</th>
+                                    <th style="width: 7%;">肥胖值</th>
+                                    <th style="width: 7%;">肥胖值判定</th>
+                                    <th style="width: 8%;">预警信息</th>
+                                </tr>
+                            </thead>
+                           	 <tbody>
+                           	 	{{each arr as item i}}
+                                <tr data-id="{{item.hiUUID}}" data-age="{{item.userAge}}">
+                                    <td class="email-sender">{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                    <td class="email-sender">{{item.examDate}}</td>
+                                    <td class="email-sender">{{item.userName}}</td>
+                                    <td class="email-sender">{{item.userSex}}</td>
+                                    <td class="email-sender">{{item.userAge}}</td>
+                                    <td class="email-sender">{{item.height}}</td>
+                                    <td class="email-sender">{{item.weight}}</td>
+                                    <td class="email-sender">{{item.hemachrome}}</td>
+                                    <td class="email-sender">左：{{item.visionL}} 右：{{item.visionR}}</td>
+                                    <td class="email-sender">{{item.hPvalue}}</td>
+                                    <td class="email-sender">{{item.wPvalue}}</td>
+                                    <td class="email-sender">{{item.fatnessValue}}</td>
+                                    <td class="email-sender">{{item.fatnessResult}}</td>
+                                    <!-- <td class="email-sender">{{item.alert}}</td> -->
+                                    <td class="email-sender email-date">
+                                        {{if item.alert ==0}}
+                                            <span class="ok"></span>
+                                        {{else}}
+                                            <span class="warning"></span>
+                                            <span class="fade in hide">
+                                                <span></span>
+                                                {{if item.bloodAlert !=0}}<div class="warningBox">血色素{{if item.bloodAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.heightAlert !=0}}<div class="warningBox">身高{{if item.heightAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.visionlAlert !=0}}<div class="warningBox">左眼视力{{if item.visionlAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.visionrAlert !=0}}<div class="warningBox">右眼视力{{if item.visionrAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.weightAlert !=0}}<div class="warningBox">体重{{if item.weightAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                            </span>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+                <ul id="pagination"></ul>
+			</div>
+	    </div> 
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle">健康信息 <small>新增</small></div>
+            <div class="newBox">
+                <div class="panel-body">
+                    <h4>基本信息</h4>
+                    <div class="row">
+                        <label>
+                            <span>班级：</span>
+                            <select id="allClass"></select>
+                            <script type="text/html" id="allClass_script">
+                                {{each data as value i}}
+                                    <option value={{value.classUUID}}>{{value.className}}</option>
+                                {{/each}}
+                            </script>
+                        </label>
+                        <label>
+                            <span>姓名：</span>
+                            <select id="classMember"></select>
+                            <script type="text/html" id="classMember_script">
+                                {{each data as value i}}
+                                    <option value={{value.childUUID}}>{{value.childName}}</option>
+                                {{/each}}
+                            </script>
+                        </label>
+                        <label>
+                            <span>性别：</span>
+                            <select id="h-sex" disabled="disabled">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <span>出生日期：</span>
+                            <input id="h-birthday" type="text" readonly="readonly">
+                        </label>
+                        <label>
+                            <span>体检日期：</span>
+                            <input id="createDate" type="text" readonly="readonly">
+                        </label>
+                        <label>
+                            <span>年龄：</span>
+                            <input id="h-age" type="text" readonly="readonly">
+                        </label>
+                    </div>
+
+                    <h4>体检信息</h4>
+                    <div class="row">
+                        <label>
+                            <span>身高(cm)：</span>
+                            <input id="h-height" class="diagnosis" type="text" />
+                        </label>
+                        <label>
+                            <span>体重(kg)：</span>
+                            <input id="h-weight" class="diagnosis" type="text" />
+                        </label>
+                        <label>
+                            <span>血色素(g/l)：</span>
+                            <input id="h-hemachrome" class="diagnosis" type="text" />
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <span>视力(左)：</span>
+                            <input id="h-visionl" class="diagnosis" type="text" />
+                        </label>
+                        <label>
+                            <span>视力(右)：</span>
+                            <input id="h-visionr" class="diagnosis" type="text" />
+                        </label>
+                    </div>
+
+                    <h4>诊断结果<small class="text-danger">（诊断仅限3到6岁儿童，身高为80cm-140cm之间）</small></h4>
+                    <div class="row">
+                        <label>
+                            <span>身高P值：</span>
+                            <input id="h-heightValue" type="text" readonly class="readonly" />
+                        </label>
+                        <label>
+                            <span>体重P值：</span>
+                            <input id="h-weightValue" type="text" readonly class="readonly" />
+                        </label>
+                        <label>
+                            <span>肥胖值：</span>
+                            <input id="h-fatValue" type="text" readonly class="readonly" />
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <span>肥胖度判定：</span>
+                            <input id="h-fat" type="text" readonly class="readonly" />
+                        </label>
+                    </div>
+
+                    <h4>诊断小结：</h4>
+                    <div class="reset01"></div>
+                </div>
+                <div>
+                    <span id="save" data-id="">保存</span>
+                    <span id="quit" data-dismiss="modal">取消</span>
+                </div>
+            </div>
+        </div>
+	</div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/jquery.form.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/health/healthInfo.js"></script>
+    <script src="../../js/health/healthInfoNew.js"></script>
+</body>
+</html>

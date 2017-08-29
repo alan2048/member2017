@@ -178,6 +178,29 @@ var httpUrl={
 		menuGetTitleList:path+"/web/cookbook/getTitleList",// 获得菜谱标题列表
 		menuStructuringTableCell:path+"/web/cookbook/structuringTableCell",// 通过开始日期获取表单
 
+		// 风险预警
+		riskGetCompanyHealthAlert:path+"/web/healthAlert/getCompanyHealthAlert",// 获取登录人所在学校的所有预警
+		riskGetAlertType:path+"/web/healthAlert/getAlertType",// 获取预警类型列表
+		riskGetAlertAge:path+"/web/healthAlert/getAlertAge",// 获得预警年龄列表
+		riskNewHealthAlert:path+"/web/healthAlert/newHealthAlert",// 新增风险预警
+		riskGetHealthAlert:path+"/web/healthAlert/getHealthAlert",// 获取单条健康预警
+		riskUpdateHealthAlert:path+"/web/healthAlert/updateHealthAlert",// 更改健康预警
+		riskDeleteHealthAlert:path+"/web/healthAlert/deleteHealthAlert",// 删除健康预警
+
+		// 健康信息
+		healthGetExamDateList:path+"/web/healthInfo/getExamDateList",// 根据班级获得检查日期列表
+		healthGetClassHealthInfo:path+"/web/healthInfo/getClassHealthInfo",// 获得班级健康信息
+		healthGetChildListOfClass:path+"/web/healthInfo/getChildListOfClass",// 获得班级幼儿列表
+		healthGetBirthdaySex:path+"/web/healthInfo/getBirthdaySex",// 获得幼儿生日及性别
+		healthCalculateAge:path+"/web/healthInfo/calculateAge",// 根据生日，体检日期，计算年龄
+		healthHPValue:path+"/web/healthInfo/HPValue",// 计算身高p值
+		healthWPValue:path+"/web/healthInfo/WPValue",// 计算体重p值
+		healthFatnessValue:path+"/web/healthInfo/FatnessValue",// 计算肥胖值
+		healthNewHealthInfo:path+"/web/healthInfo/newHealthInfo",// 新增健康信息
+		healthGetSingleHI:path+"/web/healthInfo/getSingleHI",// 获得单条健康信息
+		healthUpdateHealthInfo:path+"/web/healthInfo/updateHealthInfo",// 更新健康信息
+		healthDeleteHealthInfo:path+"/web/healthInfo/deleteHealthInfo",// 删除健康信息
+
 		// 自选课程 剧场活动
 		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
 		GetSchoolJYIds:path+"/web/activity/TSCourse_GetSchoolJYIds",//剧场活动 id

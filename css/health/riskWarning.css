@@ -1,0 +1,506 @@
+*{
+    box-sizing: border-box;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+#search{
+	color: #636665;
+	margin-bottom: 0.3rem;
+}
+#search >label >select{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+#search >label >select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+#search >label >input{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+   	color: #969998;
+}
+#searchBtn{
+	display: inline-block;
+	border: 0.01rem solid #c9cccb;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0 0 0.25rem;
+	border-radius: 0.1rem;
+	width: 0.88rem;
+	cursor: pointer;
+	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
+	text-align: center;
+	background-color: #fff;
+	vertical-align: top;
+}
+#searchBtn:hover{
+	background-color: #e1e1e1;
+}
+.defaultBtn{
+	display: inline-block;
+	width: 1.08rem;
+	margin-right: 0.2rem;
+	height: 0.55rem;
+	text-align: center;
+	line-height: 0.5rem;
+	background: url(../../images/common/btnBg.png) center center no-repeat;
+}
+.defaultBtn:hover{
+	background: url(../../images/common/btnBgHover.png) center center no-repeat;
+}
+.defaultBtn >span{
+	display: inline-block;
+	padding-left: 0.28rem;	
+}
+.defaultBtn:hover >span{
+	color: #5cdfe2;
+}
+#newBtn >span{
+	background: url(../../images/common/newBtn.png) 0 center no-repeat;
+}
+#editBtn >span,.importEditBtn >span{
+	background: url(../../images/common/editBtn.png) 0 center no-repeat;
+}
+#deleteBtn >span{
+	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
+}
+.importDelBtn >span{
+	background: url(../../images/common/deleteBtn.png) 5px center no-repeat;
+}
+.importUpBtn >span{
+	background: url(../../images/common/importUpBtn.png) 0 center no-repeat;
+}
+.templateBtn >span{
+	background: url(../../images/common/templateBtn.png) 5px center no-repeat;
+}
+#importBtn >span{
+	background: url(../../images/common/importBtn.png) 0 center no-repeat;
+}
+#buttonBox,#buttonBox01{
+	margin-bottom: 0.2rem;
+}
+.backBtn > span {
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
+}
+.disable{
+	opacity:0.3;
+}
+
+
+
+
+
+
+
+
+
+/*table start*/
+.panel {
+	margin-bottom: 0.2rem;
+	padding: 0.15rem;
+	background-color: #fff;
+	border: 0.01rem solid #e8ebea;
+	border-radius: 0.1rem;
+	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
+	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+}
+.table {
+	color: #656565;
+	border-spacing: 1px;
+	border-collapse: separate;
+	width: 100%;
+}
+.table >thead >tr{
+	border-bottom: 0.01rem solid #e8ebea;
+}
+th,td {
+	text-align: center;
+}
+.table > thead > tr > th {
+	color: #fff;
+	font-weight: 500;
+}
+.table.table-email tr:hover td {
+	background: #f7e463;
+	cursor: pointer;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+	padding: 0.14rem 0.08rem;
+	line-height: 1.42857143;
+	vertical-align: top;
+	border: 1px solid #ddd;
+	word-break: break-all;
+}
+.fa.fa-check-square-o{
+	color: #5ce0de;
+}
+.fa {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.table .email-date{
+	position: relative;
+}
+.table .email-date:hover > .fade.in.hide {
+	display: inline-block !important;
+	text-align: left;
+	position: absolute;
+	border: 0.02rem solid #666;
+	padding: 0.1rem;
+	min-width: 1.56rem;
+	min-height: 0.55rem;
+	left: 60%;
+	top: 0;
+	background-color: #f8e665;
+	border-radius: 0.1rem;
+}
+.table .email-date > .fade.in.hide > span {
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.36rem;
+	left: -0.19rem;
+	top: 0.1rem;
+	position: absolute;
+	background: url(../../images/common/tableArrow.png) 0 center no-repeat;
+}
+/*table end*/
+
+
+
+/*分页 start*/
+
+#main{
+	text-align: center;
+}
+
+/*新增 start*/
+.newBox{
+	width: 10rem;
+	height: 7rem;
+	margin: auto;
+	background-color: #f4f7f6;
+	color: #969998;
+	border-radius: 0.1rem;
+	padding: 1rem 1.65rem 0.8rem 1.2rem;
+	border: 0.01rem solid #e8ebea;
+	box-shadow: 0 0 0.04rem rgba(0,0,0,0.4);
+	font-size: 0.14rem;
+	position: relative;
+	margin-top: 1rem;
+}
+.newBox ul >li{
+	height: 0.4rem;
+	margin-bottom: 0.3rem;
+}
+.newBox ul >li:nth-of-type(5){
+	margin-bottom: 0.2rem;
+}
+.newBox ul >li:last-of-type{
+	padding-top: 0.2rem;
+	padding-left: 0.4rem;
+}
+.redIcon{
+	color: #f64747;
+}
+.col01 {
+	display: inline-block;
+	width: 1.1rem;
+	padding-right: 0.08rem;
+	text-align: right;
+	vertical-align: top;
+	line-height: 0.4rem;
+}
+.col02{
+	display: inline-block;
+	width: 5.9rem;
+	height: 100%;
+	color: #666;
+}
+.col02 >input{
+	width: 100%;
+	height: 100%;
+	padding: 0.1rem 0.2rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+}
+.col02 >input.empty{
+	border: 0.01rem solid #fb8085;
+}
+.col02 >span{
+	color: #fb8085;
+}
+.col02 > select {
+	width: 100%;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.1rem 0.15rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../../images/common/selectArrow.png) 97% center no-repeat;
+	color: #666;
+	background-color: #fff;
+}
+.col02 > select > option {
+	height: 0.3rem;
+	padding: 0.05rem 0.16rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+.col02 >label{
+	line-height: 0.2rem;
+	margin-right: 0.1rem;
+	cursor: pointer;
+}
+#save{
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	color: #fff;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin:1.8rem 0.06rem 0;
+}
+#quit{
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #ecf1ef;
+	border-radius: 0.1rem;
+	color: #969999;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin:1.8rem 0.06rem 0;
+}
+#save:hover{
+	background-color: #29d1d5;
+}
+#quit:hover{
+	background-color: #cfcfcf;
+}
+.closeBtn,.closeBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1.08rem;
+	right: 0rem;
+	z-index: 0;
+}
+/*新增 end*/
+
+.importFile{
+	color:#656565;
+}
+.importFile input{
+	height: 0.4rem;
+	width: 1.8rem;
+	border-radius:0.1rem 0 0 0.1rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border: 1px solid #cacccc;
+	margin-left: 0.1rem;
+	margin-bottom: 0.2rem;
+	padding-left: 0.1rem;
+	color:#656565;
+}
+.importFile span{
+	display:inline-block;
+	height: 0.4rem;
+	width: 1rem;
+	background-color: #5cdee1;
+	color:#fff;
+	line-height:0.4rem;
+	margin-left: -0.05rem;
+	text-align: center;
+	border-radius:0 0.1rem 0.1rem 0;
+	vertical-align: top;
+	cursor: pointer;
+}
+.importFile span:hover{
+	background-color: #0ad9de;
+}
+.warning{
+	position:relative;
+	display:inline-block;
+	width: 0.22rem;
+	height: 0.22rem;
+	border-radius: 0.12rem;
+	vertical-align:top;
+	background: url(../../images/class/warning.png) center center no-repeat #e15c5c;
+}
+.success{
+	position:relative;
+	display:inline-block;
+	width: 0.22rem;
+	height: 0.22rem;
+	border-radius: 0.12rem;
+	vertical-align:top;
+}
+.warning:hover{
+	background-color: #f20b0b;
+}
+.warning > span {
+	position: absolute;
+	display: none;
+	padding: 0.06rem;
+	top: -0.1rem;
+	left: 0.25rem;
+	border: 2px solid #656666;
+	background-color: #f8e264;
+	border-radius: 0.1rem;
+	z-index: 1000;
+	word-break:keep-all;
+}
+.warning.long >span{
+	width: 1.5rem;
+	word-break:break-all;
+	text-align: left;
+}
+.warning:hover >span{
+	display:inline-block;
+}
+.modal-dialog{
+	height: 5.8rem;
+	width: 8.5rem;
+	margin:1.6rem auto 0;
+}
+
+.col03 {
+	display: inline-block;
+	width: 0.9rem;
+	padding-right: 0.08rem;
+	text-align: right;
+	vertical-align: top;
+	line-height: 0.4rem;
+}
+.col04{
+	display: inline-block;
+	width: 5.5rem;
+	height: 100%;
+	color: #666;
+}
+.col04 >input{
+	width: 100%;
+	height: 100%;
+	padding: 0.1rem 0.2rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+}
+.col04 >input.empty{
+	border: 0.01rem solid #fb8085;
+}
+.col04 >span{
+	color: #fb8085;
+}
+.col04 > select {
+	width: 100%;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.1rem 0.15rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../../images/common/selectArrow.png) 97% center no-repeat;
+	color: #666;
+	background-color: #fff;
+}
+.col04 > select > option {
+	height: 0.3rem;
+	padding: 0.05rem 0.16rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+.col04 >label{
+	line-height: 0.2rem;
+	margin-right: 0.1rem;
+	cursor: pointer;
+}
+#importEditBox >ul >li{
+	height: 0.4rem;
+	margin-bottom: 0.2rem;
+}
+#importEditBox >h4{
+	text-align: center;
+	color:#656666;
+	font-size:0.18rem;
+	font-weight: 900;
+	line-height: 0.8rem;
+}
+.modal-content{
+	padding:0 1rem;
+	background-color: #f5f7f7;
+	color:#656565;
+}
+.table th {
+	min-width: 100px;
+	text-align: center;
+	cursor: pointer;
+	vertical-align: middle;
+	background-color: #5cdfe2;
+	color:#666;
+}
+table > tbody > tr.active > td {
+	border: 1px solid #f7e463;
+	background: #f7e463;
+}
+#modal-edit textarea {
+	width: 100%;
+	height: 2rem;
+	padding: 0.1rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+}
+select[disabled=disabled]{
+	background-color: #eee;
+}
+a.hasTitle{
+	background-size: 38%;
+}
