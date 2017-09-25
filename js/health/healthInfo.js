@@ -134,7 +134,6 @@ function healthGetClassHealthInfo_port() {
 function healthGetClassHealthInfo_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        console.log(data.arr);
         var html=template("tableBox_script",data);
         $("#tableBox").empty().append(html);
 

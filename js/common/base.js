@@ -7,7 +7,7 @@ var serverUrl02="https://121.43.150.38";//38测试服务器
 var serverUrl03="http://121.43.150.38";//38测试服务器
 var serverHost="https://www.member361.com";
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=serverUrl01; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -22,6 +22,7 @@ var httpUrl={
 		basicAllClassInfo:path+"/web/basic/allClassInfo",// 获得登录人所在学校所有班级列表
 		basicCompanyList:path+"/web/ops/company/list",// 获取所有的学校
 		basicZip:path+"/file/zip",// 获取打包下载zip
+		basicStudent:path+"/common/basic/class/student",// 获取当前班级学生列表
 
 		// 菜单
 		menuList:path+"/web/ops/user/menu/list",// 菜单接口
@@ -132,6 +133,16 @@ var httpUrl={
 		watchPlanDelete:path+"/web/sample/company/course/delete",// 删除观察计划
 		watchPlanTeacherList:path+"/web/sample/company/teacherList",// 关联教师
 
+		// 综合评价
+		watchStudentInfo:path+"/web/sample/evaluate/evaluateStudentInfo",// 月度评价学生列表
+		watchStudentDetail:path+"/web/sample/evaluate/student/detail",// 学生月度评价详情
+		watchStudentAddOrUpdate:path+"/web/sample/evaluate/student/addOrUpdate",// 新增或编辑学生月度评价
+
+		watchConfigMonthList:path+"/web/sample/evaluate/config/monthList",// 获取所有月份配置列表
+		watchConfigAdd:path+"/web/sample/evaluate/config/add",// 新增月度评价配置
+		watchConfigAllDim:path+"/web/sample/evaluate/config/allDim",// 获取学校配置所有维度
+		watchConfigDetail:path+"/web/sample/evaluate/config/detail",// 获取月度评价配置详情
+
 		// 观察维度
 		dimLevelDelete:path+"/web/sample/company/dimLevel/delete",// 删除学校维度水平
 		dimDelete:path+"/web/sample/company/dim/delete",// 删除学校观察维度
@@ -139,6 +150,11 @@ var httpUrl={
 		dimAddOrUpdate:path+"/web/sample/company/dim/addOrUpdate",// 新增或更新学校观察维度
 		dimLevelList:path+"/web/sample/company/dimLevel/list",// 获取学校维度水平列表
 		dimList:path+"/web/sample/company/dim/list",// 获取学校观察维度
+
+		// 个体发展水平
+		getStudentAbility:path+"/web/sample/TJ/TJ_GCJL_GetStudentAbilityStrong",// 个人综合能力评价 雷达图
+		getStudentCourseAbility:path+"/web/sample/TJ/TJ_GCJL_GetStudentCourseAbility",// 个人课程 能力评价 雷达图
+		getClassesAbilibySimple:path+"/web/sample/TJ/TJ_GCJL_GetClassAbilibySimple",// 班级综合能力水平 
 
 		// 成长档案
 		recordStudent:path+"/web/mbtrack/dan/student",// 获取学生列表（含档案信息）
@@ -169,6 +185,8 @@ var httpUrl={
 		noticeAddNew:path+"/web/notice/addNewNotice",// 新增新的公告内容
 		noticeGetContentList:path+"/web/notice/getNoticeContent",// 获取某个公告内容列表
 		noticeGetReadDetail:path+"/web/notice/getReadDetail",// 获取某条公告内容阅读详情
+		noticeDelNoticeContent:path+"/web/notice/delNoticeContent",// 删除某条公告内容
+		noticeUpdateNoticeContent:path+"/web/notice/updateNoticeContent",// 更新某条公告内容
 
 		// 每周菜谱
 		menuSaveTable:path+"/web/cookbook/saveTable",// 保存表格
@@ -233,14 +251,14 @@ function initAjax(url,param,callback,callback01,callback02) {
             dataType:"json",
             statusCode:{
                 404:function(){
-                    alert("访问地址不存在或接口参数有误 错误代码404");
+                    console.log("访问地址不存在或接口参数有误 错误代码404");
                 },
                 500:function(){
                     console.log("因为意外情况，服务器不能完成请求 错误代码500");
                     // window.location.href=httpUrl.loginHttp;
                 },
                 405:function(){
-                    alert("资源被禁止 错误代码405");
+                    console.log("资源被禁止 错误代码405");
                 }
             },
             beforeSend:function () {
@@ -284,8 +302,7 @@ Date.prototype.Format = function (fmt) {
 };
 
 // 地址栏search参数筛选函数
-function GetQueryString(name)
-{
+function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var result = window.location.search.substr(1).match(reg);
      return result?decodeURIComponent(result[2]):null;

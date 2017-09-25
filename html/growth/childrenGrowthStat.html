@@ -12,6 +12,7 @@
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet" />
     <link href="../../css/common/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
     
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
     <link href="../../css/growth/childrenGrowthStat.css" rel="stylesheet" />
@@ -52,46 +53,36 @@
             <div>
 			    <div id="search01" class="search">
                     <label>
-                        年份：
-                        <select id="year01" class="year"></select>
-                        <script id="year_script" type="text/html">
-                            {{each arr as value i}}
-                            <option value="{{value}}">{{value}}年</option>
-                            {{/each}}
-                        </script>
+                        开始时间：
+                        <input type="text" id="beginTime01" readonly="readonly">
                     </label>
                     <label>
-                        月份：
-                        <select id="month01" class="month"></select>
-                        <script type="text/html" id="month_script">
-                            {{each arr as value i}}
-                            <option value="{{value}}">{{value}}月</option>
-                            {{/each}}
-                        </script>
+                        结束时间：
+                        <input type="text" id="endTime01" readonly="readonly">
                     </label>
                 </div>
                 <div class="searchBox"><div id="searchBox01"></div></div>
 
                 <div id="search02" class="search">
                     <label>
-                        年份：
-                        <select id="year02" class="year"></select>
+                        开始时间：
+                        <input type="text" id="beginTime02" readonly="readonly">
                     </label>
                     <label>
-                        月份：
-                        <select id="month02" class="month"></select>
+                        结束时间：
+                        <input type="text" id="endTime02" readonly="readonly">
                     </label>
                 </div>
                 <div class="searchBox"><div id="searchBox02"></div></div>
 
                 <div id="search03" class="search">
                     <label>
-                        年份：
-                        <select id="year03" class="year"></select>
+                        开始时间：
+                        <input type="text" id="beginTime03" readonly="readonly">
                     </label>
                     <label>
-                        月份：
-                        <select id="month03" class="month"></select>
+                        结束时间：
+                        <input type="text" id="endTime03" readonly="readonly">
                     </label>
                     <label>
                         班级：
@@ -113,8 +104,9 @@
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/echarts/echarts.min.js"></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/growth/childrenGrowthStat.js"></script>
+	<script src="../../js/growth/childrenGrowthStat.js?t=20170914"></script>
 </body>
 </html>

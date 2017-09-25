@@ -62,6 +62,12 @@
                 </label>
                 <span id="searchBtn">查询</span>
             </div>
+            <div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
 			<div id="main">
                 <div id='container'></div>
                 <div id="curDay"></div>

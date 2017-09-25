@@ -75,9 +75,11 @@
                     {{each data as value i}}
                     <li>
                         <div class="yearBg {{if value.isStop =='1'}}isStop{{/if}}" style="background-image: url({{value.pic}});">
+                            {{if typeId !=20}}
                             <span class="editBtn" data-id="{{value.id}}" data-name="{{value.title}}"></span>
                             <span class="signInBtn" data-id="{{value.id}}" data-name="{{value.title}}" data-time="{{value.time}}"></span>
                             <span class="deleteBtn" data-id="{{value.id}}"></span>
+                            {{/if}}
                         </div>
                         <div class="yearTitle">
                             <span class="current">{{value.title}}</span>
@@ -249,6 +251,6 @@
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
 
 	<script src="../../js/common/base.js"></script>
-    <script src="../../js/activity/movie-activity.js"></script>
+    <script src="../../js/activity/movie-activity.js?t=20170922"></script>
 </body>
 </html>

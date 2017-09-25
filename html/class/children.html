@@ -114,9 +114,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%;">家庭称呼</th>
-                                    <th style="width: 20%;">姓名</th>
-                                    <th style="width: 20%;">手机号码</th>
+                                    <th style="width: 25%;">家庭称呼</th>
+                                    <th style="width: 25%;">姓名</th>
+                                    <th style="width: 25%;">手机号码</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                              <tbody>
@@ -125,6 +126,10 @@
                                     <td style="word-break:break-all;" class="email-sender">{{item.appellation}}</td>
                                     <td style="word-break:break-all;" class="email-sender">{{item.name}}</td>
                                     <td style="word-break:break-all;" class="email-sender">{{item.phoneNum}}</td>
+                                    <td>
+                                        <span class="parentEdit"></span>
+                                        <span class="parentDelete"></span>
+                                    </td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -165,7 +170,7 @@
                             <i class="redIcon">*</i> 出生日期：
                         </span>
                         <span class="col02">
-                            <input type="text" id="birthday" data-toggle="datepicker" readonly="readonly">
+                            <input type="text" id="birthday" data-toggle="datepicker" maxlength="10">
                         </span>
                     </li>
                     <li>
@@ -186,7 +191,7 @@
                 <a href="javascript:void(0);" class="importEditBtn disable defaultBtn"><span>编辑</span></a>
                 <a href="javascript:void(0);" class="importDelBtn disable defaultBtn"><span>删除数据</span></a>
                 <a href="javascript:void(0);" class="importUpBtn defaultBtn"><span>提交数据</span></a>
-                <a href="importChildren.xlsx" class="templateBtn defaultBtn"><span>获取模板</span></a>
+                <a href="importForm-child.xlsx" class="templateBtn defaultBtn"><span>获取模板</span></a>
             </div>
             <div class="importFile">
                 文件上传
@@ -243,6 +248,49 @@
                         </table>
                     </script>
                 </div>
+            </div>
+        </div>
+        <div id="content03" class="content hide">
+            <div class="pageTitle">幼儿信息 <small>家长信息编辑</small></div>
+            <div class="newBox">
+                <span class="closeBtn"></span>
+                <ul>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 姓名：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="userName">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 性别：
+                        </span>
+                        <span class="col02">
+                            <select id="sex">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 出生日期：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="birthday" data-toggle="datepicker" maxlength="10">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            班级名称：
+                        </span>
+                        <span class="col02"><select id="teacherClass01"></select></span>
+                    </li>
+                    <li>备注："<i class="redIcon">*</i>" 为必填项</li>
+                </ul>
+                <div id="new">保存</div>
             </div>
         </div> 
 	</div>

@@ -87,8 +87,8 @@
 #editBtn >span{
 	background: url(../../images/common/editBtn.png) 0 center no-repeat;
 }
-#deleteBtn >span{
-	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
+#export >span{
+	background: url(../../images/common/importBtn01.png) 0 center no-repeat;
 }
 #importBtn{
 	display:none;

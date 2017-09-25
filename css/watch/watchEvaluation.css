@@ -1,0 +1,473 @@
+*{
+    box-sizing: border-box;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+#search{
+	color: #636665;
+	margin-bottom: 0.3rem;
+}
+#search >label >select{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+#search >label >select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+#search >label >input{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+   	color: #969998;
+}
+#searchBtn{
+	display: inline-block;
+	border: 0.01rem solid #c9cccb;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0 0 0.25rem;
+	border-radius: 0.1rem;
+	width: 0.88rem;
+	cursor: pointer;
+	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
+	text-align: center;
+	background-color: #fff;
+	vertical-align: top;
+}
+#searchBtn:hover{
+	background-color: #e1e1e1;
+}
+.defaultBtn{
+	display: inline-block;
+	width: 1.08rem;
+	margin-right: 0.2rem;
+	height: 0.55rem;
+	text-align: center;
+	line-height: 0.5rem;
+	background: url(../../images/common/btnBg.png) center center no-repeat;
+}
+.defaultBtn:hover{
+	background: url(../../images/common/btnBgHover.png) center center no-repeat;
+}
+.defaultBtn >span{
+	display: inline-block;
+	padding-left: 0.28rem;	
+}
+.defaultBtn:hover >span{
+	color: #5cdfe2;
+}
+#newBtn >span{
+	background: url(../../images/common/newBtn.png) 0 center no-repeat;
+}
+#editBtn >span,.importEditBtn >span{
+	background: url(../../images/common/editBtn.png) 0 center no-repeat;
+}
+#deleteBtn >span{
+	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
+}
+.importDelBtn >span{
+	background: url(../../images/common/deleteBtn.png) 5px center no-repeat;
+}
+.importUpBtn >span{
+	background: url(../../images/common/importUpBtn.png) 0 center no-repeat;
+}
+.templateBtn >span{
+	background: url(../../images/common/templateBtn.png) 5px center no-repeat;
+}
+#importBtn >span{
+	background: url(../../images/common/importBtn01.png) 0 center no-repeat;
+}
+#template >span{
+	background: url(../../images/common/templateBtn.png) 0 center no-repeat;
+}
+#buttonBox,#buttonBox01{
+	margin-bottom: 0.2rem;
+}
+.backBtn > span {
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
+}
+.disable{
+	opacity:0.3;
+}
+
+
+
+
+
+
+
+
+
+/*table start*/
+.panel {
+	margin-bottom: 0.2rem;
+	padding: 0.15rem;
+	background-color: #fff;
+	border: 0.01rem solid #e8ebea;
+	border-radius: 0.1rem;
+	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
+	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+}
+.table {
+	color: #656565;
+	border-spacing: 1px;
+	border-collapse: separate;
+	width: 100%;
+	margin-bottom: 0.3rem;
+	background-color: #fff;
+}
+.table >thead >tr{
+	border-bottom: 0.01rem solid #e8ebea;
+}
+th,td {
+	text-align: center;
+	vertical-align: middle;
+}
+.table > thead > tr > th {
+	color: #fff;
+	font-weight: 500;
+}
+.table.table-email tr:hover td {
+	border: 1px solid #f7e463;
+	cursor: pointer;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+	padding: 0.1rem;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	word-break: break-all;
+}
+.fa.fa-check-square-o{
+	color: #5ce0de;
+}
+.fa {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.table .email-date{
+	position: relative;
+}
+.table .email-date:hover > .fade.in.hide {
+	display: inline-block !important;
+	text-align: left;
+	position: absolute;
+	border: 0.02rem solid #666;
+	padding: 0.1rem;
+	min-width: 1.56rem;
+	min-height: 0.55rem;
+	right: 75%;
+	top: 0;
+	background-color: #f8e665;
+	border-radius: 0.1rem;
+}
+.table .email-date > .fade.in.hide > span {
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.36rem;
+	right: -0.15rem;
+	top: 0.1rem;
+	position: absolute;
+	background: url(../../images/health/tableArrow.png) 0 center no-repeat;
+}
+.warningBox{
+	line-height:0.3rem;
+}
+.warningBox::before{
+	width: 0.16rem;
+	height: 0.16rem;
+	display:inline-block;
+	border-radius:0.1rem;
+	background-color: #f89942;
+	content:"";
+	vertical-align: middle;
+	margin-right: 0.1rem;
+}
+i.upBtn{
+	display:inline-block;
+	width: 0.2rem;
+	height: 0.25rem;
+	background: url(../../images/health/up.png) 0 center no-repeat;
+	vertical-align: middle;
+	float: right;
+}
+i.downBtn{
+	display:inline-block;
+	width: 0.2rem;
+	height: 0.25rem;
+	background: url(../../images/health/down.png) 0 center no-repeat;
+	vertical-align: middle;
+	float: right;
+}
+/*table end*/
+
+
+
+/*??? start*/
+
+#main,#main01{
+	text-align: center;
+}
+/*?? start*/
+.newBox{
+	width: 13rem;
+	background-color: #fff;
+	color: #969998;
+	border-radius: 0.1rem;
+	padding: 0.2rem 0.3rem 0.7rem;
+	border: 0.01rem solid #e8ebea;
+	font-size: 0.14rem;
+	position: relative;
+	margin: 0.2rem auto 0;
+}
+.modal-content{
+	padding:0 1rem;
+	background-color: #f5f7f7;
+}
+.table th {
+	text-align: center;
+	cursor: pointer;
+	vertical-align: middle;
+	background-color: #5cdfe2;
+	color:#666;
+}
+.table > tbody > tr > td.edit{
+	cursor: pointer;
+	text-align: left;
+	vertical-align: top;
+}
+.table > tbody > tr > td.edit:hover{
+	background-color: #eee;
+}
+.table > tbody > tr> td.edit.active{
+	background-color: #f8e264;
+}
+#save {
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	color: #fff;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin: 0;
+}
+#save:hover {
+	background-color: #29d1d5;
+}
+#quit,#quit01 {
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #ecf1ef;
+	border-radius: 0.1rem;
+	color: #969999;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin: 0 0.2rem 0;
+}
+#quit:hover,#quit01:hover {
+	background-color: #cfcfcf;
+}
+#new {
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	color: #fff;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 0.3rem;
+}
+#new:hover {
+	background-color: #29d1d5;
+}
+ #quit01 {
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #ecf1ef;
+	border-radius: 0.1rem;
+	color: #969999;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 0.3rem;
+}
+#member{
+	text-align: left;
+}
+#member ul >li {
+	display:inline-block;
+	width: 1.5rem;
+	height: 2.1rem;	
+	text-align: center;
+	margin-right: 0.6rem;
+	vertical-align: middle;
+}
+.monthBox{
+	border: 2px solid #646666;
+	border-radius:0.16rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	line-height: 2.8rem;
+	cursor: pointer;
+}
+.monthBox:hover{
+	box-shadow:0 0 0.08rem #777;
+}
+.monthBox >img{
+	display:inline-block;
+	width: 100%;
+	height: 100%;
+	border-radius:0.16rem;
+	overflow: hidden;
+	background: url(../../images/common/mascot.png) center center no-repeat;
+	background-size: contain;
+}
+.monthTitle{
+	color:#656666;
+	font-size:0.18rem;
+	line-height:0.5rem;
+	vertical-align: top;
+}
+.monthTitle >span.unOk{
+	display:inline-block;
+	background: url(../../images/watch/unOk.png) center center no-repeat;
+	width: 0.24rem;
+	height: 0.24rem;
+	vertical-align: middle;
+	margin-top: -0.05rem;
+}
+.monthTitle >span.ok{
+	display:inline-block;
+	background: url(../../images/watch/ok.png) center center no-repeat;
+	width: 0.24rem;
+	height: 0.24rem;
+	vertical-align: middle;
+	margin-top: -0.05rem;
+}
+.closeBtn, .closeBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1.08rem;
+	right: 0rem;
+	z-index: 0;
+}
+#importEditBox > h4 {
+	text-align: center;
+	color: #656666;
+	font-size: 0.18rem;
+	font-weight: 900;
+	line-height: 0.8rem;
+}
+.col03 {
+	display: inline-block;
+	width: 0.9rem;
+	padding-right: 0.08rem;
+	text-align: right;
+	vertical-align: top;
+	line-height: 0.4rem;
+}
+.col04 {
+	display: inline-block;
+	width: 4rem;
+	height: 100%;
+	color: #666;
+}
+.col04 > select {
+	width: 100%;
+	height: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.1rem 0.15rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../../images/common/selectArrow.png) 97% center no-repeat;
+	color: #666;
+	background-color: #fff;
+}
+.col04 > select > option {
+	height: 0.3rem;
+	padding: 0.05rem 0.16rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+.modal-dialog{
+	width: 6rem;
+	height: 2.2rem;
+	margin:2rem auto 0;
+}
+.modal-content{
+	padding:0 0.6rem;
+}
+#content01 .pageTitle i{
+	margin-left: 0.2rem;
+	color:#5cdfe2;
+}
+.tip{
+	text-align:right;
+	margin-bottom: 0.1rem;
+}
+.tip >span{
+	padding-left: 0.25rem;
+	color:#656666;
+}
+.tip >span:first-of-type{
+	background: url(../../images/watch/unOk.png) 0 center no-repeat;
+}
+.tip >span:last-of-type{
+	background: url(../../images/watch/ok.png) 0 center no-repeat;
+	margin-left: 0.2rem;
+}
+.tableTitle{
+	text-align: center;
+	font-size:0.3rem;
+	line-height:0.4rem;
+	margin-bottom: 0.1rem;
+	color:#5cdfe2;
+}

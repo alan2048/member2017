@@ -14,6 +14,16 @@ function init() {
     $("#searchBtn").click(function () {
         attendGetClassAttendanceInfo_port();
     });
+
+    $("#buttonBox").on("click","#export",function () {
+        var data={
+                year:$(".sc-select-year").val(),
+                month:$(".sc-select-month").val(),
+                classUUID:$("#teacherClass").val(),
+                className:$("#teacherClass >option:selected").text()
+        };
+        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url=/web/attendance/exportExcel&params="+JSON.stringify(data));
+    });
 };
 
 // 点击具体天的请假详情
@@ -172,6 +182,7 @@ function menuChildList_callback(res,menuId) {
         chooseNiceScroll("#sidebarBox","transparent");
 
         loginUserInfo_port();
+        basicButton_port();
     }else if(res.coed =404){
         // window.location.href=path;
     };
@@ -206,5 +217,26 @@ function loginUserInfo_callback(res) {
         }else{
             watchClassList_port();
         };
+    };
+};
+
+// 获取菜单功能按钮列表
+function basicButton_port() {
+    var data={
+            menuId:user.sid
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicButton,param,basicButton_callback);
+};
+function basicButton_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("buttonBox_script",data);
+        $("#buttonBox").append(html);
+        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+        $("#template").attr("href","healthInfo_template.xls");
     };
 };

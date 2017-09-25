@@ -210,7 +210,7 @@ function GetSchoolCourses_callback(res,id) {
         for(var i=0;i<data.length;i++){
             data[i].pic=httpUrl.path_img+data[i].pic+"&minpic=0"
         };
-        var data01={data:data};
+        var data01={data:data,typeId:user.typeID};
         var html=template("activityList_script",data01);
         $("#activityList").empty().append(html);
     }else{
@@ -698,6 +698,7 @@ function loginUserInfo_callback(res) {
             background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
         });
         user.userUuid=data.userUUID;
+        user.typeID=data.typeID;
         GetSchoolIds_port();
         loadingOut();//关闭loading
     };

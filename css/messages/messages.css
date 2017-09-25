@@ -151,6 +151,15 @@ th,td {
 	background: #ebf0ef;
 	cursor: pointer;
 }
+.table.table-email tr td.num:hover{
+	background: #ebf0ef;
+	cursor: pointer;
+}
+.table.table-email tr td.num.active{
+	background: #ebf0ef;
+	cursor: pointer;
+	color:#5ce0de;
+}
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	padding: 0.14rem 0.08rem;
 	margin-bottom: 0.03rem;
@@ -212,7 +221,7 @@ th,td {
 
 
 
-/*分页 start*/
+/*鍒嗛〉 start*/
 #main{
 	text-align: center;
 }
@@ -251,9 +260,9 @@ th,td {
 .pagination > li > a:hover{
 	background-color: #e2e7eb;
 }
-/*分页 end*/
+/*鍒嗛〉 end*/
 
-/*新增 start*/
+/*鏂板 start*/
 .newBox{
 	width: 10rem;
 	margin: auto;
@@ -340,7 +349,7 @@ th,td {
 	margin-right: 0.1rem;
 	cursor: pointer;
 }
-#new{
+#new,#edit{
 	width: 0.8rem;
 	height: 0.4rem;
 	line-height: 0.4rem;
@@ -351,7 +360,7 @@ th,td {
 	float: right;
 	cursor: pointer;
 }
-#new:hover{
+#new:hover,#edit:hover{
 	background-color: #29d1d5;
 }
 .closeBtn {
@@ -365,7 +374,7 @@ th,td {
 	right: 0rem;
 	z-index: 0;
 }
-/*新增 end*/
+/*鏂板 end*/
 textarea {
 	width: 100%;
 	height: 2rem;
@@ -587,7 +596,6 @@ textarea {
 	display:inline-block;
 	width: 0.2rem;
 	height: 0.2rem;
-	margin-left: 2.4rem;
 	background: url(../../images/messages/arrayRight.png) center center no-repeat;
 	vertical-align: middle;
 }
@@ -670,8 +678,10 @@ li.class.active .array{
 	border: none;
 	border-bottom: 1px solid #e8ebea;
 }
-#classBox .array{
-	margin-left: 2.8rem;
+#classBox .array {
+	float: right;
+	margin-right: 0.5rem;
+	margin-top: 0.1rem;
 }
 #classBox{
 	height: 100%;
@@ -741,4 +751,20 @@ li.class.active .array{
 }
 #save:hover{
 	background-color: #0dcdd2;
+}
+.fa {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fa-fw {
+	width: 1.28571429em;
+	text-align: center;
+}
+.fa.fa-check-square-o {
+	color: #5ce0de;
 }

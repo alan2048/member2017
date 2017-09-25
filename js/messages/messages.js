@@ -26,6 +26,42 @@ function init() {
         };
     });
 
+    // 公告删除 选中
+    $("#tableBox").on("click","tbody >tr >td.num",function () {
+        $(this).find("i").toggleClass("fa-check-square-o fa-square-o");
+        $(this).parents("tr").toggleClass("active").siblings().removeClass("active");
+        $(this).toggleClass("active").removeClass("fa-square-o").parent().siblings().find("td.num").removeClass("active").find("i").removeClass("fa-check-square-o").addClass("fa-square-o");
+        if($(this).parents("tr").hasClass("active")){
+            $("#deleteBtn,#editBtn").removeClass("disable");
+        }else{
+            $("#deleteBtn,#editBtn").addClass("disable");
+        }
+    });
+
+    // 删除公告
+    $("#buttonBox").on("click","#deleteBtn",function () {
+        if($(this).hasClass("disable")){
+            toastTip("提示","请先选择删除项。。");   
+        }else{
+            swal({
+                title: "是否删除此信息？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        messageDelete_port();
+                    };
+            });
+        };
+    });
+
     // 返回上一级
     $(".backBtn").on("click",function () {
         if($("#read").hasClass("active")){
@@ -64,7 +100,8 @@ function init() {
     // 新增页
     $("#buttonBox").on("click","#newBtn",function () {
         $(".content").addClass("hide");
-        $("#person").attr("data-toclasses","").attr("data-topersons","");
+        $("#content01 .pageTitle >small").text("新增");
+        $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",false);
         $("#carousel >li:not(.addPic)").remove();
         $("#content01").removeClass("hide").find("input[type=text]").val("");
         $("#content01").find("textarea").val("");
@@ -73,6 +110,52 @@ function init() {
         $(".childPic").removeClass("active");
         $(".need").removeClass("empty");
         $(".newNumBtn > span").text("0");
+        $("#new").removeClass("hide");
+        $("#edit,.voiceList").addClass("hide");
+        user.tempId=new Date().getTime();
+    });
+
+    // 编辑
+    $("#buttonBox").on("click","#editBtn",function () {
+        if($(this).hasClass("disable")){
+            toastTip("提示","请先选择编辑项。。");   
+        }else{
+            var json=JSON.parse($("#tableBox tbody tr.active").attr("data-json"));
+            var data={
+                    md5Arr:json.pictures,
+                    path_img:httpUrl.path_img
+            };
+            
+            $(".content").addClass("hide");
+            $("#content01").removeClass("hide");
+            $("#content01 .pageTitle >small").text("编辑");
+            $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",true).val("");
+            $("#content01").find("textarea").val(json.content);
+            $("#newTitle").val(json.title);
+            $("#newUrl").val(json.url);
+
+            if(json.voice){
+                $(".voiceList").removeClass("hide").find("audio").attr("src",data.path_img+json.voice+"&minpic=0");
+            }else{
+                $(".voiceList").addClass("hide").find("audio").attr("src","");
+            };
+
+            $("#edit").attr("data-id",json.contentId);
+            $("#carousel >li:not(.addPic)").remove();
+            var html="";
+            for(var i=0;i<data.md5Arr.length;i++){
+                html+="<li>"+
+                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+data.path_img+data.md5Arr[i]+"&minpic=0 class=\"pic\" data-pic="+data.md5Arr[i]+">"+
+                            "<img src="+data.path_img+data.md5Arr[i]+"&minpic=1>"+
+                            "<span class=\"deleteBtn\"></span>"+
+                        "</a>"+
+                    "</li>";
+            };
+            $("#addPicBtn").parent("li").before(html).find("div").remove();
+            $("#new").addClass("hide");
+            $("#edit").removeClass("hide");
+            user.tempId=new Date().getTime();
+        };
     });
 
     // 新增图层返回主界面
@@ -81,13 +164,29 @@ function init() {
         $("#content").removeClass("hide");
     });
     
-    $("#new").click(function () {
+    $("#new").on("click",function () {
         ValidateInput();
         if($(".need").hasClass("empty")){
             toastTip("提示","红色框为必填项。。");
         }else{
-            if($("#newUrl").val() || $("#newContent").val())
-            noticeAddNew_port();
+            if($("#newUrl").val() || $("#newContent").val()){
+                noticeAddNew_port();
+            };
+        };
+    });
+
+    // 编辑
+    $("#edit").on("click",function () {
+        if(!$("#newTitle").val()){
+            $("#newTitle").addClass("empty");
+            toastTip("提示","标题为必填");
+        }else{
+            $("#newTitle").removeClass("empty");
+            if($("#newUrl").val() || $("#newContent").val()){
+                noticeEdit_port();
+            }else{
+                toastTip("提示","外链和内容比填其一。")
+            };
         };
     });
 
@@ -133,6 +232,11 @@ function init() {
         };
         
         $(this).parents(".children").prev(".classTitle").find(".right").text();
+    });
+
+    // 新增图片删除
+    $("#carousel").on("click",".deleteBtn",function () {
+        $(this).parents(".pic").parent().remove();
     });
 };
 
@@ -184,7 +288,25 @@ function isURL(str) {
         } 
 }; */
 
-
+// 删除公告
+function messageDelete_port() {
+    var data={
+            noticeId:user.noticeId,
+            contentId:$("#tableBox tr.active").attr("data-contentid")
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.noticeDelNoticeContent,param,messageDelete_callback);
+};
+function messageDelete_callback(res) {
+    if(res.code==200){
+        noticeGetContentList_port();
+    }else{
+        toastTip("提示",res.info);
+    };
+};
 
 
 
@@ -206,6 +328,7 @@ function noticeGetContentList_port(pageNum) {
 function noticeGetContentList_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        console.log(data);
         data.path_img=httpUrl.path_img;
         for(var i=0;i<data.noticeContents.length;i++){
             data.noticeContents[i].time=new Date(data.noticeContents[i].time*1000).Format("yyyy-MM-dd");
@@ -225,6 +348,8 @@ function noticeGetContentList_callback(res) {
                 noticeGetContentList_port(pageNumber);
             }
         });
+
+        $("#deleteBtn,#editBtn").addClass("disable");
     };
 };
 
@@ -392,7 +517,7 @@ function noticeAddNew_port() {
                 };
                 return arr;
             }(),
-            tempId:new Date().getTime(),
+            tempId:user.tempId,
             title:$("#newTitle").val(),
             toClasses:JSON.parse($("#person").attr("data-toclasses")),
             toPersons:JSON.parse($("#person").attr("data-topersons")),
@@ -410,7 +535,6 @@ function noticeAddNew_port() {
             uuid:$(".userName").attr("data-useruuid"),
             voice:""
     };
-    console.log(data);
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
@@ -418,6 +542,47 @@ function noticeAddNew_port() {
     initAjax(httpUrl.noticeAddNew,param,noticeAddNew_callback);
 };
 function noticeAddNew_callback(res) {
+    if(res.code==200){
+        noticeGetContentList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
+        $(".closeBtn").click();
+    };
+};
+
+// 编辑公告内容
+function noticeEdit_port() {
+    var data={
+            content:$("#newContent").val(),
+            contentId:$("#edit").attr("data-id"),
+            noticeId:user.noticeId,
+            pictures:function () {
+                var arr=[];
+                for(var i=0;i<$("#carousel >li >a.pic").length;i++){
+                    arr.push($("#carousel >li >a.pic").eq(i).attr("data-pic"))
+                };
+                return arr;
+            }(),
+            title:$("#newTitle").val(),
+            url:function () {
+                var url="";
+                if($("#newUrl").val()){
+                    if($("#newUrl").val().indexOf("http")>=0){
+                        url=$("#newUrl").val();
+                    }else{
+                        url="http://"+$("#newUrl").val();
+                    }
+                };
+                return url;
+            }(),
+            voice:$(".voiceList audio").attr("src")
+    };
+    console.log(data);
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.noticeUpdateNoticeContent,param,noticeEdit_callback);
+};
+function noticeEdit_callback(res) {
     if(res.code==200){
         noticeGetContentList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
         $(".closeBtn").click();

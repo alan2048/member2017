@@ -1,0 +1,97 @@
+<html>
+					<head>
+						<meta charset="utf-8" />
+						<title>God开门</title>
+						<link rel="shortcut icon" href="./images/favicon.png">
+						<script src="js/jquery-1.11.1.min.js"></script> 
+						<script>
+							function controlDoor(facilityId,mode){
+								$.ajax({
+									type:"POST",
+									url:"http://192.168.30.180:8080/God/facility.do?act=controlDoor",
+									data:"facilityId="+facilityId+"&mode="+mode,
+									dataType:"text",
+									success:function(returnData){
+										 if(returnData=='OK'){
+											alert("大步跨进去");
+										 }else{
+											alert("再试下哦");
+											return false;
+										 }
+									},
+									error : function(textStatus) {
+										alert("只能内网用哦");
+									}
+								});	
+							}
+						</script>
+						
+						<style type="text/css">  
+							body,html{  
+								margin:0;  
+								padding: 0;  
+								height: 100%;  
+							}  
+							
+							#wrapper1 {
+								display: table;
+							}
+
+							#cell1 {
+								display: table-cell;
+								vertical-align: middle;
+							}
+							
+							.button {
+								zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+								*display: inline;
+								vertical-align: baseline;
+								margin: 0;
+								outline: none;
+								cursor: pointer;
+								text-align: center;
+								text
+								text-decoration: none;
+								font: 50px/100% '微软雅黑',Arial, Helvetica, sans-serif;
+								text-shadow: 0 1px 1px rgba(0,0,0,.3);
+								-webkit-border-radius: .5em; 
+								-moz-border-radius: .5em;
+								border-radius: .5em;
+								-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+								-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+								box-shadow: 0 1px 2px rgba(0,0,0,.2);
+							}
+							.button:hover {
+								text-decoration: none;
+							}
+							.button:active {
+								position: relative;
+								top: 1px;
+							}
+							
+							
+						</style>  
+						
+					</head>
+				<body>
+					<div style="height:25%;width:100%;">
+					</div >
+					<div style="width:4%;height:150px;float:left;">
+					</div>
+					<div id="wrapper2" style="width:44%;height:150px;float:left;">
+					
+						<div id="cell2" class="button" style="min-height: 100%;color:#fff;background-color: #5cdfe2;padding:50px 0px 0px 0px;font-size:80px;inline-height:100px;" onclick="controlDoor('924205eef62547e7a0e8e5c4bbc65b1a','01');return false">  
+							&nbsp;大门6001&nbsp;
+						</div>
+					</div>
+					<div style="width:4%;height:150px;float:left;">
+					</div>
+					<div id="wrapper3" style="width:44%;height:150px;float:left;">
+					
+						<div id="cell2" class="button" style="min-height: 100%;color:#fff;background-color: #5cdfe2;padding:50px 0px 0px 0px;font-size:80px;inline-height:100px;" onclick="controlDoor('c7403019ae284d04b521f11329dbd167','01');return false">  
+							&nbsp;萌宝6008&nbsp;
+						</div>
+					</div>
+					<div style="width:4%;height:150px;float:left;">
+					</div>
+				</body></html>

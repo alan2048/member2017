@@ -1,3 +1,4 @@
+template.defaults.escape=false;
 $(function () {
     loadingOut();//关闭loading
     init();

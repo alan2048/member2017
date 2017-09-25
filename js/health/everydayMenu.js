@@ -415,6 +415,13 @@ function loginUserInfo_callback(res) {
             background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
+
+        // 家长权限控制
+        if(data.typeID==20){
+            $(".menuBtn").addClass("hide");
+        }else{
+            $(".menuBtn").removeClass("hide");
+        };
     };
 };
 

@@ -1149,3 +1149,6 @@ footer >span:nth-of-type(3){
 select:focus,input:focus{
 	outline-style:none;
 }
+video{
+	width: 100%;
+}

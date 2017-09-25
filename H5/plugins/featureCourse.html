@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>自选活动</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png">
+	<link rel="stylesheet" href="./plugins/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="./plugins/raty/star-rating.min.css">
+	<link rel="stylesheet" href="./css/featureCourse.css">
+</head>
+<body>
+	<div id="app">
+		<section id="course" class="box-content current">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<ul id="myTab" class="nav nav-tabs"></ul>
+						<div id="myTabContent" class="tab-content"></div>
+						<script type="text/html" id="myTab_script">
+							{{each data as value i}}
+							<li class="{{if i==0}}active{{/if}}" style="width:{{num}}%"><a href="#course0{{value.id}}" data-toggle="tab" data-school="{{value.id}}">{{value.name}}</a></li>
+							{{/each}}
+						</script>
+						<script type="text/html" id="myTabContent_script">
+							{{each data as value i}}
+							<div class="tab-pane fade {{if i==0}}in active{{/if}}" id="course0{{value.id}}" data-school="{{value.id}}"></div>
+							{{/each}}
+						</script>
+						<script id="course_script" type="text/html">
+    						{{each data as value i}}
+    						{{if value.isStop =="0"}}
+    						<div class="row" data-id="{{value.id}}">
+								<div class="col-xs-4"><img src="{{value.pic}}&minpic=1" class="courseImg"></div>
+								<div class="col-xs-8">
+									<h4>{{value.title}}</h4>
+									<div class="courseCon">{{value.content}}</div>
+									<div>
+										<span class="courseTime">时间：{{value.displayTime}}</span>
+										<span class="courseBtn {{if value.booked == 1}}current{{else if value.booked ==2}}pause{{/if}}" data-id="{{value.id}}" data-time="{{value.time}}">{{if value.booked == 1}}已预约{{else}}预约{{/if}}</span>
+									</div>
+								</div>
+    						</div>
+    						{{/if}}
+    						{{/each}}
+    					</script>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="detail" class="box-content">
+			<div class="container"></div>
+			<script type="text/html" id="detail_script">
+				<div class="row title">
+					<div class="rowBg" style="background: url({{pic}}) center center no-repeat;background-size: cover;"></div>
+					<div class="col-xs-12">
+						
+					</div>
+					<div class="col-xs-4"><img src="{{pic}}" class="courseImg"></div>
+					<div class="col-xs-8">
+						<h4>{{title}}</h4>
+						<div>{{content}}</div>
+						<div>
+							<input id="star" value="3" type="number" class="rating-loading" min=0 max=5 step=0.1 data-size="xs" data-default-caption="{rating}" data-star-captions="{}">
+							<span class="starNum">{{star}}</span>
+						</div>
+						<div>时间：{{displayTime}}</div>
+					</div>
+				</div>
+				<div class="row content" >
+					<div class="col-xs-12">
+						<h4 class="icon01">活动介绍：</h4>
+						<div class="detailPic">
+							<div>
+							{{each coursePics as value i}}
+							<img src="{{value}}&minpic=1">
+							{{/each}}
+							</div>
+						</div>
+						<div class="detailText">{{if detailType ==1}}{{detailContent01}} <span class="detailText01">展开全文</span><span class="detailText02">{{detailContent02}}</span>{{else}}{{detailContent}}{{/if}}</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h4 class="icon02">活动地点：</h4>
+						<div class="detailText">{{place}}</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h4 class="icon03">指导教师：</h4>
+						<div class="detailText">{{teachers}}</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h4 class="icon04">活动材料：</h4>
+						<div class="detailText">{{gameMaterial}}</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h4 class="icon05">温馨提示：</h4>
+						<div class="detailText">{{reminder}}</div>
+					</div>
+				</div>
+				<div class="row content" >
+					<div class="col-xs-12">
+						<h4 class="icon06">作品展示：</h4>
+						<div class="detailPic workShow">
+							<div>
+							{{each workShow as value i}}
+							<img src="{{value}}&minpic=1">
+							{{/each}}
+							</div>
+						</div>
+					</div>
+				</div>
+				<span id="backBtn"></span>
+				<div id="foot-nav">
+					<div class="col-xs-6 {{if isComment == 1}}current{{else if isComment ==2}}pause{{/if}}" id="remark" data-id="{{id}}" data-time="{{time}}">{{if isComment == 1}}已评分{{else}}评分{{/if}}</div>
+					<div class="col-xs-6 {{if booked == 1}}current{{else if booked ==2}}pause{{/if}}" id="order" data-id="{{id}}" data-time="{{time}}">{{if booked == 1}}取消预约{{else}}预约{{/if}}</div>
+				</div>
+			</script>
+		</section>
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="modal01">
+  		<div class="modal-dialog modal-sm" role="document">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        			<h4 class="modal-title">提示</h4>
+      			</div>
+      			<div class="modal-body">
+        			<p>确定取消预约吗？</p>
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        			<button type="button" class="btn btn-primary" id="success01">确定</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="modal02">
+  		<div class="modal-dialog modal-sm" role="document">
+    		<div class="modal-content">
+      			<div class="modal-body">
+      				<span id="kv-caption"></span>
+      				<input id="star02" name="star02" value="0" data-min="0" data-max="5" data-step="1" class="rating-loading">
+      				<div class="detailText">请给出您的评分哦~</div>
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-primary" id="success02">发布</button>
+					<br>
+        			<button type="button" class="btn btn-default" data-dismiss="modal" id="quitBtn">X</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="modal03">
+  		<div class="modal-dialog modal-sm" role="document">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        			<h4 class="modal-title">提示</h4>
+      			</div>
+      			<div class="modal-body">
+        			<p>此功能暂未开放</p>
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	<div id="modal04">
+  		<span>预约成功</span>
+	</div>
+	<script src="js/jquery-1.11.1.min.js"></script> 
+	<script src="js/template.js"></script> 
+	<script src="./plugins/bootstrap/bootstrap.min.js"></script>
+	<script src="./plugins/raty/star-rating.min.js"></script>
+	<script src="./js/base.js"></script>
+	<script src="./js/featureCourse.js"></script>
+</body>
+</html>

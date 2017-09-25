@@ -584,6 +584,7 @@ ul.has-menu > li >img{
 	-webkit-user-select:none;
 	-ms-user-select:none;
 	user-select:none;
+	box-sizing:border-box;
 }
 #recordOk .recordImg01 img{
 	border: 2px solid #5cdee1;
@@ -1694,4 +1695,37 @@ span.line01{
 }
 .triangle01.active,.triangle02.active {
 	display: inline-block;
+}
+
+.edit >.editBtn{
+	display:inline-block;
+}
+.editBtn{
+	display:inline-block;
+	position:absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background-color: rgba(77,77,77,0.7);
+	color:#fff;
+	font-size:14px;
+	border-radius: 5px;
+	display:none;
+}
+.editBtn >span:first-of-type{
+	display:inline-block;
+	padding-top: 50px;
+}
+.editBtn >span:last-of-type{
+	display:inline-block;
+	width: 28px;
+	height: 28px;
+	border-radius:14px;
+	background-color: #f8abab;
+	line-height: 28px;
+	font-size:16px;
+	margin-top: 10px;
+}
+.editBtn >span:last-of-type:hover{
+	box-shadow:0 0 3px #111;
 }

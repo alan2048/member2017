@@ -561,3 +561,21 @@ th,td {
 #tableBox02{
 	height: 100%;
 }
+.parentEdit{
+	display:inline-block;
+	width: 30px;
+	height: 30px;
+	background: url(../../images/common/editBtn.png) center center no-repeat;
+	cursor: pointer;
+	border: 1px solid #000;
+	border-radius: 8px;
+}
+.parentDelete{
+	display:inline-block;
+	width: 30px;
+	height: 30px;
+	background: url(../../images/common/deleteBtn.png) center center no-repeat;
+	cursor: pointer;
+	border: 1px solid #000;
+	border-radius: 8px;
+}

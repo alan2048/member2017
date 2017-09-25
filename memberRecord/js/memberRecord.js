@@ -77,7 +77,7 @@ function savePic() {
 	var h=$("#canvasMain").height();
 
     // 背景图初始化
-    fabric.Image.fromURL(httpUrl.path_img+"bbb1e18765f9cae4f6d5448ca241ed37&minpic=0",function(Img) {
+    fabric.Image.fromURL(httpUrl.path_img+"61902139aead7370f1be1cb8c30a51ad&minpic=0",function(Img) {
             var w01=$("#canvasMain").width()-20;
             var h01=$("#canvasMain").height()-20;
             Img.scaleToWidth(w01).scaleToHeight(h01).set({
@@ -374,10 +374,10 @@ function savePic() {
     $("#recordOk").on("dblclick",".recordImg",function () {
         $("#evaluate").removeClass("active");
         $("#canvas").addClass("active");
-        $("#modal-dialog-img").modal("show");
+        
         var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
         $("#carousel_img").empty().append("<img src="+src+" data-curpic="+$(this).attr("data-pic")+" />");
-        
+        recordDanDetail_port($(this).attr("data-id"));
         /*if($("#canvas").hasClass("active")){
             var imgUrl=httpUrl.path_img+$(this).attr("data-pic");
             fabric.Image.fromURL(imgUrl,function(Img) {
@@ -666,7 +666,7 @@ function savePic() {
                         showConfirmButton: false
                     }); 
                 // console.log(canvas.toDataURL("png"));
-                recordSaveOrUpdate_port(canvas.toDataURL('png'));
+                recordSaveOrUpdate_port(canvas.toDataURL('png'),JSON.stringify(canvas));
             };
         }
     	
@@ -740,7 +740,7 @@ function recordNewDanbook_callback(res) {
 function recordSaveOrUpdate_port(imgBase64,content) {
     var data={
     		bookId:$("#user").attr("data-bookid"),
-    		id:"0",
+    		id:$(".recordImg.edit").attr("data-id") || "0",
     		childUserUuid:$("#user").attr("data-useruuid"),
     		content:content || "",
     		imgBase64:imgBase64,
@@ -755,6 +755,7 @@ function recordSaveOrUpdate_port(imgBase64,content) {
 function recordSaveOrUpdate_callback(res) {
 	if(res.code==200){
 		// console.log(res.data);
+        $("#savePic").attr("data-id","");// 区分新增、编辑 
 		recordDanList_port();
 	}else if(res.code==404){
         toastTip("提示","加载失败，请稍候重试。。","2500");
@@ -769,6 +770,40 @@ function autoCanvasWidth() {
 };
 
 
+// 获取档案页详情
+function recordDanDetail_port(id) {
+    var data={
+            id:id
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.recordDanDetail,param,recordDanDetail_callback,id);
+};
+function recordDanDetail_callback(res,id) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        if(data.pageContent){
+            $(".recordImg").removeClass("edit");
+            $(".recordImg[data-id="+id+"]").addClass("edit");// 预览列表有选中时为编辑
+            var content=JSON.parse(data.pageContent);
+            // content.objects[0].evented=false;// 默认背景锁定
+            // content.objects[0].selectable=false;// 默认背景锁定
+            // content.objects[0].width=$("#canvasMain").width()-40;
+            // content.objects[0].height=$("#canvasMain").height()-40;
+
+            canvas.clear();
+            canvas.loadFromJSON(content, canvas.renderAll.bind(canvas));
+            console.log(content)
+        }else{
+            $("#modal-dialog-img").modal("show");
+        };
+    }else if(res.code==404){
+        toastTip("提示","加载失败，请稍候重试。。","2500");
+        // window.location.href=httpUrl.loginHttp;
+    };
+};
 
 
 
@@ -1031,6 +1066,10 @@ function recordList() {
         };
 	});
 
+    $("#recordOk").on("click",".recordImg .closeEditBtn",function (e) {
+        $(this).parents(".recordImg").removeClass("edit");
+        e.stopPropagation();
+    });
 
 
 };
@@ -1498,7 +1537,7 @@ function recordStudent_callback(res) {
             showHideTransition: 'slide',
             icon: 'success',
             hideAfter: 2500,
-            loaderBg: '#13b5dd',
+            loaderBg: '#edd42e',
             position: 'bottom-right',
             afterHidden: function () {
                 window.location.href="../index.html";
@@ -1718,7 +1757,7 @@ function toastTip(heading,text,hideAfter) {
         	showHideTransition: 'slide',
         	icon: 'success',
         	hideAfter: hideAfter || 1500,
-        	loaderBg: '#13b5dd',
+        	loaderBg: '#edd42e',
         	position: 'bottom-right'
     });
 };

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<title>聚贤幼儿园</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png">
+	<style>
+		body{
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			overflow-x: hidden;
+		}
+		#app{
+			padding: 10px;
+			position: relative;
+		}
+		#app > img{
+			width: 100%;
+		}
+		#app > #QR {
+			position: absolute;
+			top: 68%;
+			width: 100%;
+			margin: 0 auto;
+			text-align: center;
+		}
+		#app > #QR img{
+			width: 30%;
+		}
+	</style>  
+	<script src="js/jquery-1.11.1.min.js"></script> 
+</head>
+<body>
+	<div id="app">
+		<img src="./images/yilabao.png" alt="">
+		<div id="QR"><a href="#"><img src="" alt=""></a></div>
+	</div>
+	<script>
+		$(function () {
+			var str={
+					url:"#",
+					img:"window"
+			};
+			if(navigator.userAgent.indexOf("iPhone") >0){
+				str.img="ios";
+				str.url="https://itunes.apple.com/cn/app/%E8%90%8C%E5%AE%9D%E5%AE%B6%E5%9B%AD/id1001442052?mt=8";
+			};
+			if(navigator.userAgent.indexOf("Android") >0){
+				str.img="android";
+				str.url="https://www.pgyer.com/mbjy";
+			};
+			$("#QR a").attr("href",str.url);
+			$("#QR img").attr("src","images/"+str.img+".png");
+		});
+	</script>
+</body>
+</html>

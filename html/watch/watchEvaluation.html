@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>综合评价</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png" />
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/watch/watchEvaluation.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f8abab;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">综合评价</div>
+			<div id="search">
+      			<label>
+                    年份：
+                    <select id="year" class="year"></select>
+                    <script id="year_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value}}">{{value}}年</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    月份：
+                    <select id="month" class="month"></select>
+                    <script id="month_script" type="text/html">
+                        {{each month as value i}}
+                        <option value="{{value}}">{{if value <10}}0{{value}}月{{else}}{{value}}月{{/if}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    班级：
+                    <select id="teacherClass"></select>
+                    <script id="teacherClass_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value.classUuid}}">{{value.className}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    <span id="searchBtn">查询</span>
+                </label>
+			</div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+			<div id="main">
+                <div class="tip"><span>未评价</span><span>已评价</span></div>
+				<div id="member"></div>
+                <script type="text/html" id="member_script">
+                    <ul>
+                        {{each arr as value  i}}
+                        <li>
+                            <div class="monthBox" data-id="{{value.evaluateId}}" data-userid="{{value.userUuid}}" data-name="{{value.userName}}"><img src="{{path_img}}{{value.portrait}}&minpic=1" alt=""></div>
+                            <div class="monthTitle">{{value.userName}} <span class="{{if value.state ==0}}unOk{{else}}ok{{/if}}"></span></div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </script>
+			</div>
+	    </div> 
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle">综合评价 <small>新增</small><i id="month02"></i></div>
+            <div>
+                <a href="javascript:void(0);" class="backBtn defaultBtn"><span>返回上级</span></a>
+            </div>
+            <div class="newBox">
+                <div class="email-content" id="tableBox"></div>
+                <script type="text/html" id="tableBox_script">
+                    <div class="tableTitle" data-child="{{user.childUserUuid}}" data-evaluateid="{{user.id}}">{{user.name}}</div>
+                    <table class="table current" data-first="{{firstDim}}" id="tableCanvas">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="width: 10%;">领域</th>
+                                <th colspan="3" rowspan="2" style="width: 24%;">评价内容与标准</th>
+                                <th colspan="3" style="width: 66%;">水平描述</th>
+                            </tr>
+                            <tr>
+                                <th style="width: 22%;">水平表现一</th>
+                                <th style="width: 22%;">水平表现三</th>
+                                <th style="width: 22%;">水平表现五</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{each arr as value i}}
+                            <tr data-id="{{value.id}}" data-fatherid="{{value.father.id}}" data-grandfatherid="{{value.grandfather.id}}" data-grandgrandfatherid="{{value.grandgrandfather.id}}">
+                                <td data-id="{{value.grandgrandfather.id}}" style="width: 10%;">{{value.grandgrandfather.name}}</td>
+                                <td data-id="{{value.grandfather.id}}" style="width: 8%;">{{value.grandfather.name}}</td>
+                                <td data-id="{{value.father.id}}" style="width: 8%;">{{value.father.name}}</td>
+                                <td data-id="{{value.id}}" data-fatherid="{{value.father.id}}" style="width: 8%;" >{{value.name}}</td>
+                                {{each value.levelVOList as value01 j}}
+                                <td data-dimid="{{value01.dimId}}" data-vid="{{value01.id}}" data-fatherid="{{value.father.id}}" data-level="{{value01.level}}" style="width: 18%;" class="edit">{{value01.description}}</td>
+                                {{/each}}
+                            </tr>
+                            {{/each}}
+                            
+                        </tbody>
+                    </table>
+                    <div class="newBtnBox">
+                        <span id="save" data-id="">保存</span>
+                        <span id="quit" data-dismiss="modal">取消</span>
+                    </div>
+                </script>
+            </div>
+        </div>
+	</div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/html2canvas.min.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+	<script src="../../js/watch/watchEvaluation.js"></script>
+</body>
+</html>

@@ -10,11 +10,12 @@
 	<link rel="shortcut icon" href="../../images/favicon.png">
 
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/messages/messages.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/messages/messages.css?t=2017090120" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -84,7 +85,7 @@
                            	 <tbody>
                            	 	{{each noticeContents as item i}}
                             	<tr data-json="{{item.json}}" data-url="{{item.url}}" data-contentid="{{item.contentId}}" class="{{if item.isReaded==1}}isReaded{{/if}}">
-                                  	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{i+1}}</td>
+                                  	<td class="{{if item.isReaded==1}}isReaded{{/if}} num"><i class="fa fa-square-o fa-fw" data-id={{item.staffUUID}}></i>{{i+1}}</td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}"><img src="{{path_img}}{{item.coverPicture}}&minpic=1" alt=""></td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{if item.url}}<a href="javascript:void(0);">{{item.title}}</a>{{else}}{{item.title}}{{/if}}</td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{item.time}}</td>
@@ -124,6 +125,14 @@
                             </ul>
                         </span>
                     </li>
+                    <li class="voiceList hide" id="AA">
+                        <span class="col01">
+                            语音：
+                        </span>
+                        <span class="col02">
+                            <audio controls="controls" src=""></audio>
+                        </span>
+                    </li>
                     <li>
                         <span class="col01">
                             <i class="redIcon">*</i> 标题：
@@ -157,6 +166,7 @@
                     </li>
                 </ul>
                 <div id="new">新增</div>
+                <div id="edit" class="hide">编辑</div>
             </div>
         </div>
 
@@ -297,7 +307,7 @@
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
     <script src="../../js/common/modal.js"></script>
 
-	<script src="../../js/common/base.js"></script>
-	<script src="../../js/messages/messages.js"></script>
+	<script src="../../js/common/base.js?t=2017090120"></script>
+	<script src="../../js/messages/messages.js?t=2017090120"></script>
 </body>
 </html>

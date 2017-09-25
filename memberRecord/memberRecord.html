@@ -290,11 +290,21 @@
 					<li data-id="{{value.id}}" data-pageidx="{{value.pageIdx}}">
 						{{if value.isMakeByChild != 0}}
 						<div class="recordImg recordImg01" data-id="{{value.id}}" data-pic="{{value.imgUrl}}">
+							<span class="editBtn">
+								<span>正在编辑...</span>
+								<br>
+								<span class="closeEditBtn">X</span>
+							</span>
 							<img src="{{value.pic}}" alt="">
 							<span class="deleteBtn" data-id="{{value.id}}" data-delete="{{value.canDelete}}"></span>
 						</div>
 						{{else}}
 						<div class="recordImg recordImg02" data-id="{{value.id}}" data-pic="{{value.imgUrl}}">
+							<span class="editBtn">
+								<span>正在编辑...</span>
+								<br>
+								<span class="closeEditBtn">X</span>
+							</span>
 							<img src="{{value.pic}}" alt="">
 							<span class="deleteBtn" data-id="{{value.id}}" data-delete="{{value.canDelete}}"></span>
 						</div>

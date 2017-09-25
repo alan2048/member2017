@@ -4,10 +4,7 @@ $(function () {
 });
 function init() {
     menu();
-    $("#year01,#month01").change(function () {
-        echart_A01_port();
-    });
-    $("#year03,#month03,#class").change(function () {
+    $("#class").change(function () {
         echart_A03_port();
     });
 
@@ -33,20 +30,101 @@ function myClassInfo_callback(res) {
         var html=template("class_script",data);
         $("#class").empty().append(html);
 
-        // 月份选择初始化
-        var d=new Date();
-        var month={arr:[1,2,3,4,5,6,7,8,9,10,11,12]};
-        var htmlMonth=template("month_script",month);
-        $(".month").append(htmlMonth).find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
+        var curMonth=function () {
+            if(new Date().getMonth() <9){
+                return "-0"+(new Date().getMonth()+1);
+            }else{
+                return "-"+(new Date().getMonth()+1);
+            }
+        }();
+        var maxDays=new Date(new Date().getFullYear(),(new Date().getMonth()+1),0).getDate();
 
-        // 年份选择初始化
-        var year={arr:[d.getFullYear()+1]};
-        for(var i=d.getFullYear();i>2015;i--){
-            year.arr.push(i)
-        };
-        year.arr.reverse();
-        var yearMonth=template("year_script",year);
-        $(".year").append(yearMonth).find("option[value="+d.getFullYear()+"]").prop("selected",true);
+        $("#beginTime01,#beginTime02,#beginTime03").val(new Date().getFullYear()+curMonth+"-01");
+        $("#endTime01,#endTime02,#endTime03").val(new Date().getFullYear()+curMonth+"-"+maxDays);
+        // 日历
+        $('#beginTime01').datepicker({
+            todayHighlight:true,
+            language:'zh-CN'
+        }).on("changeDate",function (ev) {
+            if($("#beginTime01").val()){
+                $("#beginTime01").removeClass("empty");
+            }else{
+                $("#beginTime01").addClass("empty");
+            };
+            $('#beginTime01').datepicker("hide");
+
+            var beginTime=new Date($("#beginTime01").val()).getTime();
+            var endTime=new Date($("#endTime01").val()).getTime();
+            if(beginTime < endTime){
+                echart_A01_port();
+            }else{
+                echart_A01_port();
+                toastTip("提示","开始时间 需小于 结束时间。",2000);
+            };
+        });
+
+        $('#beginTime03').datepicker({
+            todayHighlight:true,
+            language:'zh-CN'
+        }).on("changeDate",function (ev) {
+            if($("#beginTime03").val()){
+                $("#beginTime03").removeClass("empty");
+            }else{
+                $("#beginTime03").addClass("empty");
+            };
+            $('#beginTime03').datepicker("hide");
+
+            var beginTime=new Date($("#beginTime03").val()).getTime();
+            var endTime=new Date($("#endTime03").val()).getTime();
+            if(beginTime < endTime){
+                echart_A03_port();
+            }else{
+                echart_A03_port();
+                toastTip("提示","开始时间 需小于 结束时间。",2000);
+            };
+        });
+
+        $('#endTime01').datepicker({
+            todayHighlight:true,
+            language:'zh-CN'
+        }).on("changeDate",function (ev) {
+            if($("#endTime01").val()){
+                $("#endTime01").removeClass("empty");
+            }else{
+                $("#endTime01").addClass("empty");
+            };
+            $('#endTime01').datepicker("hide");
+
+            var beginTime=new Date($("#beginTime01").val()).getTime();
+            var endTime=new Date($("#endTime01").val()).getTime();
+            if(beginTime < endTime){
+                echart_A01_port();
+            }else{
+                echart_A01_port();
+                toastTip("提示","开始时间 需小于 结束时间。",2000);
+            };
+        });
+
+        $('#endTime03').datepicker({
+            todayHighlight:true,
+            language:'zh-CN'
+        }).on("changeDate",function (ev) {
+            if($("#endTime03").val()){
+                $("#endTime03").removeClass("empty");
+            }else{
+                $("#endTime03").addClass("empty");
+            };
+            $('#endTime03').datepicker("hide");
+
+            var beginTime=new Date($("#beginTime03").val()).getTime();
+            var endTime=new Date($("#endTime03").val()).getTime();
+            if(beginTime < endTime){
+                echart_A03_port();
+            }else{
+                echart_A03_port();
+                toastTip("提示","开始时间 需小于 结束时间。",2000);
+            };
+        });
 
         echart_A01_port();
         echart_A03_port();
@@ -57,8 +135,8 @@ function myClassInfo_callback(res) {
 // echart_A01接口
 function echart_A01_port() {
     var data={
-            year:$("#year01").val(),
-            month:$("#month01").val()
+            beginTime:$("#beginTime01").val(),
+            endTime:$("#endTime01").val()
         };
     var param={
             params:JSON.stringify(data),
@@ -107,7 +185,7 @@ function echart_A01(id,json){
             grid: {
                 left: '3%',
                 right: '4%',
-                bottom: '5%',
+                bottom: '10%',
                 containLabel: true
             },
             xAxis : [
@@ -119,7 +197,7 @@ function echart_A01(id,json){
                     },
                     axisLabel:{
                         interval:0,
-                        rotate: 30
+                        rotate: -60
                     }
                 }
             ],
@@ -150,8 +228,8 @@ function echart_A01(id,json){
 // echart_A03接口
 function echart_A03_port() {
     var data={
-            year:$("#year03").val(),
-            month:$("#month03").val(),
+            beginTime:$("#beginTime03").val(),
+            endTime:$("#endTime03").val(),
             classId:$("#class").val()
         };
     var param={
@@ -202,7 +280,7 @@ function echart_A03(id,json){
             grid: {
                 left: '3%',
                 right: '4%',
-                bottom: '5%',
+                bottom: '10%',
                 containLabel: true
             },
             xAxis : [
@@ -214,7 +292,7 @@ function echart_A03(id,json){
                     },
                     axisLabel:{
                         interval:0,
-                        rotate: 30
+                        rotate: -60
                     }
                 }
             ],
@@ -242,7 +320,18 @@ function echart_A03(id,json){
     myChart.setOption(option); 
 };
 
-
+(function($){
+    $.fn.datepicker.dates['zh-CN'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            today: "今天",
+            suffix: [],
+            meridiem: ["上午", "下午"]
+    };
+}(jQuery));
 
 
 

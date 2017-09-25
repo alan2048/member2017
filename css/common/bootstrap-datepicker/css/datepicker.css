@@ -506,6 +506,7 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 20px;
+  z-index: 10000 !important;
 }
 .datepicker.dropdown-menu th,
 .datepicker.datepicker-inline th,

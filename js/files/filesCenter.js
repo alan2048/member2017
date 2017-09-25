@@ -297,6 +297,15 @@ function fileGetChildFileInfo_callback(res,obj) {
                 $(".breadBack").removeClass("active");
             };
         };
+
+        // 排序函数
+        /*var el = document.getElementById('todolistBox');
+        var sortable = new Sortable(el, {
+                sort:false,
+                onEnd:function (evt) {
+                    console.log(evt);
+                }
+        });*/
     };
 };
 

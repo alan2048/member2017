@@ -67,7 +67,7 @@
                 <div class="filesBox">
                     <div id="todolist"></div>
                     <script type="text/html" id="todolist_script">
-                        <ul class="todolistBox">
+                        <ul class="todolistBox" id="todolistBox">
                             {{each arr as item i}}
                                 <li data-fileuuid={{item.fileUUID}} class="{{item.fileExt}} list">
                                     <span class="{{item.fileExt}} pic" data-fileuuid="{{item.fileUUID}}" data-name="{{item.fileName}}" data-md5="{{item.fileMD5}}"></span><br>
@@ -132,6 +132,7 @@
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
+    <!-- <script src="../../js/common/Sortable.min.js" charset="utf-8"></script> -->
 
 	<script src="../../js/common/base.js"></script>
 	<script src="../../js/files/filesCenter.js"></script>
