@@ -35,7 +35,7 @@
 				<script id="menu_script" type="text/html">
 					{{each arr as value i}}
 					<li class="has-list">
-						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
 					</li>
 					{{/each}}
                     <style>
@@ -64,6 +64,7 @@
                         <div class="menuBtn">
                             <span class="btn btn-success" id="saveBtn">保存</span>
                             <span class="btn btn-quit">取消</span>
+                            
                         </div>
                         <script type="text/html" id="menuMain_script">
                             <h3 class="conTitle" style="" data-json="{{json}}">{{title}}</h3>
@@ -157,8 +158,9 @@
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../../js/common/html2canvas.min.js"></script>
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/health/everydayMenu.js?t=20170922"></script>
+	<script src="../../js/health/everydayMenu.js?t=20170927"></script>
 </body>
 </html>

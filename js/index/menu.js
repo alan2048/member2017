@@ -15,7 +15,8 @@ function menuList_callback(res) {
     if(res.code==200){
     	var data={
     			arr:JSON.parse(res.data),
-    			path_img:httpUrl.path_img
+    			path_img:httpUrl.path_img,
+                date:function () {t=new Date().getTime();return t;}()
     	};
     	
     	// 判断是否url自带参数
@@ -42,7 +43,7 @@ function menuList_callback(res) {
 		chooseNiceScroll(".hasBox");
     }else{
     	toastTip("提示",res.info,2000,function () {
-    		// window.location.href="index.html";
+    		window.location.href="index.html";
     	})
     };
 };

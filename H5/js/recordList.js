@@ -1,6 +1,12 @@
+// 成长档案
+httpUrl.classList=path+"/app/mbtrack/search/user/classList"; // 获取当前人所在班级
+httpUrl.studentList=path+"/app/mbtrack/search/class/studentList"; // 获取班级的幼儿列表
+httpUrl.danList=path+"/app/mbtrack/child/danList"; // 获取幼儿的档案列表
+
 winResize();
 $(function () {
 	init();
+    $("#page-loader").addClass("hide");
 }); 
 function winResize() {
     var fs=$(window).width()/750*100;
@@ -16,46 +22,31 @@ function init() {
          danList_port();
     });
 	
-    $('.full').swipeSlide({
-        continuousScroll : true,
-        axisX : true,
-        autoSwipe : false,
-        lazyLoad : true
-    });
-
     $("#recordBody").on("click",".month img",function () {
-        var data={
-                arr:JSON.parse($(this).attr("data-pic")),
-                path_img:httpUrl.path_img
+        var data=JSON.parse($(this).attr("data-pic"));
+        var openPhotoSwipe = function() {
+            var pswpElement = document.querySelectorAll('.pswp')[0];
+            var items = [];
+            for(var i=0;i<data.length;i++){
+                var obj={
+                        src:httpUrl.path_img+data[i]+"&minpic=0",
+                        w:650,
+                        h:910
+                };
+                items.push(obj);
+            };
+            var options = {    
+                    history: false,
+                    focus: false,
+                    showAnimationDuration: 0,
+                    hideAnimationDuration: 0
+            };
+            var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+            gallery.init();
         };
-        console.log(data);
-        var html=template("slide_script",data);
-        $(".slide").empty().append(html);
-        $(".slide_box").show();
 
-        // swipeSlide
-        $('.slide').swipeSlide({
-            index : 0,
-            continuousScroll : true,
-            autoSwipe : false,
-            lazyLoad : true,
-            firstCallback : function(i,sum){
-                $('.num_box .num').text(i+1);
-                $('.num_box .sum').text(sum);
-            },
-            callback : function(i,sum){
-                $('.num_box .num').text(i+1);
-                $('.num_box .sum').text(sum);
-            }
-        });
+        openPhotoSwipe();
     });  
-
-    // 关闭按钮
-    $('.btn_close').on('click',function(){
-        $('.slide').empty();
-        $('.slide_box').hide();
-    });
-
 };
 
 // 获取当前人所在班级
@@ -71,8 +62,6 @@ function classList_port() {
 function classList_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        
-        console.log(data);
         var html=template("class_script",data);
         $("#class").empty().append(html);
         studentList_port();// 获取班级的幼儿列表
@@ -135,9 +124,6 @@ function danList_callback(res) {
         };
         var html=template("recordBody_script",data);
         $("#recordBody > ul").empty().append(html);
-
-        
-        console.log(data);
     }else{
         $("#recordBody > ul").empty();
         console.log(res);

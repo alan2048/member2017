@@ -35,9 +35,9 @@
 					{{each arr as value i}}
 					<li class="has-list">
                         {{if value.search}}
-                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}&pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}&pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
                         {{else}}
-                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
                         {{/if}}
 					</li>
 					{{/each}}
@@ -308,6 +308,6 @@
     <script src="../../js/common/modal.js"></script>
 
 	<script src="../../js/common/base.js?t=2017090120"></script>
-	<script src="../../js/messages/messages.js?t=2017090120"></script>
+	<script src="../../js/messages/messages.js?t=20170928"></script>
 </body>
 </html>

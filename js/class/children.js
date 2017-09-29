@@ -124,6 +124,86 @@ function init() {
 
     importfn(); // 导入函数
     chooseRow01();
+
+    editParent();// 编辑家长信息
+};
+
+// 编辑家长信息
+function editParent() {
+    // 删除家长信息
+    $("#tableBox02").on("click",".parentDelete",function () {
+        var aa=$(this).attr("data-parentid");
+        swal({
+                title: "是否删除此家长信息？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        childrenParentDelete_port(aa);
+                    };
+        });
+    });
+
+    // 编辑家长信息
+    $("#tableBox02").on("click",".parentEdit",function () {
+        childrenSingleParentInfo_port($(this).attr("data-parentid"));
+    });
+
+    // 更新家长信息
+    $("#newParent").on("click",function () {
+        if($("#parentName").val()){
+            $("#parentName").removeClass("empty");
+        }else{
+            $("#parentName").addClass("empty");
+        };
+        if($("#parentPhone").val()){
+            $("#parentPhone").removeClass("empty");
+        }else{
+            $("#parentPhone").addClass("empty");
+        };
+        if($("#parentName").hasClass("empty") || $("#parentPhone").hasClass("empty")){
+            toastTip("提示","请先填写完整。。");
+        }else{
+            var reg=/^1(3|4|5|7|8)\d{9}$/;// 验证手机号码
+            if(reg.test($("#parentPhone").val())){
+                $("#parentPhone").removeClass("empty");
+                childrenParentUpdate_port();
+            }else{
+                toastTip("提示","手机号码格式不正确");
+                $("#parentPhone").addClass("empty");
+            };
+        };
+    });
+
+    $("#parentPhone").keyup(function (e) {
+        if($(this).val().length >=11){
+            var reg=/^1(3|4|5|7|8)\d{9}$/;// 验证手机号码
+            if(reg.test($(this).val())){
+                $(this).removeClass("empty");
+            }else{
+                toastTip("提示","手机号码格式不正确");
+                $(this).addClass("empty");
+            };
+        }else if(e.keyCode == 13){
+            toastTip("提示","手机号码为11位");
+            $(this).addClass("empty");
+        };
+    });
+
+    $("#parentName").keyup(function (e) {
+        if($("#parentName").val()){
+            $("#parentName").removeClass("empty");
+        }else{
+            $("#parentName").addClass("empty");
+        };
+    });
 };
 // 导入函数
 function importfn() {
@@ -478,7 +558,85 @@ function childrenParentInfo_callback(res,userUUID) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("tableBox02_script",data);
+        $("#tableBox02").attr("data-userid","").attr("data-userid",userUUID);
         $("#tableBox02").empty().append(html);
+    }else{
+        toastTip("提示",res.info);
+    };
+};
+
+//  幼儿家长删除
+function childrenParentDelete_port(userUUID) {
+    var data={
+            userUUID: userUUID  
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenParentDelete,param,childrenParentDelete_callback,data.userUUID);
+};
+function childrenParentDelete_callback(res,userUUID) {
+    if(res.code==200){
+        childrenParentInfo_port($("#tableBox02").attr("data-userid"));
+        toastTip("提示","删除成功");
+    }else{
+        toastTip("提示",res.info);
+    };
+};
+
+//  获得单项家长条目
+function childrenSingleParentInfo_port(userUUID) {
+    var data={
+            userUUID: userUUID  
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenSingleParentInfo,param,childrenSingleParentInfo_callback,data.userUUID);
+};
+function childrenSingleParentInfo_callback(res,userUUID) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        $(".content").addClass("hide");
+        $("#content03").removeClass("hide");
+        $("#parentName,#parentPhone").removeClass("empty");
+
+        if($("#appellation").children().length == 0){
+            var html=template("appellation_script",{arr:["妈妈","爸爸","奶奶","爷爷","外公","外婆","姐姐","哥哥","姑母","姑父","舅舅","舅妈","叔叔","婶婶","姨父","姨妈","伯父","伯母","家人"]});
+            $("#appellation").empty().append(html);
+        };
+        $("#parentName").val(data.name);
+        $("#parentPhone").val(data.phoneNum);
+        $("#appellation >option[value="+data.appellation+"]").prop("selected",true);
+        console.log(data);
+        $("#newParent").attr("data-parentid",data.parentUUID);
+    }else{
+        toastTip("提示",res.info);
+    };
+};
+
+//  更新家长条目
+function childrenParentUpdate_port() {
+    var data={
+            appellation:$("#appellation").val(),
+            userName:$("#parentName").val(),
+            phoneNum:$("#parentPhone").val(),
+            userUUID: $("#newParent").attr("data-parentid")  
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenParentUpdate,param,childrenParentUpdate_callback,data.userUUID);
+};
+function childrenParentUpdate_callback(res,userUUID) {
+    if(res.code==200){
+        $(".content").addClass("hide");
+        $("#content").removeClass("hide");
+        childrenParentInfo_port($("#tableBox02").attr("data-userid"));
+        toastTip("提示","修改成功");
     }else{
         toastTip("提示",res.info);
     };
@@ -787,11 +945,15 @@ function menuChildList_callback(res,menuId) {
             data.arr[i].pid=menuId;
             data.arr[i].url=data.arr[i].url.split("/")[2];
             if(data.arr[i].id == user.sid){
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=true;
             }else{
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=false;
             };
         };
+
+        console.log(data);
         
         var html=template("menu_script",data);
         $("#subMenu").empty().append(html);

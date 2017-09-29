@@ -15,6 +15,7 @@ function init() {
         riskGetAlertAge_port();
         $("#save").attr("data-id","");
         $("#alertValue,#remark").val("");
+        riskGetAlertType_port();
         $("#modal-edit").modal("show");
     });
 
@@ -137,8 +138,7 @@ function riskGetHealthAlert_port(alertUUID) {
 function riskGetHealthAlert_callback(res,alertUUID) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        $("#alertType >option[value="+data.alertType+"]").prop("selected",true);
-        $("#alertType").attr("disabled",true);
+        $("#alertType").empty().append("<option value="+data.alertType+">"+data.alertTypeName+"</option>").attr("disabled",true);
         $("#alertAge").empty().append("<option value="+data.alertAge+">"+data.alertAge+"</option>").attr("disabled",true);
         
         $("#save").attr("data-id",alertUUID);
@@ -272,8 +272,10 @@ function menuChildList_callback(res,menuId) {
             data.arr[i].pid=menuId;
             data.arr[i].url=data.arr[i].url.split("/")[2];
             if(data.arr[i].id == user.sid){
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=true;
             }else{
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=false;
             };
         };

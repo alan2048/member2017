@@ -6,21 +6,11 @@ if(!user.useruuid){
 };
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
-var serverUrl03="http://172.168.90.102:8080";//38测试服务器
 
 var path=serverUrl01; //更改服务器地址可设置此值
 
 var httpUrl={
 		path_img:path+"/file/getImage?md5=", // 图片地址
-
-		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
-        GetSchoolJYIds:path+"/web/activity/TSCourse_GetSchoolJYIds",//剧场活动 id
-        GetSchoolCourses:path+"/web/activity/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
-		GetCourseDetails:path+"/web/activity/TSCourse_GetCourseDetails",//获取学校课程详情
-		BookCourse:path+"/web/activity/TSCourse_BookCourse",//获取学校课程 预定
-		UnbookCourse:path+"/web/activity/TSCourse_UnbookCourse",//获取学校课程 取消预定
-		CommentCourse:path+"/web/activity/TSCourse_CommentCourse",//获取学校 评论
-
 		// 08设置
 		setting:'' 
 };

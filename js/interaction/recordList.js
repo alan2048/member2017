@@ -203,7 +203,16 @@ function mousehover() {
         $(".carousel-control.next").removeClass("hide");
         if(index == 0){
             $(".carousel-control.prev").addClass("hide");
-        }
+        };
+
+        // 解决横向图片显示不全的Bug
+        var w=$(".carousel-inner >.item.active >img").width();
+        var h=$(".carousel-inner >.item.active >img").height();
+        if(w>h){
+            $(".carousel-inner >.item.active >img").css({width:"100%",height:"auto",margin:"5% auto 0"});
+        }else{
+            $(".carousel-inner >.item.active >img").css({width:"auto",height:"100%"});
+        };
     });
     $("#carousel_img a.next").click(function () {
         $("#carousel_img > .carousel-inner >.item.active").removeClass("active").next(".item").addClass("active");
@@ -212,7 +221,15 @@ function mousehover() {
         $(".carousel-control.prev").removeClass("hide");
         if(index == (num-1)){
             $(".carousel-control.next").addClass("hide");
-        }
+        };
+
+        var w=$(".carousel-inner >.item.active >img").width();
+        var h=$(".carousel-inner >.item.active >img").height();
+        if(w>h){
+            $(".carousel-inner >.item.active >img").css({width:"100%",height:"auto",margin:"5% auto 0"});
+        }else{
+            $(".carousel-inner >.item.active >img").css({width:"auto",height:"100%"});
+        };
     });
     $(document).keydown(function (e) {
       if($("#modal-dialog-img").hasClass("in")){
@@ -463,8 +480,10 @@ function menuChildList_callback(res,menuId) {
             data.arr[i].pid=menuId;
             data.arr[i].url=data.arr[i].url.split("/")[2];
             if(data.arr[i].id == user.sid){
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=true;
             }else{
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=false;
             };
         };

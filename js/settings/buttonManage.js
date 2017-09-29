@@ -204,8 +204,10 @@ function menuChildList_callback(res,menuId) {
             data.arr[i].pid=menuId;
             data.arr[i].url=data.arr[i].url.split("/")[2];
             if(data.arr[i].id == user.sid){
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=true;
             }else{
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=false;
             };
         };

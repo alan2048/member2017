@@ -354,7 +354,7 @@ th,td {
 	margin-right: 0.1rem;
 	cursor: pointer;
 }
-#new,#new01{
+#new,#new01,#newParent{
 	width: 0.8rem;
 	height: 0.4rem;
 	line-height: 0.4rem;
@@ -365,7 +365,7 @@ th,td {
 	float: right;
 	cursor: pointer;
 }
-#new:hover,#new01:hover{
+#new:hover,#new01:hover,#newParent:hover{
 	background-color: #29d1d5;
 }
 .closeBtn,.closeBtn01{
@@ -563,19 +563,42 @@ th,td {
 }
 .parentEdit{
 	display:inline-block;
-	width: 30px;
-	height: 30px;
+	width: 32px;
+	height: 32px;
 	background: url(../../images/common/editBtn.png) center center no-repeat;
 	cursor: pointer;
-	border: 1px solid #000;
+	padding: 5px;
+	display:none;
+}
+.parentEdit:hover{
+	border: 1px solid #5ce0de;
 	border-radius: 8px;
 }
 .parentDelete{
 	display:inline-block;
-	width: 30px;
-	height: 30px;
+	width: 32px;
+	height: 32px;
 	background: url(../../images/common/deleteBtn.png) center center no-repeat;
 	cursor: pointer;
-	border: 1px solid #000;
+	padding: 5px;
+	float: right;
+	display:none;
+}
+.parentDelete:hover{
+	border: 1px solid #5ce0de;
 	border-radius: 8px;
+}
+#tableBox02 .table > tbody > tr > td {
+	height: 0.5rem;
+	padding: 0 0.08rem;
+	vertical-align: middle;
+}
+#tableBox02 .table > tbody > tr:hover > td{
+	color: #5ce0de;
+}
+#tableBox02 .table > tbody > tr:hover >td >.parentEdit,#tableBox02 .table > tbody > tr:hover >td >.parentDelete{
+	display:inline-block;
+}
+.content{
+	min-width: 9.8rem;
 }

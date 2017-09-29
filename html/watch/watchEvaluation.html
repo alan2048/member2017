@@ -15,7 +15,7 @@
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
     
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/watch/watchEvaluation.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/watch/watchEvaluation.css?t=20170928" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -34,7 +34,7 @@
 				<script id="menu_script" type="text/html">
 					{{each arr as value i}}
 					<li class="has-list">
-						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
 					</li>
 					{{/each}}
                     <style>
@@ -117,24 +117,24 @@
                         <thead>
                             <tr>
                                 <th rowspan="2" style="width: 10%;">领域</th>
-                                <th colspan="3" rowspan="2" style="width: 24%;">评价内容与标准</th>
-                                <th colspan="3" style="width: 66%;">水平描述</th>
+                                <th colspan="2" rowspan="2" style="width: 18%;">评价内容与标准</th>
+                                <th colspan="3" style="width: 72%;">水平描述</th>
                             </tr>
                             <tr>
-                                <th style="width: 22%;">水平表现一</th>
-                                <th style="width: 22%;">水平表现三</th>
-                                <th style="width: 22%;">水平表现五</th>
+                                <th style="width: 24%;">水平表现一</th>
+                                <th style="width: 24%;">水平表现三</th>
+                                <th style="width: 24%;">水平表现五</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{each arr as value i}}
                             <tr data-id="{{value.id}}" data-fatherid="{{value.father.id}}" data-grandfatherid="{{value.grandfather.id}}" data-grandgrandfatherid="{{value.grandgrandfather.id}}">
                                 <td data-id="{{value.grandgrandfather.id}}" style="width: 10%;">{{value.grandgrandfather.name}}</td>
-                                <td data-id="{{value.grandfather.id}}" style="width: 8%;">{{value.grandfather.name}}</td>
-                                <td data-id="{{value.father.id}}" style="width: 8%;">{{value.father.name}}</td>
-                                <td data-id="{{value.id}}" data-fatherid="{{value.father.id}}" style="width: 8%;" >{{value.name}}</td>
+                                <td data-id="{{value.grandfather.id}}" style="width: 9%;">{{value.grandfather.name}}</td>
+                                <td data-id="{{value.father.id}}" style="width: 9%;">{{value.father.name}}</td>
+                                <!-- <td data-id="{{value.id}}" data-fatherid="{{value.father.id}}" style="width: 8%;" >{{value.name}}</td> -->
                                 {{each value.levelVOList as value01 j}}
-                                <td data-dimid="{{value01.dimId}}" data-vid="{{value01.id}}" data-fatherid="{{value.father.id}}" data-level="{{value01.level}}" style="width: 18%;" class="edit">{{value01.description}}</td>
+                                <td data-dimid="{{value01.dimId}}" data-vid="{{value01.id}}" data-fatherid="{{value.father.id}}" data-level="{{value01.level}}" style="width: 24%;" class="edit">{{value01.description}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -158,6 +158,6 @@
     <script src="../../js/common/html2canvas.min.js"></script>
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/watch/watchEvaluation.js"></script>
+	<script src="../../js/watch/watchEvaluation.js?t=20170928"></script>
 </body>
 </html>

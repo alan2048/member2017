@@ -1241,6 +1241,7 @@ function recordDanMessage_callback(res) {
 			for(var j=0;j<data[i].messageList.length;j++){
 				data[i].messageList[j].pic=httpUrl.path_img+data[i].messageList[j].fileList[0]+"&minpic=1";
 				data[i].messageList[j].picArr=JSON.stringify(data[i].messageList[j].fileList);
+                data[i].messageList[j].body=emoji2Str(data[i].messageList[j].body);
 			};
 		};
         var json={data:data};
@@ -1262,8 +1263,10 @@ function recordDanMessage_callback(res) {
 	};
 };
 
-
-
+// 解决表情包无法解析的问题
+function emoji2Str (str) {
+    return unescape(escape(str).replace(/\%uD.{3}/g, ''));
+}
 
 
 

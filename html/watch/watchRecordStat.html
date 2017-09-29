@@ -33,7 +33,7 @@
 				<script id="menu_script" type="text/html">
                     {{each arr as value i}}
                     <li class="has-list">
-                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
                     </li>
                     {{/each}}
                     <style>
@@ -94,6 +94,6 @@
     <script src="../../js/common/echarts/echarts.min.js"></script>
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/watch/watchRecordStat.js"></script>
+	<script src="../../js/watch/watchRecordStat.js?t=20170928"></script>
 </body>
 </html>

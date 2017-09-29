@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>每周菜谱</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png">
+	<link href="js/common/photoswipe/photoswipe.css" rel="stylesheet">
+	<link href="js/common/photoswipe/default-skin/default-skin.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/everydayMenu.css">
+</head>
+<body>
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="app">
+		<div class="nav">
+			<div>
+				<label for="year">
+					<select name="year" id="year" class="year"></select>
+					<script id="year_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value}}">{{value}}年</option>
+                        {{/each}}
+                    </script>
+				</label>
+			</div>
+			<div>
+				<label for="month">
+					<select name="month" id="month" class="month">
+                        <option value="1">1月</option>
+                        <option value="2">2月</option>
+                        <option value="3">3月</option>
+                        <option value="4">4月</option>
+                        <option value="5">5月</option>
+                        <option value="6">6月</option>
+                        <option value="7">7月</option>
+                        <option value="8">8月</option>
+                        <option value="9">9月</option>
+                        <option value="10">10月</option>
+                        <option value="11">11月</option>
+                        <option value="12">12月</option>
+                    </select>
+					<script type="text/html" id="month_script">
+                       	{{each arr as value i}}
+                       	<option value="{{value}}">{{value}}月</option>
+                       	{{/each}}
+                   	</script>
+				</label>
+			</div>
+		</div>
+		<div id="recordBody">
+			<div class="photoBox"></div>
+			<script type="text/html" id="recordBody_script">
+				{{each arr as value i}}
+                    <a class="photoItem" href="{{path_img}}{{value.picMD5}}&minpic=0" data-size="1600x1600" data-med="{{path_img}}{{value.picMD5}}&minpic=0" data-med-size="1024x550">
+                        <img src="{{path_img}}{{value.picMD5}}&minpic=0" alt="" />
+                        <div>{{value.startDate01}}</div>
+                    </a>
+				{{/each}}
+			</script>
+		</div>
+	</div>
+
+	<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    	<div class="pswp__bg"></div>
+    	<div class="pswp__scroll-wrap">
+        	<div class="pswp__container">
+            	<div class="pswp__item"></div>
+            	<div class="pswp__item"></div>
+            	<div class="pswp__item"></div>
+       	    </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script src="js/common/jquery-1.11.1.min.js"></script> 
+    <script src="js/common/photoswipe/photoswipe.js"></script>
+    <script src="js/common/photoswipe/photoswipe-ui-default.js"></script>
+	<script src="js/common/template.js"></script> 
+	<script src="./js/base.js?t=20170927"></script>
+	<script src="./js/everydayMenu.js?t=20170927"></script>
+</body>
+</html>

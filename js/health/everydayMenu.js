@@ -14,8 +14,13 @@ function init() {
     $("#menuList >.hideBtn").click(function () {
         $(this).next("#menu").fadeToggle(50,"linear");
         $("#main >.panel").toggleClass("long");
+        $("#menuMain").css("width",$("#main .panel-body").width());// 解决截图自动适配的Bug
     });
     menuGetTitleList_port(); //获得菜谱日期列表
+
+    $(window).resize(function () {
+        $("#menuMain").css("width",$("#main .panel-body").width());// 解决截图自动适配的Bug
+    });
 };
 
 function editTable() {
@@ -289,6 +294,7 @@ function healthGetTable_callback(res,json) {
         json.data=data;
         var html=template("menuMain_script",json);
         $("#menuMain").empty().append(html).find("th").css("width",(1/data[0].length)*100+"%");
+        $("#menuMain").css("width",$("#main .panel-body").width());
     }else{
         console.log('请求错误，返回code非200');
     }
@@ -296,18 +302,28 @@ function healthGetTable_callback(res,json) {
 
 // 新增编辑表格
 function healthSaveTable_port(json) {
-    var data={
-            startDate:json.startDate,
-            endDate:json.endDate,
-            title:json.title,
-            remark:json.remark
-        };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    toastTip("提示","正在保存，请稍候。。。");
-    initAjax(httpUrl.menuSaveTable,param,healthSaveTable_callback,json);
+    html2canvas($("#menuMain"),{
+        allowTaint: true,
+        useCORS:true,
+        taintTest: false,
+        height:$("#menuMain").outerHeight(),
+        width:$("#menuMain").outerWidth(),
+        onrendered:function (canvas01) {
+            var data={
+                startDate:json.startDate,
+                endDate:json.endDate,
+                title:json.title,
+                remark:json.remark,
+                imgBase64:canvas01.toDataURL('png')
+            };
+            var param={
+                    params:JSON.stringify(data),
+                    loginId:httpUrl.loginId
+            };
+            toastTip("提示","正在保存，请稍候。。。");
+            initAjax(httpUrl.menuSaveTable,param,healthSaveTable_callback,json);
+        }
+    });
 };
 function healthSaveTable_callback(res,json) {
     if(res.code==200){
@@ -350,6 +366,7 @@ function menu() {
         $(this).prev("#sidebarBox").fadeToggle(function () {
             aa.toggleClass("active");
             $(".content").toggleClass("active");
+            $("#menuMain").css("width",$("#main .panel-body").width());// 解决截图自动适配的Bug
         });
     });
     $("#subMenu").on("click","a.hasTitle",function () {
@@ -378,8 +395,10 @@ function menuChildList_callback(res,menuId) {
             data.arr[i].pid=menuId;
             data.arr[i].url=data.arr[i].url.split("/")[2];
             if(data.arr[i].id == user.sid){
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=true;
             }else{
+                data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=false;
             };
         };

@@ -1,3 +1,11 @@
+httpUrl.GetSchoolIds=path+"/web/activity/TSCourse_GetSchoolIds";//特色课程 获取学校课程id
+httpUrl.GetSchoolJYIds=path+"/web/activity/TSCourse_GetSchoolJYIds";//剧场活动 id
+httpUrl.GetSchoolCourses=path+"/web/activity/TSCourse_GetSchoolCourses";//特色课程 获取学校课程
+httpUrl.GetCourseDetails=path+"/web/activity/TSCourse_GetCourseDetails";//获取学校课程详情
+httpUrl.BookCourse=path+"/web/activity/TSCourse_BookCourse";//获取学校课程 预定
+httpUrl.UnbookCourse=path+"/web/activity/TSCourse_UnbookCourse";//获取学校课程 取消预定
+httpUrl.CommentCourse=path+"/web/activity/TSCourse_CommentCourse";//获取学校 评论
+
 $(function () {
 	GetSchoolJYIds_port();
 	courseName();

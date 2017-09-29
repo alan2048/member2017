@@ -7,7 +7,7 @@ var serverUrl02="https://121.43.150.38";//38测试服务器
 var serverUrl03="http://121.43.150.38";//38测试服务器
 var serverHost="https://www.member361.com";
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var path=serverUrl02; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -77,6 +77,10 @@ var httpUrl={
 		childrenSubmitUserData:path+"/web/basic/import/submitChildData",//  用户导入表 提交数据
 		childrenGetSingleImportUserInfo:path+"/web/basic/import/getSingleImportChildInfo",//  获得用户导入表单项导入信息
 		childrenUpdateImportUser:path+"/web/basic/import/updateImportChild",//  幼儿导入表-编辑
+
+		childrenParentDelete:path+"/web/basic/parent/delete",//  删除家长条目
+		childrenSingleParentInfo:path+"/web/basic/parent/singleParentInfo",//  获得单项家长条目
+		childrenParentUpdate:path+"/web/basic/parent/update",//  更新家长条目
 
 		// 班级管理
 		classAdd:path+"/web/basic/org/add",// 新建班级

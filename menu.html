@@ -28,9 +28,9 @@
 							{{each value.childMenuList as value01 j}}
 							<li>
 								{{if value01.search}}
-								<a href="{{value01.url}}&pid={{value.id}}&sid={{value01.id}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
+								<a href="{{value01.url}}&pid={{value.id}}&sid={{value01.id}}&t={{date}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
 								{{else}}
-								<a href="{{value01.url}}?pid={{value.id}}&sid={{value01.id}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
+								<a href="{{value01.url}}?pid={{value.id}}&sid={{value01.id}}&t={{date}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
 								{{/if}}
 							</li>
 							{{/each}}
@@ -48,6 +48,6 @@
 	<script src="./js/common/jquery.toast.min.js"></script>
 	<script src="./js/common/template.js"></script>
 	<script src="./js/common/base.js"></script>
-	<script src="./js/index/menu.js"></script>
+	<script src="./js/index/menu.js?t=20170927"></script>
 </body>
 </html>
