@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>健康信息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png">
+	<link href="js/common/photoswipe/default-skin/default-skin.css" rel="stylesheet">
+	<link rel="stylesheet" href="./css/healthInfo.css">
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="app">
+		<div class="nav hide" >
+			<div>
+				<label for="class">
+					<select name="class" id="class"></select>
+					<script id="class_script" type="text/html">
+      					{{each arr as value i}}
+						<option value="{{value.classUUID}}">{{value.className}}</option>
+      					{{/each}}
+      				</script>
+				</label>
+			</div>
+			<div>
+				<label for="children">
+					<select name="children" id="children"></select>
+					<script id="children_script" type="text/html">
+      					{{each arr as value i}}
+						<option value="{{value}}">{{value}}</option>
+      					{{/each}}
+      				</script>
+				</label>
+			</div>
+		</div>
+		<div id="recordBody">
+			<ul></ul>
+			<script type="text/html" id="recordBody_script">
+				{{each arr as value i}}
+				<li class="month">
+					<div class="childName">{{value.userName}}</div>
+					<div>
+						<span>体检日期：</span>{{value.examDate}}
+					</div>
+					<div>
+						<span>身高：</span>{{value.height}}cm
+					</div>
+					<div>
+						<span>体重：</span>{{value.weight}}Kg
+					</div>
+					<div>
+						<span>血色素：</span>{{value.hemachrome}}g/l
+					</div>
+					<div>
+						<span>视力：</span>{{value.visionL}}（左），{{value.visionL}}（右）
+					</div>
+					<div>
+						<span>预警信息：</span>
+						{{if value.alert ==0}}
+						<span class="healthTip">正常</span>
+						{{else}}
+							<div class="errorBox">
+							{{if value.heightAlert !=0}}
+									身高（{{if value.heightAlert ==1}}<span class="errorTip">偏高</span>{{else}}<span class="errorTip">偏低</span>{{/if}}）<br>
+							{{/if}}
+							{{if value.weightAlert !=0}}
+									体重（{{if value.weightAlert ==1}}<span class="errorTip">偏高</span>{{else}}<span class="errorTip">偏低</span>{{/if}}）<br>
+							{{/if}}
+							{{if value.bloodAlert !=0}}
+									血色素（{{if value.bloodAlert ==1}}<span class="errorTip">偏高</span>{{else}}<span class="errorTip">偏低</span>{{/if}}）<br>
+							{{/if}}
+							{{if value.visionlAlert !=0}}
+									左眼视力（{{if value.visionlAlert ==-1}}<span class="errorTip">偏低</span>{{/if}}）<br>
+							{{/if}}
+							{{if value.visionrAlert !=0}}
+									右眼视力（{{if value.visionrAlert ==-1}}<span class="errorTip">偏低</span>{{/if}}）
+							{{/if}} <br>
+							</div>
+						{{/if}}
+					</div>
+				</li>
+				{{/each}}
+			</script>
+		</div>
+	</div>
+	
+
+	<!-- <script src="js/jquery-1.11.1.min.js"></script>  -->
+	<script src="js/common/zepto.min.js"></script>
+	<script src="js/common/photoswipe/photoswipe.js"></script>
+    <script src="js/common/photoswipe/photoswipe-ui-default.js"></script> 
+	<script src="js/common/template.js"></script> 
+	<script src="./js/base.js?t=20170929"></script>
+	<script src="./js/healthInfo.js?t=20170929"></script>
+</body>
+</html>

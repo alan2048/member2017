@@ -50,13 +50,13 @@
 		}
 		.switchPic:first-of-type{
 			background: url(images/index/oldPic.png) center center no-repeat #9ef8fa;
-			margin: 1rem 1rem 0 0;
+			margin: 0.5rem 1rem 0 0;
 			-webkit-background-size: 60%;
 			background-size: 60%;
 		}
 		.switchPic:last-of-type{
 			background: url(images/index/newPic.png) center center no-repeat #f8e264;
-			margin: 1rem 0 0 1rem;
+			margin: 0.5rem 0 0 1rem;
 			-webkit-background-size: 60%;
 			background-size: 60%;
 		}
@@ -81,19 +81,51 @@
 			background: url(images/index/pin02.png) center center no-repeat;
 		}
 		h4{
-			margin: 0px auto;
-			width: 800px;
+			margin: 0 auto;
+			width: 920px;
 			color: #f2351e;
 			font-size: 24px;
 			line-height: 50px;
 			text-align: left;
+			vertical-align: top;
+		}
+		img{
+			margin-top: -40px;
+			width: 120px;
+			vertical-align: top;
+		}
+		h4 >small{
+			vertical-align: top;
+		}
+		h4 >span{
+			display: inline-block;
+			width: 160;
+			height: 160px;
+			text-align: center;
+			color:#fff;
+			font-size: 18px;
+			line-height: 40px;
+		}
+		h4 >span >div{
+			font-size: 16px;
+			height: 20px;
+			line-height: 20px;
 		}
 	</style>
 </head>
 <body>
 	<div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
 	<div id="switch">
-		<h4>温馨提示: <br><small>旧版用户请使用旧版入口,如需使用新版请联系我们,联系电话:021-31316233</small></h4>
+		<h4>温馨提示: 
+			<br>
+			<small>旧版入口将于10月8号关闭，新版使用方法请关注官方微信：</small>
+			<span>
+				<img src="images/index/weixin.png" alt=""><br>
+				<span>萌幼科技</span>
+				<div>客服电话:021-31316233</div>
+			</span>
+			
+		</h4>
 		<div class="switchPic"><a href="http://www.member361.com:38080"><span></span></a></div>
 		<div class="switchPic"><a href="https://www.member361.com"><span></span></a></div>
 	</div>

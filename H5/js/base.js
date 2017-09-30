@@ -7,10 +7,11 @@ if(!user.useruuid){
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var path=serverUrl02; //更改服务器地址可设置此值
 
 var httpUrl={
 		path_img:path+"/file/getImage?md5=", // 图片地址
+        loginUserInfo:path+"/app/basic/loginUserInfo", // 获得登录人员信息
 		// 08设置
 		setting:'' 
 };

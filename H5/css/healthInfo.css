@@ -1,0 +1,200 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* 防止点击闪烁 */
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    /* 缩放网页，文字大小不变 */
+    -webkit-text-size-adjust:none;
+    box-sizing: border-box;
+    font-size:12px;
+}
+ul,ol,li {
+    list-style-type: none;
+}
+html {
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+}
+body{
+	font-size: 0.16rem;
+	background-color: #f9fcfb;
+}
+
+
+.nav{
+	height: 1.2rem;
+	border-bottom: 1px solid #e8ebeb;
+	color:#656666;
+    margin-bottom: 0.3rem;
+}
+.nav >div {
+	display:block;
+	height: 1.2rem;
+	width: 50%;
+	float: left;
+	text-align: center;
+	line-height: 1.2rem;
+}
+.nav >div >label > select {
+	border: 0.01rem solid transparent;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	color: #656666;
+	font-size:0.3rem;
+	background-color: transparent;
+	cursor: pointer;
+}
+.nav >div >label > select:hover{
+	color:#5cdee1;
+}
+.nav >div >label{
+	line-height: 1.2rem;
+	display:inline-block;
+}
+.nav >div:nth-of-type(1) >label >select{
+	background: url(../images/classList.png) 0 40% no-repeat;
+	background-size: contain;
+	padding-left: 30px;
+}
+.nav >div:nth-of-type(2) >label >select{
+	background: url(../images/calender.png) 0 40% no-repeat;
+	background-size: contain;
+	padding-left: 30px;
+    margin-top: 16px;
+}
+#recordBody >ul{
+	text-align: center;
+}
+.month {
+	color: #656666;
+	width: 90%;
+    min-height: 5rem;
+	padding: 2%;
+    border: 1px solid #e8ebeb;
+    border-radius:0.2rem;
+    background-color:#fff;
+    margin:0 auto;
+    text-align: left;
+    margin-bottom: 0.3rem;
+    padding:0.32rem;
+}
+.nobody{
+    background: url(../images/nobody.png) 70% center no-repeat;
+    background-size: contain;
+    margin: 30% auto 0;
+    min-height: 4rem;
+}
+.month *{
+    font-size:0.3rem;
+}
+.month >div{
+    line-height:0.6rem;
+    color:#656666;
+}
+.month >div >span{
+	font-size: 0.32rem;
+    color:#979999;
+}
+.month >div.childName{
+    color:#5cdee1;
+    font-size:0.36rem;
+    padding-left: 0.9rem;
+    background: url(../images/children01.png) 0 center no-repeat;
+    background-size: contain;
+    margin-bottom: 0.15rem;
+}
+#recordBody{
+    margin-top: 0.2rem;
+    padding-bottom: 0.3rem;
+}
+.hide{
+	display:none;
+}
+.month >div .errorTip{
+    color:#e94747;
+}
+.month >div .healthTip{
+    color:#2acc1a;
+}
+/*loading start*/
+#page-loader {
+    
+}
+#page-loader.fade {
+    display:none
+}
+#page-loader.fade.in {
+    display:block;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background:#E6E8EC;
+    z-index: 10000;
+}
+@-webkit-keyframes rotation {
+from {
+-webkit-transform:rotate(0deg)
+}
+to {
+    -webkit-transform:rotate(359deg)
+}
+}
+@-moz-keyframes rotation {
+from {
+-moz-transform:rotate(0deg)
+}
+to {
+    -moz-transform:rotate(359deg)
+}
+}
+@-o-keyframes rotation {
+from {
+-o-transform:rotate(0deg)
+}
+to {
+    -o-transform:rotate(359deg)
+}
+}
+@keyframes rotation {
+from {
+transform:rotate(0deg)
+}
+to {
+    transform:rotate(359deg)
+}
+}
+.spinner, .spinner-small {
+    height:40px;
+    width:40px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-20px -20px 0 -20px;
+    border:2px solid #fff;
+    border-top:2px solid #24B498;
+    border-radius:100%
+}
+.fade.in .spinner, .fade.in .spinner-small {
+-webkit-animation:rotation .6s infinite linear;
+-moz-animation:rotation .6s infinite linear;
+-o-animation:rotation .6s infinite linear;
+animation:rotation .6s infinite linear
+}
+.spinner-small {
+    border:2px solid rgba(0, 0, 0, .05);
+    border-top:2px solid #24B498;
+    height:30px;
+    width:30px;
+    margin:-15px -15px 0 0
+}
+.hide {
+    display: none !important;
+}
+.errorBox{
+    display:inline-block;
+    vertical-align: top;
+}
