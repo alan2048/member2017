@@ -84,7 +84,7 @@ function GetSchoolJYIds_callback(res) {
 
             var html01=template("myTabContent_script",data01);
             $("#myTabContent").empty().append(html01);
-            GetSchoolCourses_port($("#myTab >li.active >a").attr("data-school"));
+            GetSchoolCourses_port($("#myTab li.active >a").attr("data-school"));
         }
     }else{
         // alert("系统故障，请稍候重试。。");
@@ -178,7 +178,7 @@ function BookCourse_port(id,time,type) {
 };
 function BookCourse_callback(res,id,type) {
     if(res.code==200){
-        GetSchoolCourses_port($("#myTab >li.active >a").attr("data-school"));
+        GetSchoolCourses_port($("#myTab li.active >a").attr("data-school"));
         tip(res.data);
         if(type==1){
         	GetCourseDetails_port(id);
@@ -203,7 +203,7 @@ function UnbookCourse_port(id,time,type) {
 function UnbookCourse_callback(res,id,type) {
     if(res.code==200){
         $("#modal01").modal("hide");
-       	GetSchoolCourses_port($("#myTab >li.active >a").attr("data-school"));
+       	GetSchoolCourses_port($("#myTab li.active >a").attr("data-school"));
        	if(type==1){
         	GetCourseDetails_port(id);
         	tip(res.data);

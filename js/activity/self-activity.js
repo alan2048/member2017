@@ -4,11 +4,22 @@ $(function () {
     init();
 });
 function init() {
+    timeInit();
     menu();
     mousehover();
     deletePic();
     loadFiles();
     tsTempBookCourse();
+};
+function timeInit() {
+    var week=[{id:1,name:"一"},{id:2,name:"二"},{id:3,name:"三"},{id:4,name:"四"},{id:5,name:"五"},{id:6,name:"六"},{id:7,name:"日"}];
+    var html01=template("startWeek_script",{week:week});
+    $("#startWeek,#endWeek").empty().append(html01);  
+
+    var time=[{id:0,name:"00:00"},{id:1,name:"01:00"},{id:2,name:"02:00"},{id:3,name:"03:00"},{id:4,name:"04:00"},{id:5,name:"05:00"},{id:6,name:"06:00"},{id:7,name:"07:00"},{id:8,name:"08:00"},{id:9,name:"09:00"},{id:10,name:"10:00"},{id:11,name:"11:00"},{id:12,name:"12:00"},{id:13,name:"13:00"},{id:14,name:"14:00"},{id:15,name:"15:00"},{id:16,name:"16:00"},{id:17,name:"17:00"},{id:18,name:"18:00"},{id:19,name:"19:00"},{id:20,name:"20:00"},{id:21,name:"21:00"},{id:22,name:"22:00"},{id:23,name:"23:00"},{id:24,name:"24:00"}];
+    var html02=template("startTime_script",{time:time});
+    $("#startTime,#endTime").empty().append(html02); 
+    
 };
 function mousehover() {
     // 年度档案册hover效果
@@ -39,6 +50,7 @@ function mousehover() {
         $("#addPicBtn01,#addPicBtn02").siblings().remove();
         $("#addPicBtn").css({"background":""});
         $("#switchBtn").removeClass("close").text("启用").next("input[name=isStop]").val();
+        $("form.form-horizontal select >option").prop("selected",false);
     });
 
     // 编辑活动
@@ -116,7 +128,12 @@ function mousehover() {
             for(var i=0;i<arr.length;i++){
                 data[arr[i].name]=arr[i].value
             };
-            AddCourse_port(data);
+
+            if($("select[name=bookTimeWeekEnd]").val() > $("select[name=bookTimeWeekStart]").val()){
+                AddCourse_port(data);
+            }else{
+                toastTip("提示","预约结束时间必须大于预约开始时间");
+            };
         };
     });
 
@@ -361,6 +378,11 @@ function GetCourseDetails_callback(res,name) {
             $("input[name="+i+"]").val(data[i]);
             $("textarea[name="+i+"]").val(data[i]);
         };
+
+        $(".form-group select[name='bookTimeWeekStart'] >option[value="+data['bookTimeWeekStart']+"]").prop("selected",true);
+        $(".form-group select[name='bookTimeHourStart'] >option[value="+data['bookTimeHourStart']+"]").prop("selected",true);
+        $(".form-group select[name='bookTimeWeekEnd'] >option[value="+data['bookTimeWeekEnd']+"]").prop("selected",true);
+        $(".form-group select[name='bookTimeHourEnd'] >option[value="+data['bookTimeHourEnd']+"]").prop("selected",true);
 
         data.pic=httpUrl.path_img+data.pic+"&minpic=1";
         if(data.coursePics){

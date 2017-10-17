@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>剧场活动统计</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/activity/selfActivityStats.css?t=20171011" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #c1ec69;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">剧场活动</div>
+            <div class="tabs" id="tabs">
+                <ul>
+                    <li class="current">活动统计</li>
+                    <li>班级统计</li>
+                    <li>学生统计</li>
+                </ul>
+            </div>
+            <div class="tabsBox" id="tabsBox">
+                <ul>
+                    <li class="current">
+                        <div id="search">
+                            <label>分园：
+                                <select id="school"></select>
+                                <script type="text/html" id="school_script">
+                                    {{each data as value i}}
+                                    <option value="{{value.id}}" data-id="{{value.id}}">{{value.name}}</option>
+                                    {{/each}}
+                                </script>
+                            </label>
+                            <label>
+                                时间：<input type="text" id="time01">
+                            </label>
+                            <span id="searchBtn01"  class="searchBtn">查询</span>
+                        </div>
+                        <div class="panel panel-inverse">
+                            <div class="email-content" id="email-content"></div>
+                            <script type="text/html" id="table-email_script">
+                            <table class="table table-email">
+                                <thead>
+                                    <tr>
+                                        <th style="width:15% !important;">序号</th>
+                                        <th style="width:25% !important;">活动图片</th>
+                                        <th style="width:20% !important;">活动名称</th>
+                                        <th style="width:20% !important;">预约人数</th>
+                                        <th style="width:20% !important;">查看详情</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each data as item i}}
+                                    <tr>
+                                        <td class="email-sender">{{i+1}}</td>
+                                        <td class="email-sender"><img src={{item.image}} style="height: 175px;width:175px;"></td>
+                                        <td class="email-sender">{{item.title}}</td>
+                                        <td class="email-sender">{{item.bookedPeopleCount}}</td>
+                                        <td class="email-sender"><span class="detailBtn" data-id="{{item.id}}">查看详情</span></td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            </script>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="search">
+                            <label>班级：
+                                <select id="userClass"></select>
+                                <script type="text/html" id="userClass_script">
+                                    {{each data as value i}}
+                                    <option value="{{value.classUUID}}" data-id="{{value.classUUID}}">{{value.className}}</option>
+                                    {{/each}}
+                                </script>
+                            </label>
+                            <label>
+                                时间：<input type="text" id="time02">
+                            </label>
+                            <span id="searchBtn02" class="searchBtn">查询</span>
+                        </div>
+                        <div class="panel panel-inverse">
+                            <div class="email-content" id="email-content01"></div>
+                            <script type="text/html" id="table-email01_script">
+                            <table class="table table-email">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10% !important;">序号</th>
+                                        <th style="width:22.5% !important;">学生姓名</th>
+                                        <th style="width:22.5% !important;">预约课程</th>
+                                        <th style="width:22.5% !important;">预约时间</th>
+                                        <th style="width:22.5% !important;">带课教师</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each data as item i}}
+                                    <tr>
+                                        <td class="email-sender">{{i+1}}</td>
+                                        <td class="email-sender">{{item.name}}</td>
+                                        <td class="email-sender">{{item.courseTitle}}</td>
+                                        <td class="email-sender">{{item.bookedTime}}</td>
+                                        <td class="email-sender">{{item.teacher}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            </script>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="search">
+                            <label>班级：
+                                <select id="userClass01"></select>
+                            </label>
+                            <label>学生姓名：
+                                <select id="student"></select>
+                                <script type="text/html" id="student_script">
+                                    {{each data as value i}}
+                                    <option value="{{value.studentUuid}}" data-id="{{value.id}}">{{value.studentName}}</option>
+                                    {{/each}}
+                                </script>
+                            </label>
+                            <span id="searchBtn03" class="searchBtn">查询</span>
+                        </div>
+                        <div class="panel panel-inverse">
+                            <div class="email-content" id="email-content02"></div>
+                            <script type="text/html" id="table-email02_script">
+                            <table class="table table-email">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10% !important;">序号</th>
+                                        <th style="width:20% !important;">活动名称</th>
+                                        <th style="width:20% !important;">地点</th>
+                                        <th style="width:20% !important;">带课教师</th>
+                                        <th style="width:20% !important;">预约时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each data as item i}}
+                                    <tr>
+                                        <td class="email-sender">{{i+1}}</td>
+                                        <td class="email-sender">{{item.courseTitle}}</td>
+                                        <td class="email-sender">{{item.place}}</td>
+                                        <td class="email-sender">{{item.teacher}}</td>
+                                        <td class="email-sender">{{item.bookedTime}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            </script>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+	    </div> 
+	</div>
+    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top" id="scroll-top">︿</a>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modal-content">
+                <div class="modal-body">
+                    <div class="email-content" id="email-content03"></div>
+                        <script type="text/html" id="table-email03_script">
+                            <table class="table table-email">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20% !important;">序号</th>
+                                        <th style="width:40% !important;">预约人</th>
+                                        <th style="width:40% !important;">预约时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each data as item i}}
+                                    <tr>
+                                        <td class="email-sender">{{i+1}}</td>
+                                        <td class="email-sender">{{item.name}}</td>
+                                        <td class="email-sender">{{item.bookedTime}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </script>
+                </div>
+                <span class="closeBtn" data-dismiss="modal"></span>
+            </div>
+        </div>
+    </div>
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/modal.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+	<script src="../../js/common/base.js"></script>
+    <script src="../../js/activity/movieActivityStats.js?t=20171011"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@
 	<link rel="shortcut icon" href="./images/favicon.png">
 	<link rel="stylesheet" href="./plugins/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="./plugins/raty/star-rating.min.css">
-	<link rel="stylesheet" href="./css/featureCourse.css?t=20170911">
+	<link rel="stylesheet" href="./css/featureCourse.css?t=20171011">
 </head>
 <body>
 	<div id="app">
@@ -40,7 +40,10 @@
 									<h4>{{value.title}}</h4>
 									<div class="courseCon">{{value.content}}</div>
 									<div>
-										<span class="courseTime">时间：{{value.displayTime}}</span>
+										<span class="courseTime">预约时间：{{value.bookedTime}}</span>
+									</div>
+									<div>
+										<span class="courseTime">活动时间：{{value.displayTime}}</span>
 										<span class="courseBtn {{if value.booked == 1}}current{{else if value.booked ==2}}pause{{/if}}" data-id="{{value.id}}" data-time="{{value.time}}">{{if value.booked == 1}}已预约{{else}}预约{{/if}}</span>
 									</div>
 								</div>
@@ -185,6 +188,6 @@
 	<script src="./plugins/bootstrap/bootstrap.min.js"></script>
 	<script src="./plugins/raty/star-rating.min.js"></script>
 	<script src="./js/base.js"></script>
-	<script src="./js/featureCourse.js?t=20170927"></script>
+	<script src="./js/featureCourse.js?t=20171010"></script>
 </body>
 </html>

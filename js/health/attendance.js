@@ -65,8 +65,7 @@ function attendGetClassAttendanceInfo_port(today) {
 function attendGetClassAttendanceInfo_callback(res,today) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
-        $(".sc-item:not(.sc-othermenth) .lunar-day").removeClass("active").text("");
+        $(".sc-item .lunar-day").removeClass("active").text("");
 
         var num=0;
         for(i in data){

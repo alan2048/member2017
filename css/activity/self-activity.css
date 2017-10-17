@@ -1019,3 +1019,25 @@ textarea.form-control {
 .btnBox{
 	text-align: right;
 }
+
+.form-group select{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.2rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+.form-group select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}

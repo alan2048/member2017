@@ -8,7 +8,7 @@
 	<meta content="" name="author" />
 	<link rel="shortcut icon" href="./images/favicon.png">
 	<link rel="stylesheet" href="./plugins/bootstrap/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/movieActivity.css">
+	<link rel="stylesheet" href="./css/movieActivity.css?t=20171011">
 </head>
 <body>
 	<div id="app">
@@ -35,6 +35,9 @@
 								<div class="col-xs-8">
 									<h4>{{value.title}}</h4>
 									<div class="courseCon">{{value.content}}</div>
+									<div>
+										<span class="courseTime">预约时间：{{value.bookedTime}}</span>
+									</div>
 									<div>
 										<span class="courseTime">时间：{{value.displayTime}}</span>
 										<span class="courseBtn {{if value.booked == 1}}current{{/if}}" data-id="{{value.id}}" data-time="{{value.time}}">{{if value.booked == 1}}已预约{{else}}预约{{/if}}</span>
@@ -126,6 +129,6 @@
 	<script src="js/common/template.js"></script> 
 	<script src="./plugins/bootstrap/bootstrap.min.js"></script>
 	<script src="./js/base.js?t=20170927"></script>
-	<script src="./js/movieActivity.js?t=20170927"></script>
+	<script src="./js/movieActivity.js?t=20171011"></script>
 </body>
 </html>

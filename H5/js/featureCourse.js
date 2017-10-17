@@ -59,7 +59,7 @@ function courseName() {
 	$("#detail").on("click","#remark",function () {
 		if(!$(this).hasClass("current")){
             if($(this).hasClass("pause")){
-                tip("sorry,您还没预约，不能评分");
+                tip("未预约或预约时间段内不能评分");
             }else{
                 $("#success02").attr("data-id",$(this).attr("data-id")).attr("data-time",$(this).attr("data-time"));
                 $("#modal02").modal("show");
@@ -123,7 +123,7 @@ function BookCourse_port(id,time,type) {
 };
 function BookCourse_callback(res,id,type) {
     if(res.code==200){
-        GetSchoolCourses_port($("#myTab >li.active >a").attr("data-school"));
+        GetSchoolCourses_port($("#myTab li.active >a").attr("data-school"));
         tip(res.data);
         if(type==1){
         	GetCourseDetails_port(id);
@@ -148,7 +148,7 @@ function UnbookCourse_port(id,time,type) {
 function UnbookCourse_callback(res,id,type) {
     if(res.code==200){
         $("#modal01").modal("hide");
-       	GetSchoolCourses_port($("#myTab >li.active >a").attr("data-school"));
+       	GetSchoolCourses_port($("#myTab li.active >a").attr("data-school"));
        	if(type==1){
         	GetCourseDetails_port(id);
         	tip(res.data);

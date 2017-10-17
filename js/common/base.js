@@ -7,7 +7,7 @@ var serverUrl02="https://121.43.150.38";//38测试服务器
 var serverUrl03="http://121.43.150.38";//38测试服务器
 var serverHost="https://www.member361.com";
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=serverUrl01; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -234,6 +234,12 @@ var httpUrl={
 		tsCallRoll:path+"/web/activity/TSCourse_CallRoll",// 签到
 		tsCancelRoll:path+"/web/activity/TSCourse_CancelRoll",// 取消签到
 		tsTempBookCourse:path+"/web/activity/TSCourse_tempBookCourse",// 补加预约人数
+
+		getCourseSimpleTJ:path+"/web/activity/TSCourse_getCourseSimpleTJ",// 自选活动 活动统计 
+		getCourseClassTJ:path+"/web/activity/TSCourse_getCourseClassTJ",// 自选活动 班级统计 
+		getCourseStudentTJ:path+"/web/activity/TSCourse_getCourseStudentTJ",// 自选活动 学生统计 
+		getCourseStudentDetailTJ:path+"/web/activity/TSCourse_getCourseStudentDetailTJ",// 自选活动 活动统计详情 
+		getCourseAllTJ:path+"/web/activity/TSCourse_getCourseAllTJ",// 自选活动 活动统计01
 
 		// 文件中心
 		fileGetRoot:path+"/web/fileCenter/getRoot",// 获取根目录

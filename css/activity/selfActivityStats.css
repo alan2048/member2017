@@ -1,0 +1,239 @@
+*{
+    box-sizing: border-box;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+#search{
+	color: #636665;
+	margin-bottom: 0.3rem;
+}
+#search >label >select{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+#search >label >select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+#search >label >input{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+   	color: #969998;
+}
+.searchBtn{
+	display: inline-block;
+	border: 0.01rem solid #c9cccb;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0 0 0.25rem;
+	border-radius: 0.1rem;
+	width: 0.88rem;
+	cursor: pointer;
+	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
+	text-align: center;
+	background-color: #fff;
+	vertical-align: top;
+}
+.searchBtn:hover{
+	background-color: #e1e1e1;
+}
+
+
+
+
+
+
+
+
+
+/*table start*/
+.panel {
+	margin-bottom: 0.2rem;
+	padding: 0.15rem;
+	background-color: #fff;
+	border: 0.01rem solid #e8ebea;
+	border-radius: 0.1rem;
+	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
+	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+}
+.table{
+	width: 100%;
+	color: #656565;
+}
+.table >thead >tr{
+	border-bottom: 0.01rem solid #e8ebea;
+}
+th,td {
+	text-align: center;
+}
+.table > thead > tr > th {
+	color: #646464;
+	font-weight: 600;
+}
+.table.table-email tr:hover td {
+	background: #f4f7f6;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+	padding: 0.14rem 0.08rem;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border-bottom: 1px solid #ddd;
+}
+.table > tbody > tr > td >img{
+	border-radius:8px;
+	border: 1px solid #ddd;
+}
+.fa.fa-check-square-o{
+	color: #5ce0de;
+}
+.fa {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.table .email-date{
+	position: relative;
+}
+.table .email-date:hover > .fade.in.hide {
+	display: inline-block !important;
+	text-align: left;
+	position: absolute;
+	border: 0.02rem solid #666;
+	padding: 0.1rem;
+	min-width: 1.56rem;
+	min-height: 0.55rem;
+	left: 60%;
+	top: 0;
+	background-color: #f8e665;
+	border-radius: 0.1rem;
+}
+.table .email-date > .fade.in.hide > span {
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.36rem;
+	left: -0.19rem;
+	top: 0.1rem;
+	position: absolute;
+	background: url(../../images/common/tableArrow.png) 0 center no-repeat;
+}
+/*table end*/
+
+.tabs >ul{
+	margin: 0 auto;
+	width: 480px;
+	padding-bottom: 60px;
+	text-align: center;
+}
+.tabs >ul >li{
+	height: 40px;
+	width: 160px;
+	float: left;
+	vertical-align: middle;
+	line-height: 40px;
+	cursor: pointer;
+	color: #4d4d4d;
+	background-color: #fff;
+	border: 1px solid #c9cccb;
+}
+.tabs >ul >li:first-of-type{
+	border-bottom-left-radius: 20px;
+	border-top-left-radius: 20px;
+}
+.tabs >ul >li:last-of-type{
+	border-bottom-right-radius: 20px;
+	border-top-right-radius: 20px;
+}
+.tabs >ul >li:nth-of-type(2){
+	border-left: none;
+	border-right: none;
+}
+.tabs >ul >li.current{
+	background-color: #5cdfe2;
+	color: #fff;
+	border: 1px solid #5cdfe2;
+}
+.tabsBox >ul >li{
+	display:none;
+}
+.tabsBox >ul >li.current{
+	display:block;
+}
+.detailBtn{
+	display:inline-block;
+	width: 1rem;
+	height: 0.4rem;
+	line-height:0.4rem;
+	border-radius:0.2rem;
+	color:#fff;
+	background-color: #5cdfe2;
+	cursor: pointer;
+}
+.detailBtn:hover{
+	background-color: #3dcccf;
+}
+.closeBtn, .closeBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1.08rem;
+	right: 0rem;
+	z-index: 0;
+}
+.modal-dialog {
+	height: 5.8rem;
+	width: 8.5rem;
+	margin: 1.6rem auto 0;
+}
+.modal-content {
+	padding: 0.2rem 0.6rem 0;
+}
+#scroll-top {
+	position: fixed;
+	display: inline-block;
+	width: 0.4rem;
+	height: 0.4rem;
+	color: #fff;
+	right: 0.4rem;
+	z-index: 1000;
+	bottom: 0.6rem;
+	border-radius: 0.6rem;
+	background: #5cdfe2;
+	text-align: center;
+	line-height:0.3rem;
+	font-size:0.22rem;
+}
+#scroll-top:hover{
+	background-color: #3dcccf;
+}

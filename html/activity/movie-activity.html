@@ -16,7 +16,7 @@
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
 
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/activity/movie-activity.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/activity/movie-activity.css?t=20171011" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -116,6 +116,28 @@
                                         <label class="col-md-3 control-label ui-sortable"> 副标题：</label>
                                         <div class="col-md-9 ui-sortable">
                                             <textarea class="form-control" placeholder="来对影片名称做一个合理的解释..." rows="5" id="activitySummary" name="content" maxlength="120"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 预约开始时间：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <select id="startWeek" name="bookTimeWeekStart"></select>
+                                            <script type="text/html" id="startWeek_script">
+                                                {{each week as value i}}
+                                                <option value="{{value.id}}">周{{value.name}}</option>
+                                                {{/each}}
+                                            </script>
+                                            <select id="startTime" name="bookTimeHourStart"></select>
+                                            <script type="text/html" id="startTime_script">
+                                                {{each time as value i}}
+                                                <option value="{{value.id}}">{{value.name}}</option>
+                                                {{/each}}
+                                            </script>
+                                        </div>
+                                        <label class="col-md-3 control-label ui-sortable"><span style="color:#ff0000">*</span> 预约结束时间：</label>
+                                        <div class="col-md-9 ui-sortable">
+                                            <select id="endWeek" name="bookTimeWeekEnd"></select>
+                                            <select id="endTime" name="bookTimeHourEnd"></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -251,6 +273,6 @@
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
 
 	<script src="../../js/common/base.js"></script>
-    <script src="../../js/activity/movie-activity.js?t=20170928"></script>
+    <script src="../../js/activity/movie-activity.js?t=20171011"></script>
 </body>
 </html>
