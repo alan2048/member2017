@@ -785,17 +785,22 @@ function recordDanDetail_callback(res,id) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         if(data.pageContent){
-            $(".recordImg").removeClass("edit");
-            $(".recordImg[data-id="+id+"]").addClass("edit");// 预览列表有选中时为编辑
-            var content=JSON.parse(data.pageContent);
-            // content.objects[0].evented=false;// 默认背景锁定
-            // content.objects[0].selectable=false;// 默认背景锁定
-            // content.objects[0].width=$("#canvasMain").width()-40;
-            // content.objects[0].height=$("#canvasMain").height()-40;
+            // 编辑权限控制 !=1
+            if($(".recordImg[data-id="+id+"] .deleteBtn").attr("data-delete")){
+                $(".recordImg").removeClass("edit");
+                $(".recordImg[data-id="+id+"]").addClass("edit");// 预览列表有选中时为编辑
+                var content=JSON.parse(data.pageContent);
+                // content.objects[0].evented=false;// 默认背景锁定
+                // content.objects[0].selectable=false;// 默认背景锁定
+                // content.objects[0].width=$("#canvasMain").width()-40;
+                // content.objects[0].height=$("#canvasMain").height()-40;
 
-            canvas.clear();
-            canvas.loadFromJSON(content, canvas.renderAll.bind(canvas));
-            console.log(content)
+                canvas.clear();
+                canvas.loadFromJSON(content, canvas.renderAll.bind(canvas));
+            }else{
+                $("#modal-dialog-img").modal("show");
+                toastTip("提示","非本人制作的档案只可以查看","2500");
+            }
         }else{
             $("#modal-dialog-img").modal("show");
         };
