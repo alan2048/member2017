@@ -38,7 +38,11 @@ function init() {
         language:'zh-CN'
     }).on("changeDate",function (ev) {
         $('#time01').datepicker("hide");
-        getCourseSimpleTJ_port($("#school").val(),Date.parse(new Date($("#time01").val()))/1000);
+        if($("#time01").val()){
+            getCourseSimpleTJ_port($("#school").val(),Date.parse(new Date($("#time01").val()))/1000);
+        }else{
+            $("#email-content tbody").empty();
+        }
     });
 
     $("#school").change(function () {
@@ -60,7 +64,11 @@ function init() {
         language:'zh-CN'
     }).on("changeDate",function (ev) {
         $('#time02').datepicker("hide");
-        getCourseClassTJ_port($("#userClass").val(),Date.parse(new Date($("#time02").val()))/1000);
+        if($("#time02").val()){
+            getCourseClassTJ_port($("#userClass").val(),Date.parse(new Date($("#time02").val()))/1000);
+        }else{
+            $("#email-content01 tbody").empty();
+        }
     });
 
     $("#userClass").change(function () {
@@ -173,7 +181,7 @@ function getCourseStudentDetailTJ_callback(res) {
         var data01={data:data};
         var html=template("table-email03_script",data01);
         $("#email-content03").empty().append(html);
-        chooseNiceScroll("#email-content03","transparent");
+        chooseNiceScroll("#email-content03");
         $("#myModal").modal("show")
     }else{
         // console.log('请求错误，返回code非200');

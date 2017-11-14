@@ -105,7 +105,7 @@ function echart_A01(id,json){
                     },
                     axisLabel:{
                         interval:0,
-                        rotate: 30
+                        rotate: -60
                     }
                 }
             ],
@@ -200,7 +200,7 @@ function echart_A03(id,json){
                     },
                     axisLabel:{
                         interval:0,
-                        rotate: 30
+                        rotate: -60
                     }
                 }
             ],

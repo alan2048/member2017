@@ -23,7 +23,7 @@
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
 				<div id="user">
-					<div class="userPic"></div>
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
 					<div class="userName"></div>
 					<div class="userRole"></div>
 				</div>
@@ -73,6 +73,24 @@
                                     <span class="{{item.fileExt}} pic" data-fileuuid="{{item.fileUUID}}" data-name="{{item.fileName}}" data-md5="{{item.fileMD5}}"></span><br>
                                     <span class="todoName {{item.fileExt}}" data-fileuuid="{{item.fileUUID}}" data-parentuuid="{{item.parentUUID}}" data-md5="{{item.fileMD5}}" data-name="{{item.fileName}}">{{item.fileName}}</span>
                                 </li>
+                            {{/each}}
+                        </ul>
+                        <ul class="todolistBox01" id="todolistBox01">
+                            <li>
+                                <span class="col01"></span>
+                                <span class="col02">名称</span>
+                                <span class="col03">修改日期</span>
+                                <span class="col04">文件类型</span>
+                                <span class="col05">大小</span>
+                            </li>
+                            {{each arr as item i}}
+                            <li data-fileuuid={{item.fileUUID}} class="{{item.fileExt}} list">
+                                <span class="col01"><span class="todoName {{item.fileExt}}" data-fileuuid="{{item.fileUUID}}" data-parentuuid="{{item.parentUUID}}" data-md5="{{item.fileMD5}}" data-name="{{item.fileName}}"></span></span>
+                                <span class="col02"><span class="{{item.fileExt}} pic" data-fileuuid="{{item.fileUUID}}" data-name="{{item.fileName}}" data-md5="{{item.fileMD5}}"></span>{{item.fileName}}</span>
+                                <span class="col03">{{item.creationTime}}</span>
+                                <span class="col04">{{item.fileExt}}</span>
+                                <span class="col05">大小</span>
+                            </li>
                             {{/each}}
                         </ul>
                     </script>

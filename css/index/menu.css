@@ -23,8 +23,8 @@ body{
 .menuTitle{
 	margin: 0 auto;
 	width: 5.35rem;
-	height: 2.3rem;
-	background: url(../../images/index/menuTitle.png) center center no-repeat;
+	/*height: 2.3rem;*/
+	/*background: url(../../images/index/menuTitle.png) center center no-repeat;*/
 	-webkit-background-size: contain;
 	background-size: contain;
 	margin-top: 0.2rem;
@@ -33,6 +33,9 @@ body{
 	display: inline-block;
 	width: 100%;
 	height: 100%;
+}
+.menuTitle >a >img{
+	width: 100%;
 }
 #menuBox{
 	margin: 0.4rem 1.2rem;
@@ -159,4 +162,84 @@ li.active:nth-of-type(1) .has-list >.hasTitle{
 	background: url(../../images/index/activeIcon.png) 0 center no-repeat;
 	-webkit-background-size: contain;
 	background-size: contain;
+}
+
+
+#user{
+	padding-top: 0.4rem;
+	line-height: 1.6;
+	position: fixed;
+	min-width: 1.2rem;
+	top: 0;
+	right: 0.4rem;
+	height:1.5rem;
+	-webkit-background-size: 80%,50%;
+	background-size: 80%,50%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	z-index: 10000;
+	color:#666;
+}
+#user >.userPic{
+	margin: 0 auto 0.1rem;
+	height: 0.5rem;
+	width: 0.5rem;
+	border-radius: 0.3rem;
+	border: 0.01rem solid #666;
+	cursor:pointer;
+	display:inline-block;
+}
+#user >.userPic:hover{
+	border: 0.01rem solid #5ce0de;
+}
+.userPic >a{
+	display:none;
+}
+.userPic >a:hover{
+	color:#5cdee1;
+}
+.userPic >a::before{
+	content:"";
+	display:inline-block;
+	position:absolute;
+	width: 0;
+	height: 0;
+	top:-0.09rem;
+	left:0.16rem;
+	border-bottom: 0.1rem solid #e7eceb;
+	border-left: 0.1rem solid transparent;
+	border-right: 0.1rem solid transparent;
+}
+.userPic >a::after{
+	content:"";
+	display:inline-block;
+	position:absolute;
+	width: 0;
+	height: 0;
+	top:-0.08rem;
+	left:0.16rem;
+	border-bottom: 0.1rem solid #fff;
+	border-left: 0.1rem solid transparent;
+	border-right: 0.1rem solid transparent;	
+}
+#user:hover .userPic >a{
+	display:inline-block;
+	width: 1.2rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align:center;
+	background-color: #fff;
+	position:absolute;
+	top:1.04rem;
+	left:0;
+	border-radius:0.1rem;
+	border: 1px solid #e7eceb;
+}
+#user .userRole{
+	color: #979a99;
+}
+.userInfo{
+	display:inline-block;
+	vertical-align: top;
+	padding-left: 0.1rem;
 }

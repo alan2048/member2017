@@ -36,6 +36,7 @@ body {
 	border-radius: 0.3rem;
 	border: 0.01rem solid #666;
 	cursor:pointer;
+	position: relative;
 	// background: url(../../images/common/userPic.png) center center no-repeat;
 }
 #user >.userPic:hover{
@@ -132,4 +133,48 @@ body {
 }
 .content.active{
 	margin-left: 0;
+}
+
+.userPic >a{
+	display:none;
+}
+.userPic >a:hover{
+	color:#5cdee1;
+}
+.userPic >a::before{
+	content:"";
+	display:inline-block;
+	position:absolute;
+	width: 0;
+	height: 0;
+	top:-0.09rem;
+	left:0.46rem;
+	border-bottom: 0.1rem solid #e7eceb;
+	border-left: 0.1rem solid transparent;
+	border-right: 0.1rem solid transparent;
+}
+.userPic >a::after{
+	content:"";
+	display:inline-block;
+	position:absolute;
+	width: 0;
+	height: 0;
+	top:-0.08rem;
+	left:0.46rem;
+	border-bottom: 0.1rem solid #fff;
+	border-left: 0.1rem solid transparent;
+	border-right: 0.1rem solid transparent;	
+}
+#user:hover .userPic >a{
+	display:inline-block;
+	width: 1.2rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align:center;
+	background-color: #fff;
+	position:absolute;
+	top:0.7rem;
+	left:-0.3rem;
+	border-radius:0.1rem;
+	border: 1px solid #e7eceb;
 }

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
-	<title>个体发展水平</title>
+	<title>班级发展水平</title>
 	<meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="幼教产品" />
@@ -14,7 +14,7 @@
     <link href="../../css/common/sweetalert.css" rel="stylesheet" />
     
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-    <link href="../../css/watch/childrenStat.css" rel="stylesheet" />
+    <link href="../../css/watch/classStat.css" rel="stylesheet" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -48,24 +48,20 @@
 		</div>
 
 		<div id="content" class="content">
-			<div class="pageTitle">个体发展水平</div>
+			<div class="pageTitle">班级发展水平</div>
             <div>
 			    <div id="search01" class="search">
                     <label>
-                        班级：
-                        <select id="userClass01"></select>
+                        年级：
+                        <select id="userClass01">
+                            <option value="1">托班</option>
+                            <option value="2">小班</option>
+                            <option value="3">中班</option>
+                            <option value="4" selected="selected">大班</option>
+                        </select>
                         <script type="text/html" id="userClass_script">
                             {{each data as value i}}
                             <option value="{{value.classUUID}}">{{value.className}}</option>
-                            {{/each}}
-                        </script>
-                    </label>
-                    <label>
-                        姓名：
-                        <select id="classMember01"></select>
-                        <script type="text/html" id="classMember_script">
-                            {{each data as value i}}
-                            <option value="{{value.studentUuid}}">{{value.studentName}}</option>
                             {{/each}}
                         </script>
                     </label>
@@ -92,12 +88,13 @@
 
                 <div id="search02" class="search">
                     <label>
-                        班级：
-                        <select id="userClass02"></select>
-                    </label>
-                    <label>
-                        姓名：
-                        <select id="classMember02"></select>
+                        年级：
+                        <select id="userClass02">
+                            <option value="1">托班</option>
+                            <option value="2">小班</option>
+                            <option value="3">中班</option>
+                            <option value="4" selected="selected">大班</option>
+                        </select>
                     </label>
                     <label>
                         课程：
@@ -118,6 +115,96 @@
                     </label>
                 </div>
                 <div class="searchBox"><div id="searchBox02"></div></div>
+
+                <div id="search03" class="search">
+                    <label>
+                        班级：
+                        <select id="userClass03"></select>
+                    </label>
+                    <label>
+                        年份：
+                        <select id="year03" class="year"></select>
+                    </label>
+                    <label>
+                        月份：
+                        <select id="month03" class="month"></select>
+                    </label>
+                </div>
+                <div class="searchBox searchBox03">
+                    <div>
+                        <div class="title">班级领域发展水平-数量统计</div>
+                        <div id="searchBox03"></div>
+                    </div>
+                </div>
+                <script type="text/html" id="searchBox03_script">
+                    <table>
+                        <thead>
+                            <tr>
+                                {{each data[0] as value i}}
+                                <th>{{value}}</th>
+                                {{/each}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{each data as value i}}
+                                {{if i >0}}
+                                <tr>
+                                    {{each value as value01 j}}
+                                    <td>{{value01}}</td>
+                                    {{/each}}
+                                </tr>
+                                {{/if}}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </script>
+
+                <div id="search04" class="search">
+                    <label>
+                        班级：
+                        <select id="userClass04"></select>
+                    </label>
+                    <label>
+                        课程：
+                        <select id="course04"></select>
+                    </label>
+                    <label>
+                        年份：
+                        <select id="year04" class="year"></select>
+                    </label>
+                    <label>
+                        月份：
+                        <select id="month04" class="month"></select>
+                    </label>
+                </div>
+                <div class="searchBox searchBox03">
+                    <div>
+                        <div class="classAreaTitle title"></div>
+                        <div id="searchBox04"></div>
+                    </div>
+                </div>
+                <script type="text/html" id="searchBox03_script">
+                    <table>
+                        <thead>
+                            <tr>
+                                {{each data[0] as value i}}
+                                <th>{{value}}</th>
+                                {{/each}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{each data as value i}}
+                                {{if i >0}}
+                                <tr>
+                                    {{each value as value01 j}}
+                                    <td>{{value01}}</td>
+                                    {{/each}}
+                                </tr>
+                                {{/if}}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </script>
             </div>
 	    </div> 
 	</div>
@@ -129,6 +216,6 @@
     <script src="../../js/common/echarts/echarts.min.js"></script>
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/watch/childrenStat.js?t=20171024"></script>
+	<script src="../../js/watch/classStat.js?t=20170928"></script>
 </body>
 </html>

@@ -701,6 +701,7 @@ function menuChildList_callback(res,menuId) {
             if(data.arr[i].id == user.sid){
                 data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=true;
+                title=data.arr[i].name;
             }else{
                 data.arr[i].newId=function () {return data.arr[i].id+"&t="+(new Date().getTime())}();
                 data.arr[i].current=false;

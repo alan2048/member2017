@@ -15,7 +15,7 @@
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<div id="menu">
-		<div class="menuTitle"><a href="index.html"></a></div>
+		<div class="menuTitle"><a href="index.html"><img src="images/index/menuTitle.png" alt=""></a></div>
 		<ul id="menuBox"></ul>
 		<script type="text/html" id="menuBox_script">
 			{{each arr as value i}}
@@ -42,6 +42,15 @@
 			</li>
 			{{/each}}
 		</script>
+	</div>
+	<div id="user">
+		<div class="userPic">
+			<a href="index.html">退出登录</a>
+		</div>
+		<div class="userInfo">
+			<div class="userName"></div>
+			<div class="userRole"></div>
+		</div>
 	</div>
 	<script src="./js/common/jquery-1.11.1.min.js"></script>
 	<script src="./js/common/jquery.nicescroll.min.js"></script>

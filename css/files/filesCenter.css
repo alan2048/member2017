@@ -348,3 +348,30 @@
 	-o-transition: width .6s ease;
 	transition: width .6s ease;
 }
+
+.todolistBox01 .col01{
+	display:inline-block;
+	width: 30px;
+	height: 20px;
+}
+.todolistBox01 .col02{
+	display:inline-block;
+	width: 200px;
+	height: 20px;
+	overflow: hidden;
+}
+.todolistBox01 .col03{
+	display:inline-block;
+	width: 200px;
+	height: 20px;
+}
+.todolistBox01 .col04{
+	display:inline-block;
+	width: 200px;
+	height: 20px;
+}
+.todolistBox01 .col05{
+	display:inline-block;
+	width: 200px;
+	height: 20px;
+}

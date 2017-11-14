@@ -209,6 +209,15 @@
 #deleteBtn:active .bar-icon-18 {
 	background-position:-180px -36px
 }
+#autoSort .bar-icon-18 {
+	background-position:-18px 0
+}
+#autoSort:hover .bar-icon-18 {
+	background-position:-18px -18px
+}
+#autoSort:active .bar-icon-18 {
+	background-position:-18px 0
+}
 
 @keyframes shaking {
 	0% {

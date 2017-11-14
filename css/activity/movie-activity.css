@@ -460,7 +460,7 @@ ul,li{
 	width: 246px;
 	height: 340px;
 	text-align: center;
-	padding-top: 120px;
+	padding-top: 100px;
 	line-height: 80px;
 	border-radius: 8px;
 	background: url(../../images/activity/modal.png) center center no-repeat;
@@ -478,7 +478,7 @@ ul,li{
 	display: inline-block;
 }
 .signInBtn{
-	display:none !important;
+	/*display:none !important;*/
 }
 .yearBg.current >span.editBtn{
 	background: url(../../images/activity/edit01.png) center center no-repeat;

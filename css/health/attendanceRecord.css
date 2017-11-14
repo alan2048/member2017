@@ -632,7 +632,8 @@ label > input.empty{
 	background: url(../../images/health/man.png) 0 center no-repeat;
 }
 .attendBox >div{
-	height: 0.25rem;
+	max-height:1.3rem;
+	overflow: hidden;
 	line-height: 0.25rem;
 	color:#666;
 }

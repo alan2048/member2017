@@ -4,7 +4,7 @@ var user={
 };
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
-var serverUrl03="http://121.43.150.38";//38测试服务器
+var serverUrl03="http://106.15.89.156";//156测试服务器
 var serverHost="https://www.member361.com";
 
 var path=serverUrl01; //更改服务器地址可设置此值
@@ -158,7 +158,13 @@ var httpUrl={
 		// 个体发展水平
 		getStudentAbility:path+"/web/sample/TJ/TJ_GCJL_GetStudentAbilityStrong",// 个人综合能力评价 雷达图
 		getStudentCourseAbility:path+"/web/sample/TJ/TJ_GCJL_GetStudentCourseAbility",// 个人课程 能力评价 雷达图
-		getClassesAbilibySimple:path+"/web/sample/TJ/TJ_GCJL_GetClassAbilibySimple",// 班级综合能力水平 
+		
+
+		// 班级发展水平
+		getClassesAbilibySimple:path+"/web/sample/TJ/TJ_GCJL_GetClassesAbilibySimple",// 班级领域发展水平
+		getCourseAbilibySimple:path+"/web/sample/TJ/TJ_GCJL_GetCourseAbilibySimple",// 班级游戏与生活观察
+		getClassAbilibySimple:path+"/web/sample/TJ/TJ_GCJL_GetClassAbilibySimple",// 班级领域发展水平--数量统计 
+		getCourseAbilibyCount:path+"/web/sample/TJ/TJ_GCJL_GetCourseAbilibyCount",// 课程发展水平--数量统计
 
 		// 成长档案
 		recordStudent:path+"/web/mbtrack/dan/student",// 获取学生列表（含档案信息）
@@ -239,7 +245,7 @@ var httpUrl={
 		getCourseClassTJ:path+"/web/activity/TSCourse_getCourseClassTJ",// 自选活动 班级统计 
 		getCourseStudentTJ:path+"/web/activity/TSCourse_getCourseStudentTJ",// 自选活动 学生统计 
 		getCourseStudentDetailTJ:path+"/web/activity/TSCourse_getCourseStudentDetailTJ",// 自选活动 活动统计详情 
-		getCourseAllTJ:path+"/web/activity/TSCourse_getCourseAllTJ",// 自选活动 活动统计01
+		getCourseAllTJ:path+"/web/activity/TSCourse_getCourseAllTJ2",// 自选活动 活动统计01
 
 		// 文件中心
 		fileGetRoot:path+"/web/fileCenter/getRoot",// 获取根目录

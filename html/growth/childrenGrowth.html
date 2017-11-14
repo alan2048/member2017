@@ -134,7 +134,7 @@
 								<span class="canDelete" data-messageId="{{value.id}}">删除</span>
 								{{/if}}
 								{{if value.canDelete == 1 && value.visibleList.length >0}}
-								<span class="visibleBtn" data-visible="{{value.visible}}">谁可见</span>
+								<span class="visibleBtn" data-visible={{value.visible}}>谁可见</span>
 								{{/if}}
 								{{if value.selfPraise ==0}}
 								<span class="praiseBtn" data-messageId="{{value.id}}" data-praiseid="{{value.selfPraise}}">赞</span>

@@ -284,6 +284,7 @@ function fileGetChildFileInfo_callback(res,obj) {
                 arr:JSON.parse(res.data),
                 path_img:httpUrl.path_img
         };
+        console.log(data);
         var html=template("todolist_script",data);
         $("#todolist").empty().append(html);
         if(obj){

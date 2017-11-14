@@ -11,7 +11,7 @@ var user={
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=serverUrl01; //更改服务器地址可设置此值
 
 if(window.location.protocol=="file:"){
 	setCookie("loginId",GetQueryString("loginId"),"d30");// 打开本地文件时，默认设置本地cookie
@@ -32,6 +32,7 @@ var httpUrl={
 		recordDanList:path+"/web/mbtrack/dan/list", // 获取成长档案页列表
 		recordDanDelete:path+"/web/mbtrack/dan/delete", // 删除档案页
 		recordDanDetail:path+"/web/mbtrack/dan/detail", // 获取档案页详情
+		recordChildAllInfo:path+"/web/mbtrack/child/allInfo", // 获取当前孩子的个人信息
 		recordDanbookList:path+"/web/mbtrack/danbook/list", // 获取档案册列表
 		recordUploadList:path+"/web/mbtrack/upload/list", // 获取上传的文件列表
 		recordUploadSave:path+"/web/mbtrack/upload/save", // 添加上传文件成功之后的保持图片

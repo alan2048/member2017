@@ -37,7 +37,7 @@ function savePic() {
         canvas.setHeight($("#canvasBox").height());
 
         if(canvas.getItemByAttr('id', "canvasBg")){
-            canvas.getItemByAttr('id', "canvasBg").scaleToWidth($("#canvasMain").width()-20);
+            canvas.getItemByAttr('id', "canvasBg").scaleToWidth($("#canvasMain").width());
         };
         canvas.renderAll();
 	});
@@ -78,11 +78,9 @@ function savePic() {
 
     // 背景图初始化
     fabric.Image.fromURL(httpUrl.path_img+"61902139aead7370f1be1cb8c30a51ad&minpic=0",function(Img) {
-            var w01=$("#canvasMain").width()-20;
-            var h01=$("#canvasMain").height()-20;
-            Img.scaleToWidth(w01).scaleToHeight(h01).set({
-                left:10,
-                top:10,
+            var w01=$("#canvasMain").width();
+            var h01=$("#canvasMain").height();
+            Img.scaleToWidth(w01).scaleToHeight(h01+12).set({
                 id:"canvasBg",
                 evented:false,
                 selectable:false
@@ -103,11 +101,9 @@ function savePic() {
     	var imgUrl=httpUrl.path_img+md5+"&minpic=0";
 
     	fabric.Image.fromURL(imgUrl,function(Img) {
-    		var w01=$("#canvasMain").width()-20;
-    		var h01=$("#canvasMain").height()-20;
-    		Img.scaleToWidth(w01).scaleToHeight(h01).set({
-    			left:10,
-    			top:10,
+    		var w01=$("#canvasMain").width();
+    		var h01=$("#canvasMain").height();
+    		Img.scaleToWidth(w01).scaleToHeight(h01+12).set({
                 id:"canvasBg",
                 evented:false,
     			selectable:false
@@ -281,6 +277,7 @@ function savePic() {
   				        top: h01/4,
                         class:"bottomText"
 			        }));
+                    // charSpacing:-100 控制字符间距
 		        };
 		    
 		        if(ArrPic.length >0){
@@ -443,15 +440,37 @@ function savePic() {
     // 添加文字 
     $("#addTextBtn").click(function () {
         var text="请输入文字。。";
-        canvas.add(new fabric.IText(text, { 
+        var w01=$("#canvasMain").width();
+        canvas.add(new fabric.Textbox(text, { 
             fontFamily: '宋体',
             fontSize: 16,
             textAlign:"left",
-            width:800,
+            width:w01*0.7,
             height:300,
-            left: 30, 
-            top: 100 ,
+            left: w01*0.15, 
+            top: 100
         }));
+    });
+
+    // 字体自动排序
+    $("#editor").on("click","#autoSort",function () {
+        var o=canvas.getActiveObject();
+        var w01=$("#canvasMain").width();
+        if(o){
+            if(o.oldText){
+                o.text=o.oldText;
+                o.oldText="";
+                canvas.renderAll();
+            }else{
+                var text=o.text;
+                o.oldText=o.text;
+                var newStr = getNewline(text,50);
+                o.text=newStr;
+                o.width=w01*0.7;
+                o.left=w01*0.15;
+                canvas.renderAll();
+            };
+        };        
     });
 
     // 字体按钮 工具箱 
@@ -578,17 +597,19 @@ function savePic() {
         var w=$("#canvas").width();
         var w01=$("#canvas-wrapper").width();
         if(options.target){
+            var length=(w-w01)/2+options.target.left+options.target.width*options.target.scaleX;
+            if(length >1200){length=1200;}
             if(options.target && (options.target.get("type")=="i-text" || options.target.get("type")=="textbox") ){
-                $("#colorBtn,#fontBtn").show();// 文字状态下显示颜色和字体控制按钮
-                $("#editor-bar").css({"left":(w-w01)/2+options.target.left+options.target.width*options.target.scaleX+70,"top":options.e.clientY});// 主工具箱
-                $("#layerPanel").css({"left":(w-w01)/2+options.target.left+options.target.width*options.target.scaleX+115,"top":(options.e.clientY+60)});//图层面板
-                $("#fontPanel").css({"left":(w-w01)/2+options.target.left+options.target.width*options.target.scaleX+115,"top":(options.e.clientY+15)});// 字体面板
+                $("#colorBtn,#fontBtn,#autoSort").show();// 文字状态下显示颜色和字体控制按钮
+                $("#editor-bar").css({"left":length+70,"top":options.e.clientY});// 主工具箱
+                $("#layerPanel").css({"left":length+115,"top":(options.e.clientY+60)});//图层面板
+                $("#fontPanel").css({"left":length+115,"top":(options.e.clientY+15)});// 字体面板
                 $("#colorDiv >i >span").css("background-color",options.target.fill);
                 $("#editor-bar").show();// 显示工具箱
             }else{
-                $("#colorBtn,#fontBtn").hide();
-                $("#editor-bar").css({"left":(w-w01)/2+options.target.left+options.target.width*options.target.scaleX+70,"top":options.e.clientY});// 主工具箱
-                $("#layerPanel").css({"left":(w-w01)/2+options.target.left+options.target.width*options.target.scaleX+115,"top":(options.e.clientY-10)});//图层面板
+                $("#colorBtn,#fontBtn,#autoSort").hide();
+                $("#editor-bar").css({"left":length+70,"top":options.e.clientY});// 主工具箱
+                $("#layerPanel").css({"left":length+115,"top":(options.e.clientY-10)});//图层面板
                 $("#editor-bar").show();// 显示工具箱
             };
         };
@@ -711,6 +732,30 @@ function savePic() {
     });
 };
 
+// 自动换行字数计算函数
+function getNewline(val,num) {  
+        var str = new String(val);  
+        var bytesCount = 0;  
+        var s="";
+        for (var i = 0 ,n = str.length; i < n; i++) {  
+            var c = str.charCodeAt(i);  
+            //统计字符串的字符长度
+            if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {  
+                bytesCount += 1;  
+            } else {  
+                bytesCount += 2;  
+            }
+            //换行
+            s += str.charAt(i);
+            if(bytesCount>=num){  
+            s = s + '\n';
+            //重置
+            bytesCount=0;
+            } 
+        }  
+        return s;  
+    }; 
+
 // 新建档案册 接口
 function recordNewDanbook_port(childUserUuid,name) {
     var data={
@@ -785,8 +830,8 @@ function recordDanDetail_callback(res,id) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         if(data.pageContent){
-            // 编辑权限控制 !=1
-            if($(".recordImg[data-id="+id+"] .deleteBtn").attr("data-delete")){
+            // 编辑权限控制 
+            if($(".recordImg[data-id="+id+"] .deleteBtn").attr("data-delete") !=1){
                 $(".recordImg").removeClass("edit");
                 $(".recordImg[data-id="+id+"]").addClass("edit");// 预览列表有选中时为编辑
                 var content=JSON.parse(data.pageContent);
@@ -926,12 +971,11 @@ function recordPageDetail_port(id) {
 function recordPageDetail_callback(res) {
     if(res.code ==200){
         var data=JSON.parse(res.data);
-        // 
         if(data.pageType==1){
             if(data.pageConfig){
                 var config=JSON.parse(data.pageConfig);
                 // 封面模板个人信息 自动定位
-                // recordPageLocation_port(config);
+                recordPageLocation_port(config);
             };
         };
         // 评价模板pageType=-1
@@ -959,44 +1003,65 @@ function recordPageDetail_callback(res) {
 // 封面模板个人信息 自动定位
 function recordPageLocation_port(config) {
     var data={
-            pageType:1
+            childUserUuid:$("#user").attr("data-useruuid")
         };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.recordPageList,param,recordPageLocation_callback,config);
+    initAjax(httpUrl.recordChildAllInfo,param,recordPageLocation_callback,config);
 };
 function recordPageLocation_callback(res,config) {
     if(res.code==200){
+            var data=JSON.parse(res.data);
             var w01=$("#canvasMain").width();
             var h01=$("#canvasMain").height();// 重新声明变量 适配resize一样能对齐
 
-            var text=["紫越幼儿园","萌小班","蓝曾明"];
-            if(text){
-               canvas.add(new fabric.IText(text[0], { 
-                    fontFamily: '宋体',
-                    fontSize: 16,
-                    left: w01/2, 
-                    top: h01*0.8,
-                    class:"bottomText"
-               }));
-               canvas.add(new fabric.IText(text[1], { 
-                    fontFamily: '宋体',
-                    fontSize: 16,
-                    left: w01/2, 
-                    top: h01*0.8+30,
-                    class:"bottomText"
-               }));
-               canvas.add(new fabric.IText(text[2], { 
-                    fontFamily: '宋体',
-                    fontSize: 16,
-                    left: w01/2, 
-                    top: h01*0.8+60,
-                    class:"bottomText"
-               }));
-               canvas.renderAll();
+            var textArr=[];
+            var picArr=[];
+            for(var i=0;i<config.tag.length;i++){
+                config.tag[i].value=data[config.tag[i].tagName];
+                if(config.tag[i].tagType=="text"){
+                    if(config.tag[i].value){textArr.push(config.tag[i])};
+                }else if(config.tag[i].tagType=="pic"){
+                    if(config.tag[i].value){picArr.push(config.tag[i]);}
+                };
             };
+
+            // 自动匹配字体
+            if(picArr.length >0){
+                for(var i=0;i<textArr.length;i++){
+                    if(textArr[i].value){
+                        canvas.add(new fabric.IText(textArr[i].value, { 
+                            fontFamily: '宋体',
+                            fontSize: 16,
+                            left: w01*textArr[i].left, 
+                            top: h01*textArr[i].top,
+                            class:"bottomText"
+                        }));
+                    };
+                };
+            };
+
+            // 自动匹配图片
+            if(picArr.length >0){
+                for(var i=0;i<picArr.length;i++){
+                    var pic=httpUrl.path_img+picArr[i].value+"&minpic=0";
+                    var width=picArr[i].width;
+                    var left=picArr[i].left;
+                    var top=picArr[i].top;
+                    
+                    fabric.Image.fromURL(pic,function(Img) {
+                        Img.scaleToWidth(w01*width).set({
+                            left:(w01*left),
+                            top:h01*top,
+                            class:"bottomPic"
+                        });
+                        canvas.add(Img);
+                    });
+                };
+            };
+            canvas.renderAll();
     }else{
         toastTip("提示","加载失败，请稍候重试。。","2500");
     };

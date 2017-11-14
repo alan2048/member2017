@@ -202,7 +202,6 @@ function loginUserInfo_port() {
 function loginUserInfo_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
         data.path_img=httpUrl.path_img;
         $("#user >.userName").text(data.name).attr("data-uuid",data.userUUID).attr("data-childuuid",data.childUUID);
         $("#user >.userRole").text(data.jobTitle).attr("data-typeid",data.typeID);

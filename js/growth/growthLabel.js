@@ -84,6 +84,7 @@ function growthLabel_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("tableBox_script",data);
         $("#tableBox").empty().append(html);
+        $("#editBtn,#deleteBtn").addClass("disable");
     };
 };
 

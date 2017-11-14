@@ -68,7 +68,7 @@ body{
 }
 .login > .loginBox > .name input, .login > .loginBox > .password input {
     font-size: .3rem;
-    width: 3.5rem;
+    width: 3.0rem;
     color: #646864;
     line-height: .7rem;
     font-weight: 100;

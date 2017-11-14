@@ -4,11 +4,39 @@ $(function () {
 });
 function init() {
     menu();
-    $("#school").change(function () {
-        echart_A02_port();
+
+    // 选项卡01
+    $('#time01').datepicker({
+        todayHighlight:true,
+        language:'zh-CN'
+    }).on("changeDate",function (ev) {
+        $('#time01').datepicker("hide");
+        if($("#time01").val()){
+            echart_A02_port(Date.parse(new Date($("#time01").val()))/1000);//echart02初始化
+        }else{
+            $("#searchBox01").empty();
+        }
     });
+
+    $("#school").change(function () {
+        echart_A02_port(Date.parse(new Date($("#time01").val()))/1000);//echart02初始化
+    });
+
+    // 选项卡02
+    $('#time02').datepicker({
+        todayHighlight:true,
+        language:'zh-CN'
+    }).on("changeDate",function (ev) {
+        $('#time02').datepicker("hide");
+        if($("#time02").val()){
+            echart_A03_port(Date.parse(new Date($("#time02").val()))/1000);
+        }else{
+            $("#searchBox03").empty();
+        }
+    });
+
     $("#school01").change(function () {
-        echart_A03_port();
+        echart_A03_port(Date.parse(new Date($("#time02").val()))/1000);
     });
 
     $(window).resize(function () {
@@ -37,8 +65,8 @@ function GetSchoolIds_callback(res) {
             var data01={data:data};
             var html=template("school_script",data01);
             $("#school").empty().append(html);
-            
-            echart_A02_port();//echart02初始化
+            $("#time01").val(new Date().Format("yyyy-MM-dd"));
+            echart_A02_port(Date.parse(new Date($("#time01").val()))/1000);//echart02初始化
         }
     }else{
         // alert("系统故障，请稍候重试。。");
@@ -47,10 +75,11 @@ function GetSchoolIds_callback(res) {
 };
 
 // echart_A02接口
-function echart_A02_port() {
+function echart_A02_port(time) {
     var data={
             schoolId:$("#school").val(),
-            useruuid:user.userUuid
+            useruuid:user.userUuid,
+            time:(time-28800).toString()
         };
     var param={
             params:JSON.stringify(data)
@@ -134,8 +163,8 @@ function GetSchoolJYIds_callback(res) {
             var data01={data:data};
             var html=template("school_script",data01);
             $("#school01").empty().append(html);
-            
-            echart_A03_port();//echart02初始化
+            $("#time02").val(new Date().Format("yyyy-MM-dd"));
+            echart_A03_port(Date.parse(new Date($("#time02").val()))/1000);//echart02初始化
         }
     }else{
         // alert("系统故障，请稍候重试。。");
@@ -144,10 +173,11 @@ function GetSchoolJYIds_callback(res) {
 };
 
 // echart_A02接口
-function echart_A03_port() {
+function echart_A03_port(time) {
     var data={
             schoolId:$("#school01").val(),
-            useruuid:user.userUuid
+            useruuid:user.userUuid,
+            time:(time-28800).toString()
         };
     var param={
             params:JSON.stringify(data)
@@ -323,4 +353,17 @@ function loginUserInfo_callback(res) {
         GetSchoolIds_port();
     };
 };
+
+(function($){
+    $.fn.datepicker.dates['zh-CN'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            today: "今天",
+            suffix: [],
+            meridiem: ["上午", "下午"]
+    };
+}(jQuery));
 

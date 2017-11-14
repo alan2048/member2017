@@ -12,6 +12,7 @@
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet" />
     <link href="../../css/common/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
     
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
     <link href="../../css/activity/activityStats.css" rel="stylesheet" />
@@ -22,7 +23,7 @@
 		<div id="sidebar" class="sidebar">
 			<div id="sidebarBox">
 				<div id="user">
-					<div class="userPic"></div>
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
 					<div class="userName"></div>
 					<div class="userRole"></div>
 				</div>
@@ -59,6 +60,9 @@
                             {{/each}}
                         </script>
                     </label>
+                    <label>
+                        时间：<input type="text" id="time01" readonly="true" >
+                    </label>
                 </div>
                 <div class="searchBox"><div id="searchBox01"></div></div>
 
@@ -66,6 +70,9 @@
                     <label>
                         分园：
                         <select id="school01"></select>
+                    </label>
+                    <label>
+                        时间：<input type="text" id="time02" readonly="true">
                     </label>
                 </div>
                 <div class="searchBox"><div id="searchBox03"></div></div>
@@ -78,8 +85,9 @@
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/echarts/echarts.min.js"></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 	<script src="../../js/common/base.js"></script>
-	<script src="../../js/activity/activityStats.js?t=20170928"></script>
+	<script src="../../js/activity/activityStats.js?t=20171107"></script>
 </body>
 </html>

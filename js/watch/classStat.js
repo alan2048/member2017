@@ -5,17 +5,25 @@ $(function () {
 function init() {
     menu();
     $(window).resize(function () {
-        echart_A01("searchBox01",jsonAll01,$("#classMember01").find("option:selected").text());
-        echart_A02("searchBox02",jsonAll02,$("#classMember02").find("option:selected").text());
+        echart_A01("searchBox01",jsonAll01);
+        echart_A02("searchBox02",jsonAll02);
     });
 
     // echart_A01接口函数
-    $("#classMember01,#month01,#year01").change(function () {
+    $("#userClass01,#month01,#year01").change(function () {
         echart_A01_port();
     });
 
-    $("#classMember02,#month02,#year02,#course").change(function () {
+    $("#userClass02,#month02,#year02,#course").change(function () {
         echart_A02_port();
+    });
+
+    $("#userClass03,#year03,#month03").change(function () {
+        echart_A03_port();
+    });
+
+    $("#userClass04,#course04,#year04,#month04").change(function () {
+        echart_A04_port();
     });
 };
 
@@ -35,89 +43,33 @@ function yearMonthInit() {
         year.arr.reverse();
         var yearMonth=template("year_script",year);
         $(".year").append(yearMonth).find("option[value="+d.getFullYear()+"]").prop("selected",true);
-
-        getUserClassInfo_port();
-        getUserClassInfo_port01();
-};
-
-// 获取用户班级信息接口
-function getUserClassInfo_port() {
-    var data={};
-    var param={
-            // params:JSON.stringify(data)
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.childrenMyClassInfo,param,getUserClassInfo_callback);
-};
-function getUserClassInfo_callback(res) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        var html=template("userClass_script",{data:data});
-        $("#userClass01").append(html);
-
-        // 默认第一班级的所有成员
-        if(data.length>0){
-            // echart_A01_port();
-            getClassStudentInfo_port(data[0].classUUID);
-        };
-
-        // 切换班级时成员接口切换
-        $("#userClass01").change(function () {
-            var classId=$(this).val();
-            getClassStudentInfo_port(classId);
-        });
-
-    }else{
-        // console.log('请求错误，返回code非200');
-    }
-};
-function getClassStudentInfo_port(classId) {
-    var data={
-            classId:classId
-        };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.basicStudent,param,getClassStudentInfo_callback);
-};
-function getClassStudentInfo_callback(res,tabIndex) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        var html=template("classMember_script",{data:data});
-        $("#classMember01").empty().append(html);
-
-        // 初始化echartA01
+        
         echart_A01_port();
-    }else{
-        // console.log('请求错误，返回code非200');
-    }
+        getUserClassInfo_port();
 };
 
 // echart_A01接口
 function echart_A01_port() {
     var data={
-            classId:$("#userClass01").val(),
-            useruuid:$("#classMember01").val(),
+            gradeId:$("#userClass01").val(),
+            useruuid:user.useruuid,
             time: $("#year01").val() +"-"+$("#month01").val()
         };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getStudentAbility,param,echart_A01_callback);
+    initAjax(httpUrl.getClassesAbilibySimple,param,echart_A01_callback);
 };
 function echart_A01_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         jsonAll01=data;
-        var name=$("#classMember01").find("option:selected").text();
-        echart_A01("searchBox01",data,name);
+        echart_A01("searchBox01",data);
     }else if(res.code==500){
         var data=JSON.parse(res.data);
         jsonAll01=data;
-        var name=$("#classMember01").find("option:selected").text();
-        echart_A01("searchBox01",data,name);
+        echart_A01("searchBox01",data);
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -292,64 +244,225 @@ function echart_A01(id,json,curName){
 
     myChart.setOption(option);
 };
-
-
-// 获取用户班级信息接口
-function getUserClassInfo_port01() {
-    var data={};
-    var param={
-            // params:JSON.stringify(data)
-            loginId:httpUrl.loginId
+function colorfn(trans) {
+    var color=['rgba(42,159,194,'+trans+')','rgba(39,107,182,'+trans+')','rgba(104,73,203,'+trans+')','rgba(198,91,207,'+trans+')','rgba(199,83,96,'+trans+')','rgba(203,140,89,'+trans+')','rgba(42,159,194,'+trans+')','rgba(39,107,182,'+trans+')','rgba(104,73,203,'+trans+')','rgba(198,91,207,'+trans+')','rgba(199,83,96,'+trans+')','rgba(203,140,89,'+trans+')'];
+    return color;
+}
+function echart_A01(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+    var res={
+            legend:[],
+            series:[]
     };
-    initAjax(httpUrl.childrenMyClassInfo,param,getUserClassInfo_callback01);
-};
-function getUserClassInfo_callback01(res) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        var html=template("userClass_script",{data:data});
-        $("#userClass02").append(html);
-
-        // 默认第一班级的所有成员
-        if(data.length>0){
-            getClassStudentInfo_port01(data[0].classUUID);
+    for(var i=0;i<json.length;i++){
+        res.legend.push(json[i].name);
+    };
+    res.xAxis=json[0].detail.BJNames;
+    
+    var color=colorfn(1);
+    for(var i=0;i<json.length;i++){
+        var per01={
+                name:json[i].name,
+                type:'bar',
+                // barWidth: 0.0001,
+                label: {
+                    normal: {
+                        show: true
+                    }
+                },
+                itemStyle: {normal: {color:color[i], label:{show:false}}},
+                data:json[i].detail.BJVals
         };
+        res.series.push(per01);
+    };
 
-        // 切换班级时成员接口切换
-        $("#userClass02").change(function () {
-            var classId=$(this).val();
-            getClassStudentInfo_port01(classId);
-        });
+    var option={
+            color: ['#3398DB'],
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                top:'4%',
+                left: '5%',
+                right: '5%',
+                bottom: '8%',
+                containLabel: true
+            },
+            legend: {
+                x:'center',
+                y:'bottom',
+                selectedMode:'single',
+                // selected:res.selected,// 子项初始化series
+                data:res.legend
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : res.xAxis,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel:{
+                        interval:0
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : res.series
+    };
 
-    }else{
-        // console.log('请求错误，返回code非200');
-    }
+    myChart.setOption(option);
+      
 };
-function getClassStudentInfo_port01(classId) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// echart_A03接口  儿童课程能力统计
+function echart_A02_port() {
     var data={
-            classId:classId
+            courseId:$("#course").val(),
+            gradeId:$("#userClass02").val(),
+            useruuid:user.useruuid,
+            time: $("#year02").val() +"-"+$("#month02").val()
         };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.basicStudent,param,getClassStudentInfo_callback01);
+    initAjax(httpUrl.getCourseAbilibySimple,param,echart_A02_callback);
 };
-function getClassStudentInfo_callback01(res,tabIndex) {
+function echart_A02_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        var html=template("classMember_script",{data:data});
-        $("#classMember02").empty().append(html);
-
-        // 获取课程列表
-        if($("#course").children().length ==0){
-            getPersonCourse_port();
-        }else{
-            echart_A02_port();
-        };
+        jsonAll02=data;
+        echart_A02("searchBox02",data);
+    }else if(res.code==500){
+        var data=JSON.parse(res.data);
+        jsonAll02=data;
+        echart_A02("searchBox02",data);
     }else{
         // console.log('请求错误，返回code非200');
     }
 };
+function echart_A02(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+    var res={
+            legend:[],
+            series:[]
+    };
+    for(var i=0;i<json.length;i++){
+        res.legend.push(json[i].name);
+    };
+    res.xAxis=json[0].detail.BJNames;
+    
+    var color=colorfn(1);
+    for(var i=0;i<json.length;i++){
+        var per01={
+                name:json[i].name,
+                type:'bar',
+                // barWidth: 0.0001,
+                label: {
+                    normal: {
+                        show: true
+                    }
+                },
+                itemStyle: {normal: {color:color[i], label:{show:false}}},
+                data:json[i].detail.BJVals
+        };
+        res.series.push(per01);
+    };
+
+    var option={
+            color: ['#3398DB'],
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                top:'4%',
+                left: '5%',
+                right: '5%',
+                bottom: '8%',
+                containLabel: true
+            },
+            legend: {
+                x:'center',
+                y:'bottom',
+                selectedMode:'single',
+                // selected:res.selected,// 子项初始化series
+                data:res.legend
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : res.xAxis,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel:{
+                        interval:0
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : res.series
+    };
+
+    myChart.setOption(option);
+      
+};
+
+
+
+// 获取用户班级信息接口
+function getUserClassInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data)
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenMyClassInfo,param,getUserClassInfo_callback);
+};
+function getUserClassInfo_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("userClass_script",{data:data});
+        $("#userClass03,#userClass04").append(html);
+
+        echart_A03_port();
+        getPersonCourse_port(); // 获取课程列表
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+
 // 获取个人关联课程接口
 function getPersonCourse_port() {
     var data={};
@@ -363,215 +476,68 @@ function getPersonCourse_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         var html=template("course_script",{data:data});
-        $("#course").empty().append(html);
+        $("#course,#course04").empty().append(html);
 
         echart_A02_port();
+        echart_A04_port();
     }else{
         // console.log('请求错误，返回code非200');
     }
 };
 
-// echart_A03接口  儿童课程能力统计
-function echart_A02_port() {
+function echart_A03_port() {
     var data={
-            courseId:$("#course").val(),
-            classId:$("#userClass02").val(),
-            useruuid:$("#classMember02").val(),
-            time: $("#year02").val() +"-"+$("#month02").val()
+            classId:$("#userClass03").val(),
+            useruuid:user.useruuid,
+            time: $("#year03").val() +"-"+$("#month03").val()
         };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getStudentCourseAbility,param,echart_A02_callback);
+    initAjax(httpUrl.getClassAbilibySimple,param,echart_A03_callback);
 };
-function echart_A02_callback(res) {
+function echart_A03_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        jsonAll02=data;
-        var name=$("#classMember02").find("option:selected").text();
-        echart_A02("searchBox02",data,name);
+        var html=template("searchBox03_script",{data:data});
+        $("#searchBox03").empty().append(html);
     }else if(res.code==500){
         var data=JSON.parse(res.data);
-        jsonAll02=data;
-        var name=$("#classMember02").find("option:selected").text();
-        echart_A02("searchBox02",data,name);
     }else{
+        $("#searchBox03").empty();
+        toastTip("提示",res.info);
         // console.log('请求错误，返回code非200');
     }
 };
-function echart_A02(id,json,curName){
-    var myChart = echarts.init(document.getElementById(id));
 
+function echart_A04_port() {
     var data={
-            name:curName,
-            indicator:[],
-            legend:json.ExtraInfo,
-            value:json.Val
-    };
-
-    for(var i=0;i<json.Name.length;i++){
-        var aa={};
-        aa.name=json.Name[i];
-        aa.max=json.ValMax[i];
-        data.indicator.push(aa);
-    };
-
-    var option={
-            backgroundColor: '#fff',
-            title: {
-                text: '游戏与生活观察—'+data.name,
-                left: 'center',
-                textStyle: {
-                    color: '#525252',
-                    fontSize: 20
-                },
-                subtextStyle: {
-                    color: '#525252'
-                }
-            },
-            legend: {
-                bottom: 5,
-                icon:"roundRect",
-                data: data.legend,
-                itemGap: 20,
-                textStyle: {
-                    color: '#525252',
-                    fontSize: 14
-                }
-            },
-            tooltip: {
-                trigger: 'item',
-                backgroundColor : 'rgba(94,94,94,0.6)'
-            },
-            radar: {
-                indicator: data.indicator,
-                shape: 'circle',
-                splitNumber: 5,
-                name: {
-                    textStyle: {
-                        color: '#525252',
-                        fontSize:16
-                    }
-                },
-                splitLine: {
-                    lineStyle: {
-                        color: [
-                            'rgba(52, 52, 52, 0.1)', 'rgba(52, 52, 52, 0.2)',
-                            'rgba(52, 52, 52, 0.4)', 'rgba(52, 52, 52, 0.6)',
-                            'rgba(52, 52, 52, 0.8)', 'rgba(52, 52, 52, 1)'
-                        ].reverse()
-                    }
-                },
-                splitArea: {
-                    show: false
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: 'rgba(52, 52, 52, 0.5)'
-                    }
-                }
-            },
-            series: [
-                {
-                    name: data.legend[0],
-                    type: 'radar',
-                    data: [
-                        {
-                            value: data.value[0],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter:function(params) {
-                                        return params.value;
-                                    },
-                                    textStyle: {
-                                        fontSize:16
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    itemStyle: {
-                        normal: {
-                            color: '#beec60'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            opacity: 0.3
-                        }
-                    }
-                },
-                {
-                    name: data.legend[1],
-                    type: 'radar',
-                    data: [
-                        {
-                            value: data.value[1],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter:function(params) {
-                                        return params.value;
-                                    },
-                                    textStyle: {
-                                        fontSize:16
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    itemStyle: {
-                        normal: {
-                            color: '#fedf68'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            opacity: 0.3
-                        }
-                    }
-                },
-                {
-                    name: data.legend[2],
-                    type: 'radar',
-                    data: [
-                        {
-                            value: data.value[2],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter:function(params) {
-                                        return params.value;
-                                    },
-                                    textStyle: {
-                                        fontSize:16
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    itemStyle: {
-                        normal: {
-                            color: '#f8a7a6'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            opacity: 0.3
-                        }
-                    }
-                }
-            ]
+            classId:$("#userClass04").val(),
+            courseId:$("#course04").val(),
+            useruuid:user.useruuid,
+            time: $("#year04").val() +"-"+$("#month04").val()
         };
-
-    myChart.setOption(option);
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.getCourseAbilibyCount,param,echart_A04_callback);
 };
-
-
-
-
+function echart_A04_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("searchBox03_script",{data:data});
+        $("#searchBox04").empty().append(html);
+        $(".classAreaTitle").text($("#course04 option:selected").text());
+    }else if(res.code==500){
+        var data=JSON.parse(res.data);
+    }else{
+        $("#searchBox04").empty();
+        toastTip("提示",res.info);
+        // console.log('请求错误，返回code非200');
+    }
+};
 
 
 
