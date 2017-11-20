@@ -62,7 +62,7 @@ function recordStudent_callback(res) {
         var data=JSON.parse(res.data);
         if(data.length !=0){
             for(var i=0;i<data.length;i++){
-                data[i].userPic=httpUrl.path_img+data[i].userPhoto+"&minpic=0";
+                data[i].userPic=httpUrl.path_img+data[i].userPhoto;
                 data[i].year=$("#year01").val();
                 data[i].month=$("#month01").val();
                 data[i].classId=$("#teacherClass").val();
@@ -177,7 +177,7 @@ function mousehover() {
     $("#monthRecord").on("click","span.lookBtn",function () {
         var data=JSON.parse($(this).attr("data-picMd5List"));
         for(var i=0;i<data.length;i++){
-          data[i]=httpUrl.path_img+data[i]+"&minpic=0";
+          data[i]=httpUrl.path_img+data[i];
         };
         var json={data:data};
         var html=template("carousel_img_script",json);
@@ -352,7 +352,7 @@ function recordMonthList_callback(res) {
     if(res.code==200 && res.data){
         var data=JSON.parse(res.data);
         for(var i=0;i<data.length;i++){
-                data[i].coverMd5=httpUrl.path_img+data[i].coverMd5+"&minpic=0";
+                data[i].coverMd5=httpUrl.path_img+data[i].coverMd5;
                 data[i].picMd5List=JSON.stringify(data[i].picMd5List);
                 data[i].value=$("#yearRecord .lookBtn").attr("data-value");
           };
@@ -515,7 +515,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
     };

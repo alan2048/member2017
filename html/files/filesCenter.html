@@ -39,8 +39,8 @@
                     {{/each}}
                     <style>
                     {{each arr as value i}}
-                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);background-size: 0.45rem;}
-                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f7a48f;background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #f7a48f;background-size: 0.45rem;}
                     {{/each}}
                     </style>
                 </script>
@@ -52,6 +52,7 @@
 			<div class="pageTitle">文件中心</div>
             <div id="buttonBox"></div>
             <script type="text/html" id="buttonBox_script">
+                <a href="javascript:void(0);" id="qiniuBox" class="defaultBtn"><span id="qiniu">七牛上传</span></a>
                 {{each arr as value  i}}
                 <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
                 {{/each}}
@@ -150,9 +151,15 @@
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
+
+    <script src="../../js/common/plupload/moxie.js" ></script>
+    <script src="../../js/common/plupload/plupload.dev.js" ></script>
+
+    <!-- <script src="../../js/common/plupload/plupload.full.min.js" ></script> -->
+    <script src="../../js/common/plupload/qiniu.js" ></script><!-- 上传插件 -->
     <!-- <script src="../../js/common/Sortable.min.js" charset="utf-8"></script> -->
 
-	<script src="../../js/common/base.js"></script>
-	<script src="../../js/files/filesCenter.js?t=20170928"></script>
+	<script src="../../js/common/base.js?t=20171116"></script>
+	<script src="../../js/files/filesCenter.js?t=20171116"></script>
 </body>
 </html>

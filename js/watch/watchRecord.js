@@ -307,7 +307,7 @@ function watchStudentList_callback(res) {
         if(res.data){
             var data=JSON.parse(res.data);
             for(var i=0;i<data.length;i++){
-                data[i].portrait=httpUrl.path_img+data[i].portrait+"&minpic=1";
+                data[i].portrait=httpUrl.path_img+data[i].portrait+"-scale400";
             };
             var json={data:data};
             var html=template("members_script",json);
@@ -338,7 +338,7 @@ function watchRecordDetail_callback(res) {
         var data=JSON.parse(res.data);
         data.path_img=httpUrl.path_img;
         for(var i=0;i<data.voiceMd5List.length;i++){
-            data.voiceMd5List[i]=httpUrl.path_img+data.voiceMd5List[i]+"&minpic=0"
+            data.voiceMd5List[i]=httpUrl.path_img+data.voiceMd5List[i]+""
         };
         data.commentNum=data.comment.length;
         data.recordLevel.evaluateNum=data.recordLevel.evaluate.length;
@@ -421,36 +421,61 @@ function carousel() {
          };
     });
 }
+
 function loadFiles() {
-        Dropzone.options.myAwesomeDropzone=false;
-        Dropzone.autoDiscover=false;
-        var myDropzone=new Dropzone('#addPicBtn',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var url=data.path_img+data.md5;
-            // var imgUrl=httpUrl.path_img+responseText.uploadFileMd5;
-            var html="<li>"+
-                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+"&minpic=0 class=\"pic\" data-pic="+data.md5+">"+
-                            "<img src="+url+"&minpic=1>"+
-                            "<span class=\"deleteBtn\"></span>"+
-                        "</a>"+
-                    "</li>";
-            $("#addPicBtn").parent("li").before(html).find("div").remove();
-        });
-        myDropzone.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
-}
+    upToken1_port();
+    // 获取公有文件上传token
+    function upToken1_port() {
+        var data={
+                comUUID:user.companyUUID
+        };
+        var param={
+                params:JSON.stringify(data),
+                loginId:httpUrl.loginId
+        };
+        initAjax(httpUrl.upToken1,param,upToken1_callback);
+    };
+    function upToken1_callback(res) {
+        if(res.code==200){
+            user.upToken1=res.data;
+            loadFiles01();// 七牛公有文件上传
+        };
+    };
+    function loadFiles01() {
+        var uploader = Qiniu.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'addPicBtn',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var url=data.path_img+data.md5;
+                        var html="<li>"+
+                                "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
+                                    "<img src="+url+"-scale400>"+
+                                    "<span class=\"deleteBtn\"></span>"+
+                                "</a>"+
+                            "</li>";
+                        $("#addPicBtn").parent("li").before(html);
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
+    };
+};
 
 // 导出
 function exportAll() {
@@ -689,7 +714,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+") no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
         init();// 取得登入信息之后 init初始化

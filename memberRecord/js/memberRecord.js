@@ -77,7 +77,7 @@ function savePic() {
 	var h=$("#canvasMain").height();
 
     // 背景图初始化
-    fabric.Image.fromURL(httpUrl.path_img+"61902139aead7370f1be1cb8c30a51ad&minpic=0",function(Img) {
+    fabric.Image.fromURL(httpUrl.path_img+"61902139aead7370f1be1cb8c30a51ad",function(Img) {
             var w01=$("#canvasMain").width();
             var h01=$("#canvasMain").height();
             Img.scaleToWidth(w01).scaleToHeight(h01+12).set({
@@ -98,7 +98,7 @@ function savePic() {
     $("#templateA").on("click","ul.has-menu > li",function () {
     	var md5=$(this).attr("data-md5");
         var type=$(this).parent("ul.has-menu").attr("data-type");// 父级data-type
-    	var imgUrl=httpUrl.path_img+md5+"&minpic=0";
+    	var imgUrl=httpUrl.path_img+md5+"";
 
     	fabric.Image.fromURL(imgUrl,function(Img) {
     		var w01=$("#canvasMain").width();
@@ -207,7 +207,7 @@ function savePic() {
     	var AA=$("#picTabContent .picMain ul.picBody >li.active");
     	if(AA.length >0){
     		$.each(AA,function (index,value) {
-    			var pic=httpUrl.path_img+$(value).attr("data-md5")+"&minpic=0";
+    			var pic=httpUrl.path_img+$(value).attr("data-md5")+"";
 
     			fabric.Image.fromURL(pic,function(Img) {
     				var w01=$("#canvasMain").width()/2;
@@ -282,7 +282,7 @@ function savePic() {
 		    
 		        if(ArrPic.length >0){
 			       for(var i=0;i<ArrPic.length;i++){
-				        var pic=httpUrl.path_img+ArrPic[i]+"&minpic=0";
+				        var pic=httpUrl.path_img+ArrPic[i]+"";
 				            fabric.Image.fromURL(pic,function(Img) {
     				            var w01=$("#canvasMain").width()/2;
     				            Img.scaleToWidth(w01).set({
@@ -337,7 +337,7 @@ function savePic() {
 
         if(ArrPic.length >0){
             for(var i=0;i<ArrPic.length;i++){
-                var pic=httpUrl.path_img+ArrPic[i]+"&minpic=0";
+                var pic=httpUrl.path_img+ArrPic[i]+"";
                     fabric.Image.fromURL(pic,function(Img) {
                         var w01=$("#canvasMain").width()/2;
                         Img.scaleToWidth(w01).set({
@@ -372,7 +372,7 @@ function savePic() {
         $("#evaluate").removeClass("active");
         $("#canvas").addClass("active");
         
-        var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"";
         $("#carousel_img").empty().append("<img src="+src+" data-curpic="+$(this).attr("data-pic")+" />");
         recordDanDetail_port($(this).attr("data-id"));
         /*if($("#canvas").hasClass("active")){
@@ -701,7 +701,7 @@ function savePic() {
     		$("#myModal").modal("show");
     	}else{
     		$("#user").attr("data-useruuid",$(this).attr("data-useruuid")).attr("data-bookid",$(this).attr("data-bookid"));
-    		$("#user #userImg >img").attr("src",httpUrl.path_img+$(this).attr("data-userphoto")+"&minpic=1");
+    		$("#user #userImg >img").attr("src",httpUrl.path_img+$(this).attr("data-userphoto")+"-scale400");
     		$("#user #userName").text($(this).attr("data-username"));
 
             $("#classMembers >li").removeClass("hide");//档案页复制时 除去当前学生
@@ -945,7 +945,7 @@ function recordPageList_callback(res,pageType) {
 	if(res.code==200){
 		var data=JSON.parse(res.data);
 		for(var i=0;i<data.length;i++){
-			data[i].pic=httpUrl.path_img+data[i].imgUrl+"&minpic=1";
+			data[i].pic=httpUrl.path_img+data[i].imgUrl+"-scale400";
 		};
         var json={data:data};
 		var html=template("templateB_script",json);
@@ -981,7 +981,7 @@ function recordPageDetail_callback(res) {
         // 评价模板pageType=-1
         if(data.pageType==-1){
             if(data.body){
-                var imgUrl=httpUrl.path_img+data.imgUrl+"&minpic=0";
+                var imgUrl=httpUrl.path_img+data.imgUrl+"";
                 $("#evaluateBox").empty().append(data.body);
                 $("#evaluateBox .temark1 > div").css("background","#fff url("+imgUrl+") center center no-repeat");
                 $("#evaluate-wrapper").width($("#evaluateBox > .temark1 > div").outerWidth()+30);
@@ -1046,7 +1046,7 @@ function recordPageLocation_callback(res,config) {
             // 自动匹配图片
             if(picArr.length >0){
                 for(var i=0;i<picArr.length;i++){
-                    var pic=httpUrl.path_img+picArr[i].value+"&minpic=0";
+                    var pic=httpUrl.path_img+picArr[i].value+"";
                     var width=picArr[i].width;
                     var left=picArr[i].left;
                     var top=picArr[i].top;
@@ -1160,7 +1160,7 @@ function recordDanList_callback(res) {
 	if(res.code==200 && res.data){
 		var data=JSON.parse(res.data);
 		for(var i=0;i<data.mbdanList.length;i++){
-			data.mbdanList[i].pic=httpUrl.path_img+data.mbdanList[i].imgUrl+"&minpic=1";
+			data.mbdanList[i].pic=httpUrl.path_img+data.mbdanList[i].imgUrl+"-scale400";
 		};
 		var html=template("recordList_script",data);
         $("#recordOk").nextAll("h3").children("span.has-hover:first").text(data.childNum+"页");// 定位教师学生各自制档案数
@@ -1309,7 +1309,7 @@ function recordDanMessage_callback(res) {
 		var data=JSON.parse(res.data);
 		for(var i=0;i<data.length;i++){
 			for(var j=0;j<data[i].messageList.length;j++){
-				data[i].messageList[j].pic=httpUrl.path_img+data[i].messageList[j].fileList[0]+"&minpic=1";
+				data[i].messageList[j].pic=httpUrl.path_img+data[i].messageList[j].fileList[0]+"-scale400";
 				data[i].messageList[j].picArr=JSON.stringify(data[i].messageList[j].fileList);
                 data[i].messageList[j].body=emoji2Str(data[i].messageList[j].body);
 			};
@@ -1378,7 +1378,7 @@ function emoji2Str (str) {
 // 用户信息初始化
 function userMessage() {
 	$("#userName").text(user.userName);
-	$("#userImg >img").attr("src",httpUrl.path_img+user.userPhoto+"&minpic=1");
+	$("#userImg >img").attr("src",httpUrl.path_img+user.userPhoto+"-scale400");
 	$("#user").attr("data-useruuid",user.userUuid).attr("data-classid",user.classId).attr("data-bookid",user.bookId).attr("data-month",user.month).attr("data-year",user.year);
 	recordStudent_port($("#user").attr("data-classid"));
 
@@ -1588,7 +1588,7 @@ function recordStudent_callback(res) {
 	if(res.code==200){
 		  var data=JSON.parse(res.data);
 		  for(var i=0;i<data.length;i++){
-			 data[i].portrait=httpUrl.path_img+data[i].userPhoto+"&minpic=0";
+			 data[i].portrait=httpUrl.path_img+data[i].userPhoto+"";
 		  };
           var json01={data:data};
 		  var html=template("classMembers_script",json01);
@@ -1685,27 +1685,68 @@ function tiphover() {
 };
 // 上传图片
 function loadFiles() {
-        Dropzone.options.myAwesomeDropzone=false;
-        Dropzone.autoDiscover=false;
-        var myDropzone=new Dropzone('#addBtn',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            recordUploadSave_port(data.md5);
-            $("#addBtn").find("div").remove();
-        });
-        myDropzone.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
+    loginUserInfo_port();
+    // 获得登录人信息
+    function loginUserInfo_port() {
+        var data={};
+        var param={
+            loginId:httpUrl.loginId
+        };
+        initAjax(httpUrl.loginUserInfo,param,loginUserInfo_callback);
+    };
+    function loginUserInfo_callback(res) {
+        if(res.code==200){
+            var data=JSON.parse(res.data);
+            user.companyUUID=data.companyUUID;
+            upToken1_port();
+        };
+    };
+    
+    // 获取公有文件上传token
+    function upToken1_port() {
+        var data={
+                comUUID:user.companyUUID
+        };
+        var param={
+                params:JSON.stringify(data),
+                loginId:httpUrl.loginId
+        };
+        initAjax(httpUrl.upToken1,param,upToken1_callback);
+    };
+    function upToken1_callback(res) {
+        if(res.code==200){
+            user.upToken1=res.data;
+            loadFiles01();// 七牛公有文件上传
+        };
+    };
+    function loadFiles01() {
+        var uploader = Qiniu.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'addBtn',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        recordUploadSave_port(data.md5);
+                        $("#addBtn").find("div").remove();
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
+    };
 };
 // 上传文件接口
 function recordUploadSave_port(fileMd5) {

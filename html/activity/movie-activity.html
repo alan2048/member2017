@@ -40,8 +40,8 @@
 					{{/each}}
                     <style>
                     {{each arr as value i}}
-                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
-                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #c1ec69;}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #c1ec69;}
                     {{/each}}
                     </style>
 				</script>
@@ -172,7 +172,7 @@
                                                 {{each coursePics as value i}}
                                                 <li>
                                                     <a href="javascript:void(0);" class="pic" data-pic="{{value}}">
-                                                        <img src="{{path}}{{value}}&minpic=1">
+                                                        <img src="{{path}}{{value}}-scale200">
                                                         <span class="deleteIcon"></span>
                                                     </a>
                                                 </li>
@@ -215,7 +215,7 @@
                         <script type="text/html" id="members_script">
                             {{each data as value i}}
                             <li>
-                                <a class="membersBg" data-courseId="{{courseId}}" data-time="{{time}}" data-useruuid="{{value.useruuid}}" style="background-image: url({{path}}{{value.pic}}&minpic=1);" href="javascript:void(0);" >
+                                <a class="membersBg" data-courseId="{{courseId}}" data-time="{{time}}" data-useruuid="{{value.useruuid}}" style="background-image: url({{path}}{{value.pic}}-scale200);" href="javascript:void(0);" >
                                     <span class="icon02 {{if value.callRoll==1}}active{{/if}}" ></span>
                                 </a>
                                 <div class="membersTitle">{{value.className}}—{{value.name}}</div>
@@ -270,9 +270,11 @@
     <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
-    <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
+    <!-- <script src="../../js/common/dropzone.min.js" ></script> -->
+    <script src="../../js/common/plupload/plupload.full.min.js" ></script>
+    <script src="../../js/common/plupload/qiniu.js" ></script>
 
-	<script src="../../js/common/base.js"></script>
-    <script src="../../js/activity/movie-activity.js?t=20171025"></script>
+	<script src="../../js/common/base.js?t=20171117"></script>
+    <script src="../../js/activity/movie-activity.js?t=20171117"></script>
 </body>
 </html>

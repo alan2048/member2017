@@ -4,7 +4,6 @@ $(function () {
 });
 function init() {
     basicCompanyList_port();
-    loadFiles();// 上传图片
 
     // 选中菜单
     $("#tableBox01").on("click",".level01,.level02",function () {
@@ -400,8 +399,8 @@ function menuDetail_callback(res,id) {
         $("#modal-dialog-img input#menuName").val(data.name);
         $("#modal-dialog-img input#url").val(data.url);
 
-        $(".newPic").attr("data-md5",data.iconArr[0]).attr("src",data.path_img+data.iconArr[0]+"&minpic=1");
-        $(".newPic01").attr("data-md5",data.iconArr[1]).attr("src",data.path_img+data.iconArr[1]+"&minpic=1");
+        $(".newPic").attr("data-md5",data.iconArr[0]).attr("src",data.path_img+data.iconArr[0]+"-scale200");
+        $(".newPic01").attr("data-md5",data.iconArr[1]).attr("src",data.path_img+data.iconArr[1]+"-scale200");
         if(data.type==1){
             $("#modal-dialog-img .newTopBtn").addClass("active").find("span").text("开");
         }else{
@@ -438,80 +437,117 @@ function menuButtonDetail_callback(res,id) {
         $("#modal-button .modalTitle").text("编辑按钮");
         $("#modal-button input#buttonName").val(data.name);
         $("#modal-button input#code").val(data.buttonCode);
-        $(".newPic02").attr("data-md5",data.icon).attr("src",data.path_img+data.icon+"&minpic=1");
+        $(".newPic02").attr("data-md5",data.icon).attr("src",data.path_img+data.icon+"-scale200");
         $("#buttonNew").attr("data-id",data.id).attr("data-menuid",data.menuId);
 
         $("#modal-button").modal("show");
     };
 };
 
-// 上传图片
 function loadFiles() {
-        Dropzone.options.myAwesomeDropzone=false;
-        Dropzone.autoDiscover=false;
-        var myDropzone=new Dropzone('.newPic',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var url=data.path_img+data.md5+"&minpic=1";
-            $(".newPic").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
-        });
-        myDropzone.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
+    upToken1_port();
+    // 获取公有文件上传token
+    function upToken1_port() {
+        var data={
+                comUUID:user.companyUUID
+        };
+        var param={
+                params:JSON.stringify(data),
+                loginId:httpUrl.loginId
+        };
+        initAjax(httpUrl.upToken1,param,upToken1_callback);
+    };
+    function upToken1_callback(res) {
+        if(res.code==200){
+            user.upToken1=res.data;
+            loadFiles01();// 七牛公有文件上传
+        };
+    };
+    function loadFiles01() {
+        var uploader = Qiniu.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'newPic',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var url=data.path_img+data.md5+"-scale200";
+                        $(".newPic").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
 
-        var myDropzone01=new Dropzone('.newPic01',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone01.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var url=data.path_img+data.md5+"&minpic=1";
-            $(".newPic01").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
-        });
-        myDropzone01.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
+        var Qiniu2 = new QiniuJsSDK();
+        var uploader02 = Qiniu2.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'newPic01',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var url=data.path_img+data.md5+"-scale200";
+                        $(".newPic01").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
 
-        var myDropzone02=new Dropzone('.newPic02',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone02.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var url=data.path_img+data.md5+"&minpic=1";
-            $(".newPic02").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
-        });
-        myDropzone02.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
+        var Qiniu3 = new QiniuJsSDK();
+        var uploader03 = Qiniu3.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'newPic02',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var url=data.path_img+data.md5+"-scale200";
+                        $(".newPic02").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
+    };
 };
-
-
-
 
 
 
@@ -623,8 +659,11 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
+
+        user.companyUUID=data.companyUUID;
+        loadFiles();
     };
 };

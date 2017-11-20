@@ -266,7 +266,7 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
 

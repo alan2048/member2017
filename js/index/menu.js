@@ -66,10 +66,10 @@ function loginUserInfo_callback(res) {
         $("#user .userName").text(data.name).attr("data-uuid",data.userUUID).attr("data-childuuid",data.childUUID);
         $("#user .userRole").text(data.jobTitle).attr("data-typeid",data.typeID);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         if(data.companyCoverMD5){
-            $(".menuTitle img").attr('src',data.path_img+data.companyCoverMD5+"&minpic=0");
+            $(".menuTitle img").attr('src',data.path_img+data.companyCoverMD5);
         };
     };
 };

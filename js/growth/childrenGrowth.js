@@ -57,7 +57,6 @@ function init() {
 };
 // 发帖
 function newInit() {
-    loadFiles();
     loginUserInfo_port();// 谁可见
     
     chooseNiceScroll("#upload");
@@ -374,7 +373,9 @@ function loginUserInfo_callback(res) {
             $("#editor .newWhoBtn,#editor .newTopBtn").addClass("current");
         };
 
+        user.companyUUID=data.companyUUID;
         user.useruuid=data.userUUID;// UUid 初始化
+        loadFiles();
         watchClassList_port();
     }else{
         toastTip("提示",res.info,"",function () {
@@ -715,31 +716,55 @@ function chooseNiceScroll(AA,color) {
 
 // 上传图片
 function loadFiles() {
-        Dropzone.options.myAwesomeDropzone=false;
-        Dropzone.autoDiscover=false;
-        var myDropzone=new Dropzone('#addBtn',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var html=template("picMain01_script",data);
-            $("#upload ul.picBody").append(html);
-            $("#addBtn").parent(".uploadBg").addClass("hide").find("#addBtn >div").remove();
-            $("#upload .addBtn01").removeClass("hide");
-            isMaxNum();// 判断是否超过40张
-            
-        });
-        myDropzone.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
+    upToken1_port();
+    // 获取公有文件上传token
+    function upToken1_port() {
+        var data={
+                comUUID:user.companyUUID
+        };
+        var param={
+                params:JSON.stringify(data),
+                loginId:httpUrl.loginId
+        };
+        initAjax(httpUrl.upToken1,param,upToken1_callback);
+    };
+    function upToken1_callback(res) {
+        if(res.code==200){
+            user.upToken1=res.data;
+            loadFiles01();// 七牛公有文件上传
+        };
+    };
+    function loadFiles01() {
+        var uploader = Qiniu.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'addBtn',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var html=template("picMain01_script",data);
+                        $("#upload ul.picBody").append(html);
+                        $("#addBtn").parent(".uploadBg").addClass("hide").find("#addBtn >div").remove();
+                        $("#upload .addBtn01").removeClass("hide");
+                        isMaxNum();// 判断是否超过40张
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
+    };
 };
 
 // 判断是否超过40张
@@ -763,7 +788,7 @@ function carousel() {
             arr.push($(this).parents(".pictureList").find("li").eq(i).attr("data-pic"));
         };
         console.log(arr);
-        var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"";
         $("#carousel_img").empty().append("<img src="+src+" data-curpic="+curPic+" />");
         $("#carousel_img").prev(".prevBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
         $("#carousel_img").next(".nextBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
@@ -783,7 +808,7 @@ function carousel() {
         for(var i=0;i<$(this).parents("#picListUl").find("li").length;i++){
             arr.push($(this).parents("#picListUl").find("li").eq(i).attr("data-pic"));
         };
-        var src=httpUrl.path_img+$(this).attr("data-pic")+"&minpic=0";
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"";
         $("#carousel_img").empty().append("<img src="+src+" data-curpic="+curPic+" />");
         $("#carousel_img").prev(".prevBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
         $("#carousel_img").next(".nextBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
@@ -803,9 +828,9 @@ function carousel() {
             $(this).prev(".closeBtn01").click();
         }else{
             if(arr.indexOf(cur)+1 !=arr.length ){
-                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)+1]+"&minpic=0 data-curpic="+arr[arr.indexOf(cur)+1]+" />");
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)+1]+" data-curpic="+arr[arr.indexOf(cur)+1]+" />");
             }else{
-                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)-1]+"&minpic=0 data-curpic="+arr[arr.indexOf(cur)-1]+" />");
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)-1]+" data-curpic="+arr[arr.indexOf(cur)-1]+" />");
             };
         };
         arr.splice(arr.indexOf(cur),1);
@@ -833,9 +858,9 @@ function carousel() {
             var newCur=arr[arr.indexOf(cur)-1];
             if(arr.indexOf(cur)-1 == 0){
                 $("#carousel_img").prev(".prevBtn").addClass("hide");
-                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             }else{
-                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             };
 
             if(arr.indexOf(cur)+1 == arr.length){
@@ -864,9 +889,9 @@ function carousel() {
             var newCur=arr[arr.indexOf(cur)+1];
             if(arr.indexOf(cur)+2 == arr.length){
                 $("#carousel_img").next(".nextBtn").addClass("hide");
-                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             }else{
-                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"&minpic=0");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             };
         };
 

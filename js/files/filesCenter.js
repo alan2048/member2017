@@ -417,6 +417,94 @@ function loadFiles() {
     });
 };
 
+// 获取公有文件上传token
+function upToken1_port() {
+    var data={
+            comUUID:user.companyUUID
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.upToken2,param,upToken1_callback);
+};
+function upToken1_callback(res) {
+    if(res.code==200){
+        console.log(res);
+        user.upToken1=res.data;
+        loadFiles01();// 七牛公有文件上传
+    };
+};
+
+// 七牛公有文件上传
+function loadFiles01() {
+  var uploader = Qiniu.uploader({
+      runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+      browse_button: 'qiniu',         // 上传选择的点选按钮，必需
+      uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+      get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+      save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+      domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+      container: 'qiniuBox',             // 上传区域DOM ID，默认是browser_button的父元素
+      max_file_size: '100mb',             // 最大文件体积限制
+      flash_swf_url: 'path/of/plupload/Moxie.swf',  //引入flash，相对路径
+      max_retries: 3,                     // 上传失败最大重试次数
+      dragdrop: true,                     // 开启可拖曳上传
+      drop_element: 'qiniuBox',          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+      chunk_size: '4mb',                  // 分块上传时，每块的体积
+      auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+      init: {
+          'FilesAdded': function(up, files) {
+              plupload.each(files, function(file) {
+                  // 文件添加进队列后，处理相关的事情
+              });
+          },
+          'BeforeUpload': function(up, file) {
+                 // 每个文件上传前，处理相关的事情
+          },
+          'UploadProgress': function(up, file) {
+                 // 每个文件上传时，处理相关的事情
+          },
+          'FileUploaded': function(up, file, info) {
+                var hash=JSON.parse(info.response).key;
+                downloadUrl1_port(hash);
+          },
+          'Error': function(up, err, errTip) {
+                 //上传出错时，处理相关的事情
+          },
+          'UploadComplete': function() {
+                 //队列文件处理完毕后，处理相关的事情
+          },
+          'Key': function(up, file) {
+              // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+              // 该配置必须要在unique_names: false，save_key: false时才生效
+
+              var key = "";
+              // do something with key here
+              return key
+          }
+      }
+  });
+};
+
+// 获取私有资源下载URL
+function downloadUrl1_port(key) {
+    var data={
+            key:key,
+            type:1 // "1"为原图，"2"为瘦身图片，默认为"1"
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.downloadUrl1,param,downloadUrl1_callback);
+};
+function downloadUrl1_callback(res) {
+    if(res.code==200){
+        console.log(res);
+    };
+};
+
 function fileAddFileInfo_callback(res,parentuuid) {
     if(res.code==200){
         fileGetChildFileInfo_port(parentuuid);
@@ -483,7 +571,6 @@ function menuChildList_callback(res,menuId) {
         chooseNiceScroll("#sidebarBox","transparent");
 
         loginUserInfo_port();
-        basicButton_port();
     }else if(res.code =404){
         window.location.href="../../index.html";
     };
@@ -506,9 +593,12 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
+        user.companyUUID=data.companyUUID;
         loadingOut();//关闭loading
+
+        basicButton_port();
     };
 };
 
@@ -530,5 +620,6 @@ function basicButton_callback(res) {
         $("#buttonBox").append(html);
         loadFiles();
         fileGetRoot_port();
+        upToken1_port();
     };
 };

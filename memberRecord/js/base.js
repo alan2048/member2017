@@ -11,7 +11,9 @@ var user={
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var qiniu='https://filepublic.member361.com/';// 七牛公有文件
+
+var path=serverUrl02; //更改服务器地址可设置此值
 
 if(window.location.protocol=="file:"){
 	setCookie("loginId",GetQueryString("loginId"),"d30");// 打开本地文件时，默认设置本地cookie
@@ -19,8 +21,11 @@ if(window.location.protocol=="file:"){
 var httpUrl={
 		loginId:getCookie("loginId"),// cookie
 		// 基础接口
-		path_img:path+"/file/getImage?md5=", // 图片地址
+		path_img:qiniu, // 图片地址
+		// path_img:path+"/file/getImage?md5=", // 图片地址
 		picUrl:path+"/file/upload", // 图片上传地址
+		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
+		upToken1:path+"/file/upToken1", // 获取公有文件上传token
 
 		// 成长档案
 		recordPageType:path+"/web/mbtrack/page/type",// 获取模板类型列表

@@ -414,7 +414,7 @@
 								<div class="picTitle">{{value.day}}日</div>
 								<ul class="picBody">
 									{{each value.picList as value01 j}}
-									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}&minpic=1" alt=""></li>
+									<li data-md5="{{value01}}"><img src="{{value.path}}{{value01}}-scale400" alt=""></li>
 									{{/each}}
 								</ul>
 							</li>
@@ -461,11 +461,11 @@
 									{{each value.picList as value01 j}}
 										{{if j ==2}}
 										<li data-md5="{{value01}}" class="current">
-											<img src="{{value.path}}{{value01}}&minpic=1">
+											<img src="{{value.path}}{{value01}}-scale400">
 											<span class="twelve">+{{value.picList.length-3}}</span>
 										</li>
 										{{else}}
-										<li data-md5="{{value01}}" class="{{if j >2}}more hide{{/if}}"><img src="{{value.path}}{{value01}}&minpic=1"></li>
+										<li data-md5="{{value01}}" class="{{if j >2}}more hide{{/if}}"><img src="{{value.path}}{{value01}}-scale400"></li>
 										{{/if}}
 									{{/each}}
 									{{if value.picList.length >2}}
@@ -492,7 +492,7 @@
 					</div>
 					<script type="text/html" id="picMatch_script">
 						{{each arr as value i}}
-						<li data-md5="{{value}}"><img src="{{path}}{{value}}&minpic=1" alt=""></li>
+						<li data-md5="{{value}}"><img src="{{path}}{{value}}-scale400" alt=""></li>
 						{{/each}}
 					</script>
 				</div>
@@ -564,7 +564,8 @@
     
 	<script src="js/jquery-1.11.1.min.js" charset="utf-8"></script>
 	<script src="js/jquery.nicescroll.min.js" charset="utf-8"></script>
-	<script src="js/dropzone.min.js"  charset="utf-8"></script><!-- 上传插件 -->
+	<script src="js/plupload/plupload.full.min.js" ></script>
+    <script src="js/plupload/qiniu.js" ></script>
     <script src="js/jquery.toast.min.js" charset="utf-8"></script><!-- 消息提示插件 -->
     <script src="js/sweetalert.min.js" charset="utf-8"></script><!-- 消息提示插件 -->
 	<script src="js/fabric.1.7.19.js" charset="utf-8"></script>

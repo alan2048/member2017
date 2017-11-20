@@ -21,7 +21,7 @@
 			{{each arr as value i}}
 			<li>
 				<div class="has-list">
-					<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}}&minpic=0);" href="{{value.url}}?pid={{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
+					<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}});" href="{{value.url}}?pid={{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
 					{{if value.childMenuList.length}}
 					<div class="hasBox">
 						<ul class="menuBox">

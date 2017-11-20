@@ -6,7 +6,6 @@ function init() {
     menu();
     mousehover();
     deletePic();
-    loadFiles();
     tsTempBookCourse();
 };
 
@@ -47,7 +46,7 @@ function mousehover() {
         $("form.form-horizontal input,form.form-horizontal textarea").val("");
         $("form.form-horizontal input[name=schoolId]").val($("#school").val());
         $("form.form-horizontal input[name=isStop]").val(0);
-        $("#addPicBtn01,#addPicBtn02").siblings().remove();
+        $("#addPicBtn01,#addPicBtn02").siblings('li').remove();
         $("#addPicBtn").css({"background":""});
         $("#switchBtn").removeClass("close").text("启用").next("input[name=isStop]").val();
         $("form.form-horizontal select >option").prop("selected",false);
@@ -224,7 +223,7 @@ function GetSchoolCourses_callback(res,id) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         for(var i=0;i<data.length;i++){
-            data[i].pic=httpUrl.path_img+data[i].pic+"&minpic=0"
+            data[i].pic=httpUrl.path_img+data[i].pic+"-scale600"
         };
         var data01={data:data,typeId:user.typeID};
         var html=template("activityList_script",data01);
@@ -371,7 +370,8 @@ function GetCourseDetails_callback(res,name) {
         $("form.form-horizontal input,form.form-horizontal textarea").val("");
         $("form.form-horizontal input[name=id]").val($(this).attr("data-id"));
         $("form.form-horizontal input[name=schoolId]").val($("#school").val());
-        $("#addPicBtn01,#addPicBtn02").siblings().remove();
+        $("#addPicBtn01,#addPicBtn02").siblings('li').remove();
+        $('.fill,.fillnum').removeClass('empty');
 
         for(i in data){
             $("input[name="+i+"]").val(data[i]);
@@ -383,7 +383,7 @@ function GetCourseDetails_callback(res,name) {
         $(".form-group select[name='bookTimeWeekEnd'] >option[value="+data['bookTimeWeekEnd']+"]").prop("selected",true);
         $(".form-group select[name='bookTimeHourEnd'] >option[value="+data['bookTimeHourEnd']+"]").prop("selected",true);
 
-        data.pic=httpUrl.path_img+data.pic+"&minpic=1";
+        data.pic=httpUrl.path_img+data.pic+"-scale200";
         if(data.coursePics){
             data.coursePics=JSON.parse(data.coursePics);
         };
@@ -432,67 +432,99 @@ function deletePic() {
     });
 };
 
-function loadFiles() {
-        Dropzone.options.myAwesomeDropzone=false;
-        Dropzone.autoDiscover=false;
 
-        var myDropzone=new Dropzone('#addPicBtn',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var imgUrl=data.path_img+data.md5+"&minpic=1";
-            $("#addPicBtn").css({
-                "background":"transparent url("+imgUrl+") center center no-repeat",
-                "background-size":"contain"
+// 上传图片
+function loadFiles() {
+    upToken1_port();
+    // 获取公有文件上传token
+    function upToken1_port() {
+        var data={
+                comUUID:user.companyUUID
+        };
+        var param={
+                params:JSON.stringify(data),
+                loginId:httpUrl.loginId
+        };
+        initAjax(httpUrl.upToken1,param,upToken1_callback);
+    };
+    function upToken1_callback(res) {
+        if(res.code==200){
+            user.upToken1=res.data;
+            loadFiles01();// 七牛公有文件上传
+        };
+    };
+    function loadFiles01() {
+        var uploader = Qiniu.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'addPicBtn',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var imgUrl=data.path_img+data.md5+"-scale200";
+                        $("#addPicBtn").css({
+                            "background":"transparent url("+imgUrl+") center center no-repeat",
+                            "background-size":"contain"
+                        });
+
+                        $("#addPicBtn").removeClass("empty").empty().next("input[name=pic]").val(data.md5);
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
             });
 
-            $("#addPicBtn").removeClass("empty").empty().next("input[name=pic]").val(data.md5);
-        });
-        myDropzone.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
-
-
-
-        var myDropzone01=new Dropzone('#addPicBtn01',{
-            url: httpUrl.picUrl,//84服务器图片
-            paramName: "mbFile", // The name that will be used to transfer the file
-            maxFilesize: 50, // MB
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*'
-        });
-        myDropzone01.on('success',function(file,responseText){
-            var data={
-                    md5:JSON.parse(responseText).result,
-                    path_img:httpUrl.path_img
-            };
-            var imgUrl=data.path_img+data.md5;
-            var html="<li>"+
-                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" class=\"pic\" data-pic="+data.md5+">"+
-                            "<img src="+imgUrl+"&minpic=1>"+
-                            "<span class=\"deleteBtn\"></span>"+
-                        "</a>"+
-                    "</li>";
-            $("#addPicBtn01").before(html);
-            var arr=[];
-            for(var i=0;i<$("#addPicBtn01").parent("ul").find("a.pic").length;i++){
-                arr.push($("#addPicBtn01").parent("ul").find("a.pic").eq(i).attr("data-pic"))
-            };
-            $("input[name=coursePics]").val(JSON.stringify(arr));
-        });
-        myDropzone01.on('error',function(file,errorMessage,httpRequest){
-            alert('没有上传成功,请重试:'+errorMessage);
-            this.removeFile(file);
-        });
+        var Qiniu2 = new QiniuJsSDK();
+        var uploader02 = Qiniu2.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'addPicBtn01',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '1024mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        var imgUrl=data.path_img+data.md5;
+                        var html="<li>"+
+                                    "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" class=\"pic\" data-pic="+data.md5+">"+
+                                        "<img src="+imgUrl+"-scale200>"+
+                                        "<span class=\"deleteIcon\"></span>"+
+                                    "</a>"+
+                                "</li>";
+                        $("#addPicBtn01").before(html);
+                        var arr=[];
+                        for(var i=0;i<$("#addPicBtn01").parent("ul").find("a.pic").length;i++){
+                            arr.push($("#addPicBtn01").parent("ul").find("a.pic").eq(i).attr("data-pic"))
+                        };
+                        $("input[name=coursePics]").val(JSON.stringify(arr));
+                    },
+                    'Error': function(up, err, errTip) {
+                            console.log(errTip);
+                    }
+                }
+            });
+    };
 };
 
 
@@ -681,12 +713,15 @@ function loginUserInfo_callback(res) {
         $("#user >.userName").text(data.name).attr("data-useruuid",data.userUUID);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({
-            background:"url("+data.path_img+data.portraitMD5+"&minpic=0) no-repeat scroll center center / 100%"
+            background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         user.userUuid=data.userUUID;
         user.typeID=data.typeID;
         GetSchoolIds_port();
         loadingOut();//关闭loading
+
+        user.companyUUID=data.companyUUID;
+        loadFiles();
     };
 };
 

@@ -43,8 +43,8 @@
 					{{/each}}
                     <style>
                     {{each arr as value i}}
-                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
-                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f3b369;}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #f3b369;}
                     {{/each}}
                     </style>
 				</script>
@@ -123,7 +123,7 @@
                         <script type="text/html" id="yearRecord_script">
                             {{each data as value i}}
                             <li>
-                                <div class="yearBg" style="background-image: url({{value.imgUrl}}&minpic=0);">
+                                <div class="yearBg" style="background-image: url({{value.imgUrl}});">
                                     <span class="lookBtn" data-danbookid="{{value.id}}" data-name="{{value.name}}" data-value="{{value.value}}"></span>
                                     <span class="downBtn" data-danbookid="{{value.id}}" data-picMd5List="{{value.picMd5List}}" data-bookname="{{value.name}}"></span>
                                 </div>
@@ -239,7 +239,7 @@
     <script src="../../js/common/simplePagination.js" ></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js"></script>
-    <script src="../../js/interaction/recordList.js?t=20170927"></script>
+	<script src="../../js/common/base.js?t=20171116"></script>
+    <script src="../../js/interaction/recordList.js?t=20171116"></script>
 </body>
 </html>

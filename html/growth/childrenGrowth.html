@@ -40,7 +40,7 @@
 							{{each arr as value i}}
                             <li data-pic="{{value}}">
                                 <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
-                                 	<img src="{{path_img}}{{value}}&minpic=1">
+                                 	<img src="{{path_img}}{{value}}-scale200">
                                     <span class="deleteBtn"></span>
                                 </a>
                             </li>
@@ -72,7 +72,7 @@
 					{{each arr as value i}}
 					<li class="part" data-id="{{value.id}}" data-createUseruuid="{{value.createUseruuid}}" data-newidmax="{{value.newIdMax}}" data-i="{{i}}">
 						<div class="partBox">
-							<span class="createUserPhoto" style="background-image: url({{path_img}}{{value.createUserPhoto}}&minpic=1);"></span>
+							<span class="createUserPhoto" style="background-image: url({{path_img}}{{value.createUserPhoto}}-scale200);"></span>
 							<div class="createUserName">
 								{{value.createUserName}}
 								{{each value.labelList as value01 j}}
@@ -93,7 +93,7 @@
 							</div>
 							<div class="video">
 								{{if value.video}}
-									<video src="{{path_img}}{{value.video}}&minpic=0" controls="controls" style=""></video>
+									<video src="{{path_img}}{{value.video}}" controls="controls" style=""></video>
 								{{/if}}
 							</div>
 							<ul class="pictureList">
@@ -102,7 +102,7 @@
 								{{each value.pictureList as value01 j}}
 								<li data-pic="{{value01}}">
                                 	<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
-                                 		<img src="{{path_img}}{{value01}}&minpic=1">
+                                 		<img src="{{path_img}}{{value01}}-scale200">
                                 	</a>
                             	</li>
                             	{{/each}}
@@ -111,14 +111,14 @@
                             	{{if j ==11}}
 									<li class="twelveLi" data-pic="{{value01}}">
                                 		<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
-                                 			<img src="{{path_img}}{{value01}}&minpic=1">
+                                 			<img src="{{path_img}}{{value01}}-scale200">
                                 		</a>
                                 		<span class="twelve">+{{value.pictureList.length-12}}</span>
                             		</li>
                             	{{else}}
                             		<li class="{{if j >11}}more hide{{/if}}" data-pic="{{value01}}">
                                 		<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
-                                 			<img src="{{path_img}}{{value01}}&minpic=1">
+                                 			<img src="{{path_img}}{{value01}}-scale200">
                                 		</a>
                             		</li>
                             	{{/if}}
@@ -247,7 +247,7 @@
 							</ul>
 						</div>
 						<script type="text/html" id="picMain01_script">
-							<li data-md5="{{md5}}" class="loadImg active"><img src="{{path_img}}{{md5}}&minpic=1" alt=""></li>	
+							<li data-md5="{{md5}}" class="loadImg active"><img src="{{path_img}}{{md5}}-scale200" alt=""></li>	
 						</script>
     				</div>
 				</div>
@@ -276,7 +276,7 @@
 					<script type="text/html" id="who_script">
 						{{each arr as value i}}
 						<li data-md5="{{value.studentPhoto}}" data-studentuuid="{{value.studentUuid}}">
-							<img src="{{path_img}}{{value.studentPhoto}}&minpic=1" alt="">
+							<img src="{{path_img}}{{value.studentPhoto}}-scale200" alt="">
 							<div>{{value.studentName}}</div>
 							<span class="deleteBtn"></span>
 						</li>	
@@ -300,7 +300,7 @@
 					<script type="text/html" id="who01_script">
 						{{each arr as value i}}
 						<li data-studentuuid="{{value.visibleUseruuid}}">
-							<img src="{{path_img}}{{value.visibleUserPhoto}}&minpic=1" alt="">
+							<img src="{{path_img}}{{value.visibleUserPhoto}}-scale200" alt="">
 							<div>{{value.visibleUserName}}</div>
 						</li>	
 						{{/each}}
@@ -336,13 +336,19 @@
     
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/bootstrap.min.js"></script>
-	<script src="../../js/common/dropzone.min.js"></script>
+	<!-- <script src="../../js/common/dropzone.min.js"></script> -->
+	<!-- <script src="../../js/common/plupload/moxie.js" ></script> -->
+    <!-- <script src="../../js/common/plupload/plupload.dev.js" ></script> -->
+
+    <script src="../../js/common/plupload/plupload.full.min.js" ></script>
+    <script src="../../js/common/plupload/qiniu.js" ></script><!-- 上传插件 -->
+    <!-- <script src="../../js/common/Sortable.min.js" charset="utf-8"></script> -->
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/jquery.toast.min.js"></script>
 	<script src="../../js/common/template.js"></script>
 	<script src="../../js/common/sweetalert.min.js"></script>
 	
-	<script src="../../js/common/base.js"></script>
-	<script src="../../js/growth/childrenGrowth.js?t=20170928"></script>
+	<script src="../../js/common/base.js?t=20171116"></script>
+	<script src="../../js/growth/childrenGrowth.js?t=20171116"></script>
 </body>
 </html>

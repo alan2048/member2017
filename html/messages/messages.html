@@ -43,8 +43,8 @@
 					{{/each}}
                     <style>
                     {{each arr as value i}}
-                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
-                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f3b369;}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #f3b369;}
                     {{/each}}
                     </style>
 				</script>
@@ -86,7 +86,7 @@
                            	 	{{each noticeContents as item i}}
                             	<tr data-json="{{item.json}}" data-url="{{item.url}}" data-contentid="{{item.contentId}}" class="{{if item.isReaded==1}}isReaded{{/if}}">
                                   	<td class="{{if item.isReaded==1}}isReaded{{/if}} num"><i class="fa fa-square-o fa-fw" data-id={{item.staffUUID}}></i>{{i+1}}</td>
-                                  	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}"><img src="{{path_img}}{{item.coverPicture}}&minpic=1" alt=""></td>
+                                  	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}"><img src="{{path_img}}{{item.coverPicture}}-scale200" alt=""></td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{if item.url}}<a href="javascript:void(0);">{{item.title}}</a>{{else}}{{item.title}}{{/if}}</td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{item.time}}</td>
                                     <td class="email-sender {{if item.isReaded==1}}isReaded{{/if}} read" data-contentid="{{item.contentId}}">{{item.readedPeople}}/{{item.totalPeople}}</td>
@@ -181,10 +181,10 @@
                 <script type="text/html" id="detail_script">
                     <div class="title">{{title}}</div>
                     <div class="time">{{time}}</div>
-                    <div>{{if voice}}<audio controls="controls" src="{{path_img}}{{voice}}&minpic=0"></audio>{{/if}}</div>
+                    <div>{{if voice}}<audio controls="controls" src="{{path_img}}{{voice}}"></audio>{{/if}}</div>
                     <div>
                         {{each pictures as value i}}
-                        <img src="{{path_img}}{{value}}&minpic=0" alt="">
+                        <img src="{{path_img}}{{value}}-scale600" alt="">
                         {{/each}}
                     </div>
                     <div>{{content}}</div>
@@ -220,7 +220,7 @@
                                 <ul class="children">
                                     {{each value.userList as value01 j}}
                                     <li>
-                                        <img src="{{path_img}}{{value01.photo}}&minpic=1" alt="">
+                                        <img src="{{path_img}}{{value01.photo}}-scale200" alt="">
                                         <span>{{value01.name}}</span>
                                         <span></span>
                                     </li>
@@ -244,7 +244,7 @@
                                 <ul class="children">
                                     {{each value.userList as value01 j}}
                                     <li>
-                                        <img src="{{path_img}}{{value01.photo}}&minpic=1" alt="">
+                                        <img src="{{path_img}}{{value01.photo}}-scale200" alt="">
                                         <span>{{value01.name}}</span>
                                         <span></span>
                                     </li>
@@ -289,7 +289,7 @@
             <script id="children_script" type="text/html">
                 {{each arr as value i}}
                 <div class="child">
-                    <div class="childPic" style="background: url({{path_img}}{{value.photo}}&minpic=1) no-repeat scroll center center / 100%;" data-uuid="{{value.uuid}}" data-classid="{{classId}}" data-name="{{value.name}}">
+                    <div class="childPic" style="background: url({{path_img}}{{value.photo}}-scale200) no-repeat scroll center center / 100%;" data-uuid="{{value.uuid}}" data-classid="{{classId}}" data-name="{{value.name}}">
                         <img src="../../images/messages/bigRight.png" alt="">
                     </div>
                     <span>{{value.name}}</span>
@@ -304,10 +304,11 @@
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/simplePagination.js" ></script>
-    <script src="../../js/common/dropzone.min.js" ></script><!-- 上传插件 -->
+    <script src="../../js/common/plupload/plupload.full.min.js" ></script>
+    <script src="../../js/common/plupload/qiniu.js" ></script>
     <script src="../../js/common/modal.js"></script>
 
-	<script src="../../js/common/base.js?t=2017090120"></script>
-	<script src="../../js/messages/messages.js?t=20171025"></script>
+	<script src="../../js/common/base.js?t=20171116"></script>
+	<script src="../../js/messages/messages.js?t=20171116"></script>
 </body>
 </html>

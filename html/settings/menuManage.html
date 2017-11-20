@@ -40,8 +40,8 @@
                     {{/each}}
                     <style>
                     {{each arr as value i}}
-                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);background-size: 0.45rem;}
-                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
                     {{/each}}
                     </style>
                 </script>
@@ -143,9 +143,9 @@
                 </div>
                 <div class="labelBox">
                     <span class="newPicBtn">图标:</span>
-                    <img src="" alt="" class="newPic">
+                    <img src="" alt="" class="newPic" id="newPic">
                     <span class="newPicBtn01">hover:</span>
-                    <img src="" alt="" class="newPic01">
+                    <img src="" alt="" class="newPic01" id="newPic01">
                     <span class="newTopBtn">是否跳转：<span>关</span></span>
                 </div>
                 <div><span id="menuNew">确定</span></div>
@@ -171,7 +171,7 @@
                 </div>
                 <div class="labelBox">
                     <span class="newPicBtn">图标:</span>
-                    <img src="" alt="" class="newPic02">
+                    <img src="" alt="" class="newPic02" id="newPic02">
                 </div>
                 <div><span id="buttonNew">确定</span></div>
             </div>
@@ -179,14 +179,15 @@
         </div>
     </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
-    <script src="../../js/common/dropzone.min.js"></script>
+    <script src="../../js/common/plupload/plupload.full.min.js" ></script>
+    <script src="../../js/common/plupload/qiniu.js" ></script>
 	<script src="../../js/common/jquery.nicescroll.min.js"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/modal.js"></script>
 
-	<script src="../../js/common/base.js"></script>
-	<script src="../../js/settings/menuManage.js?t=20170928"></script>
+	<script src="../../js/common/base.js?t=20171116"></script>
+	<script src="../../js/settings/menuManage.js?t=20171116"></script>
 </body>
 </html>

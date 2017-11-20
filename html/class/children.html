@@ -42,8 +42,8 @@
                     {{/each}}
                     <style>
                     {{each arr as value i}}
-                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}}&minpic=0);}
-                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}}&minpic=0);border: 0.02rem solid #656868;background-color: #f3b369;}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #f3b369;}
                     {{/each}}
                     </style>
                 </script>
@@ -349,7 +349,7 @@
     <script src="../../js/common/simplePagination.js" ></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20170925"></script>
-	<script src="../../js/class/children.js?t=20170928"></script>
+	<script src="../../js/common/base.js?t=20171116"></script>
+	<script src="../../js/class/children.js?t=20171116"></script>
 </body>
 </html>

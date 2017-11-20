@@ -1044,3 +1044,6 @@ textarea.form-control {
 	line-height: 0.3rem;
 	vertical-align: middle;
 }
+.moxie-shim{
+	display:none;
+}

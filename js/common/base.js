@@ -7,13 +7,19 @@ var serverUrl02="https://121.43.150.38";//38测试服务器
 var serverUrl03="http://106.15.89.156";//156测试服务器
 var serverHost="https://www.member361.com";
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var qiniu='https://filepublic.member361.com/';// 七牛公有文件
+
+var path=serverUrl02; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
-		path_img:path+"/file/getImage?md5=", // 图片地址
+		path_img:qiniu, // 图片地址
+		// path_img:path+"/file/getImage?md5=", // 图片地址
 		download:path+"/file/downloadOne?", // 文件下载
 		picUrl:path+"/file/upload2", // 图片上传地址
+		upToken1:path+"/file/upToken1", // 获取公有文件上传token
+		upToken2:path+"/file/upToken2", // 获取私有文件上传token
+		downloadUrl1:path+"/file/downloadUrl1", // 获取私有资源下载URL
 		basicFileUpload:path+"/file/business/upload", // 业务文件上传
 		login:path+"/web/login/loginChecking",// 首页登入
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
