@@ -20,6 +20,7 @@ var httpUrl={
 		upToken1:path+"/file/upToken1", // 获取公有文件上传token
 		upToken2:path+"/file/upToken2", // 获取私有文件上传token
 		downloadUrl1:path+"/file/downloadUrl1", // 获取私有资源下载URL
+		streamUrl:path+"/file/streamUrl", // 获取私有资源的URL（文件流）
 		basicFileUpload:path+"/file/business/upload", // 业务文件上传
 		login:path+"/web/login/loginChecking",// 首页登入
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
@@ -260,7 +261,9 @@ var httpUrl={
 		fileAddFileInfo:path+"/web/fileCenter/addFileInfo",// 增加一项文件信息
 		fileDeleteFileInfo:path+"/web/fileCenter/deleteFileInfo",// 删除文件信息
 		fileUpdateFileName:path+"/web/fileCenter/updateFileName",// 更新文件名
-
+		fileCopy:path+"/web/fileCenter/copy",// 复制文件(夹)
+		fileCut:path+"/web/fileCenter/cut",// 剪切文件(夹)
+		
 		// 08设置
 		setting:'' 
 };

@@ -53,8 +53,8 @@
 			<div class="photoBox"></div>
 			<script type="text/html" id="recordBody_script">
 				{{each arr as value i}}
-                    <a class="photoItem" href="{{path_img}}{{value.picMD5}}&minpic=0" data-size="1600x1600" data-med="{{path_img}}{{value.picMD5}}&minpic=0" data-med-size="1024x550">
-                        <img src="{{path_img}}{{value.picMD5}}&minpic=0" alt="" />
+                    <a class="photoItem" href="{{path_img}}{{value.picMD5}}" data-size="1600x1600" data-med="{{path_img}}{{value.picMD5}}" data-med-size="1024x550">
+                        <img src="{{path_img}}{{value.picMD5}}" alt="" />
                         <div>{{value.startDate01}}</div>
                     </a>
 				{{/each}}

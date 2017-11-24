@@ -384,7 +384,7 @@ function GetCourseDetails_callback(res,name) {
         $(".form-group select[name='bookTimeWeekEnd'] >option[value="+data['bookTimeWeekEnd']+"]").prop("selected",true);
         $(".form-group select[name='bookTimeHourEnd'] >option[value="+data['bookTimeHourEnd']+"]").prop("selected",true);
 
-        data.pic=httpUrl.path_img+data.pic+"&minpic=1";
+        data.pic=httpUrl.path_img+data.pic+"-scale200";
         if(data.coursePics){
             data.coursePics=JSON.parse(data.coursePics);
         };

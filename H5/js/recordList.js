@@ -29,7 +29,7 @@ function init() {
             var items = [];
             for(var i=0;i<data.length;i++){
                 var obj={
-                        src:httpUrl.path_img+data[i]+"&minpic=0",
+                        src:httpUrl.path_img+data[i],
                         w:650,
                         h:910
                 };

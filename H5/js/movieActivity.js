@@ -134,7 +134,7 @@ function GetCourseDetails_port(id) {
 function GetCourseDetails_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        data.pic=httpUrl.path_img+data.pic+"&minpic=0";
+        data.pic=httpUrl.path_img+data.pic+"-scale600";
         if(data.coursePics){
             data.coursePics=JSON.parse(data.coursePics);
         };

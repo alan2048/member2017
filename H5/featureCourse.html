@@ -35,7 +35,7 @@
     						{{each data as value i}}
     						{{if value.isStop =="0"}}
     						<div class="row" data-id="{{value.id}}">
-								<div class="col-xs-4"><img src="{{value.pic}}&minpic=1" class="courseImg"></div>
+								<div class="col-xs-4"><img src="{{value.pic}}-scale400" class="courseImg"></div>
 								<div class="col-xs-8">
 									<h4>{{value.title}}</h4>
 									<div class="courseCon">{{value.content}}</div>
@@ -80,7 +80,7 @@
 						<div class="detailPic">
 							<div>
 							{{each coursePics as value i}}
-							<img src="{{value}}&minpic=1">
+							<img src="{{value}}-scale400">
 							{{/each}}
 							</div>
 						</div>
@@ -117,7 +117,7 @@
 						<div class="detailPic workShow">
 							<div>
 							{{each workShow as value i}}
-							<img src="{{value}}&minpic=1">
+							<img src="{{value}}-scale400">
 							{{/each}}
 							</div>
 						</div>
@@ -187,7 +187,7 @@
 	<script src="js/common/template.js"></script> 
 	<script src="./plugins/bootstrap/bootstrap.min.js"></script>
 	<script src="./plugins/raty/star-rating.min.js"></script>
-	<script src="./js/base.js"></script>
-	<script src="./js/featureCourse.js?t=20171024"></script>
+	<script src="./js/base.js?t=20171122"></script>
+	<script src="./js/featureCourse.js?t=20171122"></script>
 </body>
 </html>

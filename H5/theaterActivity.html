@@ -31,7 +31,7 @@
 						<script id="course_script" type="text/html">
     						{{each data as value i}}
     						<div class="row" data-id="{{value.id}}">
-								<div class="col-xs-4"><img src="{{value.pic}}&minpic=1" class="courseImg"></div>
+								<div class="col-xs-4"><img src="{{value.pic}}-scale400" class="courseImg"></div>
 								<div class="col-xs-8">
 									<h4>{{value.title}}</h4>
 									<div class="courseCon">{{value.content}}</div>
@@ -69,7 +69,7 @@
 						<div class="detailPic">
 							<div>
 							{{each coursePics as value i}}
-							<img src="{{value}}&minpic=1">
+							<img src="{{value}}-scale400">
 							{{/each}}
 							</div>
 						</div>

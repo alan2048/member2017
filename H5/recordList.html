@@ -48,7 +48,7 @@
 			<script type="text/html" id="recordBody_script">
 				{{each arr as value i}}
 				<li class="month">
-					<div><img src="{{path_img}}{{value.coverMd5}}&minpic=0" data-pic="{{value.picMd5List}}"></div>
+					<div><img src="{{path_img}}{{value.coverMd5}}-scale600" data-pic="{{value.picMd5List}}"></div>
 					<div>{{value.month}}月 <span>（{{value.number}}张）</span></div>
 				</li>
 				{{/each}}

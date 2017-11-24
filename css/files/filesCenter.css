@@ -183,34 +183,34 @@
 .list >.todoName:hover{
 	color:#5cdfe2;
 }
-.list >.todoName.active{
+.list .todoName.active{
 	background: url(../../images/files/select.png) 0 center no-repeat;
 }
-.list >.pic.png,.list >.pic.jpg{
+.list .pic.png,.list .pic.jpg{
 	background: url(../../images/files/png.png) center center no-repeat;
 }
-.list >.pic.zip{
+.list .pic.zip{
 	background: url(../../images/files/zip.png) center center no-repeat;
 }
-.list >.pic.xlsx,.list >.pic.xls{
+.list .pic.xlsx,.list .pic.xls{
 	background: url(../../images/files/excel.png) center center no-repeat;
 }
-.list >.pic.pdf{
+.list .pic.pdf{
 	background: url(../../images/files/pdf.png) center center no-repeat;
 }
-.list >.pic.ppt{
+.list .pic.ppt{
 	background: url(../../images/files/ppt.png) center center no-repeat;
 }
-.list >.pic.word{
+.list .pic.word{
 	background: url(../../images/files/word.png) center center no-repeat;
 }
-.list >.pic.mp3{
+.list .pic.mp3{
 	background: url(../../images/files/mp3.png) center center no-repeat;
 }
-.list >.pic.txt{
+.list .pic.txt{
 	background: url(../../images/files/txt.png) center center no-repeat;
 }
-.list >.pic.folder{
+.list .pic.folder{
 	background: url(../../images/files/folder.png) center center no-repeat;
 }
 
@@ -348,30 +348,148 @@
 	-o-transition: width .6s ease;
 	transition: width .6s ease;
 }
-
+.todolistBox01{
+	color:#969998;
+	margin-top: 10px;
+}
+.todolistBox01 >li.list{
+	line-height: 40px;
+}
+.todolistBox01 >li.list:hover{
+	background-color:#f4f7f6;
+	cursor: pointer;
+}
 .todolistBox01 .col01{
 	display:inline-block;
 	width: 30px;
-	height: 20px;
+	height: 40px;
+	text-align: center;
+	line-height:40px;
+	vertical-align: middle;
 }
 .todolistBox01 .col02{
 	display:inline-block;
-	width: 200px;
-	height: 20px;
+	width: 40%;
+	height: 40px;
+	color:#646766;
+	vertical-align: middle;
 	overflow: hidden;
+	line-height:40px;
+}
+.todolistBox01 >li.list:hover .col02{
+	color: #5cdfe2;
 }
 .todolistBox01 .col03{
 	display:inline-block;
-	width: 200px;
-	height: 20px;
+	width: 20%;
+	height: 40px;
+	font-size:14px;
+	vertical-align: middle;
+	line-height:40px;
 }
 .todolistBox01 .col04{
 	display:inline-block;
-	width: 200px;
-	height: 20px;
+	width: 15%;
+	height: 40px;
+	vertical-align: middle;
+	line-height:40px;
 }
 .todolistBox01 .col05{
 	display:inline-block;
-	width: 200px;
-	height: 20px;
+	width: 15%;
+	height: 40px;
+	vertical-align: middle;
+	line-height:40px;
+}
+.tab{
+	float: right;
+	border: 1px solid #ecf1f0;
+	vertical-align: top;
+}
+.tab01{
+	display:inline-block;
+	width: 0.4rem;
+	height: 0.24rem;
+	background: #fafdfc url(../../images/files/tab01.png) center center no-repeat;
+	vertical-align: top;
+	cursor: pointer;
+}
+.tab02{
+	display:inline-block;
+	width: 0.4rem;
+	height: 0.24rem;
+	background: #fafdfc url(../../images/files/tab02.png) center center no-repeat;
+	vertical-align: top;
+	cursor: pointer;
+	margin-left: -5px;
+}
+.tab01.current,.tab02.current{
+	background-color: #ecf1f0;
+}
+.todolistBox,.todolistBox01{
+	display:none;
+}
+.todolistBox.current,.todolistBox01.current{
+	display:block;
+}
+.todolistBox01 .todoName{
+	display:inline-block;
+	width: 0.16rem;
+	height: 0.16rem;
+	padding-left: 0.2rem;
+	cursor: pointer;
+	background: url(../../images/files/unSelect.png) center center no-repeat;
+	word-break:keep-all;
+	vertical-align: middle;
+}
+.todolistBox01 .col01:hover{
+	background-color: #dedede;
+}
+.col02 > span.pic {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-size: contain !important;
+	line-height: 40px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+body,#page-container,#content{
+	height: 100%;
+}
+
+.menu {
+	width: 100px;
+	background-color: #fff;
+	font-size: 12px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	padding-left: 0;
+	border: 1px solid #ccc;
+	display: none;
+	border-radius: 5px;
+	overflow: hidden;
+	text-align: center;
+	box-shadow:0 0 5px #aaa;
+	padding:5px 0;
+}
+.menu >li{
+	height: 30px;
+	line-height: 30px;
+}
+.menu >li.default{
+	opacity:0.5;
+	cursor: default;
+}
+.menu >li.active{
+	cursor: pointer;
+}
+.menu >li.active:hover{
+	background-color: #5cdfe2;
+	color:#fff;
+}
+.opacity{
+	opacity:0.4;
 }
