@@ -4,6 +4,17 @@ var canvas = new fabric.Canvas('canvasMain',{
         backgroundColor:"#fff"
 });
 
+// 解决canvas.toDataURL()跨域问题
+fabric.Image.fromURL=function(d,f,e){
+    var c=fabric.document.createElement("img");
+    c.onload=function(){
+        if(f){f(new fabric.Image(c,e))}
+        c=c.onload=null
+    };
+    c.setAttribute('crossOrigin','anonymous');
+    c.src=d;
+};
+
 $(function () {
 	init();// 初始化函数区
 });
@@ -226,8 +237,9 @@ function savePic() {
     });
 
      // 显示>2张图片
-    $("#upload").on("click",".twelve",function () {
+    $("#upload").on("click",".twelve",function (e) {
         $(this).addClass("hide").parent("li").nextAll(".more").removeClass("hide").parents(".pictureList").next(".foldPic").removeClass("hide");
+        $(this).parent().removeClass('active');
     });
     // 折叠>2张图片
     $("#upload").on("click",".addBtn02",function () {
@@ -840,6 +852,13 @@ function recordDanDetail_callback(res,id) {
                 // content.objects[0].width=$("#canvasMain").width()-40;
                 // content.objects[0].height=$("#canvasMain").height()-40;
 
+                // 解决图片跨域问题
+                for(var i=0;i<content.objects.length;i++){
+                    if(content.objects[i].type=="image"){
+                        content.objects[i].crossOrigin="anonymous"
+                    };
+                };
+
                 canvas.clear();
                 canvas.loadFromJSON(content, canvas.renderAll.bind(canvas));
             }else{
@@ -1432,7 +1451,7 @@ function dateInit() {
 		recordPiclib_port();
 	});
 
-	$(".picMain >ul").on("click",".picBody >li:not(.addBtn01,.addBtn02)",function () {
+	$(".picMain >ul").on("click",".picBody >li:not(.addBtn01,.addBtn02)",function (e) {
 		$(this).toggleClass("active");
 	});
 

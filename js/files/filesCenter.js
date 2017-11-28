@@ -502,19 +502,55 @@ function fileGetChildFileInfo_callback(res,obj) {
         var el = document.getElementById('todolistBox');
         var sortable = new Sortable(el, {
                 sort:false,
+                scroll:true,
+                scrollFn:function (x,y,o) {
+                    console.log(x,y,o)
+                },
                 onEnd:function (event) {
                     var current=event.item;
                     var target=event.explicitOriginalTarget;
+                    console.log(11);
                     if($(target).hasClass('folder')){
-                        fileCut_port($(current).attr('data-fileuuid'),$(target).attr('data-fileuuid'));
+                        
+                        // fileCut_port($(current).attr('data-fileuuid'),$(target).attr('data-fileuuid'));
                     };
-                }
+                }/*,
+                onUpdate:function (event) {
+                    console.log(event);
+                },
+                onSort:function (event) {
+                    console.log(event);
+                },
+                onMove:function (event,originalEvent) {
+                    console.log(event);
+                    console.log(originalEvent);
+                },
+                onClone:function (event) {
+                    console.log(event);
+                },
+                onFilter:function (event) {
+                    console.log(event);
+                },
+                onRemove:function (event) {
+                    console.log(event);
+                },
+                onAdd:function (event) {
+                    console.log(event);
+                },
+                onStart:function (event) {
+                    console.log(event);
+                },
+                onChoose:function (event) {
+                    console.log(event);
+                }*/
         });
+        
 
         var el01 = document.getElementById('todolistBox01');
         var sortable01 = new Sortable(el01, {
                 sort:false,
                 onEnd:function (event) {
+                    console.log(2222);
                     var current=event.item;
                     var target=event.explicitOriginalTarget;
                     if($(target).parents('.list').hasClass('folder')){
