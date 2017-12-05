@@ -16,10 +16,10 @@ function init() {
     $("#filesUpload input[type=file]").change(function () {
         $("#filesUpload >input[name=loginId]").val(httpUrl.loginId);
         var data={
+                classUUID:$("#teacherClass").val(),
                 extName:$(this).val().substring($(this).val().lastIndexOf(".")+1)
         };
         $("#filesUpload >input[name=params]").val(JSON.stringify(data));
-        $(".importFile >input").val($(this).val().substring($(this).val().lastIndexOf("\\")+1));
         ajaxSubmitForm();
     });
 
@@ -47,6 +47,15 @@ function init() {
         };
     });
 
+    $("#buttonBox").on("click","#export",function () {
+        var data={
+                classUUID:$("#teacherClass").val(),
+                className:$("#teacherClass >option:selected").text(),
+                examDate:$("#examDate").val()
+        };
+        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.healthExport+"&params="+JSON.stringify(data));
+    });
+
     loginSuccess();    
 };
 
@@ -56,8 +65,8 @@ function ajaxSubmitForm() {
             type : 'POST',
             dataType : 'json',
             success : function(data) {
-                teacherGetImportUserInfo_port();
-                toastTip("提示",data.data,3000);
+                toastTip("提示",data.info,4000);
+                healthGetExamDateList_port(data.data);
             },
             error: function(data) {
                 console.log(data);   
@@ -90,7 +99,7 @@ function teacherMyClassInfo_callback(res) {
 };
 
 // 根据班级获得检查日期列表
-function healthGetExamDateList_port() {
+function healthGetExamDateList_port(examDate) {
     var data={
             classUUID:$("#teacherClass").val()
     };
@@ -98,14 +107,17 @@ function healthGetExamDateList_port() {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.healthGetExamDateList,param,healthGetExamDateList_callback);
+    initAjax(httpUrl.healthGetExamDateList,param,healthGetExamDateList_callback,examDate);
 };
-function healthGetExamDateList_callback(res) {
+function healthGetExamDateList_callback(res,examDate) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("examDate_script",data);
         $("#examDate").empty().append(html);
 
+        if(examDate){
+            $("#examDate >option[value="+examDate+"]").attr('selected',true);
+        };
         
         $("#examDate").change(function () {
             healthGetClassHealthInfo_port();

@@ -88,7 +88,7 @@ function savePic() {
 	var h=$("#canvasMain").height();
 
     // 背景图初始化
-    fabric.Image.fromURL(httpUrl.path_img+"61902139aead7370f1be1cb8c30a51ad",function(Img) {
+    fabric.Image.fromURL(httpUrl.path_img+"FtvP_mPcvOwVZoOAKuovTLkrTdi4",function(Img) {
             var w01=$("#canvasMain").width();
             var h01=$("#canvasMain").height();
             Img.scaleToWidth(w01).scaleToHeight(h01+12).set({
@@ -1466,7 +1466,33 @@ function dateInit() {
 		if(num ==0){
 			recordPiclib_port();
 		};
+        if(tabid==3){
+            $('#emptyBtn').removeClass('hide');
+        }else{
+            $('#emptyBtn').addClass('hide');
+        };
 	});
+
+    $('#emptyBtn').click(function () {
+        swal({
+                title: "确定清空上传图片吗?",
+                text: "清空之后将不可恢复!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                closeOnConfirm: false,
+                closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        picUploadRemove_port();
+                    } else {
+                        swal.close();
+                    }
+        });
+    });
 	
 }
 function recordPiclib_port() {
@@ -1521,21 +1547,43 @@ function recordPiclib_callback(res) {
 
 // 获取上传的文件列表
 function recordUploadList_callback(res) {
-	if(res.code==200 && res.data){
-		$(".uploadBg").addClass("hide");
-		var data=JSON.parse(res.data);
-		for(var i=0;i<data.length;i++){
-			data[i].path=httpUrl.path_img;
-		};
-        var json={data:data};
-		var html=template("picMain01_script",json);
-		var tabid=$("#picTab >li.active").attr("data-tabid");
-		$("#picTabContent >.tab-pane[data-tabid="+tabid+"] >.picMain >ul").empty().append(html);
-		
+	if(res.code==200){
+        if(res.data){
+            $(".uploadBg").addClass("hide");
+            var data=JSON.parse(res.data);
+            for(var i=0;i<data.length;i++){
+             data[i].path=httpUrl.path_img;
+            };
+            var json={data:data};
+            var html=template("picMain01_script",json);
+            var tabid=$("#picTab >li.active").attr("data-tabid");
+            $("#picTabContent >.tab-pane[data-tabid="+tabid+"] >.picMain >ul").empty().append(html);
+        }else{
+            var tabid=$("#picTab >li.active").attr("data-tabid");
+            $("#picTabContent >.tab-pane[data-tabid="+tabid+"] >.picMain >ul").empty();
+            $(".uploadBg").removeClass("hide");
+        };
 	}else if(res.code==404){
         toastTip("提示","加载失败，请稍候重试。。","2500");
 		// window.location.href=httpUrl.loginHttp;
 	};
+};
+
+// 图片上传 一键清空
+function picUploadRemove_port() {
+    var param={
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.picUploadRemove,param,picUploadRemove_callback);
+};
+function picUploadRemove_callback(res) {
+    if(res.code==200){
+        swal.close();
+        recordPiclib_port();
+    }else{
+        swal.close();
+        toastTip("提示",res.info,"2500");
+    };
 };
 
 // 档案页复制函数

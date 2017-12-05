@@ -1,0 +1,135 @@
+*{
+    box-sizing: border-box;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+.search{
+	color: #636665;
+	margin-bottom: 0.3rem;
+}
+.search >label >select{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+.search >label >select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+.search >label >input{
+	min-width: 1.6rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+   	color: #969998;
+}
+.searchBox{
+	background-color: #fff;
+	padding: 0.2rem 0.1rem;
+	margin-bottom: 0.2rem;
+	border-radius: 0.1rem;
+	height: 6rem;
+	width: 100%;
+}
+.searchOtherBox{
+	background-color: #fff;
+	padding: 0.2rem 0.1rem;
+	border-radius: 0.1rem;
+	margin: -0.2rem 0 0.2rem;
+	height: 4rem;
+	width: 100%;
+}
+.searchOtherBox >ul >li{
+	float: left;
+	width: 50%;
+	text-align: center;
+	color:#656565;
+}
+.searchOtherBox >div{
+	height: 90%;
+	width: 100%;
+}
+.searchBox >div{
+	height: 100%;
+	width: 100%;
+}
+#searchBtn01,#searchBtn03 {
+	display: inline-block;
+	border: 0.01rem solid #c9cccb;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0 0 0.25rem;
+	border-radius: 0.1rem;
+	width: 0.88rem;
+	cursor: pointer;
+	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
+	text-align: center;
+	background-color: #fff;
+	vertical-align: top;
+}
+#searchBtn01:hover,#searchBtn03:hover {
+	background-color: #e1e1e1;
+}
+#buttonBox01,#buttonBox03 {
+	margin-bottom: 0.2rem;
+}
+.defaultBtn {
+	display: inline-block;
+	width: 1.08rem;
+	margin-right: 0.2rem;
+	height: 0.55rem;
+	text-align: center;
+	line-height: 0.5rem;
+	background: url(../../images/common/btnBg.png) center center no-repeat;
+}
+.defaultBtn:hover > span {
+	color: #5cdfe2;
+}
+.defaultBtn > span {
+	display: inline-block;
+	padding-left: 0.28rem;
+}
+.export > span {
+	background: url(../../images/common/exportBtn.png) 0 center no-repeat;
+}
+.defaultBtn:hover {
+	background: url(../../images/common/btnBgHover.png) center center no-repeat;
+}
+.hoverBtn {
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 10px;
+	width: 9px;
+	height: 9px;
+	background-color: #c2eb69;
+}
+.hoverBtn01 {
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 10px;
+	width: 9px;
+	height: 9px;
+	background-color: #f7e463;
+}

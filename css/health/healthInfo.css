@@ -105,6 +105,9 @@
 #template >span{
 	background: url(../../images/common/templateBtn.png) 0 center no-repeat;
 }
+#export >span{
+	background: url(../../images/common/exportBtn.png) 0 center no-repeat;
+}
 #buttonBox,#buttonBox01{
 	margin-bottom: 0.2rem;
 }
@@ -666,9 +669,6 @@ select[disabled="disabled"], #h-age,.readonly{
 }
 input.empty {
 	border: 0.01rem solid #fb8085;
-}
-#importBtn,#template{
-	display: none;
 }
 a.hasTitle{
 	-webkit-background-size: 0.5rem;

@@ -52,22 +52,26 @@ function init() {
     // 删除接口
     $("#dailyEvaluationDelete").click(function () {
         if($("#email-content tbody tr i.fa-check-square-o").length !=0){
-            swal({
-                title: "是否删除此信息？",
-                text: "",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#e15d5d",
-                confirmButtonText: "删除",
-                cancelButtonText: "取消",
-                closeOnConfirm: true,
-                closeOnCancel: true
-                },
-                function(isConfirm){
-                    if (isConfirm) {
-                        dailyEvaluationDelete_port();
-                    };
-            });
+            if($("#email-content tbody tr i.fa-check-square-o").attr('data-delete') ==1){
+                swal({
+                    title: "是否删除此信息？",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#e15d5d",
+                    confirmButtonText: "删除",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            dailyEvaluationDelete_port();
+                        };
+                });
+            }else{
+                toastTip("提示","非本人创建不可删除");
+            }
         }else{
             toastTip("提示","请先选择删除项。。");
         };

@@ -462,7 +462,9 @@
 										{{if j ==2}}
 										<li data-md5="{{value01}}" class="current">
 											<img src="{{value.path}}{{value01}}-scale400">
+											{{if value.picList.length !=3}}
 											<span class="twelve">+{{value.picList.length-3}}</span>
+											{{/if}}
 										</li>
 										{{else}}
 										<li data-md5="{{value01}}" class="{{if j >2}}more hide{{/if}}"><img src="{{value.path}}{{value01}}-scale400"></li>
@@ -477,6 +479,7 @@
 						</script>
     				</div>
 				</div>
+				<span id="emptyBtn" class="hide">一键清空</span>
 				<span id="picBtn">确定</span>
             </div>
             <span class="closeBtn" data-dismiss="modal" ></span>

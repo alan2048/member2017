@@ -92,7 +92,12 @@
                    	<div class="email-content" id="tableBox"></div>
                     <script type="text/html" id="tableBox_script">
                         {{each arr as item i}}
-                            <div data-id="{{item.personUUID}}">{{item.personName}}</div>
+                            <div data-id="{{item.childUUID}}">
+                                {{item.childName}}
+                                {{if item.recordNum !=0}}
+                                <span>{{item.recordNum}}</span>
+                                {{/if}}
+                            </div>
                         {{/each}}
                     </script>
                 </div>

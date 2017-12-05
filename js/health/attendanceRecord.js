@@ -13,7 +13,10 @@ function init() {
     watchClassList_port();// 获得教职工所在班级列表
 
     // 获得考勤记录
-    $("#year01,#month01,#read").change(function () {
+    $("#year01,#month01").change(function () {
+        attendGetChildOfClass_port($("#tableBox >div.active").attr("data-id")); 
+    });
+    $("#read").change(function () {
         attendGetAttendanceRecord_port();
     });
     $("#searchBtn").click(function () {
@@ -41,6 +44,7 @@ function watchClassList_callback(res) {
         var html=template("teacherClass_script",data);
         $("#teacherClass").empty().append(html);
 
+
         attendGetChildOfClass_port();        
         $("#teacherClass").change(function () {
             attendGetChildOfClass_port(); 
@@ -49,17 +53,19 @@ function watchClassList_callback(res) {
 };
 
 //  获得班级所有幼儿信息
-function attendGetChildOfClass_port() {
+function attendGetChildOfClass_port(id) {
     var data={
-            classUUID:$("#teacherClass").val()
+            classUUID:$("#teacherClass").val(),
+            year:$("#year01").val(),
+            month:$("#month01").val()
     };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.attendGetChildOfClass,param,attendGetChildOfClass_callback);
+    initAjax(httpUrl.attendGetChildOfClass,param,attendGetChildOfClass_callback,id);
 };
-function attendGetChildOfClass_callback(res) {
+function attendGetChildOfClass_callback(res,id) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         if(data.arr.length==0){
@@ -75,7 +81,11 @@ function attendGetChildOfClass_callback(res) {
                 $(".ui-dialog-arrow-a, .ui-dialog-arrow-b").css("top",e.pageY-220);
                 attendGetAttendanceRecord_port();
             });
-            $("#tableBox >div:first").click();
+            if(id){
+                $("#tableBox >div[data-id="+id+"]").click();
+            }else{
+                $("#tableBox >div:first").click();
+            };
         };
     };
 };
@@ -129,6 +139,25 @@ function attendCheckConfirm_callback(res) {
         attendGetAttendanceRecord_port(); 
     }else{
         toastTip("提示",res.info);
+    };
+};
+
+// 获得幼儿所在班级列表
+function childrenMyClassInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenMyClassInfo,param,childrenMyClassInfo_callback);
+};
+function childrenMyClassInfo_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("teacherClass_script",data);
+        $("#teacherClass").append(html);
+        childrenInfo_port();
+        basicAllClassInfo_port();
     };
 };
 

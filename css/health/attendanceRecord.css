@@ -665,3 +665,24 @@ label > input.empty{
 .attendBox >div.active:hover:last-of-type{
 	background-color: #43eff3;
 }
+#tableBox >div{
+	position: relative;
+}
+#tableBox >div >span{
+	position: absolute;
+	display:inline-block;
+	width: 22px;
+	height: 22px;
+	border-radius: 11px;
+	top:-5px;
+	right:-5px;
+	text-align: center;
+	line-height: 22px;
+	background-color: #5bdfdf;
+	color:#fff;
+	font-size:12px;
+}
+#tableBox >div.active >span{
+	background-color: #f8e265;
+	color:#666;
+}

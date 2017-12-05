@@ -185,7 +185,7 @@
                                     {{each list as item i}}
                                     <tr>
                                         <td class="email-select">
-                                            <a href="#" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i></a>
+                                            <a href="#" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-id={{item.id}} data-delete={{item.canDelete}}></i></a>
                                         </td>
                                         <td class="email-sender">{{item.id}}</td>
                                         <td class="email-sender">{{item.createDate}}</td>

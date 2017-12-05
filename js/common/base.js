@@ -185,7 +185,7 @@ var httpUrl={
 		recordParentStat:path+"/web/mbtrack/report/parent",// 家长成长档案统计
 
 		// 考勤
-		attendGetChildOfClass:path+"/web/attendance/teacher/getChildOfClass",// 获得班级所有幼儿信息
+		attendGetChildOfClass:path+"/web/attendance/teacher/getChildInfoOfClass",// 获得班级所有幼儿信息
 		attendGetAttendanceRecord:path+"/web/attendance/teacher/getAttendanceRecord",// 获得考勤记录
 		attendCheckConfirm:path+"/web/attendance/teacher/checkConfirm",// 教师端检查确认
 		attendDisPlayAttendDays:path+"/web/attendance/teacher/disPlayAttendDays",// 查看已设置的考勤天数
@@ -193,6 +193,12 @@ var httpUrl={
 		attendResetAttendDays:path+"/web/attendance/teacher/resetAttendDays",// 复位考勤天数设置
 		attendGetClassAttendanceInfo:path+"/web/attendance/teacher/getClassAttendanceInfo",// 获得班级考勤
 		attendGetPersonalAttendance:path+"/web/attendance/parent/getPersonalAttendance",// 获得个人考勤
+
+		// 考勤统计
+		attendClassStat:path+"/web/attendance/teacher/classStat",// 班级出勤人数统计(新)
+		attendPersonalStat:path+"/web/attendance/teacher/personalStat",// 个人月出勤统计(新)
+		attendExportPersonalExcel:"/web/attendance/exportPersonalExcel",// 个人出勤统计导出
+		attendExportClassExcel:"/web/attendance/exportClassExcel",// 班级出勤人数统计导出
 
 		// 公告
 		getMyClassInfo:path+"/web/basic/getMyClassInfo",// 获取我的班级信息
@@ -235,6 +241,8 @@ var httpUrl={
 		healthGetSingleHI:path+"/web/healthInfo/getSingleHI",// 获得单条健康信息
 		healthUpdateHealthInfo:path+"/web/healthInfo/updateHealthInfo",// 更新健康信息
 		healthDeleteHealthInfo:path+"/web/healthInfo/deleteHealthInfo",// 删除健康信息
+		healthImport:path+"/web/healthInfo/uploadExl",// 导入健康信息
+		healthExport:"/web/healthInfo/exportExcel",// 导出健康信息详情
 
 		// 自选课程 剧场活动
 		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id

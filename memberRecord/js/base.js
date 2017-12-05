@@ -24,6 +24,7 @@ var httpUrl={
 		path_img:qiniu, // 图片地址
 		// path_img:path+"/file/getImage?md5=", // 图片地址
 		picUrl:path+"/file/upload", // 图片上传地址
+		picUploadRemove:path+"/web/mbtrack/upload/file/remove", // 图片上传 一键清空
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
 		upToken1:path+"/file/upToken1", // 获取公有文件上传token
 
