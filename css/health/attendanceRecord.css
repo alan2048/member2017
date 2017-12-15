@@ -686,3 +686,28 @@ label > input.empty{
 	background-color: #f8e265;
 	color:#666;
 }
+#buttonBox {
+	margin-bottom: 0.2rem;
+}
+.defaultBtn {
+	display: inline-block;
+	width: 1.08rem;
+	margin-right: 0.2rem;
+	height: 0.55rem;
+	text-align: center;
+	line-height: 0.5rem;
+	background: url(../../images/common/btnBg.png) center center no-repeat;
+}
+.defaultBtn:hover > span {
+	color: #5cdfe2;
+}
+.defaultBtn > span {
+	display: inline-block;
+	padding-left: 0.28rem;
+}
+.export > span {
+	background: url(../../images/common/exportBtn.png) 0 center no-repeat;
+}
+.defaultBtn:hover {
+	background: url(../../images/common/btnBgHover.png) center center no-repeat;
+}

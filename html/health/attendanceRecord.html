@@ -87,6 +87,12 @@
                 </label>
                 <span id="searchBtn">查询</span>
             </div>
+            <div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" class="defaultBtn {{value.buttonCode}}"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
 			<div id="main">
 				<div class="panel">
                    	<div class="email-content" id="tableBox"></div>

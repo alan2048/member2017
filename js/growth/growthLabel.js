@@ -58,16 +58,13 @@ function init() {
 
     // 新增
     $("#new").on("click",function () {
-        if($(".labelBox input").val()){
+        if($(".labelBox input").val().replace(/^\s+|\s+$/g,"")){
             growthLabelAddOrUpdate_port();
         }else{
             $(".labelBox input").addClass("empty");
             toastTip("提示","请先填写完整。。"); 
         };
     });
-
-
-
 };
 
 // 获取学校所有的标签

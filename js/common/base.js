@@ -193,6 +193,7 @@ var httpUrl={
 		attendResetAttendDays:path+"/web/attendance/teacher/resetAttendDays",// 复位考勤天数设置
 		attendGetClassAttendanceInfo:path+"/web/attendance/teacher/getClassAttendanceInfo",// 获得班级考勤
 		attendGetPersonalAttendance:path+"/web/attendance/parent/getPersonalAttendance",// 获得个人考勤
+		attendExportRecordExcel:"/web/attendance/exportRecordExcel",// 请假记录导出(改)
 
 		// 考勤统计
 		attendClassStat:path+"/web/attendance/teacher/classStat",// 班级出勤人数统计(新)
@@ -413,6 +414,12 @@ function toastTip(heading,text,hideAfter,afterHidden) {
     });
 };
 
+// 退出清理cookie
+$(function () {
+	$(".userPic >a").click(function (e) {
+        delCookie("loginId");
+    });
+});
 
 
 

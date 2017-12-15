@@ -825,13 +825,18 @@ ul#list >li{
 }
 .commentDelete{
 	display: none;
-	float: right;
 	cursor: pointer;
 	color: #f8acaa;
 	font-size: 0.14rem;
+	z-index: 10000;
+	position: absolute;
+	bottom:0;
+	right:0;
+	background-color: #ececec;
 }
 li:hover >.commentDelete{
-	display: inline;
+	display: inline-block;
+	padding:0 0.1rem;
 }
 .commentInput{
 	margin-top: 0.05rem;
@@ -1151,4 +1156,5 @@ select:focus,input:focus{
 }
 video{
 	width: 100%;
+	max-height: 6rem;
 }

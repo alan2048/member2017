@@ -27,6 +27,17 @@ function init() {
     $("#tableBox01").on("click",".attendBox >div.active:last-of-type",function () {
         attendCheckConfirm_port($(this).attr("data-leaveuuid"));
     });
+
+    $("#buttonBox").on("click",".export",function () {
+        var data={
+                checkStatus:$("#read").val(),
+                year:$("#year01").val(),
+                month:$("#month01").val(),
+                classUUID:$("#teacherClass").val(),
+                className:$("#teacherClass >option:selected").text()
+        };
+        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.attendExportRecordExcel+"&params="+JSON.stringify(data));
+    });
 };
 
 // 获得教职工所在班级列表
@@ -237,5 +248,25 @@ function loginUserInfo_callback(res) {
             background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         loadingOut();//关闭loading
+        basicButton_port();
+    };
+};
+
+// 获取菜单功能按钮列表
+function basicButton_port() {
+    var data={
+            menuId:user.sid
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.basicButton,param,basicButton_callback);
+};
+function basicButton_callback(res) {
+    if(res.code==200){
+        var data={arr:JSON.parse(res.data)};
+        var html=template("buttonBox_script",data);
+        $("#buttonBox").append(html);
     };
 };

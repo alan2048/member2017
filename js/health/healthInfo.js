@@ -53,7 +53,11 @@ function init() {
                 className:$("#teacherClass >option:selected").text(),
                 examDate:$("#examDate").val()
         };
-        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.healthExport+"&params="+JSON.stringify(data));
+        if($("#examDate").val()){
+            window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.healthExport+"&params="+JSON.stringify(data));
+        }else{
+            toastTip("提示","此班级暂无体检信息");
+        };
     });
 
     loginSuccess();    

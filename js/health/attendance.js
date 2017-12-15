@@ -183,7 +183,7 @@ function menuChildList_callback(res,menuId) {
         chooseNiceScroll("#sidebarBox","transparent");
 
         loginUserInfo_port();
-        basicButton_port();
+        // basicButton_port();
     }else if(res.coed =404){
         // window.location.href=path;
     };
@@ -236,7 +236,5 @@ function basicButton_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("buttonBox_script",data);
         $("#buttonBox").append(html);
-        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
-        $("#template").attr("href","healthInfo_template.xls");
     };
 };
