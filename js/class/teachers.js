@@ -65,22 +65,35 @@ function init() {
         if($(this).hasClass("disable")){
             toastTip("提示","请先选择删除项。。");   
         }else{
-            swal({
-                title: "是否删除此信息？",
-                text: "",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#e15d5d",
-                confirmButtonText: "删除",
-                cancelButtonText: "取消",
-                closeOnConfirm: true,
-                closeOnCancel: true
-                },
-                function(isConfirm){
-                    if (isConfirm) {
-                        teacherDelete_port();
-                    };
-            });
+            if($(".fa-check-square-o").attr("data-id") == $("#user").attr("data-uuid")){
+                swal({
+                    title: "不可删除当前登录人账号",
+                    text: "",
+                    type: "warning",
+                    timer:2000,
+                    showCancelButton: false,
+                    confirmButtonColor: "#e15d5d",
+                    confirmButtonText: "确定",
+                    closeOnConfirm: false
+                });
+            }else{
+                swal({
+                    title: "是否删除此信息？",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#e15d5d",
+                    confirmButtonText: "删除",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            teacherDelete_port();
+                        };
+                });
+            };
         };
     });
 
@@ -800,6 +813,7 @@ function loginUserInfo_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         data.path_img=httpUrl.path_img;
+        $("#user").attr("data-uuid",data.userUUID);
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);
         $("#user >.userPic").css({

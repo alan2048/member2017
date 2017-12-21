@@ -16,7 +16,7 @@
 	margin-bottom: 0.3rem;
 }
 #search >label >select{
-	min-width: 1.6rem;
+	min-width: 1.4rem;
 	height: 0.4rem;
 	margin-right: 0.4rem;
 	border: 0.01rem solid #c9cccb;
@@ -37,7 +37,7 @@
 	vertical-align: middle;
 }
 #search >label >input{
-	min-width: 1.6rem;
+	min-width: 1.4rem;
 	height: 0.4rem;
 	margin-right: 0.4rem;
 	border: 0.01rem solid #c9cccb;
@@ -201,7 +201,7 @@
 .list .pic.ppt{
 	background: url(../../images/files/ppt.png) center center no-repeat;
 }
-.list .pic.word{
+.list .pic.word,.list .pic.doc,.list .pic.docx{
 	background: url(../../images/files/word.png) center center no-repeat;
 }
 .list .pic.mp3{

@@ -476,6 +476,13 @@ function loadFiles() {
                 max_retries: 3,                     // 上传失败最大重试次数
                 chunk_size: '4mb',                  // 分块上传时，每块的体积
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '1024mb',
+                    prevent_duplicates: true,
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FileUploaded': function(up, file, info) {
                         var data={
@@ -484,9 +491,16 @@ function loadFiles() {
                         };
                         var url=data.path_img+data.md5+"-scale200";
                         $(".newPic").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+                        $('.qiniuBar').remove();
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $("body").append("<span class='qiniuBar'></span>");
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                            console.log(errTip);
+                        toastTip(errTip);
                     }
                 }
             });
@@ -504,6 +518,13 @@ function loadFiles() {
                 max_retries: 3,                     // 上传失败最大重试次数
                 chunk_size: '4mb',                  // 分块上传时，每块的体积
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '1024mb',
+                    prevent_duplicates: true,
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FileUploaded': function(up, file, info) {
                         var data={
@@ -512,9 +533,16 @@ function loadFiles() {
                         };
                         var url=data.path_img+data.md5+"-scale200";
                         $(".newPic01").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+                        $('.qiniuBar').remove();
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $("body").append("<span class='qiniuBar'></span>");
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                            console.log(errTip);
+                        toastTip(errTip);
                     }
                 }
             });
@@ -532,6 +560,13 @@ function loadFiles() {
                 max_retries: 3,                     // 上传失败最大重试次数
                 chunk_size: '4mb',                  // 分块上传时，每块的体积
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '1024mb',
+                    prevent_duplicates: true,
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FileUploaded': function(up, file, info) {
                         var data={
@@ -540,9 +575,16 @@ function loadFiles() {
                         };
                         var url=data.path_img+data.md5+"-scale200";
                         $(".newPic02").attr("src",url).attr("data-md5",data.md5).removeClass("empty");
+                        $('.qiniuBar').remove();
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $("body").append("<span class='qiniuBar'></span>");
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                            console.log(errTip);
+                        toastTip(errTip);
                     }
                 }
             });

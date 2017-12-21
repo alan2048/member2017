@@ -15,6 +15,8 @@
 }
 .box_3 {
 }
+.ellipse {
+}
 .image {
 }
 .placeholder {
@@ -72,6 +74,8 @@
 ._文本段落 {
   text-align:left;
 }
+.line {
+}
 .text_field {
   color:#000000;
   text-align:left;
@@ -87,7 +91,7 @@
   text-align:left;
 }
 ._连接线 {
-  font-family:'Arial Normal', 'Arial';
+  font-family:'Arial';
   font-weight:normal;
   font-style:normal;
   font-size:13px;
@@ -102,7 +106,7 @@
   color:#FFFFFF;
 }
 ._图片 {
-  font-family:'Arial Normal', 'Arial';
+  font-family:'Arial';
   font-weight:400;
   font-style:normal;
   color:#000000;

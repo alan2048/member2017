@@ -127,7 +127,7 @@ function mousehover() {
             for(var i=0;i<arr.length;i++){
                 data[arr[i].name]=arr[i].value
             };
-            if($("select[name=bookTimeWeekEnd]").val() > $("select[name=bookTimeWeekStart]").val()){
+            if($("select[name=bookTimeWeekEnd]").val() > $("select[name=bookTimeWeekStart]").val() || ($("select[name=bookTimeWeekEnd]").val() == $("select[name=bookTimeWeekStart]").val() && $("select[name=bookTimeHourEnd]").val() > $("select[name=bookTimeHourStart]").val())){
                 AddCourse_port(data);
             }else{
                 toastTip("提示","预约结束时间必须大于预约开始时间");
@@ -466,6 +466,13 @@ function loadFiles() {
                 max_retries: 3,                     // 上传失败最大重试次数
                 chunk_size: '4mb',                  // 分块上传时，每块的体积
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '1024mb',
+                    prevent_duplicates: true,
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FileUploaded': function(up, file, info) {
                         var data={
@@ -479,9 +486,16 @@ function loadFiles() {
                         });
 
                         $("#addPicBtn").removeClass("empty").empty().next("input[name=pic]").val(data.md5);
+                        $('.qiniuBar').remove();
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $("body").append("<span class='qiniuBar'></span>");
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                            console.log(errTip);
+                        toastTip(errTip);
                     }
                 }
             });
@@ -499,6 +513,13 @@ function loadFiles() {
                 max_retries: 3,                     // 上传失败最大重试次数
                 chunk_size: '4mb',                  // 分块上传时，每块的体积
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '1024mb',
+                    prevent_duplicates: true,
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FileUploaded': function(up, file, info) {
                         var data={
@@ -518,9 +539,16 @@ function loadFiles() {
                             arr.push($("#addPicBtn01").parent("ul").find("a.pic").eq(i).attr("data-pic"))
                         };
                         $("input[name=coursePics]").val(JSON.stringify(arr));
+                        $('.qiniuBar').remove();
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $("body").append("<span class='qiniuBar'></span>");
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                            console.log(errTip);
+                        toastTip(errTip);
                     }
                 }
             });

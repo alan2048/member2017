@@ -516,7 +516,7 @@ textarea.form-control {
 	vertical-align: middle;
 }
 #search >label >input{
-	min-width: 1.6rem;
+	min-width: 1.4rem;
 	height: 0.4rem;
 	margin-right: 0.4rem;
 	border: 0.01rem solid #c9cccb;
@@ -848,4 +848,7 @@ th,td {
 }
 #description{
 	height: 0.6rem;
+}
+#searchBtn{
+	display:none;
 }

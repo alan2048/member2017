@@ -24,7 +24,7 @@ function login(){
 
 	$("#username").keyup(function (e) {
 		if($(this).val().length >=11){
-			var reg=/^1(3|4|5|7|8)\d{9}$/;// 验证手机号码
+			var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;// 验证手机号码
 			if(reg.test($(this).val())){
 				$(this).parents(".nameBox").removeClass("empty");
 				if(e.keyCode == 13){
@@ -71,7 +71,7 @@ function login(){
 		 				setCookie("loginId",data,"d30");
 		 	  	    
 		   	 			// 初始化加载页面
-		   	 			window.location.href="menu.html";
+		   	 			window.location.href="menu.html?t="+new Date().getTime();
 		   	 			// window.location.href=httpUrl.back;
 		  			}else{
 		  				$("#loginIn").text("登录");

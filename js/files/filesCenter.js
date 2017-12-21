@@ -509,7 +509,6 @@ function fileGetChildFileInfo_callback(res,obj) {
                 onEnd:function (event) {
                     var current=event.item;
                     var target=event.explicitOriginalTarget;
-                    console.log(11);
                     if($(target).hasClass('folder')){
                         
                         // fileCut_port($(current).attr('data-fileuuid'),$(target).attr('data-fileuuid'));
@@ -550,11 +549,10 @@ function fileGetChildFileInfo_callback(res,obj) {
         var sortable01 = new Sortable(el01, {
                 sort:false,
                 onEnd:function (event) {
-                    console.log(2222);
                     var current=event.item;
                     var target=event.explicitOriginalTarget;
                     if($(target).parents('.list').hasClass('folder')){
-                        fileCut_port($(current).attr('data-fileuuid'),$(target).parents('.list').attr('data-fileuuid'));
+                        // fileCut_port($(current).attr('data-fileuuid'),$(target).parents('.list').attr('data-fileuuid'));
                     };
                 }
         });
@@ -640,18 +638,18 @@ function upToken1_callback(res) {
 // 七牛公有文件上传
 function loadFiles01() {
   var uploader = Qiniu.uploader({
-      runtimes: 'html5,html4,flash',      // 上传模式，依次退化
-      browse_button: 'filesUpload',         // 上传选择的点选按钮，必需
-      uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
-      get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
-      save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
-      domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
-      max_file_size: '1024mb',             // 最大文件体积限制
-      max_retries: 3,                     // 上传失败最大重试次数
-      chunk_size: '4mb',                  // 分块上传时，每块的体积
-      auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
-      init: {
-          'FileUploaded': function(up, file, info) {
+        runtimes: 'html5,html4,flash',      // 上传模式，依次退化
+        browse_button: 'filesUpload',         // 上传选择的点选按钮，必需
+        uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+        get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+        save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+        domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+        max_file_size: '1024mb',             // 最大文件体积限制
+        max_retries: 3,                     // 上传失败最大重试次数
+        chunk_size: '4mb',                  // 分块上传时，每块的体积
+        auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        init: {
+            'FileUploaded': function(up, file, info) {
                 var parentuuid = $(".breadBox >span:last").attr("data-fileuuid");
                 var data={
                         fileMD5:JSON.parse(info.response).key,
@@ -665,10 +663,17 @@ function loadFiles01() {
                         loginId:httpUrl.loginId
                 };
                 initAjax(httpUrl.fileAddFileInfo,param,fileAddFileInfo_callback,parentuuid); 
-          },
-          'Error': function(up, err, errTip) {
-                 //上传出错时，处理相关的事情
-          }
+                $('.qiniuBar').remove();
+            },
+            'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                $("body").append("<span class='qiniuBar'></span>");
+            },
+            'UploadProgress': function(up, file) {// 进度条
+                $(".qiniuBar").width(file.percent + "%");
+            },
+            'Error': function(up, err, errTip) {
+                toastTip(errTip);
+            }
       }
   });
 };
@@ -694,7 +699,7 @@ function downloadUrl1_callback(res,kind) {
                 break;
             case "text":
                 var src=res.data; 
-                window.open("http://dcsapi.com/?k=106194529&url="+encodeURIComponent(src));
+                window.open("http://dcsapi.com/?k=106191138&url="+encodeURIComponent(src));
                 break;
             default:
         };

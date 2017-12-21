@@ -197,6 +197,11 @@ function init() {
         } else {
             $(this).removeClass("more");
         };
+        if($(this).val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"").length ==0){
+            $(this).addClass("empty");
+        }else{
+            $(this).removeClass("empty");
+        };
     });
 
     // 验证内容字数
@@ -243,7 +248,7 @@ function init() {
 
 // 验证input输入
 function ValidateInput() {
-    if(!$(".need").val()){
+    if(!$(".need").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
         $(".need").addClass("empty");
     };
 
@@ -470,6 +475,7 @@ function getMyClassInfo_callback(res) {
                 };
 
                 $("#person").val(name.join()).attr("data-toclasses",JSON.stringify(toClasses)).attr("data-topersons",JSON.stringify(toPersons));
+                $("#person").removeClass("empty");
                 $("#modal-class").modal("hide"); 
             };
         });
@@ -622,6 +628,13 @@ function loadFiles() {
                 max_retries: 3,                     // 上传失败最大重试次数
                 chunk_size: '4mb',                  // 分块上传时，每块的体积
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '1024mb',
+                    prevent_duplicates: true,
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
+                    ]
+                },
                 init: {
                     'FileUploaded': function(up, file, info) {
                         var data={
@@ -636,9 +649,16 @@ function loadFiles() {
                                     "</a>"+
                                 "</li>";
                         $("#addPicBtn").parent("li").before(html);
+                        $('.qiniuBar').remove();
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $("body").append("<span class='qiniuBar'></span>");
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                            console.log(errTip);
+                        toastTip(errTip);
                     }
                 }
             });

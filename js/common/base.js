@@ -9,7 +9,7 @@ var serverHost="https://www.member361.com";
 
 var qiniu='https://filepublic.member361.com/';// 七牛公有文件
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=serverUrl01; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -407,7 +407,7 @@ function toastTip(heading,text,hideAfter,afterHidden) {
             text: text,
             showHideTransition: 'slide',
             icon: 'success',
-            hideAfter: hideAfter || 1500,
+            hideAfter: hideAfter || 2500,
             loaderBg: '#edd42e',
             position: 'bottom-right',
             afterHidden: afterHidden

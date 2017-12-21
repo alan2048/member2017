@@ -153,7 +153,7 @@ function getCourseSimpleTJ_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         for(var i=0;i<data.length;i++){
-            data[i].image=httpUrl.path_img+data[i].pic+"&minpic=1";
+            data[i].image=httpUrl.path_img+data[i].pic+"-scale200";
         };
         var data01={data:data};
         var html=template("table-email_script",data01);
