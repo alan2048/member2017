@@ -146,29 +146,41 @@
 			<div id="editor">
 				<div id="editor-bar" class="editorBar" style="left: 120px; top: 180px; display: none;" data-direction="right">
 					<div class="barContent">
-						<p id="colorBtn" class="editor-tool-button" style="display: block;">
+						<p id="colorBtn" class="editor-tool-button">
 							<span id="colorDiv"><i><span style="background: rgb(243, 241, 231) none repeat scroll 0% 0%;"></span></i></span>
 							<span class="editor-tool-button-tip left-tip" style="left: -56px;">颜色</span>
 						</p>
 						<p id="colorPanel" class="editor-tool-button" >
 							<input type="color" id="colorInput">
 						</p>
-						<p id="fontBtn" class="editor-tool-button" style="display: block;">
+						<p id="fontBtn" class="editor-tool-button">
 							<i class="bar-icon-18"></i><span class="editor-tool-button-tip left-tip" style="left: -56px;">字体</span>
 						</p>
-						<p id="autoSort" class="editor-tool-button" style="display: block;">
-							<i class="bar-icon-18"></i><span class="editor-tool-button-tip left-tip" style="left: -80px;">自动换行</span>
-						</p>
-						<p id="layerBtn" class="editor-tool-button" style="display: block;">
+						<p id="layerBtn" class="editor-tool-button">
 							<i class="bar-icon-18"></i><span class="editor-tool-button-tip left-tip" style="left: -56px;">图层</span>
 						</p>
-						<p id="deleteBtn" class="editor-tool-button" style="display: block;">
+						<p id="autoSort" class="editor-tool-button">
+							<i class="bar-icon-18"></i><span class="editor-tool-button-tip left-tip" style="left: -80px;">自动换行</span>
+						</p>
+						<p id="pasteBtn" class="editor-tool-button">
+							<i class="bar-icon-18"></i><span class="editor-tool-button-tip left-tip" style="left: -56px;">粘贴</span>
+						</p>
+						<p id="deleteBtn" class="editor-tool-button">
 							<i class="bar-icon-18"></i><span class="editor-tool-button-tip left-tip" style="left: -56px;">删除</span>
 						</p>
 					</div>
 				</div>
 
-				<div id="layerPanel" class="editorPanel popover layerPanel right" style="left:165px; top: 170px; display: none;">
+				<div id="pastePanel" class="editorPanel popover pastePanel right">
+					<div class="arrow" style="top: 25px;"></div>
+					<div class="popover-content">
+						<div class="panelContent" style="width: 160px;">
+							<input type="text" id="pasteInput" style="width: 100px;"><button>确定</button>
+						</div>
+					</div>
+				</div>
+
+				<div id="layerPanel" class="editorPanel popover layerPanel right">
 					<div class="arrow" style="top: 31.3302px;"></div>
 					<div class="popover-content">
 						<div class="panelContent">

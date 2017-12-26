@@ -9,7 +9,7 @@ var serverHost="https://www.member361.com";
 
 var qiniu='https://filepublic.member361.com/';// 七牛公有文件
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var path=serverUrl02; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -272,7 +272,14 @@ var httpUrl={
 		fileUpdateFileName:path+"/web/fileCenter/updateFileName",// 更新文件名
 		fileCopy:path+"/web/fileCenter/copy",// 复制文件(夹)
 		fileCut:path+"/web/fileCenter/cut",// 剪切文件(夹)
-		
+
+		// 调查问卷
+		questionList:path+"/web/questionnaire/list",// 获取个人调查问卷列表
+		questionReadUser:path+"/web/questionnaire/readUser/list",// 获取个人调查问卷列表
+		questionDetail:path+"/web/questionnaire/detail/sumbit",// 查看问卷详情（已提交）
+		questionAdd:path+"/web/questionnaire/add",// 新增调查问卷
+		questionRemove:path+"/app/questionnaire/remove",// 删除调查问卷
+
 		// 08设置
 		setting:'' 
 };

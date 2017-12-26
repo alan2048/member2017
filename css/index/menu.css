@@ -22,7 +22,7 @@ body{
 }
 .menuTitle{
 	margin: 0 auto;
-	width: 5.35rem;
+	width: 4.5rem;
 	/*height: 2.3rem;*/
 	/*background: url(../../images/index/menuTitle.png) center center no-repeat;*/
 	-webkit-background-size: contain;
@@ -71,7 +71,7 @@ body{
 	-webkit-background-size: contain;
 	background-size: contain;
 	-webkit-background-size: 1.3rem;
-	background-size: 1.3rem;
+	background-size: 1.3rem 1.3rem;
 }
 li.active:nth-of-type(1) .has-list >.hasTitle{
 	border: 0.02rem solid #656868;
@@ -116,6 +116,14 @@ li.active:nth-of-type(1) .has-list >.hasTitle{
 .active:nth-of-type(11) .has-list>.hasTitle{
 	border: 0.02rem solid #656868;
 	background-color: #5cdee1;
+}
+.active:nth-of-type(12) .has-list>.hasTitle{
+	border: 0.02rem solid #656868;
+	background-color: #f3b369;
+}
+.active:nth-of-type(13) .has-list>.hasTitle{
+	border: 0.02rem solid #656868;
+	background-color: #c1ec69;
 }
 .hasBox {
 	display: none;

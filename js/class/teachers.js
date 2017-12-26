@@ -121,7 +121,7 @@ function init() {
     });
     
     $("#phoneNum").keyup(function () {
-        var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+        var reg = /^1[3|4|5|6|7|8|9][0-9]{9}$/; //验证规则
         var phone=$("#phoneNum").val();
         if(!reg.test(phone) && phone.length >=11){
             $("#phoneNum").addClass("empty").next("span").removeClass("hide");

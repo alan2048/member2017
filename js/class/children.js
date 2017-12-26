@@ -171,7 +171,7 @@ function editParent() {
         if($("#parentName").hasClass("empty") || $("#parentPhone").hasClass("empty")){
             toastTip("提示","请先填写完整。。");
         }else{
-            var reg=/^1(3|4|5|7|8)\d{9}$/;// 验证手机号码
+            var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;// 验证手机号码
             if(reg.test($("#parentPhone").val())){
                 $("#parentPhone").removeClass("empty");
                 childrenParentUpdate_port();
@@ -184,7 +184,7 @@ function editParent() {
 
     $("#parentPhone").keyup(function (e) {
         if($(this).val().length >=11){
-            var reg=/^1(3|4|5|7|8)\d{9}$/;// 验证手机号码
+            var reg=/^1(3|4|5|6|7|8|9)\d{9}$/;// 验证手机号码
             if(reg.test($(this).val())){
                 $(this).removeClass("empty");
             }else{

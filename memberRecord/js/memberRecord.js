@@ -430,7 +430,6 @@ function savePic() {
           };
       };
     });
-    
 
     // 图层按钮 工具箱 
     $("#editor").on("click","#layerBtn",function () {
@@ -447,6 +446,27 @@ function savePic() {
     });
     $("#editor").on("click",".fotorPanel-btn:has(#layerBottomBtn)",function () {
     	canvas.sendToBack(canvas.getActiveObject());// 底层 图层面板
+    });
+
+    // 粘贴面板
+    $("#editor").on("click","#pasteBtn",function () {
+        $("#pasteInput").val("");
+        $("#pastePanel").fadeToggle().siblings(":not(#editor-bar)").fadeOut();// 图层面板
+    });
+
+    // 粘贴
+    $("#pasteInput").change(function () {
+        var o=canvas.getActiveObject();
+        var w01=$("#canvasMain").width();
+        if(o.text=="请输入文字。。"){
+            var newStr = getNewline($(this).val(),50);
+        }else{
+            var newStr = getNewline(o.text+" "+$(this).val(),50);
+        };
+        o.text=newStr;
+        o.width=w01*0.7;
+        o.left=w01*0.15;
+        canvas.renderAll();
     });
 
     // 添加文字 
@@ -612,14 +632,16 @@ function savePic() {
             var length=(w-w01)/2+options.target.left+options.target.width*options.target.scaleX;
             if(length >1200){length=1200;}
             if(options.target && (options.target.get("type")=="i-text" || options.target.get("type")=="textbox") ){
-                $("#colorBtn,#fontBtn,#autoSort").show();// 文字状态下显示颜色和字体控制按钮
+                $("#colorBtn,#fontBtn,#autoSort,#pasteBtn").show();// 文字状态下显示颜色和字体控制按钮
+                $("#pasteBtn").hide();
                 $("#editor-bar").css({"left":length+70,"top":options.e.clientY});// 主工具箱
                 $("#layerPanel").css({"left":length+115,"top":(options.e.clientY+60)});//图层面板
+                $("#pastePanel").css({"left":length+115,"top":(options.e.clientY+140)});//图层面板
                 $("#fontPanel").css({"left":length+115,"top":(options.e.clientY+15)});// 字体面板
                 $("#colorDiv >i >span").css("background-color",options.target.fill);
                 $("#editor-bar").show();// 显示工具箱
             }else{
-                $("#colorBtn,#fontBtn,#autoSort").hide();
+                $("#colorBtn,#fontBtn,#autoSort,#pasteBtn").hide();
                 $("#editor-bar").css({"left":length+70,"top":options.e.clientY});// 主工具箱
                 $("#layerPanel").css({"left":length+115,"top":(options.e.clientY-10)});//图层面板
                 $("#editor-bar").show();// 显示工具箱

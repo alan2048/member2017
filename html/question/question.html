@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>调查问卷</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/question/question.css?t=2017090120" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+                        {{if value.search}}
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}&pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                        {{else}}
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                        {{/if}}
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #f3b369;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">调查问卷</div>
+			<div id="search" style="display: none;">
+      			<label>
+      				标题：
+      				<input type="text" placeholder="请输入要搜索的公告标题" id="teacherName">
+      			</label>
+      			<span id="searchBtn">查询</span>
+			</div>
+			<div id="buttonBox">
+                <script type="text/html" id="buttonBox_script">
+                    {{each arr as value  i}}
+                    <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                    {{/each}}
+                </script>
+			</div>
+            <div class="tabs" id="tabs">
+                <ul>
+                    <li class="current">调查问卷</li>
+                    <li>网络问卷</li>
+                </ul>
+            </div>
+			<div id="main" class="main">
+                <ul>
+                    <li class="current">
+                        <div class="panel">
+                            <div class="email-content tableBox" id="tableBox"></div>
+                            <script type="text/html" id="tableBox_script">
+                                <table class="table table-email">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%;">序号</th>
+                                            <th style="width: 15%;">标题</th>
+                                            <th style="width: 15%;">发布时间</th>
+                                            <th style="width: 15%;">截止时间</th>
+                                            <th style="width: 15%;">问卷状态</th>
+                                            <th style="width: 15%;">通知人/班级</th>
+                                            <th style="width: 15%;">参与人数/总人数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{each list as item i}}
+                                        <tr data-json="{{item.json}}" data-id="{{item.id}}" class="{{if item.status !='0'}}isEnd{{/if}}">
+                                            <td class="{{if item.isReaded==1}}isReaded{{/if}} num"><i class="fa fa-square-o fa-fw" data-id={{item.staffUUID}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                            <td class="email-sender">{{item.title}}</td>
+                                            <td class="email-sender">{{item.createDate01}}</td>
+                                            <td class="email-sender">{{item.endTime01}}</td>
+                                            <td class="email-sender">{{if item.status=="0"}}进行中{{else}}已结束{{/if}}</td>
+                                            <td style="word-break:break-all;" class="email-sender email-date" data-id="{{item.id}}">
+                                                <span>...</span>
+                                                <span class="fade in hide">
+                                                    <span></span>
+                                                    <div></div>
+                                                </span>
+                                            </td>
+                                            <td class="email-sender playerNumber read" data-id="{{item.id}}">{{item.playerNumber}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </script>
+                        </div>
+                        <ul id="pagination"></ul>
+                    </li>
+                    <li>
+                        <div class="panel">
+                            <div class="email-content tableBox" id="tableBox02"></div>
+                            <script type="text/html" id="tableBox02_script">
+                                <table class="table table-email">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 19%;">序号</th>
+                                            <th style="width: 27%;">标题</th>
+                                            <th style="width: 27%;">发布时间</th>
+                                            <th style="width: 27%;">通知人/班级</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{each list as item i}}
+                                        <tr data-json="{{item.json}}" data-url="{{item.url}}" data-id="{{item.id}}" class="">
+                                            <td class="{{if item.isReaded==1}}isReaded{{/if}} num"><i class="fa fa-square-o fa-fw" data-id={{item.staffUUID}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                            <td class="email-sender">{{item.title}}</td>
+                                            <td class="email-sender">{{item.createDate01}}</td>
+                                            <td style="word-break:break-all;" class="email-sender email-date" data-id="{{item.id}}">
+                                                <span>...</span>
+                                                <span class="fade in hide">
+                                                    <span></span>
+                                                    <div></div>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </script>
+                        </div>
+                        <ul id="pagination02"></ul>
+                    </li>
+                </ul>
+			</div>
+	    </div> 
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle detail">调查问卷 <small>新增</small></div>
+            <div class="newBox">
+                <span class="closeBtn"></span>
+                <ul>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 选择通知群组/个人：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="person" placeholder="请单击选择群组/个人" class="need">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            图片：
+                        </span>
+                        <span class="col02">
+                            <ul id="carousel">
+                                <li class="addPic">
+                                    <a href="#" id="addPicBtn"></a>
+                                </li>
+                            </ul>
+                        </span>
+                    </li>
+                    <li class="voiceList hide" id="AA">
+                        <span class="col01">
+                            语音：
+                        </span>
+                        <span class="col02">
+                            <audio controls="controls" src=""></audio>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 标题：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="newTitle" placeholder="请输入标题名称（限30字）" class="need" maxlength="30">
+                            <span class="newNumBtn"><span>0</span>/30</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            外链：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="newUrl" placeholder="请输入外部链接网址">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            内容：
+                        </span>
+                        <span class="col02">
+                            <textarea name="input" placeholder="请在此输入内容" id="newContent" maxlength="1000"></textarea>
+                            <span class="newNumBtn"><span>0</span>/1000</span>
+                        </span>
+                    </li>
+                    <li>
+                        备注：
+                        <div>1、"<i class="redIcon">*</i>" 为必填项；</div>
+                        <div>2、"外链"和"内容" 二者必填其一。</div>
+                    </li>
+                </ul>
+                <div id="new">新增</div>
+                <div id="edit" class="hide">编辑</div>
+            </div>
+        </div>
+
+        <div id="content02" class="content hide">
+            <div class="pageTitle">餐点介绍 <small>详情</small></div>
+            <div>
+                <a href="#" class="backBtn tip defaultBtn"><span>返回上级</span></a>
+            </div>
+            <div class="panel01">
+                <div id="detail"></div>
+                <div id="read"></div>
+                <script type="text/html" id="detail_script">
+                    <div class="title">{{title}}</div>
+                    <div class="time">{{time}}</div>
+                    <div>{{if voice}}<audio controls="controls" src="{{path_img}}{{voice}}"></audio>{{/if}}</div>
+                    <div>
+                        {{each pictures as value i}}
+                        <img src="{{path_img}}{{value}}-scale600" alt="">
+                        {{/each}}
+                    </div>
+                    <div>{{content}}</div>
+                </script>
+            </div>
+        </div> 
+	</div>
+
+    <div class="modal fade" id="modal-read" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="detailRead"></div>
+                <span class="closeBtn" data-dismiss="modal"></span>
+            </div>
+            <script id="detailRead_script" type="text/html">
+                <div>参与人数详情</div>
+                <ul class="detailNav">
+                    <li class="active">已参与</li>
+                    <li>未参与</li>
+                </ul>
+                <ul class="detailBody">
+                    <li class="active">
+                        <ul>
+                            <li class="class01">
+                                {{each readed as value i}}
+                                <div {{if i==0}}class="active"{{/if}}>
+                                    {{value.className}}
+                                    <span class="tipNum01">{{value.userList.length}}</span>
+                                </div>
+                                {{/each}}
+                            </li>
+                            <li class="children01">
+                                <ul>
+                                {{each readed as value i}}
+                                    <li {{if i==0}}class="active"{{/if}}>
+                                    {{each value.userList as value01 j}}
+                                        <div class="child01">
+                                            <img src="{{path_img}}{{value01.photo}}-scale200" alt=""><br>
+                                            <span>{{value01.name}}</span>
+                                        </div>
+                                    {{/each}}
+                                    </li>
+                                {{/each}}
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul>
+                            <li class="class01">
+                                {{each unReaded as value i}}
+                                <div {{if i==0}}class="active"{{/if}}>
+                                    {{value.className}}
+                                    <span class="tipNum02">{{value.userList.length}}</span>
+                                </div>
+                                {{/each}}
+                            </li>
+                            <li class="children01">
+                                <ul>
+                                {{each unReaded as value i}}
+                                    <li {{if i==0}}class="active"{{/if}}>
+                                    {{each value.userList as value01 j}}
+                                        <div class="child01">
+                                            <img src="{{path_img}}{{value01.photo}}-scale200" alt=""><br>
+                                            <span>{{value01.name}}</span>
+                                        </div>
+                                    {{/each}}
+                                    </li>
+                                {{/each}}
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </script>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-class" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="classBox"></div>
+            </div>
+            <script id="classBox_script" type="text/html">
+                <div class="title">选择班级/个人</div>
+                <div><label><input type="checkbox" id="allInput">全选</label></div>
+                <ul>
+                    {{each arr as value i}}
+                    <li class="class" data-id="{{value.classId}}">
+                        <div class="classTitle" data-id="{{value.classId}}">
+                            <span class="right" data-id="{{value.classId}}" data-classname="{{value.className}}"></span>
+                            <span>
+                                {{value.className}}
+                            </span>
+                            <span class="array"></span>
+                        </div>
+                        <div class="children"></div>
+                    </li>
+                    {{/each}}
+                </ul>
+                <div class="buttonBox">
+                    <span id="cancel">取消</span>
+                    <span id="save">确定</span>
+                </div>
+            </script>
+            <script id="children_script" type="text/html">
+                {{each arr as value i}}
+                <div class="child">
+                    <div class="childPic" style="background: url({{path_img}}{{value.photo}}-scale200) no-repeat scroll center center / 100%;" data-uuid="{{value.uuid}}" data-classid="{{classId}}" data-name="{{value.name}}">
+                        <img src="../../images/messages/bigRight.png" alt="">
+                    </div>
+                    <span>{{value.name}}</span>
+                </div>
+                {{/each}}
+            </script>
+        </div>
+    </div>
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/plupload/plupload.full.min.js" ></script>
+    <script src="../../js/common/plupload/qiniu.js" ></script>
+    <script src="../../js/common/modal.js"></script>
+
+	<script src="../../js/common/base.js?t=20171219"></script>
+	<script src="../../js/question/question.js?t=20171219"></script>
+</body>
+</html>

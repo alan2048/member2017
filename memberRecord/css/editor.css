@@ -200,6 +200,15 @@
 #cloneBtn:active .bar-icon-18 {
 	background-position:-108px -36px
 }
+#pasteBtn .bar-icon-18 {
+	background-position:-108px 0
+}
+#pasteBtn:hover .bar-icon-18 {
+	background-position:-108px -18px
+}
+#pasteBtn:active .bar-icon-18 {
+	background-position:-108px -36px
+}
 #deleteBtn .bar-icon-18 {
 	background-position:-180px 0
 }
@@ -990,42 +999,42 @@ input[type=range]::-webkit-slider-thumb:active {
 }
 @font-face
 {
-font-family: å­—ä½“ç®¡å®¶èƒ–å°å„¿;/*å­—ä½“ç®¡å®¶èƒ–å°å„¿*/
+font-family: ×ÖÌå¹Ü¼ÒÅÖĞ¡¶ù;/*×ÖÌå¹Ü¼ÒÅÖĞ¡¶ù*/
 src: url('fonts/fonts001.woff'); 
 }
 @font-face
 {
-font-family: æ–°è’‚é»‘æ¿æŠ¥åº•å­—;/*æ–°è’‚é»‘æ¿æŠ¥åº•å­—*/
+font-family: ĞÂµÙºÚ°å±¨µ××Ö;/*ĞÂµÙºÚ°å±¨µ××Ö*/
 src: url('fonts/fonts002.ttf'); 
 }
 @font-face
 {
-font-family: å­—ä½“ç®¡å®¶Aaå¼¯å¼¯;/*å­—ä½“ç®¡å®¶Aaå¼¯å¼¯*/
+font-family: ×ÖÌå¹Ü¼ÒAaÍäÍä;/*×ÖÌå¹Ü¼ÒAaÍäÍä*/
 src: url('fonts/fonts003.woff2'); 
 }
 @font-face
 {
-font-family: å¥‡æ€ç²—èŒä½“;/*å¥‡æ€ç²—èŒä½“*/
+font-family: ÆæË¼´ÖÃÈÌå;/*ÆæË¼´ÖÃÈÌå*/
 src: url('fonts/fonts004.woff2'); 
 }
 @font-face
 {
-font-family: Aaå¤œèŒ´ä½“;/*Aaå¤œèŒ´ä½“*/
+font-family: AaÒ¹ÜîÌå;/*AaÒ¹ÜîÌå*/
 src: url('fonts/fonts005.woff2'); 
 }
 @font-face
 {
-font-family: å­—ä½“ç®¡å®¶æ–¹èŒ;/*å­—ä½“ç®¡å®¶æ–¹èŒ*/
+font-family: ×ÖÌå¹Ü¼Ò·½ÃÈ;/*×ÖÌå¹Ü¼Ò·½ÃÈ*/
 src: url('fonts/fonts006.woff'); 
 }
 @font-face
 {
-font-family: æ–°è’‚å°ä¸¸å­ä½“;/*æ–°è’‚å°ä¸¸å­ä½“*/
+font-family: ĞÂµÙĞ¡Íè×ÓÌå;/*ĞÂµÙĞ¡Íè×ÓÌå*/
 src: url('fonts/fonts007.otf'); 
 }
 @font-face
 {
-font-family: å¥‡æ€æ‚ ç„¶ä½“;/*å¥‡æ€æ‚ ç„¶ä½“*/
+font-family: ÆæË¼ÓÆÈ»Ìå;/*ÆæË¼ÓÆÈ»Ìå*/
 src: url('fonts/fonts008.woff2'); 
 }
 
