@@ -15,7 +15,6 @@
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
 	<link href="../../css/question/question.css?t=2017090120" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -161,67 +160,63 @@
                 <a href="#" class="backBtn tip defaultBtn"><span>返回上级</span></a>
             </div>
             <div class="newBox">
-                <div class="active newQuestionBox">
-                    <p>设置 <small>(带“<i class="redIcon">*</i>”为必填)</small></p>
+                <div class="active">
                     <ul>
-                        <li>
-                            <span class="col01"><i class="redIcon">*</i> 截止时间：</span>
-                            <span class="col02">
-                                <label><input id="beginTime01" readonly="readonly" type="text" placeholder="单击设置日期"></label>
-                                <label>
-                                    <select id="hour"></select>时
-                                    <script type="text/html" id="hour_script">
-                                        {{each hour as value i}}
-                                        <option value="{{value}}">{{if value <10}}0{{value}}{{else}}{{value}}{{/if}}</option>
-                                        {{/each}}
-                                    </script>
-                                </label>
-                                <label>
-                                    <select id="minute"></select>分
-                                    <script type="text/html" id="minute_script">
-                                        {{each minute as value i}}
-                                        <option value="{{value}}">{{if value <10}}0{{value}}{{else}}{{value}}{{/if}}</option>
-                                        {{/each}}
-                                    </script>
-                                </label>
-                            </span>
-                        </li>
-                        <li>
-                            <span class="col01"><i class="redIcon">*</i> 选择通知群组/个人：</span>
-                            <span class="col02">
-                                <input type="text" id="person" placeholder="单击选择" class="need">
-                            </span>
-                        </li>
-                        <li>
-                            <span class="col01"><i class="redIcon">*</i> 标题：</span>
-                            <span class="col02">
-                                <input type="text" id="newTitle" placeholder="填写问卷标题（限30字）" class="need" maxlength="30">
-                                <span class="newNumBtn"><span>0</span>/30</span>
-                            </span>
-                        </li>
-                        <li>
-                            <span class="col01"> 权限设置：</span>
-                            <span class="col02">
-                                <label><input type="checkbox"> 设置为匿名问卷<i class="redIcon">（勾选后，本人将不可查看统计详情）</i></label><br>
-                                <label><input type="checkbox"> 查看统计数据<i class="redIcon">（勾选后，教师/家长可将不查看统计详情）</i></label>
-                            </span>
-                        </li>
-                    </ul>
-                    <p><i class="redIcon">*</i>问题 <small>(最多可添加15个问题)</small></p>
-                    <div class="questionBox">
-                        <div class="newQuestion"></div>
-                        <div class="questionTool">
-                            <ul>
-                                <li><span>单选</span></li>
-                                <li><span>多选</span></li>
-                                <li><span>预览问卷</span></li>
-                                <li><span>提交问卷</span></li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 选择通知群组/个人：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="person" placeholder="请单击选择群组/个人" class="need">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            图片：
+                        </span>
+                        <span class="col02">
+                            <ul id="carousel">
+                                <li class="addPic">
+                                    <a href="#" id="addPicBtn"></a>
+                                </li>
                             </ul>
-                        </div>
-                    </div>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            <i class="redIcon">*</i> 标题：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="newTitle" placeholder="请输入标题名称（限30字）" class="need" maxlength="30">
+                            <span class="newNumBtn"><span>0</span>/30</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            外链：
+                        </span>
+                        <span class="col02">
+                            <input type="text" id="newUrl" placeholder="请输入外部链接网址">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">
+                            内容：
+                        </span>
+                        <span class="col02">
+                            <textarea name="input" placeholder="请在此输入内容" id="newContent" maxlength="1000"></textarea>
+                            <span class="newNumBtn"><span>0</span>/1000</span>
+                        </span>
+                    </li>
+                    <li>
+                        备注：
+                        <div>1、"<i class="redIcon">*</i>" 为必填项；</div>
+                        <div>2、"外链"和"内容" 二者必填其一。</div>
+                    </li>
+                    </ul>
                 </div>
 
-                <div class="link newQuestionBox">
+                <div class="link">
                     <p>新增网络问卷</p>
                     <ul>
                         <li>
@@ -354,53 +349,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-option" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div id="optionHeader">
-                    问题<i></i><span>多选<span>点击切换至<i>单选</i></span></span>
-                </div>
-                <div id="optionBody">
-                    <div class="opTitle">
-                        <span class="col03">小标题：</span>
-                        <textarea name="input" placeholder="这一刻的想法..." maxlength="140"></textarea>
-                    </div>
-                    <ul class="opBody">
-                        <li>
-                            <span class="col03">选项<i>1</i></span>
-                            <span class="col04"></span>
-                            <span class="col05">
-                                <textarea name="input" placeholder="这一刻的想法..." maxlength="140"></textarea>
-                                <span class="newNumBtn"><span>0</span>/140</span>
-                            </span>
-                            <div>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="optionFloor">
-                    <div>
-                        <span>多选设置
-                            选项最多选择：
-                            <select name="" id="">
-                                <option value="">不限</option>
-                            </select>
-                        </span>
-                    </div>
-                    <div>
-                        <span>备注：最多可添加15个选项</span>
-                        <span>确定</span>
-                    </div>
-                </div>
-                <span class="closeBtn" data-dismiss="modal"></span>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="modal-class" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -449,7 +397,6 @@
     <script src="../../js/common/plupload/plupload.full.min.js" ></script>
     <script src="../../js/common/plupload/qiniu.js" ></script>
     <script src="../../js/common/modal.js"></script>
-    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 	<script src="../../js/common/base.js?t=20171219"></script>
 	<script src="../../js/question/question.js?t=20171219"></script>

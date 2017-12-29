@@ -13,7 +13,7 @@
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
 	<link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
 	<link href="../../css/common/sweetalert.css" rel="stylesheet">
-	<link href="../../css/growth/childrenGrowth.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/growth/childrenGrowth.css?t=20171228" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -102,7 +102,8 @@
 								{{each value.pictureList as value01 j}}
 								<li data-pic="{{value01}}">
                                 	<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
-                                 		<img src="{{path_img}}{{value01}}-scale200">
+                                 		<!-- <img src="{{path_img}}{{value01}}-scale200"> -->
+                                 		<span style="background: url({{path_img}}{{value01}}-scale200);"></span>
                                 	</a>
                             	</li>
                             	{{/each}}
@@ -111,14 +112,16 @@
                             	{{if j ==11}}
 									<li class="twelveLi" data-pic="{{value01}}">
                                 		<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
-                                 			<img src="{{path_img}}{{value01}}-scale200">
+                                 			<!-- <img src="{{path_img}}{{value01}}-scale200"> -->
+                                 			<span style="background: url({{path_img}}{{value01}}-scale200);"></span>
                                 		</a>
                                 		<span class="twelve">+{{value.pictureList.length-12}}</span>
                             		</li>
                             	{{else}}
                             		<li class="{{if j >11}}more hide{{/if}}" data-pic="{{value01}}">
                                 		<a href="#modal-dialog-img" data-toggle="modal" class="pic" data-pic="{{value01}}">
-                                 			<img src="{{path_img}}{{value01}}-scale200">
+                                 			<!-- <img src="{{path_img}}{{value01}}-scale200"> -->
+                                 			<span style="background: url({{path_img}}{{value01}}-scale200);"></span>
                                 		</a>
                             		</li>
                             	{{/if}}

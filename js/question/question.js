@@ -4,85 +4,9 @@ $(function () {
 function init() {
     menu();
 
-    // 分页切换
-    $("#tabs >ul >li").click(function () {
-        $(this).addClass("current").siblings().removeClass("current"); 
-        $("#main >ul >li").eq($(this).index()).addClass("current").siblings().removeClass("current");
+    baseFn();// 列表函数
 
-        switch($(this).index()){
-            case 0:
-                if($("#tableBox").children().length ==0){
-                    questionList_port(1,$(this).index()+1);
-                };
-                break;
-            case 1:
-                if($("#tableBox02").children().length ==0){
-                    questionList_port(1,$(this).index()+1);
-                };
-                break;
-            default:
-                if($("#tableBox").children().length ==0){
-                    questionList_port(1,$(this).index()+1);
-                };
-        };
-    });
-
-    // 查询通知人、班级
-    $(".tableBox").on('mouseover',"td.email-date",function () {
-        if($(this).find("div").text() =="" && !$(this).hasClass("fill")){
-            $(this).addClass("fill");
-            questionPeople_port($(this).attr("data-id"));
-        };
-    });
-
-    // 公告删除 选中
-    $(".tableBox").on("click","tbody >tr >td.num",function () {
-        $(this).toggleClass("active").parents("tr").toggleClass("active").find("i").toggleClass("fa-check-square-o fa-square-o");
-        if($(this).parents("tbody").find("tr.active").length !=0){
-            $("#deleteBtn,#editBtn").removeClass("disable");
-        }else{
-            $("#deleteBtn,#editBtn").addClass("disable");
-        }
-    });
-
-    // 删除公告
-    $("#buttonBox").on("click","#deleteBtn",function () {
-        if($(this).hasClass("disable")){
-            toastTip("提示","请先选择删除项。。");   
-        }else{
-            swal({
-                title: "是否删除此调查问卷？",
-                text: "",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#e15d5d",
-                confirmButtonText: "删除",
-                cancelButtonText: "取消",
-                closeOnConfirm: true,
-                closeOnCancel: true
-                },
-                function(isConfirm){
-                    if (isConfirm) {
-                        var type=$("#tabs >ul >li.current").index()+1;
-                        for(var i=0;i<$("#main >ul >li.current tbody >tr.active").length;i++){
-                            questionRemove_port($("#main >ul >li.current tbody >tr.active").eq(i).attr("data-id"),type);
-                        };
-                    };
-            });
-        };
-    });
-
-    // 阅读人详情
-    $("#tableBox").on("click","tbody >tr >td.email-sender.read",function (event) {
-        questionReadUser_port($(this).attr("data-id"));
-        console.log(event.clipboardData);
-    });
-
-    // 弹框 参与人数详情
-    $("#detailRead").on('click','.class01 >div',function () {
-        $(this).addClass("active").siblings().removeClass("active"); 
-        $(this).parents("li.active").find(".children01 li").eq($(this).index()).addClass('active').siblings().removeClass("active");
-    });
+    newQuestion();// 新增问卷
 
 
 
@@ -102,54 +26,11 @@ function init() {
 
 
 
+   
 
 
 
 
-    // 公告详情
-    $("#tableBox").on("click","tbody >tr >td.email-sender:not(.read)",function () {
-        if(!$(this).parent().attr("data-url")){
-            $(".content").addClass("hide");
-            $("#content02").removeClass("hide");
-            var json=JSON.parse($(this).parent().attr("data-json"));
-            json.path_img=httpUrl.path_img;
-            var html=template("detail_script",json);
-            $("#detail").empty().append(html);
-
-            if($(this).parent().hasClass("isReaded")){
-                $("#read").addClass("active").attr("data-contentid","").attr("data-noticeid","");
-            }else{
-                $("#read").removeClass("active").attr("data-contentid",json.contentId).attr("data-noticeid",json.noticeId);
-            };
-        }else{
-            noticeReaded_port($(this).parent().attr("data-contentid"));
-            window.open($(this).parent().attr("data-url"));
-        };
-    });
-
-
-
-
-
-    // 返回上一级
-    $(".backBtn").on("click",function () {
-        if($("#read").hasClass("active")){
-            $(".content").addClass("hide");
-            $("#content").removeClass("hide");
-        }else{
-            toastTip("提示","请先点击下部的已阅读确认按钮");
-        };
-    });
-
-    // 是否阅读
-    $("#read").click(function () {
-        if($(this).hasClass("active")){
-            $(".backBtn").click();
-        }else{
-            $(this).addClass("active");
-            noticeReaded_port($("#read").attr("data-contentid"));
-        };
-    });
 
     
 
@@ -161,24 +42,6 @@ function init() {
     // 阅读详情 展开此班级学生数量
     $("#detailRead").on("click","li.class",function () {
         $(this).toggleClass("active");
-    });
-    
-    // 新增页
-    $("#buttonBox").on("click","#newBtn",function () {
-        $(".content").addClass("hide");
-        $("#content01 .pageTitle >small").text("新增");
-        $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",false);
-        $("#carousel >li:not(.addPic)").remove();
-        $("#content01").removeClass("hide").find("input[type=text]").val("");
-        $("#content01").find("textarea").val("");
-        $("#allInput").prop("checked",false);
-        $(".right").removeClass("active all num empty").text("");
-        $(".childPic").removeClass("active");
-        $(".need").removeClass("empty");
-        $(".newNumBtn > span").text("0");
-        $("#new").removeClass("hide");
-        $("#edit,.voiceList").addClass("hide");
-        user.tempId=new Date().getTime();
     });
 
     // 编辑
@@ -222,12 +85,6 @@ function init() {
             $("#edit").removeClass("hide");
             user.tempId=new Date().getTime();
         };
-    });
-
-    // 新增图层返回主界面
-    $(".closeBtn").click(function () {
-        $(".content").addClass("hide");
-        $("#content").removeClass("hide");
     });
     
     $("#new").on("click",function () {
@@ -311,6 +168,224 @@ function init() {
     });
 };
 
+// 基础操作
+function baseFn() {
+    // 分页切换
+    $("#tabs >ul >li").click(function () {
+        $(this).addClass("current").siblings().removeClass("current"); 
+        $("#main >ul >li").eq($(this).index()).addClass("current").siblings().removeClass("current");
+
+        switch($(this).index()){
+            case 0:
+                if($("#tableBox").children().length ==0){
+                    questionList_port(1,$(this).index()+1);
+                };
+                break;
+            case 1:
+                if($("#tableBox02").children().length ==0){
+                    questionList_port(1,$(this).index()+1);
+                };
+                break;
+            default:
+                if($("#tableBox").children().length ==0){
+                    questionList_port(1,$(this).index()+1);
+                };
+        };
+    });
+
+    // 查询通知人、班级
+    $(".tableBox").on('mouseover',"td.email-date",function () {
+        if($(this).find("div").text() =="" && !$(this).hasClass("fill")){
+            $(this).addClass("fill");
+            questionPeople_port($(this).attr("data-id"));
+        };
+    });
+
+    // 公告删除 选中
+    $(".tableBox").on("click","tbody >tr >td.num",function () {
+        $(this).toggleClass("active").parents("tr").toggleClass("active").find("i").toggleClass("fa-check-square-o fa-square-o");
+        if($(this).parents("tbody").find("tr.active").length !=0){
+            $("#deleteBtn,#editBtn").removeClass("disable");
+        }else{
+            $("#deleteBtn,#editBtn").addClass("disable");
+        }
+    });
+
+    // 删除公告
+    $("#buttonBox").on("click","#deleteBtn",function () {
+        if($(this).hasClass("disable")){
+            toastTip("提示","请先选择删除项。。");   
+        }else{
+            swal({
+                title: "是否删除此调查问卷？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        var type=$("#tabs >ul >li.current").index()+1;
+                        for(var i=0;i<$("#main >ul >li.current tbody >tr.active").length;i++){
+                            questionRemove_port($("#main >ul >li.current tbody >tr.active").eq(i).attr("data-id"),type);
+                        };
+                    };
+            });
+        };
+    });
+
+    // 阅读人详情
+    $("#tableBox").on("click","tbody >tr >td.email-sender.playerNumber",function (event) {
+        questionReadUser_port($(this).attr("data-id"));
+    });
+
+    // 弹框 参与人数详情
+    $("#detailRead").on('click','.class01 >div',function () {
+        $(this).addClass("active").siblings().removeClass("active"); 
+        $(this).parents("li.active").find(".children01 li").eq($(this).index()).addClass('active').siblings().removeClass("active");
+    });
+
+    // 网络问卷
+    $("#tableBox02").on("click",".email-sender:not(.email-date)",function () {
+        var url=$(this).parent().attr("data-url");
+        if(url.search(/http/) <0){
+            window.open("http://"+$(this).parent().attr("data-url"));
+        }else{
+            window.open($(this).parent().attr("data-url"));
+        };
+    });
+
+    // 公告详情
+    $("#tableBox").on("click","tbody >tr >td.email-sender:not(.read)",function () {
+        questionDetail_port($(this).parent().attr("data-id"));
+    });
+};
+
+// 新增问卷
+function newQuestion() {
+    // 新增页
+    $("#buttonBox").on("click","#newBtn",function () {
+        $("#modal-new").modal("show");
+    });
+
+    // 新增图层返回主界面
+    $(".closeBtn").click(function () {
+        $(".content").addClass("hide");
+        $("#content").removeClass("hide");
+    });
+
+    // 调查问卷新增
+    $("#newWhich >div:first-of-type").click(function () {
+        $("#modal-new").modal("hide");
+
+        $(".newBox >div:first-of-type").addClass("active").siblings().removeClass("active");
+        $(".content").addClass("hide");
+        $("#content01 .pageTitle").html("调查问卷<small>新增问卷</small>");
+
+
+
+        $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",false);
+        $("#carousel >li:not(.addPic)").remove();
+        $("#content01").removeClass("hide").find("input[type=text]").val("");
+        $("#content01").find("textarea").val("");
+        $("#allInput").prop("checked",false);
+        $(".right").removeClass("active all num empty").text("");
+        $(".childPic").removeClass("active");
+        $(".need").removeClass("empty");
+        $(".newNumBtn > span").text("0");
+        $("#new").removeClass("hide");
+        $("#edit,.voiceList").addClass("hide");
+        user.tempId=new Date().getTime();
+    });
+
+    // 网络问卷新增
+    $("#newWhich >div:last-of-type").click(function () {
+        $("#modal-new").modal("hide");
+
+        $(".newBox >div:last-of-type").addClass("active").siblings().removeClass("active");
+        $(".content").addClass("hide");
+        $("#content01 .pageTitle").html("网络问卷<small>新增问卷</small>");
+
+
+        $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",false);
+        $("#carousel >li:not(.addPic)").remove();
+        $("#content01").removeClass("hide").find("input[type=text]").val("");
+        $("#content01").find("textarea").val("");
+        $("#allInput").prop("checked",false);
+        $(".right").removeClass("active all num empty").text("");
+        $(".childPic").removeClass("active");
+        $(".need").removeClass("empty");
+        $(".newNumBtn > span").text("0");
+        $("#new").removeClass("hide");
+        $("#edit,.voiceList").addClass("hide");
+        user.tempId=new Date().getTime();
+    });
+
+    // 返回上一级
+    $(".backBtn").on("click",function () {
+        $(".content").addClass("hide");
+        $("#content").removeClass("hide");
+    });
+
+    $('#beginTime01').datepicker({
+            todayHighlight:true,
+            language:'zh-CN'
+        }).on("changeDate",function (ev) {
+            if($("#beginTime01").val()){
+                $("#beginTime01").removeClass("empty");
+            }else{
+                $("#beginTime01").addClass("empty");
+            };
+            $('#beginTime01').datepicker("hide");
+    });
+
+    dateInit();// 时钟分钟 初始化
+    newOptionFn();
+};
+
+// 时钟分钟 初始化
+function dateInit() {
+    var hour={hour:[]};
+    for(var i=0;i<24;i++){
+        hour.hour.push(i);
+    };
+    var htmlhour=template("hour_script",hour);
+    $("#hour").append(htmlhour);
+
+    var minute={minute:[]};
+    for(var i=0;i<60;i++){
+        minute.minute.push(i);
+    };
+    var htmlminute=template("minute_script",minute);
+    $("#minute").append(htmlminute);
+};
+
+// 问卷选项新增
+function newOptionFn() {
+    // 单选
+    $(".questionTool >ul >li:nth-of-type(1)").click(function () {
+        $("#modal-option").modal("show"); 
+    });
+
+    // 多选
+    $(".questionTool >ul >li:nth-of-type(2)").click(function () {
+        $("#modal-option").modal("show"); 
+    });
+
+    // 预览问卷
+    $(".questionTool >ul >li:nth-of-type(3)").click(function () {
+        $("#modal-option").modal("show"); 
+    });
+
+    // 提交问卷
+    $(".questionTool >ul >li:nth-of-type(4)").click(function () {
+        $("#modal-option").modal("show"); 
+    });    
+};
 
 
 // 验证input输入
@@ -340,6 +415,35 @@ function isURL(str) {
         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     return pattern.test(str);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 获取某个公告内容列表
 function questionList_port(pageNum,type) {
@@ -449,7 +553,7 @@ function questionPeople_callback(res,id) {
     };
 };
 
-// 获取某条公告内容阅读详情
+// 参与人数
 function questionReadUser_port(id) {
     var data={
             id:id
@@ -463,7 +567,6 @@ function questionReadUser_port(id) {
 function questionReadUser_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
         data.path_img=httpUrl.path_img;
         var html=template("detailRead_script",data);
         $("#detailRead").empty().append(html);
@@ -472,25 +575,52 @@ function questionReadUser_callback(res) {
     };
 };
 
-// 公告置为已读
-function noticeReaded_port(contentId) {
+// 查看问卷详情（已提交）
+function questionDetail_port(id) {
     var data={
-            noticeId:user.noticeId,
-            contentId:contentId,
-            uuid:$(".userName").attr("data-useruuid")
+            id:id
     };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.noticeReaded,param,noticeReaded_callback);
+    initAjax(httpUrl.questionDetail,param,questionDetail_callback);
 };
-function noticeReaded_callback(res) {
+function questionDetail_callback(res) {
     if(res.code==200){
-        questionList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
-        $(".backBtn").click();
+        var data=JSON.parse(res.data);
+        console.log(data);
     };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 获取我的班级信息
 function getMyClassInfo_port() {
@@ -907,3 +1037,15 @@ function basicButton_callback(res) {
         $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     };
 };
+(function($){
+    $.fn.datepicker.dates['zh-CN'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            today: "今天",
+            suffix: [],
+            meridiem: ["上午", "下午"]
+    };
+}(jQuery));

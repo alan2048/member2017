@@ -633,7 +633,6 @@ function savePic() {
             if(length >1200){length=1200;}
             if(options.target && (options.target.get("type")=="i-text" || options.target.get("type")=="textbox") ){
                 $("#colorBtn,#fontBtn,#autoSort,#pasteBtn").show();// 文字状态下显示颜色和字体控制按钮
-                $("#pasteBtn").hide();
                 $("#editor-bar").css({"left":length+70,"top":options.e.clientY});// 主工具箱
                 $("#layerPanel").css({"left":length+115,"top":(options.e.clientY+60)});//图层面板
                 $("#pastePanel").css({"left":length+115,"top":(options.e.clientY+140)});//图层面板
