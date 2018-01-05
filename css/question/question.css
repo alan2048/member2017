@@ -462,7 +462,7 @@ label > select {
 #new:hover,#edit:hover{
 	background-color: #29d1d5;
 }
-.closeBtn {
+.closeBtn,.closeBtn01 {
 	display: inline-block;
 	cursor: pointer;
 	width: 0.5rem;
@@ -482,6 +482,9 @@ textarea {
 	border-radius: 0.1rem;
 	color:#666;
 	font-size:0.14rem;
+}
+textarea:hover,textarea:focus{
+	border: 0.01rem solid #5bdee1;
 }
 .email-sender a{
 	color:#5be1de;
@@ -1031,3 +1034,253 @@ li.class.active .array{
 	text-align: center;
 	left:0%;
 }
+
+/*新增问卷选项弹框start*/
+.optionHeader{
+	color: #666;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 0.9rem;
+	vertical-align: middle;
+}
+.optionHeader >span{
+	display: inline-block;
+	color:#fff;
+	width: 0.6rem;
+	padding-right: 0.2rem;
+	height: 0.2rem;
+	line-height: 0.2rem;
+	border-radius: 0.1rem;
+	font-size: 0.12rem;
+	position: relative;
+	cursor:pointer;
+	background: #f7bad7 url(../../images/question/change.png) 78% center no-repeat;
+}
+.optionHeader >span >span{
+	display: none;
+	background-color: #c2c2c2;
+	color: #fff;
+	width: 1.1rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	border-radius: 0.05rem;
+	position: absolute;
+	bottom: -0.4rem;
+	left: 0.1rem;
+	z-index: 100;
+}
+.optionHeader >span >span::after {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: -0.06rem;
+	left: 0.12rem;
+	border-bottom: 0.07rem solid #c2c2c2;
+	border-left: 0.07rem solid transparent;
+	border-right: 0.07rem solid transparent;
+}
+.optionHeader >span:hover >span{
+	display: inline-block;
+}
+.col03{
+	display: inline-block;
+	width: 0.8rem;
+	vertical-align: middle;
+	color: #656565;
+}
+.opTitle{
+	margin-bottom: 0.45rem;
+}
+.opTitle >div{
+	display: inline-block;
+	width: 6.2rem;
+	height: 1rem;
+	vertical-align: middle;
+	position: relative;
+}
+.opTitle >div >textarea{
+	height: 100%;
+}
+.opTitle >div >span{
+	position: absolute;
+	bottom: 0.05rem;
+	top:auto;
+}
+.col04{
+	cursor: pointer;
+	display: inline-block;
+	width: 1.1rem;
+	height: 1.1rem;
+	border: 1px solid #c9cccb;
+	border-radius: 0.1rem;
+	vertical-align: middle;
+	margin-right: 0.1rem;
+	background: #fff url(../../images/question/addBtn.png) center center no-repeat;
+}
+.col04:hover{
+	border: 1px solid #5bdee1;
+}
+.col05{
+	display: inline-block;
+	width: 4.95rem;
+	height: 1.1rem;
+	vertical-align: middle;
+	position: relative;
+}
+.col05 >textarea{
+	height: 100%;
+	vertical-align: middle;
+}
+.col05 >span{
+	position: absolute;
+	bottom: 0.1rem;
+	top:auto;
+}
+.opBody >li{
+	margin-top: 0.15rem;
+	margin-bottom: 0.1rem;
+}
+.opBody >li:last-of-type{
+	margin-bottom: 0.4rem;
+}
+.opTool{
+	margin-top: 0.1rem;
+	text-align: right;
+	padding: 0 0.7rem;
+}
+.opTool >span{
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.2rem;
+	border-radius: 0.05rem;
+	margin-left: 0.05rem;
+	background-color: #5bdee1;
+	cursor: pointer;
+	background-color: #5bdee1 !important;
+	position: relative;
+}
+.opTool >span:hover{
+	box-shadow: 0 0 2px #f7bad6;
+	background-color: #f7bad6 !important;
+}
+.opTool >span:nth-of-type(1){
+	background: url(../../images/question/add01.png) center center no-repeat;
+}
+.opTool >span:nth-of-type(1) >span{
+	width: 1.4rem;
+}
+.opTool >span:nth-of-type(2){
+	background: url(../../images/question/minus.png) center center no-repeat;
+}
+.opTool >span:nth-of-type(3){
+	background: url(../../images/question/up.png) center center no-repeat;
+}
+.opTool >span:nth-of-type(4){
+	background: url(../../images/question/down.png) center center no-repeat;
+}
+.opTool > span > span {
+	display: none;
+	background-color: rgba(194,194,194,0.8);
+	color: #fff;
+	width: 0.8rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	border-radius: 0.05rem;
+	position: absolute;
+	bottom: -0.4rem;
+	left: -0.02rem;
+	z-index: 100;
+	text-align: center;
+}
+.opTool > span:hover > span {
+	display: inline-block;
+}
+.opTool > span > span::after {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: -0.06rem;
+	left: 0.05rem;
+	border-bottom: 0.07rem solid rgba(194,194,194,0.8);
+	border-left: 0.07rem solid transparent;
+	border-right: 0.07rem solid transparent;
+}
+#modal-option .modal-dialog{
+
+}
+.optionBody{
+	height: 5.3rem;
+}
+.optionFloor{
+	height: 0.8rem;
+	padding-top: 0.2rem;
+}
+.optionFloor >div:first-of-type{
+	float: left;
+	color:#666;
+	text-align:left;
+	margin-left: 0.4rem;
+}
+.optionFloor >div:first-of-type{
+	display:none;
+}
+.optionFloor >div.active:first-of-type{
+	display:block;
+}
+.optionFloor >div.active:first-of-type >span{
+	display:inline-block;
+	padding-right: 0.2rem;
+	cursor: pointer;
+	background: url(../../images/question/right.png) 100% center no-repeat;
+}
+.optionFloor >div.active:first-of-type >span.active{
+	background: url(../../images/question/down01.png) 100% center no-repeat;
+}
+
+.optionFloor >div.active:first-of-type label{
+	display:none;
+	margin-left: 0.4rem;
+}
+.optionFloor >div.active:first-of-type label.active{
+	display:block;
+}
+.optionFloor >div:last-of-type{
+	color:#c9cccb;
+	float: right;
+}
+.opSave{
+	width: 1rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.1rem;
+	color: #fff;
+	text-align: center;
+	display:inline-block;
+	cursor: pointer;
+	margin:0 0.4rem;
+}
+.opSave:hover {
+	background-color: #29d1d5;
+}
+.optionFloor >div:first-of-type label > select {
+	min-width: 1rem;
+	height: 0.25rem;
+	margin-right: 0.1rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.05rem;
+	padding: 0 0.05rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+	color: #969998;
+	background-color: #fff;
+	cursor: pointer;
+}
+
+/*新增问卷选项弹框end*/

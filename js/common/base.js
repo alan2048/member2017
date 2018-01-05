@@ -3,7 +3,7 @@ var user={
 		sid:GetQueryString("sid")
 };
 var serverUrl01="https://www.member361.com";//84正式服务器
-var serverUrl02="https://121.43.150.38";//38测试服务器
+var serverUrl02="https://test.member361.com";//38测试服务器
 var serverUrl03="http://106.15.89.156";//156测试服务器
 var serverHost="https://www.member361.com";
 

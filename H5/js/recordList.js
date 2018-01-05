@@ -5,6 +5,15 @@ httpUrl.danList=path+"/app/mbtrack/child/danList"; // 获取幼儿的档案列�
 
 winResize();
 $(function () {
+    // 年份选择初始化
+    var d=new Date();
+    var year={arr:[]};
+    for(var i=d.getFullYear();i>2015;i--){
+        year.arr.push(i)
+    };
+    var yearMonth=template("year_script",year);
+    $("#year").append(yearMonth);
+
 	init();
     $("#page-loader").addClass("hide");
 }); 

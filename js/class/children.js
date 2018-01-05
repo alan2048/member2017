@@ -952,8 +952,6 @@ function menuChildList_callback(res,menuId) {
                 data.arr[i].current=false;
             };
         };
-
-        console.log(data);
         
         var html=template("menu_script",data);
         $("#subMenu").empty().append(html);

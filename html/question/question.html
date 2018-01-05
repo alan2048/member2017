@@ -357,50 +357,68 @@
     <div class="modal fade" id="modal-option" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div id="optionHeader">
-                    问题<i></i><span>多选<span>点击切换至<i>单选</i></span></span>
+                <div id="optionHeader" class="optionHeader">
+                    问题<i>1</i> 
+                    <span>
+                        <i>多选</i>
+                        <span>点击切换至<i>单选</i></span>
+                    </span>
                 </div>
-                <div id="optionBody">
+                <div id="optionBody" class="optionBody">
                     <div class="opTitle">
                         <span class="col03">小标题：</span>
-                        <textarea name="input" placeholder="这一刻的想法..." maxlength="140"></textarea>
+                        <div>
+                            <textarea name="input" placeholder="此处填写标题..." maxlength="140"></textarea>
+                            <span class="newNumBtn"><span>0</span>/140</span>
+                        </div>
                     </div>
-                    <ul class="opBody">
+                    <ul class="opBody"></ul>
+                    <script type="text/html" id="option_script">
+                        {{each arr as value i}}
                         <li>
-                            <span class="col03">选项<i>1</i></span>
+                            <span class="col03">选项<i>{{i+1}}</i>:</span>
                             <span class="col04"></span>
                             <span class="col05">
-                                <textarea name="input" placeholder="这一刻的想法..." maxlength="140"></textarea>
+                                <textarea name="input" placeholder="此处填写选项文字描述..." maxlength="140"></textarea>
                                 <span class="newNumBtn"><span>0</span>/140</span>
                             </span>
-                            <div>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                            <div class="opTool">
+                                <span><span>在下方添加新选项</span></span>
+                                <span><span>删除选项</span></span>
+                                <span><span>上移选项</span></span>
+                                <span><span>下移选项</span></span>
                             </div>
                         </li>
-                    </ul>
+                        {{/each}}
+                    </script>
                 </div>
-                <div id="optionFloor">
-                    <div>
-                        <span>多选设置
-                            选项最多选择：
-                            <select name="" id="">
-                                <option value="">不限</option>
-                            </select>
+                <div id="optionFloor" class="optionFloor">
+                    <div class="active">
+                        <span>
+                            多选设置
                         </span>
+                        <br>
+                        <label>
+                            选项最多选择：
+                            <select name="" id="answerNumer"></select>
+                            <script type="text/html" id="answerNumer_script">
+                                <option value="">不限</option>
+                                {{each arr as value i}}
+                                <option value="{{value}}">{{value}}</option>
+                                {{/each}}
+                            </script>
+                        </label>
                     </div>
                     <div>
                         <span>备注：最多可添加15个选项</span>
-                        <span>确定</span>
+                        <span id="opSave" class="opSave">确定</span>
                     </div>
                 </div>
-                <span class="closeBtn" data-dismiss="modal"></span>
+                <span class="closeBtn01" data-dismiss="modal"></span>
             </div>
         </div>
     </div>
-
+    
     <div class="modal fade" id="modal-class" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

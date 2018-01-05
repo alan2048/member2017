@@ -115,7 +115,6 @@ function echart_A01_callback(res) {
             json.allSeris.push(data.classStatList[i].childCount);
         };
         jsonAll01=json;
-        console.log(json);
         echart_A01("searchBox01",json);
         echart_A02("searchBox02",json);
     }else if(res.code==500){
@@ -209,7 +208,7 @@ function echart_A01(id,json){
                     itemStyle: {
                         normal: {
                             show: false,
-                            color:'#c2eb6955',
+                            color:'rgba(194, 235, 105, 0.5)',
                             barBorderRadius: 20,
                             borderWidth: 0,
                             borderColor: '#333',
@@ -235,8 +234,8 @@ function echart_A01(id,json){
                             show: true,
                             position: 'inside',
                             textStyle: {
-                                color: '#fff',
-                                fontSize: '24'
+                                color: '#656666',
+                                fontSize: '16'
                             }
                         }
                     },
@@ -489,7 +488,7 @@ function echart_A03(id,json){
                     itemStyle: {
                         normal: {
                             show: false,
-                            color:'#f7e46355',
+                            color:'rgba(247,228,99,0.5)',
                             barBorderRadius: 20,
                             borderWidth: 0,
                             borderColor: '#333',
@@ -515,8 +514,8 @@ function echart_A03(id,json){
                             show: true,
                             position: 'inside',
                             textStyle: {
-                                color: '#fff',
-                                fontSize: '24'
+                                color: '#656666',
+                                fontSize: '16'
                             }
                         }
                     },

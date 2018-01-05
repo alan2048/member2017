@@ -20,6 +20,7 @@ $(function () {
 });
 // 初始化函数区
 function init() {
+    yearInit();// 年份初始化
 	tiphover();// 提示函数
 	userMessage();// 用户信息初始化
 	niceScroll();
@@ -32,6 +33,18 @@ function init() {
 	loadFiles();// 上传图片
 };
 
+// 年份 月份初始化 
+function yearInit() {
+    var d=new Date();
+    var year={year:[d.getFullYear(),(d.getFullYear()-1)]};
+    var htmlYear=template("year_script",year);
+    $("#year").append(htmlYear).find("option[value="+d.getFullYear()+"]").prop("selected",true);
+
+    $("#year").change(function () {
+        recordDanList_port();
+        recordDanMessage_port();
+    });  
+};
 
 
 
@@ -821,7 +834,8 @@ function recordSaveOrUpdate_port(imgBase64,content) {
     		childUserUuid:$("#user").attr("data-useruuid"),
     		content:content || "",
     		imgBase64:imgBase64,
-    		month:$("#chooseMonth >li.current").attr("data-month")
+    		month:$("#chooseMonth >li.current").attr("data-month"),
+            year:$("#year").val()
     };
     var param={
             params:JSON.stringify(data),
@@ -1187,7 +1201,8 @@ function recordDanList_port() {
     var data={
     		childUserUuid:$("#user").attr("data-useruuid"),
     		bookId:$("#user").attr("data-bookid"),
-    		month:$("#chooseMonth >li.current").attr("data-month")
+    		month:$("#chooseMonth >li.current").attr("data-month"),
+            year:$("#year").val()
         };
     var param={
             params:JSON.stringify(data),
@@ -1335,7 +1350,8 @@ function autoMatch() {
 function recordDanMessage_port() {
     var data={
     		childUserUuid:$("#user").attr("data-useruuid"),
-    		month:$("#chooseMonth >li.current").attr("data-month")
+    		month:$("#chooseMonth >li.current").attr("data-month"),
+            year:$("#year").val()
         };
     var param={
             params:JSON.stringify(data),
@@ -1786,6 +1802,10 @@ function loadFiles() {
             var data=JSON.parse(res.data);
             user.companyUUID=data.companyUUID;
             upToken1_port();
+
+            var year=new Date().getFullYear();
+            $(".query2016 >.resetYear").text(year-1).attr("data-value",(year-1));
+            $(".query2017 >.resetYear").text(year).attr("data-value",year);
         };
     };
     

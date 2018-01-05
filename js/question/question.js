@@ -26,10 +26,6 @@ function init() {
 
 
 
-   
-
-
-
 
 
     
@@ -366,13 +362,28 @@ function dateInit() {
 
 // 问卷选项新增
 function newOptionFn() {
+    chooseNiceScroll("#optionBody");
     // 单选
     $(".questionTool >ul >li:nth-of-type(1)").click(function () {
+        $("#optionHeader >span >i").text("单选");
+        $("#optionHeader >span >span >i").text("多选");
+        $("#optionFloor >div:first-of-type").removeClass("active");
+
+        if($(".opBody").children().length ==0){
+            $(".opBody").append(template("option_script",{arr:[0,1]}));
+        };
         $("#modal-option").modal("show"); 
     });
 
     // 多选
     $(".questionTool >ul >li:nth-of-type(2)").click(function () {
+        $("#optionHeader >span >i").text("多选");
+        $("#optionHeader >span >span >i").text("单选");
+        $("#optionFloor >div:first-of-type").addClass("active");
+
+        if($(".opBody").children().length ==0){
+            $(".opBody").append(template("option_script",{arr:[0,1]}));
+        };
         $("#modal-option").modal("show"); 
     });
 
@@ -384,7 +395,84 @@ function newOptionFn() {
     // 提交问卷
     $(".questionTool >ul >li:nth-of-type(4)").click(function () {
         $("#modal-option").modal("show"); 
-    });    
+    });
+
+    // 多选最多选择数
+    $("#optionFloor >div:first-of-type >span").click(function () {
+        $(this).toggleClass("active").siblings().toggleClass("active"); 
+        var arr=[];
+        for(var i=2;i<=$(".opBody >li").length;i++){
+            arr.push(i)
+        };
+        var html=template("answerNumer_script",{arr:arr});
+        $("#answerNumer").empty().append(html);
+    });
+
+    // 单选多选切换
+    $("#optionHeader >span").click(function () {
+        var text=$(this).children("i").text();
+        if(text=="单选"){
+            $(this).children("i").text("多选").siblings("span").find("i").text("单选");
+            $("#optionFloor >div:first-of-type").addClass("active");
+        }else{
+            $(this).children("i").text("单选").siblings("span").find("i").text("多选");
+            $("#optionFloor >div:first-of-type").removeClass("active");
+        }
+    });   
+
+    // 字数监控
+    $("#optionBody").on("keyup","textarea",function () {
+        $(this).siblings("span.newNumBtn").find('span').text($(this).val().length) 
+    });
+
+    // 新增选项
+    $(".opBody").on("click",".opTool >span:nth-of-type(1)",function () {
+        $(this).parents("li").after(template("option_script",{arr:[0]}));
+
+        // 序列重置
+        for(var i=0;i<$(".opBody >li").length;i++){
+            $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+        };
+    });
+
+    // 删除选项
+    $(".opBody").on("click",".opTool >span:nth-of-type(2)",function () {
+        var num=$(".opBody >li").length;
+        if(num >2){
+            $(this).parents("li").remove();
+            // 序列重置
+            for(var i=0;i<$(".opBody >li").length;i++){
+                $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+            };
+        }else{
+            swal({
+                title: "至少两个选项，不可再删除",
+                timer:2000
+            });
+        };
+    });
+
+    // 上移
+    $(".opBody").on("click",".opTool >span:nth-of-type(3)",function () {
+        // 序列重置
+        for(var i=0;i<$(".opBody >li").length;i++){
+            $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+        };
+    });
+
+    // 下移
+    $(".opBody").on("click",".opTool >span:nth-of-type(4)",function () {
+        // 序列重置
+        for(var i=0;i<$(".opBody >li").length;i++){
+            $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+        };
+    });
+
+    // 确认新增
+    $("#opSave").click(function () {
+        $('#modal-option').modal("hide");
+        $(".opBody").empty().append(template("option_script",{arr:[0,1]}));
+    });
 };
 
 

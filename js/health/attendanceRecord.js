@@ -8,7 +8,15 @@ function init() {
     var htmlMonth=template("month_script",month);
     var d=new Date();
     $("#month01").append(htmlMonth).find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
-    $("#year01").find("option[value="+d.getFullYear()+"]").prop("selected",true);
+
+    // 年份选择初始化
+    var year={arr:[d.getFullYear()+1]};
+    for(var i=d.getFullYear();i>2015;i--){
+        year.arr.push(i)
+    };
+    year.arr.reverse();
+    var yearMonth=template("year_script",year);
+    $("#year01").append(yearMonth).find("option[value="+d.getFullYear()+"]").prop("selected",true);
 
     watchClassList_port();// 获得教职工所在班级列表
 

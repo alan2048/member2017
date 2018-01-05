@@ -61,11 +61,13 @@
                 </label>
                 <label>
                     年份：
-                    <select id="year01">
+                    <select id="year01"></select>
+                    <script id="year_script" type="text/html">
                         <option value="" selected="selected">所有年份</option>
-                        <option value="2016">2016年</option>
-                        <option value="2017">2017年</option>
-                    </select>
+                        {{each arr as value i}}
+                        <option value="{{value}}">{{value}}年</option>
+                        {{/each}}
+                    </script>
                 </label>
                 <label>
                     月份：
@@ -153,7 +155,7 @@
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
 
-	<script src="../../js/common/base.js?t=20171219"></script>
-	<script src="../../js/health/attendanceRecord.js?t=20171219"></script>
+	<script src="../../js/common/base.js?t=20180102"></script>
+	<script src="../../js/health/attendanceRecord.js?t=20180102"></script>
 </body>
 </html>

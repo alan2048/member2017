@@ -36,10 +36,12 @@
 			</div>
 			<div>
 				<label for="year">
-					<select name="year" id="year">
-						<option value="2017">2017</option>
-						<option value="2016">2016</option>
-					</select>
+					<select name="year" id="year"></select>
+					<script id="year_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value}}">{{value}}</option>
+                        {{/each}}
+                    </script>
 				</label>
 			</div>
 		</div>
@@ -99,7 +101,7 @@
 	<script src="js/common/photoswipe/photoswipe.js"></script>
     <script src="js/common/photoswipe/photoswipe-ui-default.js"></script> 
 	<script src="js/common/template.js"></script> 
-	<script src="./js/base.js?t=20171219"></script>
-	<script src="./js/recordList.js?t=20171219"></script>
+	<script src="./js/base.js?t=20180102"></script>
+	<script src="./js/recordList.js?t=20180102"></script>
 </body>
 </html>

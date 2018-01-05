@@ -9,11 +9,11 @@
     <link rel="shortcut icon" href="images/favicon.png">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="css/editor.css?t=20171219">
+    <link rel="stylesheet" href="css/editor.css?t=20180104">
     <link rel="stylesheet" href="css/jquery.toast.min.css">
-    <link rel="stylesheet" href="css/sweetalert.css?t=20171219">
-    <link rel="stylesheet" href="css/evaluateBox.css?t=20171219">
-    <link rel="stylesheet" type="text/css" href="css/memberRecord.css?t=20171219">
+    <link rel="stylesheet" href="css/sweetalert.css?t=20180104">
+    <link rel="stylesheet" href="css/evaluateBox.css?t=20180104">
+    <link rel="stylesheet" type="text/css" href="css/memberRecord.css?t=20180104">
 </head>
 <body>
 	<div id="page-loader" class="fade in">
@@ -77,6 +77,16 @@
 						    	<span class="descInfo">水印开关</span>
 							</a>
 							<ul class="sub-menu" >
+								<li class="year">
+									<label>
+      									<select id="year"></select>
+      									<script type="text/html" id="year_script">
+                        					{{each year as value i}}
+                        					<option value="{{value}}">{{value}}年</option>
+                        					{{/each}}
+                    					</script>
+      								</label>
+								</li>
 								<li>
 									<ul id="chooseMonth"></ul>
 									<script type="text/html" id="chooseMonth_script">
@@ -408,11 +418,11 @@
       						</label>
 						</div>
 						<div class="query2016">
-							<span data-value="2016">2016</span>
+							<span data-value="2017" class="resetYear">2017</span>
 						</div>
 						<span class="query2017"></span>
 						<script type="text/html" id="query2017_script">
-							<span data-value="2017">2017</span>
+							<span data-value="2018" class="resetYear">2018</span>
 							{{each month as value i}}
 							<span class="month" data-value="{{value}}">{{value}}月</span>
 							{{/each}}
@@ -447,7 +457,7 @@
       						</label>
 						</div>
 						<div class="query2016">
-							<span data-value="2016">2016</span>
+							<span data-value="2017" class="resetYear">2017</span>
 						</div>
 						<span class="query2017"></span>
 						<div class="picMain"><ul></ul></div>
@@ -584,12 +594,12 @@
     <script src="js/jquery.toast.min.js" charset="utf-8"></script><!-- 消息提示插件 -->
     <script src="js/sweetalert.min.js" charset="utf-8"></script><!-- 消息提示插件 -->
 	<script src="js/fabric.1.7.19.min.js" charset="utf-8"></script>
-	<script src="js/html2canvas.min.js?t=20171219" charset="utf-8"></script>
+	<script src="js/html2canvas.min.js?t=20180104" charset="utf-8"></script>
 	<script src="js/bootstrap.min.js" charset="utf-8"></script>
 	<script src="js/template.js" charset="utf-8"></script>
-	<script src="js/base.js?t=20171219" charset="utf-8"></script>
+	<script src="js/base.js?t=20180104" charset="utf-8"></script>
 	<script src="js/Sortable.min.js" charset="utf-8"></script>
-	<script src="js/memberRecord.js?t=20171220" charset="utf-8"></script>
+	<script src="js/memberRecord.js?t=20180104" charset="utf-8"></script>
 </body>
 </html>
 		
