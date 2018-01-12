@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>成长曲线</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet" />
+    <link href="../../css/common/sweetalert.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/health/growthStat.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container" class="fade">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">成长曲线</div>
+            <div>
+			    <div id="search01" class="search">
+                    <label>
+                        班级：
+                        <select id="teacherClass"></select>
+                        <script id="teacherClass_script" type="text/html">
+                            {{each arr as value i}}
+                            <option value="{{value.classUUID}}">{{value.className}}</option>
+                            {{/each}}
+                        </script>
+                    </label>
+                    <label>
+                        姓名：
+                        <select id="classMember" class="classMember"></select>
+                        <script id="classMember_script" type="text/html">
+                            {{each arr as value i}}
+                            <option value="{{value.studentUuid}}">{{value.studentName}}</option>
+                            {{/each}}
+                        </script>
+                    </label>
+                    <span id="searchBtn01">查询</span>
+                </div>
+                <div id="buttonBox01"></div>
+                <script type="text/html" id="buttonBox_script">
+                    {{each arr as value  i}}
+                    <a href="javascript:void(0);" class="defaultBtn {{value.buttonCode}}"><span>{{value.name}}</span></a>
+                    {{/each}}
+                </script>
+                <div class="searchBox">
+                    <div id="searchBox01"></div>
+                    <div id="searchBox02"></div>
+                    <div id="searchBox03"></div>
+                </div>
+            </div>
+	    </div> 
+	</div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/echarts/echarts.3.8.min.js"></script>
+
+	<script src="../../js/common/base.js?t=2018010201"></script>
+	<script src="../../js/health/growthStat.js?t=2018010201"></script>
+</body>
+</html>

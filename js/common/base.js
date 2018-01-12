@@ -4,12 +4,12 @@ var user={
 };
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://test.member361.com";//38测试服务器
-var serverUrl03="http://106.15.89.156";//156测试服务器
+var serverUrl03="https://121.43.150.38";//156测试服务器
 var serverHost="https://www.member361.com";
 
 var qiniu='https://filepublic.member361.com/';// 七牛公有文件
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=serverUrl01; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -200,6 +200,7 @@ var httpUrl={
 		attendPersonalStat:path+"/web/attendance/teacher/personalStat",// 个人月出勤统计(新)
 		attendExportPersonalExcel:"/web/attendance/exportPersonalExcel",// 个人出勤统计导出
 		attendExportClassExcel:"/web/attendance/exportClassExcel",// 班级出勤人数统计导出
+		attendSickLeaveStat:path+"/web/attendance/teacher/sickLeaveStat",// 病假事由统计(新)
 
 		// 公告
 		getMyClassInfo:path+"/web/basic/getMyClassInfo",// 获取我的班级信息
@@ -245,6 +246,12 @@ var httpUrl={
 		healthImport:path+"/web/healthInfo/uploadExl",// 导入健康信息
 		healthExport:"/web/healthInfo/exportExcel",// 导出健康信息详情
 
+		// 成长曲线
+		healthGraphWH:path+"/web/healthInfo/graphWH",// 按身高测体重(W/H)
+		healthGraphHY:path+"/web/healthInfo/graphHY",// 按年龄测身高(H/Y)
+		healthGraphWY:path+"/web/healthInfo/graphWY",// 按年龄测体重(W/Y)
+		healthGraph:path+"/web/healthInfo/graph",// 按年龄测体重(W/Y)
+
 		// 自选课程 剧场活动
 		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
 		GetSchoolJYIds:path+"/web/activity/TSCourse_GetSchoolJYIds",//剧场活动 id
@@ -278,7 +285,8 @@ var httpUrl={
 		questionReadUser:path+"/web/questionnaire/readUser/list",// 获取个人调查问卷列表
 		questionDetail:path+"/web/questionnaire/detail/sumbit",// 查看问卷详情（已提交）
 		questionAdd:path+"/web/questionnaire/add",// 新增调查问卷
-		questionRemove:path+"/app/questionnaire/remove",// 删除调查问卷
+		questionRemove:path+"/web/questionnaire/remove",// 删除调查问卷
+		questionOption:path+"/web/questionnaire/option/userList",// 选项统计详情
 
 		// 08设置
 		setting:'' 

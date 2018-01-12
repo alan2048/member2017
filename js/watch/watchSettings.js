@@ -19,6 +19,9 @@ function init() {
     $("#month01").append(htmlMonth);
 
     watchConfigMonthList_port();
+    $("#year").change(function () {
+        watchConfigMonthList_port();
+    });
 
     // 新增
     $("#buttonBox").on("click","#newBtn",function () {

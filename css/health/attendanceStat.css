@@ -75,7 +75,7 @@
 	height: 100%;
 	width: 100%;
 }
-#searchBtn01,#searchBtn03 {
+#searchBtn01,#searchBtn03,#searchBtn04 {
 	display: inline-block;
 	border: 0.01rem solid #c9cccb;
 	height: 0.4rem;
@@ -133,6 +133,6 @@
 	height: 9px;
 	background-color: #f7e463;
 }
-#searchBtn01,#searchBtn03{
+#searchBtn01,#searchBtn03,#searchBtn04{
 	display:none;
 }

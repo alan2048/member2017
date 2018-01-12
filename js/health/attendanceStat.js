@@ -1,4 +1,4 @@
-var jsonAll01,jsonAll02,jsonAll03;
+var jsonAll01,jsonAll02,jsonAll03,jsonAll04;
 $(function () {
     init();
 });
@@ -11,7 +11,6 @@ function init() {
         echart_A01_port();
     });
 
-
     $("#year03,#month03,#teacherClass").change(function () {
         echart_A03_port();
     });
@@ -19,10 +18,18 @@ function init() {
         echart_A03_port();
     });
 
+    $("#year04,#month04,#day04,#teacherClass04").change(function () {
+        echart_A04_port();
+    });
+    $("#searchBtn04").click(function () {
+        echart_A04_port();
+    });
+
     $(window).resize(function () {
         echart_A01("searchBox01",jsonAll01);
         echart_A02("searchBox02",jsonAll01);
         echart_A03("searchBox03",jsonAll03);
+        echart_A04("searchBox04",jsonAll04);
     });
 
     $("#buttonBox01").on("click",".export",function () {
@@ -433,7 +440,7 @@ function echart_A03(id,json){
                     };
                     var html=cur.childName+
                             "<br><span class='hoverBtn01'></span>应到天数："+cur.attendDays+"天 <br>"+
-                            "<span class='hoverBtn01'></span>请假天数："+cur.actualAttendDays+"天 <br>"+
+                            "<span class='hoverBtn01'></span>请假天数："+cur.leaveDays+"天 <br>"+
                             "<span class='hoverBtn01'></span>出勤率："+cur.attendRate
                     return html;
                 }
@@ -528,6 +535,124 @@ function echart_A03(id,json){
     myChart.setOption(option); 
 };
 
+
+// echart_A04接口
+function echart_A04_port() {
+    var data={
+            year:$("#year04").val(),
+            month:$("#month04").val(),
+            day:$("#day04").val(),
+            classUUID:$("#teacherClass04").val()
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.attendSickLeaveStat,param,echart_A04_callback);
+};
+function echart_A04_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        if(data.length ==0){
+            data.push({num:"0",leaveType2:""})
+        };
+        var json={
+                xAxis:[],
+                series:[],
+                allSeris:[],
+                arr:data
+        };
+        for(var i=0;i<data.length;i++){
+            json.xAxis.push(data[i].leaveType2);
+            json.series.push(data[i].num);
+        };
+
+        jsonAll04=json;
+        echart_A04("searchBox04",json);
+    }else if(res.code==500){
+        var data=JSON.parse(res.data);
+        console.log(data);
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+function echart_A04(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+    myChart.resize();
+    var option = {
+            title:{
+                text:"病假事由统计",
+                left:"center",
+                textStyle: {
+                    color: '#656666'
+                }
+            },
+            color: ['#f7e463'],
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    shadowStyle:{
+                        color:'rgba(180, 180, 180, 0.1)'
+                    },
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '5%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : json.xAxis,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel:{
+                        interval:0,
+                        rotate: -60
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                 {
+                    name: '人数',
+                    type: 'bar',
+                    barWidth: '50%',
+                    itemStyle: {
+                    normal: {
+                        show: true,
+                        color:'#f8acaa',
+                        barBorderRadius: 20,
+                        borderWidth: 0,
+                        borderColor: '#333',
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'inside',
+                            textStyle: {
+                                color: '#656666',
+                                fontSize: '16'
+                            }
+                        }
+                    },
+                    barGap: '100%',
+                    data: json.series
+                }
+            ]
+        };
+
+    myChart.setOption(option); 
+};
 
 
 
@@ -657,11 +782,16 @@ function basicMyClassInfo_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("teacherClass_script",data);
-        $("#teacherClass").empty().append(html);
+        $("#teacherClass,#teacherClass04").append(html);
 
         echart_A03_port();        
         $("#teacherClass").change(function () {
             echart_A03_port(); 
+        });
+
+        echart_A04_port();        
+        $("#teacherClass").change(function () {
+            echart_A04_port(); 
         });
     };
 };

@@ -8,28 +8,6 @@ function init() {
 
     newQuestion();// 新增问卷
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
     // 阅读详情 标签页
     $("#detailRead").on("click",".detailNav li",function () {
         $(this).addClass("active").siblings().removeClass("active");
@@ -39,78 +17,35 @@ function init() {
     $("#detailRead").on("click","li.class",function () {
         $(this).toggleClass("active");
     });
-
-    // 编辑
-    $("#buttonBox").on("click","#editBtn",function () {
-        if($(this).hasClass("disable")){
-            toastTip("提示","请先选择编辑项。。");   
-        }else{
-            var json=JSON.parse($("#tableBox tbody tr.active").attr("data-json"));
-            var data={
-                    md5Arr:json.pictures,
-                    path_img:httpUrl.path_img
-            };
-            
-            $(".content").addClass("hide");
-            $("#content01").removeClass("hide");
-            $("#content01 .pageTitle >small").text("编辑");
-            $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",true).val("");
-            $("#content01").find("textarea").val(json.content);
-            $("#newTitle").val(json.title);
-            $("#newUrl").val(json.url);
-
-            if(json.voice){
-                $(".voiceList").removeClass("hide").find("audio").attr("src",data.path_img+json.voice);
-            }else{
-                $(".voiceList").addClass("hide").find("audio").attr("src","");
-            };
-
-            $("#edit").attr("data-id",json.contentId);
-            $("#carousel >li:not(.addPic)").remove();
-            var html="";
-            for(var i=0;i<data.md5Arr.length;i++){
-                html+="<li>"+
-                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+data.path_img+data.md5Arr[i]+" class=\"pic\" data-pic="+data.md5Arr[i]+">"+
-                            "<img src="+data.path_img+data.md5Arr[i]+"-scale200>"+
-                            "<span class=\"deleteBtn\"></span>"+
-                        "</a>"+
-                    "</li>";
-            };
-            $("#addPicBtn").parent("li").before(html);
-            $("#new").addClass("hide");
-            $("#edit").removeClass("hide");
-            user.tempId=new Date().getTime();
-        };
-    });
     
-    $("#new").on("click",function () {
-        ValidateInput();
-        if($(".need").hasClass("empty")){
-            toastTip("提示","红色框为必填项。。");
-        }else{
-            if($("#newUrl").val() || $("#newContent").val()){
-                noticeAddNew_port();
-            };
+    // 网络问卷新增
+    $("#linkBtn").on("click",function () {
+        if(!$(".newQuestionBox.link .need").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
+            $(".newQuestionBox.link .need").addClass("empty");
         };
-    });
 
-    // 编辑
-    $("#edit").on("click",function () {
-        if(!$("#newTitle").val()){
-            $("#newTitle").addClass("empty");
-            toastTip("提示","标题为必填");
-        }else{
-            $("#newTitle").removeClass("empty");
-            if($("#newUrl").val() || $("#newContent").val()){
-                noticeEdit_port();
+        if($("#newUrl01").val()){
+            var aa=isURL($("#newUrl01").val());
+            if(aa){
+                $("#newUrl01").removeClass('empty');
             }else{
-                toastTip("提示","外链和内容比填其一。")
+                $("#newUrl01").addClass('empty');
             };
+        }else{
+            $("#newUrl01").addClass('empty');
+        };
+
+        if($(".newQuestionBox.link .need.empty").length !=0){
+            toastTip("提示","红色框为必填项。。");
+        }else if($("#newUrl01").hasClass("empty")){
+            toastTip("提示",'链接格式不正确,请重新输入');
+        }else{
+            questionAdd_port(2);
         };
     });
 
     // 验证标题字数
-    $(".newBox #newTitle").keyup(function () {
+    $(".newBox #newTitle,#newTitle01").keyup(function () {
         $(this).next(".newNumBtn").find("span").text($(this).val().length);
         if ($(this).val().length > 30) {
             $(this).addClass("more");
@@ -134,7 +69,9 @@ function init() {
         };
     });
     
-    $("#person").click(function () {
+    $("#person,#person01").click(function () {
+        $(".person").removeClass("current");
+        $(this).addClass("current");
         if($("#classBox").children().length ==0){
             getMyClassInfo_port();
         };
@@ -156,11 +93,6 @@ function init() {
         };
         
         $(this).parents(".children").prev(".classTitle").find(".right").text();
-    });
-
-    // 新增图片删除
-    $("#carousel").on("click",".deleteBtn",function () {
-        $(this).parents(".pic").parent().remove();
     });
 };
 
@@ -240,7 +172,7 @@ function baseFn() {
     });
 
     // 弹框 参与人数详情
-    $("#detailRead").on('click','.class01 >div',function () {
+    $("#detailRead,#detailOption").on('click','.class01 >div',function () {
         $(this).addClass("active").siblings().removeClass("active"); 
         $(this).parents("li.active").find(".children01 li").eq($(this).index()).addClass('active').siblings().removeClass("active");
     });
@@ -268,11 +200,6 @@ function newQuestion() {
         $("#modal-new").modal("show");
     });
 
-    // 新增图层返回主界面
-    $(".closeBtn").click(function () {
-        $(".content").addClass("hide");
-        $("#content").removeClass("hide");
-    });
 
     // 调查问卷新增
     $("#newWhich >div:first-of-type").click(function () {
@@ -282,20 +209,17 @@ function newQuestion() {
         $(".content").addClass("hide");
         $("#content01 .pageTitle").html("调查问卷<small>新增问卷</small>");
 
-
-
         $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",false);
-        $("#carousel >li:not(.addPic)").remove();
-        $("#content01").removeClass("hide").find("input[type=text]").val("");
-        $("#content01").find("textarea").val("");
+        $("#content01").removeClass("hide").find("input[type=text]").val("")
+        $(".newQuestion").removeClass("active").empty()
         $("#allInput").prop("checked",false);
+        $("#anonymity").prop("checked",false);
+        $("#statVisible").prop("checked",false);
+        $(".opTitle textarea").val("");
         $(".right").removeClass("active all num empty").text("");
         $(".childPic").removeClass("active");
         $(".need").removeClass("empty");
         $(".newNumBtn > span").text("0");
-        $("#new").removeClass("hide");
-        $("#edit,.voiceList").addClass("hide");
-        user.tempId=new Date().getTime();
     });
 
     // 网络问卷新增
@@ -308,7 +232,6 @@ function newQuestion() {
 
 
         $("#person").attr("data-toclasses","").attr("data-topersons","").attr("disabled",false);
-        $("#carousel >li:not(.addPic)").remove();
         $("#content01").removeClass("hide").find("input[type=text]").val("");
         $("#content01").find("textarea").val("");
         $("#allInput").prop("checked",false);
@@ -316,15 +239,36 @@ function newQuestion() {
         $(".childPic").removeClass("active");
         $(".need").removeClass("empty");
         $(".newNumBtn > span").text("0");
-        $("#new").removeClass("hide");
-        $("#edit,.voiceList").addClass("hide");
-        user.tempId=new Date().getTime();
+    });
+
+    $("#detail").on('click',"li.anonymityIcon >i",function () {
+        questionOption_port($(this).parent().attr("data-optionid"));
     });
 
     // 返回上一级
     $(".backBtn").on("click",function () {
-        $(".content").addClass("hide");
-        $("#content").removeClass("hide");
+        if($(this).hasClass("detailBox")){
+            $(".content").addClass("hide");
+            $("#content").removeClass("hide");
+        }else{
+            swal({
+                title: "您还未发布，确认退出吗？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "退出",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        $(".content").addClass("hide");
+                        $("#content").removeClass("hide");
+                    };
+            });
+        };
     });
 
     $('#beginTime01').datepicker({
@@ -365,48 +309,170 @@ function newOptionFn() {
     chooseNiceScroll("#optionBody");
     // 单选
     $(".questionTool >ul >li:nth-of-type(1)").click(function () {
-        $("#optionHeader >span >i").text("单选");
-        $("#optionHeader >span >span >i").text("多选");
-        $("#optionFloor >div:first-of-type").removeClass("active");
+        if($(".newQuestion >li").length <15){
+            $("#optionHeader >span >i").text("单选");
+            $("#optionHeader >span >span >i").text("多选");
+            $("#optionFloor >div:first-of-type").removeClass("active");
 
-        if($(".opBody").children().length ==0){
-            $(".opBody").append(template("option_script",{arr:[0,1]}));
+            if($(".opBody").children().length ==0){
+                $(".opBody").append(template("option_script",{arr:[0,1]}));
+            };
+
+            // 多选设置
+            var arr=[];
+            for(var i=2;i<=$(".opBody >li").length;i++){
+                arr.push(i)
+            };
+            var html=template("answerNumer_script",{arr:arr});
+            var value=$("#answerNumer >option:checked").text() || "不限";
+            $("#answerNumer").empty().append(html).find("option:contains("+value+")").prop("selected",true);
+
+            $("#modal-option").modal("show"); 
+        }else{
+            swal({
+                title: "最多可添加15个问题",
+                timer:2000
+            });
         };
-        $("#modal-option").modal("show"); 
     });
 
     // 多选
     $(".questionTool >ul >li:nth-of-type(2)").click(function () {
-        $("#optionHeader >span >i").text("多选");
-        $("#optionHeader >span >span >i").text("单选");
-        $("#optionFloor >div:first-of-type").addClass("active");
+        if($(".newQuestion >li").length <15){
+            $("#optionHeader >span >i").text("多选");
+            $("#optionHeader >span >span >i").text("单选");
+            $("#optionFloor >div:first-of-type").addClass("active");
 
-        if($(".opBody").children().length ==0){
-            $(".opBody").append(template("option_script",{arr:[0,1]}));
+            if($(".opBody").children().length ==0){
+                $(".opBody").append(template("option_script",{arr:[0,1]}));
+            };
+
+            // 多选设置
+            var arr=[];
+            for(var i=2;i<=$(".opBody >li").length;i++){
+                arr.push(i)
+            };
+            var html=template("answerNumer_script",{arr:arr});
+            var value=$("#answerNumer >option:checked").text() || "不限";
+            $("#answerNumer").empty().append(html).find("option:contains("+value+")").prop("selected",true);
+
+            $("#modal-option").modal("show");  
+        }else{
+            swal({
+                title: "最多可添加15个问题",
+                timer:2000
+            });
         };
-        $("#modal-option").modal("show"); 
     });
 
     // 预览问卷
     $(".questionTool >ul >li:nth-of-type(3)").click(function () {
-        $("#modal-option").modal("show"); 
+        if($("#beginTime01").val()){
+            $("#beginTime01").removeClass("empty")
+        }else{
+            $("#beginTime01").addClass("empty");
+        };
+        if($("#person").val()){
+            $("#person").removeClass("empty")
+        }else{
+            $("#person").addClass("empty");
+        };
+        if($("#newTitle").val()){
+            $("#newTitle").removeClass("empty")
+        }else{
+            $("#newTitle").addClass("empty");
+        };
+        
+        if($(".newBox >div:first-of-type .empty").length !=0){
+            toastTip("提示","红色框为必填项。。")
+        }else if($(".newQuestion >li").length ==0){
+            toastTip("提示","至少添加一个问题")
+        }else{
+            var questiones=[];
+            for(var i=0;i<$(".newQuestion >li").length;i++){
+                questiones.push(JSON.parse($(".newQuestion >li").eq(i).attr("data-json")))
+            };
+            var data={
+                    anonymity:function () {if($("#anonymity").is(":checked")){return 1;}else{return 0;}}(),
+                    endTime:function () {
+                        var time=$("#beginTime01").val()+" "+$("#hour option:checked").text()+":"+$("#minute option:checked").text();
+                        return time;
+                    }(),
+                    questiones:questiones,
+                    title:$("#newTitle").val()
+            };
+
+            var html=template("previewBox_script",data);
+            $("#previewBox").empty().append(html);
+            $("#modal-preview").modal("show"); 
+        };
+    });
+
+    // 滚动到顶
+    $(".closeBtn03").click(function(e){
+        e.preventDefault();
+        $("#modal-preview").animate({scrollTop:-$("#modal-preview").height()},500);
+    });
+    // 滚动 显示隐藏
+    $("#modal-preview").scroll(function(){
+        var e=$("#modal-preview").scrollTop();
+        if(e>=200){
+            $(".closeBtn03").removeClass("hide");
+        }else{
+            $(".closeBtn03").addClass("hide");
+        };
+    });
+
+
+    $(".scrollTopBtn").click(function(e){
+        e.preventDefault();
+        $("html, body").animate({scrollTop:$("body").offset().top},500)
+    });
+    // 详情滚动 显示隐藏
+    $(document).scroll(function(){
+        if(!$("#content02").hasClass("hide")){
+            var e=$(document).scrollTop();
+            if(e>=200){
+                $(".scrollTopBtn").removeClass("hide");
+            }else{
+                $(".scrollTopBtn").addClass("hide");
+            };
+        };
     });
 
     // 提交问卷
     $(".questionTool >ul >li:nth-of-type(4)").click(function () {
-        $("#modal-option").modal("show"); 
+        if($("#beginTime01").val()){
+            $("#beginTime01").removeClass("empty")
+        }else{
+            $("#beginTime01").addClass("empty");
+        };
+        if($("#person").val()){
+            $("#person").removeClass("empty")
+        }else{
+            $("#person").addClass("empty");
+        };
+        if($("#newTitle").val()){
+            $("#newTitle").removeClass("empty")
+        }else{
+            $("#newTitle").addClass("empty");
+        };
+        
+        if($(".newBox >div:first-of-type .empty").length !=0){
+            toastTip("提示","红色框为必填项。。")
+        }else if($(".newQuestion >li").length ==0){
+            toastTip("提示","至少添加一个问题")
+        }else{
+            questionAdd_port(1);
+        };
     });
 
     // 多选最多选择数
     $("#optionFloor >div:first-of-type >span").click(function () {
         $(this).toggleClass("active").siblings().toggleClass("active"); 
-        var arr=[];
-        for(var i=2;i<=$(".opBody >li").length;i++){
-            arr.push(i)
-        };
-        var html=template("answerNumer_script",{arr:arr});
-        $("#answerNumer").empty().append(html);
     });
+
+
 
     // 单选多选切换
     $("#optionHeader >span").click(function () {
@@ -422,16 +488,37 @@ function newOptionFn() {
 
     // 字数监控
     $("#optionBody").on("keyup","textarea",function () {
-        $(this).siblings("span.newNumBtn").find('span').text($(this).val().length) 
+        $(this).siblings("span.newNumBtn").find('span').text($(this).val().length);
+        if($(this).val().length ==0){
+            $(this).addClass("empty");
+        }else{
+            $(this).removeClass("empty");
+        };
     });
 
     // 新增选项
     $(".opBody").on("click",".opTool >span:nth-of-type(1)",function () {
-        $(this).parents("li").after(template("option_script",{arr:[0]}));
+        var num=$(".opBody >li").length;
+        if(num <15){
+            $(this).parents("li").after(template("option_script",{arr:[0]}));
+            // 序列重置
+            for(var i=0;i<$(".opBody >li").length;i++){
+                $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+            };
 
-        // 序列重置
-        for(var i=0;i<$(".opBody >li").length;i++){
-            $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+            // 多选设置
+            var arr=[];
+            for(var i=2;i<=$(".opBody >li").length;i++){
+                arr.push(i)
+            };
+            var html=template("answerNumer_script",{arr:arr});
+            var value=$("#answerNumer >option:checked").text() || "不限";
+            $("#answerNumer").empty().append(html).find("option:contains("+value+")").prop("selected",true);
+        }else{
+            swal({
+                title: "最多可添加15个问题选项",
+                timer:2000
+            });
         };
     });
 
@@ -444,6 +531,15 @@ function newOptionFn() {
             for(var i=0;i<$(".opBody >li").length;i++){
                 $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
             };
+
+            // 多选设置
+            var arr=[];
+            for(var i=2;i<=$(".opBody >li").length;i++){
+                arr.push(i)
+            };
+            var html=template("answerNumer_script",{arr:arr});
+            var value=$("#answerNumer >option:checked").text() || "不限";
+            $("#answerNumer").empty().append(html).find("option:contains("+value+")").prop("selected",true);
         }else{
             swal({
                 title: "至少两个选项，不可再删除",
@@ -454,6 +550,7 @@ function newOptionFn() {
 
     // 上移
     $(".opBody").on("click",".opTool >span:nth-of-type(3)",function () {
+        $(this).parents("li").prev().before($(this).parents("li"));
         // 序列重置
         for(var i=0;i<$(".opBody >li").length;i++){
             $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
@@ -462,36 +559,156 @@ function newOptionFn() {
 
     // 下移
     $(".opBody").on("click",".opTool >span:nth-of-type(4)",function () {
+        $(this).parents("li").next().after($(this).parents("li"));
         // 序列重置
         for(var i=0;i<$(".opBody >li").length;i++){
             $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
         };
     });
 
+    // 选项添加图片
+    $("#optionBody").on("click",".col04",function () {
+        $(".opBody .col04").removeClass("currentPic");
+        $(this).addClass("currentPic");
+        $("#addPicBtn").click();
+    });
+
     // 确认新增
     $("#opSave").click(function () {
-        $('#modal-option').modal("hide");
-        $(".opBody").empty().append(template("option_script",{arr:[0,1]}));
-    });
-};
-
-
-// 验证input输入
-function ValidateInput() {
-    if(!$(".need").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
-        $(".need").addClass("empty");
-    };
-
-    if($("#newUrl").val()){
-        var aa=isURL($("#newUrl").val());
-        console.log($("#newUrl").val(),aa);
-        if(aa){
-            $("#newUrl").removeClass('empty');
+        if(!$(".opTitle textarea").val()){
+            $(".opTitle textarea").addClass('empty');
         }else{
-            $("#newUrl").addClass('empty');
-            alert('原文链接格式不对,请重新输入');
+            $(".opTitle textarea").removeClass('empty');
         };
-    }
+        for(var i=0;i<$(".opBody >li").length;i++){
+            var text01=$(".opBody >li").eq(i).find("img").attr("src");
+            var text02=$(".opBody >li").eq(i).find("textarea").val();
+            if(!text01 && !text02){
+                $(".opBody >li").eq(i).addClass("empty");
+            }else{
+                $(".opBody >li").eq(i).removeClass("empty");
+            }
+        };
+
+        if($(".opTitle textarea").hasClass("empty")){
+            toastTip("提示","问题标题不可为空。。");
+        }else if($(".opBody >li.empty").length >0){
+            toastTip("提示","选项之图片和文字描述 必填一项");
+        }else{
+            var obj={};
+            obj.questionTitle=$(".opTitle textarea").val();
+            if($("#optionHeader >span >i").text() =="单选"){
+                obj.answerNumer=1;
+            }else{
+                obj.answerNumer=$("#answerNumer").val();
+            };
+            obj.questionOptionList=[];
+            for(var i=0;i<$(".opBody >li").length;i++){
+                var sonObj={};
+                sonObj.picture=$(".opBody >li").eq(i).find(".col04").attr("data-pic");
+                sonObj.pic=httpUrl.path_img+sonObj.picture;
+                sonObj.content=$(".opBody >li").eq(i).find("textarea").val();
+                obj.questionOptionList.push(sonObj);
+            };
+            obj.index=$(".newQuestion >li").length+1;
+            obj.json=JSON.stringify(obj);
+            obj.time=new Date().getTime();
+
+            var html=template("newQuestion_script",obj);
+
+            if($(this).attr("data-time")){
+                $(".newQuestion >li[data-time="+$(this).attr("data-time")+"]").before(html).addClass("active");
+                $(".newQuestion").addClass("active").find("li[data-time="+$(this).attr("data-time")+"]").remove();
+                // 序列重置
+                for(var i=0;i<$(".newQuestion >li").length;i++){
+                    $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+                };
+            }else{
+                $(".newQuestion").append(html).addClass("active");
+            };
+            
+
+            $('#modal-option').modal("hide");
+
+            // 新增之后初始化
+            $(".opBody").empty().append(template("option_script",{arr:[0,1]}));
+            $(".opTitle textarea").removeClass('empty').val("");
+            $(".opTitle .newNumBtn >span").text("0");
+            $("#opSave").attr("data-time","");
+            $("#answerNumer").empty().append(template("answerNumer_script",{arr:[2]}));
+        };
+    });
+
+    // 预览 编辑
+    $(".newQuestion").on("click","div.quesTool >span:nth-of-type(1)",function () {
+        var json=JSON.parse($(this).parents("li").attr("data-json"));
+        var time=$(this).parents("li").attr("data-time");
+
+        $("#opSave").attr("data-time",time);
+        $(".opTitle textarea").val(json.questionTitle);
+        $(".opTitle .newNumBtn >span").text(json.questionTitle.length);
+
+        var html=template("optionEdit_script",json);
+        $(".opBody").empty().append(html);
+        
+        if(json.answerNumer ==1){
+            $(".questionTool >ul >li:nth-of-type(1)").click();
+        }else{
+            $("#optionHeader >span >i").text("多选");
+            $("#optionHeader >span >span >i").text("单选");
+            $("#optionFloor >div:first-of-type").addClass("active");
+            
+            // 多选设置
+            var arr=[];
+            for(var i=2;i<=$(".opBody >li").length;i++){
+                arr.push(i)
+            };
+            var html=template("answerNumer_script",{arr:arr});
+            $("#answerNumer").empty().append(html).find("option:contains("+(json.answerNumer || "不限")+")").prop("selected",true);
+            
+            $("#modal-option").modal("show"); 
+        };
+    });
+
+    // 预览 删除
+    $(".newQuestion").on("click","div.quesTool >span:nth-of-type(2)",function () {
+        var parent=$(this).parents("li");
+        swal({
+            title: "是否删除此问题？",
+            showCancelButton: true,
+            confirmButtonColor: "#e15d5d",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true,
+            closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    $(parent).remove();
+                    if($(".newQuestion >li").length ==0){
+                        $(".newQuestion").removeClass("active");
+                    };
+                };
+        });
+    });
+
+    // 预览 上移
+    $(".newQuestion").on("click","div.quesTool >span:nth-of-type(3)",function () {
+        $(this).parents("li").prev().before($(this).parents("li"));
+        // 序列重置
+        for(var i=0;i<$(".newQuestion >li").length;i++){
+            $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+        };
+    });
+
+    // 预览 下移
+    $(".newQuestion").on("click","div.quesTool >span:nth-of-type(4)",function () {
+        $(this).parents("li").next().after($(this).parents("li"));
+        // 序列重置
+        for(var i=0;i<$(".newQuestion >li").length;i++){
+            $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+        };
+    });
 };
 
 function isURL(str) {
@@ -503,35 +720,6 @@ function isURL(str) {
         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     return pattern.test(str);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 获取某个公告内容列表
 function questionList_port(pageNum,type) {
@@ -634,7 +822,7 @@ function questionPeople_port(id,type) {
 };
 function questionPeople_callback(res,id) {
     if(res.code==200){
-        var arr=['小一班','小二班','小三班'];
+        var arr=[];
         $("td.email-date[data-id="+id+"]").find("div").empty().append(arr.join(","));
     }else{
         toastTip("提示",res.info);
@@ -663,6 +851,30 @@ function questionReadUser_callback(res) {
     };
 };
 
+// 参与人数
+function questionOption_port(id) {
+    var data={
+            optionId:id
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.questionOption,param,questionOption_callback);
+};
+function questionOption_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        for(var i=0;i<data.length;i++){
+            data[i].path_img=httpUrl.path_img;
+        }
+        var html=template("detailOption_script",{arr:data});
+        $("#detailOption").empty().append(html);
+        chooseNiceScroll("#modal-Option .detailBody");
+        $("#modal-Option").modal("show");
+    };
+};
+
 // 查看问卷详情（已提交）
 function questionDetail_port(id) {
     var data={
@@ -677,38 +889,71 @@ function questionDetail_port(id) {
 function questionDetail_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
+        data.endTime=new Date(data.createDate*1000).Format("yyyy年MM月dd日 hh:mm"); 
+        data.path_img=httpUrl.path_img;
+
+
+        var html=template("detail_script",data);
+        $("#detail").empty().append(html);
+
+        $(".content").addClass("hide");
+        $("#content02").removeClass("hide");
     };
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 新增调查问卷
+function questionAdd_port(type) {
+    if(type ==1){
+        var questiones=[];
+        for(var i=0;i<$(".newQuestion >li").length;i++){
+            questiones.push(JSON.parse($(".newQuestion >li").eq(i).attr("data-json")))
+        };
+        var data={
+            anonymity:function () {if($("#anonymity").is(":checked")){return 1;}else{return 0;}}(),
+            statVisible:function () {if($("#statVisible").is(":checked")){return 1;}else{return 0;}}(),
+            endTime:function () {
+                var time=$("#beginTime01").val()+" "+$("#hour").val()+":"+$("#minute").val();
+                return (new Date(time).getTime())/1000
+            }(),
+            interlink:"",
+            questiones:questiones,
+            title:$("#newTitle").val(),
+            toClasses:JSON.parse($("#person").attr("data-toclasses")),
+            toPersons:JSON.parse($("#person").attr("data-topersons")),
+            type:type
+        };
+    }else{
+        var data={
+            anonymity:"",
+            statVisible:"",
+            endTime:"",
+            interlink:$("#newUrl01").val(),
+            questiones:[],
+            title:$("#newTitle01").val(),
+            toClasses:JSON.parse($("#person01").attr("data-toclasses")),
+            toPersons:JSON.parse($("#person01").attr("data-topersons")),
+            type:type
+        };
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.questionAdd,param,questionAdd_callback,type);
+};
+function questionAdd_callback(res,type) {
+    if(res.code==200){
+        $(".content").addClass("hide");
+        $("#content").removeClass("hide");
+        if(type ==1){
+            $("#tabs >ul >li:first-of-type").click();
+            questionList_port($("#pagination").pagination('getCurrentPage'),1);
+        }else{
+            $("#tabs >ul >li:last-of-type").click();
+            questionList_port($("#pagination02").pagination('getCurrentPage'),2);
+        };
+    };
+};
 
 // 获取我的班级信息
 function getMyClassInfo_port() {
@@ -769,7 +1014,10 @@ function getMyClassInfo_callback(res) {
                 var name=[];
                 var toPersons=[];
                 for(var i=0;i<$(".right.all").length;i++){
-                    toClasses.push($(".right.all").eq(i).attr("data-id"));
+                    var obj={};
+                    obj.classId=$(".right.all").eq(i).attr("data-id");
+                    obj.className=$(".right.all").eq(i).attr("data-classname");
+                    toClasses.push(obj);
                     name.push($(".right.all").eq(i).attr("data-classname"));
                 };
 
@@ -777,14 +1025,17 @@ function getMyClassInfo_callback(res) {
                     for(var j=0;j<$(".right.num").eq(i).parents(".class").find(".childPic.active").length;j++){
                         var obj={};
                         obj.classId=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-classid");
-                        obj.useruuid=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-uuid");
+                        obj.className=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).parents(".class").find(".right").attr("data-classname");
+                        obj.userName=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-name");
+                        obj.userPhoto=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-photo");
+                        obj.userUuid=$(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-uuid");
                         toPersons.push(obj);
                         name.push($(".right.num").eq(i).parents(".class").find(".childPic.active").eq(j).attr("data-name"))
                     };
                 };
 
-                $("#person").val(name.join()).attr("data-toclasses",JSON.stringify(toClasses)).attr("data-topersons",JSON.stringify(toPersons));
-                $("#person").removeClass("empty");
+                $(".person.current").val(name.join()).attr("data-toclasses",JSON.stringify(toClasses)).attr("data-topersons",JSON.stringify(toPersons));
+                $(".person.current").removeClass("empty");
                 $("#modal-class").modal("hide"); 
             };
         });
@@ -816,90 +1067,6 @@ function getClassStuAndTeachers_callback(res,classId) {
         if($("#classBox li.class[data-id="+classId+"] >.classTitle >.right").hasClass("active")){
             $("#classBox li.class[data-id="+classId+"] >.children .childPic").addClass("active");
         };
-    };
-};
-
-// 新增新的公告内容
-function noticeAddNew_port() {
-    var data={
-            content:$("#newContent").val(),
-            noticeId:user.noticeId,
-            pictures:function () {
-                var arr=[];
-                for(var i=0;i<$("#carousel >li >a.pic").length;i++){
-                    arr.push($("#carousel >li >a.pic").eq(i).attr("data-pic"))
-                };
-                return arr;
-            }(),
-            tempId:user.tempId,
-            title:$("#newTitle").val(),
-            toClasses:JSON.parse($("#person").attr("data-toclasses")),
-            toPersons:JSON.parse($("#person").attr("data-topersons")),
-            url:function () {
-                var url="";
-                if($("#newUrl").val()){
-                    if($("#newUrl").val().indexOf("http")>=0){
-                        url=$("#newUrl").val();
-                    }else{
-                        url="http://"+$("#newUrl").val();
-                    }
-                };
-                return url;
-            }(),
-            uuid:$(".userName").attr("data-useruuid"),
-            voice:""
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.noticeAddNew,param,noticeAddNew_callback);
-};
-function noticeAddNew_callback(res) {
-    if(res.code==200){
-        questionList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
-        $(".closeBtn").click();
-    };
-};
-
-// 编辑公告内容
-function noticeEdit_port() {
-    var data={
-            content:$("#newContent").val(),
-            contentId:$("#edit").attr("data-id"),
-            noticeId:user.noticeId,
-            pictures:function () {
-                var arr=[];
-                for(var i=0;i<$("#carousel >li >a.pic").length;i++){
-                    arr.push($("#carousel >li >a.pic").eq(i).attr("data-pic"))
-                };
-                return arr;
-            }(),
-            title:$("#newTitle").val(),
-            url:function () {
-                var url="";
-                if($("#newUrl").val()){
-                    if($("#newUrl").val().indexOf("http")>=0){
-                        url=$("#newUrl").val();
-                    }else{
-                        url="http://"+$("#newUrl").val();
-                    }
-                };
-                return url;
-            }(),
-            voice:$(".voiceList audio").attr("src")
-    };
-    console.log(data);
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.noticeUpdateNoticeContent,param,noticeEdit_callback);
-};
-function noticeEdit_callback(res) {
-    if(res.code==200){
-        questionList_port($("#pagination >li.active >span.current:not(.prev,.next)").text());
-        $(".closeBtn").click();
     };
 };
 
@@ -939,7 +1106,7 @@ function loadFiles() {
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 filters : {
                     max_file_size : '1024mb',
-                    prevent_duplicates: true,
+                    prevent_duplicates: false,
                     mime_types: [
                         {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
                     ]
@@ -950,14 +1117,8 @@ function loadFiles() {
                                 md5:JSON.parse(info.response).key,
                                 path_img:httpUrl.path_img
                         };
-                        var url=data.path_img+data.md5;
-                        var html="<li>"+
-                                    "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
-                                        "<img src="+url+"-scale200>"+
-                                        "<span class=\"deleteBtn\"></span>"+
-                                    "</a>"+
-                                "</li>";
-                        $("#addPicBtn").parent("li").before(html);
+                        var url=data.path_img+data.md5+"-scale200";
+                        $(".opBody .col04.currentPic").attr("data-pic",data.md5).find("img").attr("src",url);
                         $('.qiniuBar').remove();
                     },
                     'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
@@ -973,45 +1134,6 @@ function loadFiles() {
             });
     };
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 菜单
 function menu() {

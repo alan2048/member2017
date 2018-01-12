@@ -342,6 +342,9 @@ label > select {
 	margin-top: 0.2rem;
 	background: #fff url(../../images/question/noQuestion.png) center center no-repeat;
 }
+.questionBox .newQuestion.active{
+	background-image: none;
+}
 .questionTool{
 	display: inline-block;
 	width: 1.05rem;
@@ -413,7 +416,7 @@ label > select {
 	border-radius: 0.1rem;
 	color:#656666;
 }
-.col02 >input.empty{
+.col02 input.empty{
 	border: 0.01rem solid #fb8085;
 }
 .newNumBtn{
@@ -544,17 +547,17 @@ textarea:hover,textarea:focus{
 	position: relative;
 	padding:0.3rem;
 	min-height: 8rem;
-	margin-top: 0.2rem;
-	margin-bottom: 0.2rem;
 	background-color: #fff;
 	border: 0.01rem solid #e8ebea;
 	border-radius: 0.1rem;
 	-webkit-box-shadow: 0 0.01rem 0.01rem rgba(0,0,0,.05);
 	box-shadow: 0 0 0.01rem rgba(0,0,0,.05);
+	margin:0.2rem auto;
+	width: 10rem;
 }
 #detail{
 	margin:auto;
-	width: 6rem;
+	width: 100%;
 	color:#666;
 }
 #detail >div{
@@ -599,7 +602,7 @@ textarea:hover,textarea:focus{
 .modal-dialog{
 	height: 7rem;
 	margin-bottom: 0;
-	width: 60%;
+	width: 8.4rem;
 	max-width: 9.2rem;
 }
 .modal-content{
@@ -609,7 +612,7 @@ textarea:hover,textarea:focus{
 #detailRead{
 	height: 7rem;
 }
-#detailRead >div{
+#detailRead >div,#detailOption >div{
 	line-height: 0.8rem;
 	font-size:0.2rem;
 	color:#636665;
@@ -1103,6 +1106,9 @@ li.class.active .array{
 .opTitle >div >textarea{
 	height: 100%;
 }
+.opTitle >div >textarea.empty{
+	border: 0.01rem solid #fb8085;
+}
 .opTitle >div >span{
 	position: absolute;
 	bottom: 0.05rem;
@@ -1117,6 +1123,7 @@ li.class.active .array{
 	border-radius: 0.1rem;
 	vertical-align: middle;
 	margin-right: 0.1rem;
+	overflow: hidden;
 	background: #fff url(../../images/question/addBtn.png) center center no-repeat;
 }
 .col04:hover{
@@ -1282,5 +1289,255 @@ li.class.active .array{
 	background-color: #fff;
 	cursor: pointer;
 }
+.opBody .col04 >img{
+	width: 100%;
+	height: 100%;
+}
+
+.newQuestion >li{
+	margin:0 0.2rem;
+	padding: 0.2rem 0;
+	text-align: left;
+	cursor: default;
+	position: relative;
+	border-bottom: 1px solid #e8ebea;
+}
+.newQuestion >li >h1{
+	color:#666;
+	font-weight: 700;
+}
+span.single{
+	display:inline-block;
+	color:#fff;
+	background-color: #f7bad6;
+	width: 0.5rem;
+	height: 0.2rem;
+	border-radius: 0.1rem;
+	text-align: center;
+	font-size: 0.12rem;
+	line-height: 0.18rem;
+	vertical-align: top;
+}
+span.multi{
+	display:inline-block;
+	color:#fff;
+	background-color: #f8aca9;
+	width: 0.5rem;
+	height: 0.2rem;
+	border-radius: 0.1rem;
+	text-align: center;
+	font-size: 0.12rem;
+	line-height: 0.18rem;
+	vertical-align: top;
+}
+.newQuestion >li >div{
+	position: absolute;
+	top:0.2rem;
+	right:0;
+}
+.newQuestion >li >div >span{
+	display:inline-block;
+	width: 0.5rem;
+	height: 0.3rem;
+	border: 1px solid #e7ecea;
+	color:#989898;
+	text-align: center;
+	line-height: 0.28rem;
+	border-radius: 0.05rem;
+	margin:0 0.05rem 0 0;
+	cursor: pointer;
+}
+.newQuestion >li >div >span:hover{
+	background-color: #5cdfe2;
+	color:#fff;
+	border: 1px solid #5cdfe2;
+}
+.quesOp{
+	margin-left: 0.2rem;
+}
+.quesOp >li{
+	margin:0.2rem 0;
+}
+.quesOp >li span.quesIcon{
+	display:inline-block;
+	width: 0.2rem;
+	height: 0.2rem;
+	border-radius:0.05rem;
+	border: 1px solid #e7ecea;
+	vertical-align: middle;
+	margin-right: 0.1rem;
+}
+.previewOp .quesOp >li span.quesIcon{
+	border-color: transparent;
+}
+.quesOp >li img{
+	width: 1.1rem;
+	height: 1.1rem;
+	border-radius: 0.1rem;
+	border: 1px solid #c6cecb;
+	margin:0.1rem 0 0.1rem 0.3rem;
+	vertical-align: middle;
+}
+.quesContent{
+	margin-right: -0.2rem;
+}
+.linkBtn {
+	width: 0.8rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background-color: #5cdfe2;
+	border-radius: 0.05rem;
+	color: #fff;
+	text-align: center;
+	display: inline-block;
+	cursor: pointer;
+	margin-left: 1.65rem;
+}
+.linkBtn:hover {
+	background-color: #29d1d5;
+}
+
+
+
+/*预览 start*/
+body.modal-open{
+	overflow: hidden;
+}
+#modal-preview .modal-dialog{
+	margin:0.6rem auto 0; 
+	min-height:80%;
+	width: 80%;
+}
+#modal-preview .modal-content{
+	min-height:100%;
+	height:auto;
+	margin-bottom: 0.5rem;
+	position: relative;
+}
+.previewBox{
+	text-align: left;
+	margin: 0 0.4rem;
+	color:#656565;
+}
+.previewBox >h1{
+	text-align: center;
+	color: #5ddedf;
+	line-height: 1rem;
+	font-size:0.2rem;
+} 
+.anonymotyBtn{
+	display: inline-block;
+
+}
+.previewBox >div{
+	text-align: right;
+	color:#989898;
+}
+.anonymityBtn{
+	display:inline-block;
+	width: 0.4rem;
+	height: 0.7rem;
+	color:#fff;
+	text-align: center;
+	line-height:0.55rem;
+	background: #fff url(../../images/question/anonymity.png) center center no-repeat;
+	position: absolute;
+	top:0;
+	right:0.4rem;
+}
+.closeBtn02{
+	display:inline-block;
+	width: 0.4rem;
+	height: 0.4rem;
+	border-radius:0.1rem;
+	background: #5be0e2 url(../../images/question/close.png) center center no-repeat;
+	position: fixed;
+	bottom:0.7rem;
+	right:0.8rem;
+	cursor: pointer;
+}
+.closeBtn03{
+	display:inline-block;
+	width: 0.4rem;
+	height: 0.4rem;
+	border-radius:0.1rem;
+	background: #5be0e2 url(../../images/question/uptop.png) center center no-repeat;
+	position: fixed;
+	bottom:0.2rem;
+	right:0.8rem;
+	cursor: pointer;
+}
+.closeBtn02:hover,.closeBtn03:hover{
+	box-shadow:0 0 5px #333;
+}
+.previewOp{
+	margin:0 0.5rem;
+	padding-bottom: 0.2rem;
+}
+.previewOp h1{
+	font-weight: 700;
+}
+.previewOp >li{
+	border-bottom: 1px solid #e7ecea;
+	margin-top: 0.2rem;
+}
+.previewOp >li:first-of-type{
+	margin-top: 0;
+}
+
+
+.checkList{
+	margin-left: 0.54rem;
+}
+.checkList >li{
+	margin:0.2rem 0;
+}
+.checkList >li >span{
+	display:inline-block;
+	height: 0.2rem;
+	width: 2.8rem;
+	background-color: #f2f5f5;
+	border-radius:0.05rem;
+	overflow: hidden;
+	vertical-align: middle;
+	margin:0 0.1rem;
+}
+.checkList >li >span >i{
+	display:inline-block;
+	height: 0.2rem;
+	background-color: #5cdfe2;
+}
+.checkList >li.anonymityIcon >i{
+	color: #5cdfe2;
+	cursor: pointer;
+}
+.checkList >li.anonymityIcon >i:hover{
+	color: #0badb1;
+}
+.checkList >li >i{
+	color: #666;
+	cursor: default;
+}
+.scrollTopBtn{
+	display:inline-block;
+	width: 1rem;
+	height: 1rem;
+	border-radius:0.1rem;
+	background: rgba(237,240,240,0.5) url(../../images/question/uptop01.png) center center no-repeat;
+	position: fixed;
+	bottom:0.2rem;
+	right:0.2rem;
+	cursor: pointer;
+	text-align: center;
+	line-height:1.6rem;
+	color:#969999;
+}
+.scrollTopBtn:hover{
+	box-shadow: 0 0 5px #60dce1;
+	color: #fff;
+	background-color: #5cdfe2 !important;
+}
+
+/*预览 end*/
 
 /*新增问卷选项弹框end*/
