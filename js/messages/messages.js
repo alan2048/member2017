@@ -410,7 +410,7 @@ function getMyClassInfo_port() {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getMyClassInfo,param,getMyClassInfo_callback);
+    initAjax(httpUrl.getMyClassInfoIncludeTeacherGroup,param,getMyClassInfo_callback);
 };
 function getMyClassInfo_callback(res) {
     if(res.code==200){
@@ -492,7 +492,7 @@ function getClassStuAndTeachers_port(classId) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getClassStuAndTeachers,param,getClassStuAndTeachers_callback,classId);
+    initAjax(httpUrl.getClassStus,param,getClassStuAndTeachers_callback,classId);
 };
 function getClassStuAndTeachers_callback(res,classId) {
     if(res.code==200){

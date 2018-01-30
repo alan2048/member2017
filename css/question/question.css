@@ -320,7 +320,7 @@ label > select {
 }
 
 .content{
-	min-width: 9rem;
+	min-width: 11rem;
 }
 .newBox ul >li{
 	margin-bottom: 0.2rem;
@@ -1292,6 +1292,7 @@ li.class.active .array{
 .opBody .col04 >img{
 	width: 100%;
 	height: 100%;
+	border-radius:0.1rem;
 }
 
 .newQuestion >li{
@@ -1305,6 +1306,8 @@ li.class.active .array{
 .newQuestion >li >h1{
 	color:#666;
 	font-weight: 700;
+	max-width:70%;
+	word-wrap: break-word;
 }
 span.single{
 	display:inline-block;
@@ -1346,6 +1349,7 @@ span.multi{
 	border-radius: 0.05rem;
 	margin:0 0.05rem 0 0;
 	cursor: pointer;
+	background-color: #fff;
 }
 .newQuestion >li >div >span:hover{
 	background-color: #5cdfe2;
@@ -1354,6 +1358,8 @@ span.multi{
 }
 .quesOp{
 	margin-left: 0.2rem;
+	max-width:68%;
+	word-wrap: break-word;
 }
 .quesOp >li{
 	margin:0.2rem 0;
@@ -1541,3 +1547,31 @@ body.modal-open{
 /*预览 end*/
 
 /*新增问卷选项弹框end*/
+
+.opBody .col04{
+	position: relative;
+	overflow: visible;
+}
+.opBody .col04.fillImg:hover >i{
+	display:inline-block;
+}
+.opBody .col04 >i{
+	position: absolute;
+	display:none;
+	width: 0.25rem;
+	height: 0.25rem;
+	top:-0.1rem;
+	right:-0.1rem;
+	background: url(../../images/question/deleteBtn.png) center center no-repeat;
+}
+#carousel_img {
+	display:flex;
+	height: 100%;
+	padding: 2%;
+	align-items:center;
+	vertical-align: middle;
+}
+#carousel_img img {
+	width: 100%;
+	height:auto;
+}

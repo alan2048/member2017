@@ -36,6 +36,9 @@ select:focus,input:focus{
 textarea{
     resize:none;
 }
+textarea:focus{
+    outline:none;
+}
 a:hover {
     text-decoration: none
 }　

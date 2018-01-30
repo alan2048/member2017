@@ -454,7 +454,7 @@ function ValidateInput() {
         $("#birthday").removeClass("empty");
     };
 
-    var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+    var reg = /^1[3|4|5|6|7|8][0-9]{9}$/; //验证规则
     var phone=$("#phoneNum").val();
     if(!reg.test(phone)){
         $("#phoneNum").addClass("empty").next("span").removeClass("hide");
@@ -482,7 +482,7 @@ function ValidateInput01() {
         $("#birthday01").removeClass("empty");
     };
 
-    var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+    var reg = /^1[3|4|5|6|7|8][0-9]{9}$/; //验证规则
     var phone=$("#phoneNum01").val();
     if(!reg.test(phone)){
         $("#phoneNum01").addClass("empty").next("span").removeClass("hide");

@@ -51,9 +51,14 @@ function loginSuccess() {
         if($("#createDate").val()){
             if($(this).val()){
                 getHeightPvalue();//取得身高P值
+            }else{
+                $("#h-heightValue").val("");
             };
             if($(this).val() && $("#h-weight").val()){
                 getFatnessValue();//取得肥胖值
+            }else{
+                $("#h-fatValue").val("");
+                $("#h-fat").val("");
             };
         }else{
             $("#createDate").addClass("empty").focus();
@@ -66,9 +71,14 @@ function loginSuccess() {
         if($("#createDate").val()){
             if($(this).val()){
                 getWeightPvalue();//取得体重
+            }else{
+                $("#h-weightValue").val("");
             };
             if($(this).val() && $("#h-height").val()){
                 getFatnessValue();//取得肥胖值
+            }else{
+                $("#h-fatValue").val("");
+                $("#h-fat").val("");
             };
         }else{
             $("#createDate").addClass("empty").focus();
@@ -79,9 +89,9 @@ function loginSuccess() {
     // 正则
     //输入血色素
     $("#h-hemachrome").change(function(){
-        if(!isInteger($("#h-hemachrome").val())){
+        if(!isInteger($("#h-hemachrome").val()) && $("#h-hemachrome").val()){
             $("#h-hemachrome").val("");
-            alert("身高请输入整数。");
+            toastTip("提示","血色素请输入整数。");
         }
         Diagnosis();
     });
@@ -90,10 +100,9 @@ function loginSuccess() {
         var _value = $(this).val(); 
         var reg = /^([0-9]|10|[0-9]\.\d)$/;
         if (!reg.test(_value)) {
-            alert('请输入正确的视力值。');
+            toastTip("提示",'请输入正确的视力值。');
             $(this).val("");
-            return false;
-        }  
+        };  
         Diagnosis();
     });
 
@@ -125,11 +134,21 @@ function loginSuccess() {
             });
     });
     
-    $("#createDate,#h-height,#h-hemachrome,#h-visionl,#h-visionr,#h-weight").keyup(function () {
+    $("#createDate,#h-height,#h-weight").keyup(function () {
         if($(this).val()){
             $(this).removeClass("empty");
         }else{
             $(this).addClass("empty");
+            if($(this).context.id=="h-height"){
+                $("#h-heightValue").val("");
+                $("#h-fatValue").val("");
+                $("#h-fat").val("");
+            };
+            if($(this).context.id=="h-weight"){
+                $("#h-weightValue").val("");
+                $("#h-fatValue").val("");
+                $("#h-fat").val("");
+            };
         }; 
     });
 };
@@ -202,7 +221,6 @@ function healthGetSingleHI_callback(res) {
         $(".reset01").empty();
 
         var data=JSON.parse(res.data);
-        console.log(data);
         $("#allClass").attr("disabled",true);
         $("#allClass >option[value="+$("#teacherClass").val()+"]").prop("selected",true);
         $("#classMember").empty().append("<option value="+data.userUUID+">"+data.userName+"</option>").attr("disabled",true);
@@ -363,8 +381,17 @@ function Diagnosis(){
             a++;
         };
     };
-    if(a==0){
-        var html = $("#classMember").find("option:selected").text()+"在"+$("#createDate").val()+"的体检记录中，身高为"+$("#h-height").val()+"cm，体重为"+$("#h-weight").val()+"kg，血色素为"+$("#h-hemachrome").val()+"，视力为"+$("#h-visionl").val()+"(左)/"+$("#h-visionr").val()+"(右)，"+"判定结果为：<span>"+$("#h-fat").val()+"</span>";
+    if(true){
+        var hemachrome="";
+        if($("#h-hemachrome").val()){
+            hemachrome="血色素为"+$("#h-hemachrome").val()+"，"
+        };
+        var vision="";
+        if($("#h-visionl").val() || $("#h-visionr").val()){
+            vision="视力为"+($("#h-visionl").val()  || "_")+"(左)/"+($("#h-visionr").val() || "_")+"(右)，"
+        };
+
+        var html = $("#classMember").find("option:selected").text()+"在"+$("#createDate").val()+"的体检记录中，身高为"+$("#h-height").val()+"cm，体重为"+$("#h-weight").val()+"kg，"+hemachrome+vision+"判定结果为：<span>"+$("#h-fat").val()+"</span>";
         $(".reset01").empty().append(html);
     }
 }
@@ -386,17 +413,17 @@ function insertHealthInfo(){
     if($("#h-hemachrome").val()){
         $("#h-hemachrome").removeClass("empty");
     }else{
-        $("#h-hemachrome").addClass("empty");
+        // $("#h-hemachrome").addClass("empty");
     };
     if($("#h-visionl").val()){
         $("#h-visionl").removeClass("empty");
     }else{
-        $("#h-visionl").addClass("empty");
+        // $("#h-visionl").addClass("empty");
     };
     if($("#h-visionr").val()){
         $("#h-visionr").removeClass("empty");
     }else{
-        $("#h-visionr").addClass("empty");
+        // $("#h-visionr").addClass("empty");
     };
     if($("#h-weight").val()){
         $("#h-weight").removeClass("empty");

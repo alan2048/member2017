@@ -131,11 +131,19 @@
 	height: 9px;
 	background-color: #c2eb69;
 }
+#searchBox01 >div:last-of-type,#searchBox02 >div:last-of-type,#searchBox03 >div:last-of-type{
+	font-weight: 500 !important;
+	font-size:16px !important;
+}
+i.hoverItext{
+	font-weight: 500 !important;
+	font-size:16px !important;
+}
 .hoverBtn.redLow,.hoverBtn.redHigh{
-	background-color: #fb8085;
+	/*background-color: #fb8085;*/
 }
 i.hoverItext.redLow,i.hoverItext.redHigh{
-	color: #fb8085;
+	/*color: #fb8085;*/
 }
 .hoverBtn01 {
 	display: inline-block;

@@ -97,13 +97,14 @@
                                     <th style="width: 6%;">年龄</th>
                                     <th style="width: 8%;">身高（cm）</th>
                                     <th style="width: 8%;">体重（kg）</th>
-                                    <th style="width: 10%;">血色素（g/l）</th>
-                                    <th style="width: 11%;">视力</th>
+                                    <th style="width: 8%;">血色素（g/l）</th>
+                                    <th style="width: 8%;">视力</th>
                                     <th style="width: 6%;">身高P值</th>
                                     <th style="width: 6%;">体重P值</th>
+                                    <th style="width: 6%;">身高别体重P值</th>
                                     <th style="width: 7%;">肥胖值</th>
                                     <th style="width: 7%;">肥胖值判定</th>
-                                    <th style="width: 8%;">预警信息</th>
+                                    <th style="width: 7%;">预警信息</th>
                                 </tr>
                             </thead>
                            	 <tbody>
@@ -120,6 +121,7 @@
                                     <td class="email-sender">左：{{item.visionL}} 右：{{item.visionR}}</td>
                                     <td class="email-sender">{{item.hPvalue}}</td>
                                     <td class="email-sender">{{item.wPvalue}}</td>
+                                    <td class="email-sender">{{item.h2wPvalue}}</td>
                                     <td class="email-sender">{{item.fatnessValue}}</td>
                                     <td class="email-sender">{{item.fatnessResult}}</td>
                                     <!-- <td class="email-sender">{{item.alert}}</td> -->
@@ -195,14 +197,14 @@
                         </label>
                     </div>
 
-                    <h4>体检信息</h4>
+                    <h4>体检信息<small class="text-danger">（身高、体重为必填项）</small></h4>
                     <div class="row">
                         <label>
-                            <span>身高(cm)：</span>
+                            <span>身高(cm)<i class="redIcon">*</i>：</span>
                             <input id="h-height" class="diagnosis" type="text" />
                         </label>
                         <label>
-                            <span>体重(kg)：</span>
+                            <span>体重(kg)<i class="redIcon">*</i>：</span>
                             <input id="h-weight" class="diagnosis" type="text" />
                         </label>
                         <label>
@@ -256,14 +258,14 @@
 
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
     <script src="../../js/common/jquery.form.min.js"></script>
-	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20171219"></script>
-	<script src="../../js/health/healthInfo.js?t=20171219"></script>
-    <script src="../../js/health/healthInfoNew.js?t=20171219"></script>
+	<script src="../../js/common/base.js?t=20180117"></script>
+	<script src="../../js/health/healthInfo.js?t=20180117"></script>
+    <script src="../../js/health/healthInfoNew.js?t=20180117"></script>
 </body>
 </html>

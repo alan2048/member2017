@@ -95,7 +95,7 @@
                     <ul>
                         {{each arr as value  i}}
                         <li>
-                            <div class="monthBox" data-id="{{value.evaluateId}}" data-userid="{{value.userUuid}}" data-name="{{value.userName}}"><img src="{{path_img}}{{value.portrait}}&minpic=1" alt=""></div>
+                            <div class="monthBox" data-id="{{value.evaluateId}}" data-userid="{{value.userUuid}}" data-name="{{value.userName}}"><img src="{{path_img}}{{value.portrait}}" alt=""></div>
                             <div class="monthTitle">{{value.userName}} <span class="{{if value.state ==0}}unOk{{else}}ok{{/if}}"></span></div>
                         </li>
                         {{/each}}
@@ -151,7 +151,7 @@
 	</div>
 
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
-	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>

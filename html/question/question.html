@@ -105,7 +105,7 @@
                                                 <span>...</span>
                                                 <span class="fade in hide">
                                                     <span></span>
-                                                    <div></div>
+                                                    <div>{{item.remark}}</div>
                                                 </span>
                                             </td>
                                             <td class="email-sender playerNumber read" data-id="{{item.id}}">{{item.playerNumber}}</td>
@@ -165,7 +165,7 @@
                     <p>设置 <small>(带“<i class="redIcon">*</i>”为必填)</small></p>
                     <ul>
                         <li>
-                            <span class="col01"><i class="redIcon">*</i> 截止时间：</span>
+                            <span class="col01"> 截止时间：</span>
                             <span class="col02">
                                 <label><input id="beginTime01" readonly="readonly" type="text" placeholder="单击设置日期"></label>
                                 <label>
@@ -189,7 +189,7 @@
                         <li>
                             <span class="col01"><i class="redIcon">*</i> 选择通知群组/个人：</span>
                             <span class="col02">
-                                <input type="text" id="person" placeholder="单击选择" class="need person">
+                                <input type="text" id="person" placeholder="单击选择" class="need person" readonly="readonly">
                             </span>
                         </li>
                         <li>
@@ -459,7 +459,7 @@
                     {{if anonymity ==1}}
                     <span class="anonymityBtn">匿名</span>
                     {{/if}}
-                    <div>截止时间：{{endTime}}</div>
+                    <div>{{if endTime}}截止时间：{{endTime}}{{/if}}</div>
                     <ul class="previewOp">
                         {{each questiones as value i}}
                         <li>
@@ -531,7 +531,7 @@
                         {{each arr as value i}}
                         <li>
                             <span class="col03">选项<i>{{i+1}}</i>:</span>
-                            <span class="col04"><img src="" alt=""></span>
+                            <span class="col04"><img src="" alt=""><i></i></span>
                             <span class="col05">
                                 <textarea name="input" placeholder="此处填写选项文字描述..." maxlength="140"></textarea>
                                 <span class="newNumBtn"><span>0</span>/140</span>
@@ -549,7 +549,7 @@
                         {{each questionOptionList as value i}}
                         <li>
                             <span class="col03">选项<i>{{i+1}}</i>:</span>
-                            <span class="col04" data-pic="{{value.picture}}"><img src="{{value.pic}}-scale200" alt=""></span>
+                            <span class="col04 fillImg" data-pic="{{value.picture}}"><img src="{{value.pic}}-scale200" alt=""><i></i></span>
                             <span class="col05">
                                 <textarea name="input" placeholder="此处填写选项文字描述..." maxlength="140">{{value.content}}</textarea>
                                 <span class="newNumBtn"><span>{{value.content.length}}</span>/140</span>
@@ -591,6 +591,15 @@
         </div>
     </div>
     
+    <div class="modal fade in" id="modal-dialog-img" tabindex="-1" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="carousel_img"><img src=""></div>
+                <span class="closeBtn" data-dismiss="modal"></span>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal-class" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -631,7 +640,7 @@
         </div>
     </div>
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
-	<script src="../../js/common/jquery.nicescroll.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
@@ -641,7 +650,7 @@
     <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20171219"></script>
-	<script src="../../js/question/question.js?t=20171219"></script>
+	<script src="../../js/common/base.js?t=20180117"></script>
+	<script src="../../js/question/question.js?t=20180117"></script>
 </body>
 </html>

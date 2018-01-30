@@ -122,12 +122,12 @@ function baseFn() {
     });
 
     // 查询通知人、班级
-    $(".tableBox").on('mouseover',"td.email-date",function () {
+    /*$(".tableBox").on('mouseover',"td.email-date",function () {
         if($(this).find("div").text() =="" && !$(this).hasClass("fill")){
             $(this).addClass("fill");
             questionPeople_port($(this).attr("data-id"));
         };
-    });
+    });*/
 
     // 公告删除 选中
     $(".tableBox").on("click","tbody >tr >td.num",function () {
@@ -220,6 +220,8 @@ function newQuestion() {
         $(".childPic").removeClass("active");
         $(".need").removeClass("empty");
         $(".newNumBtn > span").text("0");
+
+        $(".questionTool >ul >li:nth-of-type(4)").removeClass('unique');
     });
 
     // 网络问卷新增
@@ -273,13 +275,9 @@ function newQuestion() {
 
     $('#beginTime01').datepicker({
             todayHighlight:true,
+            startDate:'today',
             language:'zh-CN'
         }).on("changeDate",function (ev) {
-            if($("#beginTime01").val()){
-                $("#beginTime01").removeClass("empty");
-            }else{
-                $("#beginTime01").addClass("empty");
-            };
             $('#beginTime01').datepicker("hide");
     });
 
@@ -313,6 +311,7 @@ function newOptionFn() {
             $("#optionHeader >span >i").text("单选");
             $("#optionHeader >span >span >i").text("多选");
             $("#optionFloor >div:first-of-type").removeClass("active");
+            $("#optionHeader >i").text($(".newQuestion >li").length+1);
 
             if($(".opBody").children().length ==0){
                 $(".opBody").append(template("option_script",{arr:[0,1]}));
@@ -342,6 +341,7 @@ function newOptionFn() {
             $("#optionHeader >span >i").text("多选");
             $("#optionHeader >span >span >i").text("单选");
             $("#optionFloor >div:first-of-type").addClass("active");
+            $("#optionHeader >i").text($(".newQuestion >li").length+1);
 
             if($(".opBody").children().length ==0){
                 $(".opBody").append(template("option_script",{arr:[0,1]}));
@@ -367,11 +367,6 @@ function newOptionFn() {
 
     // 预览问卷
     $(".questionTool >ul >li:nth-of-type(3)").click(function () {
-        if($("#beginTime01").val()){
-            $("#beginTime01").removeClass("empty")
-        }else{
-            $("#beginTime01").addClass("empty");
-        };
         if($("#person").val()){
             $("#person").removeClass("empty")
         }else{
@@ -395,7 +390,10 @@ function newOptionFn() {
             var data={
                     anonymity:function () {if($("#anonymity").is(":checked")){return 1;}else{return 0;}}(),
                     endTime:function () {
-                        var time=$("#beginTime01").val()+" "+$("#hour option:checked").text()+":"+$("#minute option:checked").text();
+                        var time='';
+                        if($("#beginTime01").val()){
+                            time=$("#beginTime01").val()+" "+$("#hour option:checked").text()+":"+$("#minute option:checked").text()
+                        };
                         return time;
                     }(),
                     questiones:questiones,
@@ -442,17 +440,13 @@ function newOptionFn() {
 
     // 提交问卷
     $(".questionTool >ul >li:nth-of-type(4)").click(function () {
-        if($("#beginTime01").val()){
-            $("#beginTime01").removeClass("empty")
-        }else{
-            $("#beginTime01").addClass("empty");
-        };
         if($("#person").val()){
             $("#person").removeClass("empty")
         }else{
             $("#person").addClass("empty");
         };
-        if($("#newTitle").val()){
+
+        if($("#newTitle").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"").length !=0){
             $("#newTitle").removeClass("empty")
         }else{
             $("#newTitle").addClass("empty");
@@ -463,7 +457,11 @@ function newOptionFn() {
         }else if($(".newQuestion >li").length ==0){
             toastTip("提示","至少添加一个问题")
         }else{
-            questionAdd_port(1);
+            // 防止重复提交
+            if(!$(this).hasClass('unique')){
+                questionAdd_port(1);
+            };
+            $(this).addClass('unique')
         };
     });
 
@@ -570,19 +568,36 @@ function newOptionFn() {
     $("#optionBody").on("click",".col04",function () {
         $(".opBody .col04").removeClass("currentPic");
         $(this).addClass("currentPic");
-        $("#addPicBtn").click();
+        if($(this).hasClass('fillImg')){
+            $("#carousel_img >img").attr('src','').attr('src',httpUrl.path_img+$(this).attr('data-pic'));
+            $("#modal-dialog-img").modal('show');
+        }else{
+            $("#addPicBtn").click();
+        };
+    });
+
+    // 删除图片
+    $("#optionBody").on("click",".col04.fillImg >i",function (e) {
+        $(this).parent().attr('data-pic','').removeClass('fillImg').find('img').attr('src','');
+        e.stopPropagation();
     });
 
     // 确认新增
     $("#opSave").click(function () {
-        if(!$(".opTitle textarea").val()){
+        if($(".opTitle textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"").length ==0){
             $(".opTitle textarea").addClass('empty');
         }else{
             $(".opTitle textarea").removeClass('empty');
         };
         for(var i=0;i<$(".opBody >li").length;i++){
             var text01=$(".opBody >li").eq(i).find("img").attr("src");
-            var text02=$(".opBody >li").eq(i).find("textarea").val();
+
+            if($(".opBody >li").eq(i).find("textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"").length ==0){
+                var text02=false;
+            }else{
+                var text02=true;
+            };
+            
             if(!text01 && !text02){
                 $(".opBody >li").eq(i).addClass("empty");
             }else{
@@ -668,6 +683,7 @@ function newOptionFn() {
             
             $("#modal-option").modal("show"); 
         };
+        $("#optionHeader >i").text($(this).parents('li').index()+1);// 编辑index初始化
     });
 
     // 预览 删除
@@ -912,8 +928,13 @@ function questionAdd_port(type) {
             anonymity:function () {if($("#anonymity").is(":checked")){return 1;}else{return 0;}}(),
             statVisible:function () {if($("#statVisible").is(":checked")){return 1;}else{return 0;}}(),
             endTime:function () {
-                var time=$("#beginTime01").val()+" "+$("#hour").val()+":"+$("#minute").val();
-                return (new Date(time).getTime())/1000
+                if($("#beginTime01").val()){
+                    var time=$("#beginTime01").val()+" "+$("#hour").val()+":"+$("#minute").val();
+                    return (new Date(time).getTime())/1000
+                }else{
+                    return '0';
+                };
+                
             }(),
             interlink:"",
             questiones:questiones,
@@ -947,11 +968,14 @@ function questionAdd_callback(res,type) {
         $("#content").removeClass("hide");
         if(type ==1){
             $("#tabs >ul >li:first-of-type").click();
+            $(".questionTool >ul >li:nth-of-type(4)").removeClass('unique');
             questionList_port($("#pagination").pagination('getCurrentPage'),1);
         }else{
             $("#tabs >ul >li:last-of-type").click();
             questionList_port($("#pagination02").pagination('getCurrentPage'),2);
         };
+    }else{
+        toastTip('提示',res.info);
     };
 };
 
@@ -964,7 +988,7 @@ function getMyClassInfo_port() {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getMyClassInfo,param,getMyClassInfo_callback);
+    initAjax(httpUrl.getMyClassInfoIncludeTeacherGroup,param,getMyClassInfo_callback);
 };
 function getMyClassInfo_callback(res) {
     if(res.code==200){
@@ -1052,7 +1076,7 @@ function getClassStuAndTeachers_port(classId) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getClassStuAndTeachers,param,getClassStuAndTeachers_callback,classId);
+    initAjax(httpUrl.getClassStus,param,getClassStuAndTeachers_callback,classId);
 };
 function getClassStuAndTeachers_callback(res,classId) {
     if(res.code==200){
@@ -1118,7 +1142,7 @@ function loadFiles() {
                                 path_img:httpUrl.path_img
                         };
                         var url=data.path_img+data.md5+"-scale200";
-                        $(".opBody .col04.currentPic").attr("data-pic",data.md5).find("img").attr("src",url);
+                        $(".opBody .col04.currentPic").attr("data-pic",data.md5).addClass('fillImg').find("img").attr("src",url);
                         $('.qiniuBar').remove();
                     },
                     'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情

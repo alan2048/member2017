@@ -5,11 +5,12 @@ var user={
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://test.member361.com";//38测试服务器
 var serverUrl03="https://121.43.150.38";//156测试服务器
+var serverUrl04="https://localhost";//156测试服务器
 var serverHost="https://www.member361.com";
 
 var qiniu='https://filepublic.member361.com/';// 七牛公有文件
 
-var path=serverUrl01; //更改服务器地址可设置此值
+var path=serverUrl02; //更改服务器地址可设置此值
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -204,7 +205,9 @@ var httpUrl={
 
 		// 公告
 		getMyClassInfo:path+"/web/basic/getMyClassInfo",// 获取我的班级信息
+		getMyClassInfoIncludeTeacherGroup:path+"/web/basic/getMyClassInfoIncludeTeacherGroup",// 获取我的班级信息（包括教师群）
 		getClassStuAndTeachers:path+"/web/basic/getClassStuAndTeachers",// 获取班级所有学生和老师
+		getClassStus:path+"/web/basic/getClassStus",// 获取班级所有的学生
 		noticeGetDesc:path+"/web/notice/getNoticeDesc",// 获取公告描述
 		noticeReaded:path+"/web/notice/markNoticeReaded",// 公告置为已读
 		noticeAddNew:path+"/web/notice/addNewNotice",// 新增新的公告内容
