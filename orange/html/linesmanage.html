@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>线路管理</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../images/favicon.png">
+
+	<link href="../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../css/common/sweetalert.css" rel="stylesheet">
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../css/linesmanage/linesmanage.css?t=20170927" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #c1ec69;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+        <div id="contentPrev" class="content">
+            <div class="pageTitle">线路管理</div>
+            <div id="prevBg">
+                <img src="../images/linesmanage/empty01.png" alt=""><br>
+                <span>新建路线</span>
+            </div>
+        </div> 
+
+		<div id="content" class="content hide">
+			<div class="pageTitle">线路管理</div>
+			<div id="search"></div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <ul id="pagination"></ul>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <tr>
+                                        <th style="width: 20%;">序号</th>
+                                        <th style="width: 30%;">线路名称</th>
+                                        <th style="width: 30%;">创建时间</th>
+                                        <th style="width: 20%;">人数</th>
+                                    </tr>
+                                </tr>
+                            </thead>
+                           	<tbody>
+                           	 	{{each list as item i}}
+                            	<tr data-id="{{item.id}}" data-json={{item.studentJson}}>
+                                    <td class="num email-sender"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                    <td class="email-sender">{{item.name}}</td>
+                                    <td class="email-sender">{{item.createTime01}}</td>
+                                    <td class="email-sender">{{item.studentNumber}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+                <div class="panel ui-popup-follow ui-popup-bottom-right">
+                    <div class="ui-dialog-arrow-a"></div>
+                    <div class="ui-dialog-arrow-b"></div>
+                    <div class="email-content" id="tableBox02"></div>
+                    <script type="text/html" id="tableBox02_script">
+                        {{if arr.length !=0}}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">姓名</th>
+                                    <th style="width: 30%;">家长电话</th>
+                                    <th style="width: 40%;">学校地址</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                {{each arr as item i}}
+                                <tr>
+                                    <td class="email-sender">{{item.studentName}}</td>
+                                    <td class="email-sender">{{item.phoneNumber}}</td>
+                                    <td class="email-sender">{{item.address}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        {{else}}
+                            <div class="emptyBox"></div>
+                        {{/if}}
+                    </script>
+                </div>
+                
+			</div> 
+	    </div> 
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle">线路管理 <small>新建路线</small></div>
+            <div class="newBox">
+                <ul>
+                    <li>
+                        <span class="col01"><i class="redIcon">*</i> 线路名称：</span>
+                        <span class="col02">
+                            <input type="text" id="newTitle" placeholder="请输入线路名称..." class="need" maxlength="30">
+                            <span class="newNumBtn"><span>0</span>/30</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">添加学生：</span>
+                        <span class="col02">
+                            <span id="person" class="person"></span>
+                            <br>
+                            <div id="personBox" class="personBox"></div>
+                            <script id="personBox_script" type='text/html'>
+                                {{each arr as value i}}
+                                <span class="student {{if value.type ==0}}noaddress{{/if}}" data-id={{value.studentUuid}} data-name={{value.studentName}}>
+                                    {{value.studentName}}
+                                    <span class="delBtn"></span>
+                                </span>
+                                {{/each}}
+                            </script>
+                        </span>
+                    </li>
+                    <li>备注：1、"<i class="redIcon01"></i>" 代表该学生地址未编辑，"<i class="redIcon02"></i>"代表该学生地址已编辑；
+                        <br>
+                        <i class="redIcon03"></i>
+                        2、"<i class="redIcon">*</i>" 为必填项
+                    </li>
+                </ul>
+                <ul class="studentAdd disable01">
+                    <li>
+                        <span class="col01">姓名：</span>
+                        <span class="col02">
+                            <input type="text" id="curStudent" data-id='' placeholder="请先选择学生" class="need" maxlength="30" readonly="readonly">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">地址：</span>
+                        <span class="col02">
+                            <textarea name="" id="curAddress" cols="30" rows="10" placeholder="选中学生后可编辑" disabled="disabled"></textarea>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01"></span>
+                        <span class="col02">
+                            <span id="saveAdd" class="saveAdd">保存地址</span>
+                        </span>
+                    </li>
+                </ul>
+                <div id="new" class="new">
+                    <span>返回上级</span>
+                    <span>保存</span>
+                </div>
+            </div>
+        </div>
+	</div>
+
+    <div class="modal fade" id="modal-class" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="classBox" class='classBox'></div>
+            </div>
+            <script id="classBox_script" type="text/html">
+                <div class="title">添加学生</div>
+                <div><label><span class="allInput" id="allInput">全选</span></label></div>
+                <ul id="classBody" class='classBody'>
+                    {{each arr as value i}}
+                    <li class="class">
+                        <div class="classTitle">
+                            <span class="right" data-classname="{{value.className}}"></span>
+                            <span>
+                                {{value.className}}
+                            </span>
+                        </div>
+                        <div class="children">
+                            {{each value.studentCheckList as item j}}
+                            <div class="child {{if item.type=='-1'}}disable{{/if}}" data-id="{{item.studentUuid}}">
+                                <span class="childBtn"></span>
+                                <span>{{item.studentName}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+                <div class="buttonBox">
+                    <span id="cancel">取消</span>
+                    <span id="save">确定</span>
+                </div>
+            </script>
+        </div>
+    </div>
+
+	<script src="../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../js/common/modal.js"></script>
+	<script src="../js/common/jquery.nicescroll.min.js?t=20180118"></script>
+	<script src="../js/common/template.js"></script>
+    <script src="../js/common/jquery.toast.min.js"></script>
+    <script src="../js/common/sweetalert.min.js"></script>
+    <script src="../js/common/simplePagination.js" ></script>
+
+	<script src="../js/common/base.js?t=20171219"></script>
+	<script src="../js/linesmanage/linesmanage.js?t=20171222"></script>
+</body>
+</html>

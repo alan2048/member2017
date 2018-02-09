@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>签到卡记录</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../images/favicon.png">
+
+	<link href="../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../css/common/sweetalert.css" rel="stylesheet">
+    <link href="../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../css/signInRecord/signInRecord.css?t=20170927" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #c1ec69;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+        <div id="contentPrev" class="content">
+            <div class="pageTitle">签到卡记录</div>
+            <div id="prevBg">
+                <img src="../images/signInRecord/empty01.png" alt=""><br>
+                <span>刷新</span>
+            </div>
+        </div> 
+
+		<div id="content" class="content hide">
+			<div class="pageTitle">签到卡记录</div>
+			<div id="search">
+                <label>
+                    设备名称：
+                    <select id="device">
+                        <option value="">所有设备</option>
+                    </select>
+                    <script id="device_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value.rfid}}">{{value.name}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    时间：
+                    <input type="text" id="beginTime03" readonly="readonly" placeholder="开始日期">
+                </label>
+                <label>
+                    至
+                    <input type="text" id="endTime03" readonly="readonly" placeholder="结束日期">
+                </label>
+                <label>
+                    姓名：
+                    <input type="text" placeholder="请输入姓名" id="studentName">
+                </label>
+                <span id="searchBtn">查询</span>
+                <span id="refreshBtn">刷新列表</span>
+            </div>
+			<div id="buttonBox"></div>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <ul id="pagination"></ul>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <tr>
+                                        <th style="width: 20%;">序号</th>
+                                        <th style="width: 20%;">卡号</th>
+                                        <th style="width: 20%;">姓名</th>
+                                        <th style="width: 20%;">设备名称</th>
+                                        <th style="width: 20%;">刷卡时间</th>
+                                    </tr>
+                                </tr>
+                            </thead>
+                           	<tbody>
+                           	 	{{each list as item i}}
+                            	<tr data-id="{{item.id}}" data-json={{item.studentJson}}>
+                                    <td class="num email-sender"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                    <td class="email-sender">{{item.cardId}}</td>
+                                    <td class="email-sender">{{item.studentName}}</td>
+                                    <td class="email-sender">{{item.equipmentName}}</td>
+                                    <td class="email-sender">{{item.createTime01}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+			</div> 
+	    </div> 
+	</div>
+
+	<script src="../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../js/common/jquery.nicescroll.min.js?t=20180118"></script>
+	<script src="../js/common/template.js"></script>
+    <script src="../js/common/jquery.toast.min.js"></script>
+    <script src="../js/common/simplePagination.js"></script>
+    <script src="../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+	<script src="../js/common/base.js?t=20171219"></script>
+	<script src="../js/signInRecord.js?t=20171222"></script>
+</body>
+</html>
