@@ -205,8 +205,11 @@ th,td {
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	padding: 0.14rem 0.08rem;
 	line-height: 1.42857143;
-	vertical-align: top;
+	vertical-align: middle;
 	border-bottom: 1px solid #ddd;
+}
+.table > tbody > tr > td:nth-of-type(3){
+	text-align:left;
 }
 .table.table-email tr:hover td {
 	background: #f4f7f6;
@@ -351,6 +354,9 @@ th,td {
 .person:hover{
 	box-shadow:0 0 0.03rem #bbb;
 }
+.person.empty{
+	border: 0.01rem solid #fb8085;
+}
 .redIcon01{
 	display:inline-block;
 	width: 0.14rem;
@@ -386,11 +392,21 @@ th,td {
 	color: #969998;
 	position: relative;
 }
+.col02 >textarea{
+	width: 100%;
+	padding:0.1rem;
+	height: 1.6rem;
+	border-radius:0.1rem;
+	border: 1px solid #cdcdcd;
+}
+.col02 >textarea.empty{
+	border: 0.01rem solid #fb8085;
+}
 .newNumBtn {
 	color: #979a99;
 	position: absolute;
 	right: 0.1rem;
-	top: 0.05rem;
+	bottom: 0.05rem;
 }
 .col02 >input{
 	width: 100%;
@@ -486,6 +502,11 @@ th,td {
 
 #tableBox {
 	max-height: 100%;
+	height:100%;
+	padding:0 0.35rem 0;
+}
+.panel{
+	padding:0;
 }
 
 
@@ -904,21 +925,21 @@ body.modal-open {
 	height: 0.3rem;
 	line-height:0.3rem;
 	width: 1rem;
-	background-color: #61dcdd;
-	color:#fff;
+	background-color: #ecefef;
+	color:#636665;
 	text-align: center;
 	border-radius:0.05rem;
 	margin:0 0.1rem 0.1rem 0;
 	position: relative;
 	cursor: pointer;
-	border: 2px solid transparent;
+	border: 1px solid transparent;
 }
 .student.current{
-	border: 2px solid #636d62;
+	border: 1px solid #5bdee1;
 	box-shadow:0 0 4px #777;
 }
 .student:hover{
-	border: 2px solid #636d62;
+	border: 1px solid #5bdee1;
 }
 .student.noaddress{
 	background-color: #f46864;

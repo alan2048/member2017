@@ -3,30 +3,28 @@ $(function () {
     init();
 });
 function init() {
-    orangeStudentCardList_port();
+    orangeMessageList_port();
 
-    // 路线为空的预览图
+    // 消息为空的预览图
     $('#prevBg >span').on('click',function () {
         $("#newTitle").val('').removeClass('empty');
         $('.newNumBtn >span').text('0');
+        $("#person").removeClass('empty');
         $('#personBox').empty();
-        $('#curStudent').val('').attr('data-id','');
-        $('#curAddress').val('').attr('disabled',true);
 
         $('.content').addClass('hide');
-        $('#content01').removeClass('hide').find(".pageTitle >small").text("新建路线").attr("data-lineid",""); 
+        $('#content01').removeClass('hide').find(".pageTitle >small").text("新建消息").attr("data-lineid",""); 
     });
 
-    // 新建路线
+    // 新建消息
     $("#buttonBox").on("click","#newBtn",function () {
         $("#newTitle").val('').removeClass('empty');
         $('.newNumBtn >span').text('0');
+        $("#person").removeClass('empty');
         $('#personBox').empty();
-        $('#curStudent').val('').attr('data-id','');
-        $('#curAddress').val('').attr('disabled',true);
 
         $(".content").addClass("hide");
-        $("#content01").removeClass("hide").find(".pageTitle >small").text("新建路线").attr("data-lineid","");
+        $("#content01").removeClass("hide").find(".pageTitle >small").text("新建消息").attr("data-lineid","");
     });
 
     // 编辑老师按钮
@@ -36,12 +34,11 @@ function init() {
         }else{
             $("#newTitle").val('').removeClass('empty');
             $('.newNumBtn >span').text('0');
+            $("#person").removeClass('empty');
             $('#personBox').empty();
-            $('#curStudent').val('').attr('data-id','');
-            $('#curAddress').val('').attr('disabled',true);
 
             $('.content').addClass('hide');
-            $('#content01').removeClass('hide').find(".pageTitle >small").text("编辑路线").attr("data-lineid",$('.fa-check-square-o').attr('data-id'));
+            $('#content01').removeClass('hide').find(".pageTitle >small").text("编辑消息").attr("data-lineid",$('.fa-check-square-o').attr('data-id'));
             orangeLinesDetail_port($('.fa-check-square-o').attr('data-id'));
         };
     });
@@ -64,7 +61,8 @@ function init() {
                 },
                 function(isConfirm){
                     if (isConfirm) {
-                        orangeLinesRemove_port();
+                        toastTip('提示','删除功能暂不开放')
+                        // orangeLinesRemove_port();
                     };
             });
         };
@@ -76,7 +74,7 @@ function init() {
         for(var i=0;i<$('.student').length;i++){
             arr.push($('.student').eq(i).attr('data-id'))
         };
-        orangeStudentList_port(arr);
+        orangeStudentCardAll_port(arr);
     });
 
     addClassFn();
@@ -144,26 +142,17 @@ function addClassFn() {
 
     // 多选学生确定
     $("#classBox").on('click','#save',function () {
-        orangeAddressSome_port(); 
-    });
+        var arr=[];
+        for(var i=0;i<$('.child.active').length;i++){
+            var obj={};
+            obj.studentUuid=$('.child.active').eq(i).attr('data-id');
+            obj.studentName=$('.child.active').eq(i).attr('data-name');
+            arr.push(obj)
+        };
+        var html=template("personBox_script",{arr:arr});
+        $("#personBox").empty().append(html);
 
-    // 编辑学生地址
-    $('#personBox').on('click','span.student',function () {
-        $(this).toggleClass('current').siblings().removeClass('current');
-        if($(this).hasClass('current')){
-            $('.studentAdd').removeClass('disable01');
-            if($(this).hasClass('noaddress')){
-                $('#curStudent').val($(this).attr('data-name')).attr('data-id',$(this).attr('data-id'));
-                $('#curAddress').val('').attr('disabled',false);
-            }else{
-                $('#curStudent').val($(this).attr('data-name')).attr('data-id',$(this).attr('data-id'));
-                orangeAddressOne_port($(this).attr('data-id'))
-            };
-        }else{
-            $('.studentAdd').addClass('disable01');
-            $('#curStudent').val('').attr('data-id','');
-            $('#curAddress').val('').attr('disabled',true);
-        }
+        $("#modal-class").modal("hide"); 
     });
 
     // 删除学生
@@ -174,7 +163,7 @@ function addClassFn() {
     // 验证标题字数
     $(".newBox #newTitle").keyup(function () {
         $(this).next(".newNumBtn").find("span").text($(this).val().length);
-        if ($(this).val().length > 30) {
+        if ($(this).val().length > 120) {
             $(this).addClass("more");
         } else {
             $(this).removeClass("more");
@@ -184,15 +173,6 @@ function addClassFn() {
         }else{
             $(this).removeClass("empty");
         };
-    });
-
-    // 保存地址
-    $('#saveAdd').click(function () {
-        if($(this).parents('.studentAdd').hasClass('disable01')){
-            toastTip('提示','请先选择需编辑学生');
-        }else{
-            orangeAddressAddOrUpdate_port();
-        } 
     });
 
     // 返回上一级
@@ -210,36 +190,42 @@ function addClassFn() {
             },
             function(isConfirm){
                 if (isConfirm) {
-                    orangeStudentCardList_port();
+                    orangeMessageList_port();
                 };
         });
     });
 
-    // 新增线路
+    // 新增设备
     $("#new").on('click','span:last-of-type',function () {
         if($('#newTitle').val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
-            orangeLinesAddOrUpdate_port();
+            $('#newTitle').removeClass('empty');
         }else{
             $('#newTitle').addClass('empty');
-            toastTip('提示','线路名称为必填项');
+            toastTip('提示','消息内容为必填项');
+        };
+        if($('#personBox').children().length !=0){
+            $('#person').removeClass('empty');
+        }else{
+            $('#person').addClass('empty');
+            toastTip('提示','通知人为必填项');
+        };
+        if(!$('#newTitle').hasClass('empty') && !$('#person').hasClass('empty')){
+            orangeMessageAdd_port();
         }
-        
     });
         
 }
 
 // 获得幼儿所在班级列表
-function orangeStudentList_port(arr) {
-    var data={
-            lineId:$('#content01').find(".pageTitle >small").attr('data-lineid') || 0
-    };
+function orangeStudentCardAll_port(arr) {
+    var data={};
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.orangeStudentList,param,orangeStudentList_callback,arr);
+    initAjax(httpUrl.orangeStudentCardAll,param,orangeStudentCardAll_callback,arr);
 };
-function orangeStudentList_callback(res,arr) {
+function orangeStudentCardAll_callback(res,arr) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
 
@@ -280,75 +266,8 @@ function orangeStudentList_callback(res,arr) {
     };
 };
 
-// 获取多个学生地址
-function orangeAddressSome_port() {
-    var arr=[];
-    for(var i=0;i<$('.child:not(.disable).active').length;i++){
-        arr.push($('.child:not(.disable).active').eq(i).attr('data-id'));
-    };
-    if(arr.length ==0){
-        toastTip('提示','请先选择学生');
-    }else{
-        var data={
-            studentUuidList:JSON.stringify(arr)
-        };
-        var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-        };
-        initAjax(httpUrl.orangeAddressSome,param,orangeAddressSome_callback); 
-    };
-};
-function orangeAddressSome_callback(res) {
-    if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
-        var html=template("personBox_script",data);
-        $("#personBox").empty().append(html);
-
-        $("#modal-class").modal("hide"); 
-    };
-};
-
-// 获取一个学生的地址
-function orangeAddressOne_port(studentUuid) {
-    var data={
-            studentUuid:studentUuid
-    };
-    var param={
-        params:JSON.stringify(data),
-        loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.orangeAddressOne,param,orangeAddressOne_callback); 
-};
-function orangeAddressOne_callback(res) {
-    if(res.code==200){
-        $('#curAddress').val(res.data).attr('disabled',false);
-    };
-};
-
-// 新增或者编辑学生地址
-function orangeAddressAddOrUpdate_port() {
-    var data={
-            address: $('#curAddress').val(),
-            studentUuid:$('#curStudent').attr('data-id')
-    };
-    var param={
-        params:JSON.stringify(data),
-        loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.orangeAddressAddOrUpdate,param,orangeAddressAddOrUpdate_callback); 
-};
-function orangeAddressAddOrUpdate_callback(res) {
-    if(res.code==200){
-        $('.student.current').removeClass('noaddress');
-        toastTip('提示','保存成功');
-    }else{
-        toastTip('提示',res.info);
-    };
-};
-
-// 获得路线列表
-function orangeStudentCardList_port(pageNum) {
+// 获得消息列表
+function orangeMessageList_port(pageNum) {
     var data={
             pageNumber:pageNum || 1,
             pageSize:20
@@ -357,13 +276,12 @@ function orangeStudentCardList_port(pageNum) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.orangeStudentCardList,param,orangeStudentCardList_callback);
+    initAjax(httpUrl.orangeMessageList,param,orangeMessageList_callback);
 };
-function orangeStudentCardList_callback(res) {
+function orangeMessageList_callback(res) {
     if(res.code==200){
         loadingOut();//关闭loading
         var data=JSON.parse(res.data);
-        console.log(data.list);
 
         $('.content').addClass('hide');
         if(data.list.length ==0){
@@ -372,6 +290,10 @@ function orangeStudentCardList_callback(res) {
             $('#content').removeClass('hide');
         };
         
+        for(var i=0;i<data.list.length;i++){
+            data.list[i].createTime01=new Date(data.list[i].createTime*1000).Format("yyyy-MM-dd hh:mm");
+        };
+
         var html=template("tableBox_script",data);
         $("#tableBox").empty().append(html);
         chooseRow();
@@ -383,40 +305,39 @@ function orangeStudentCardList_callback(res) {
             currentPage: data.pageNumber,
             cssStyle: '',
             onPageClick: function (pageNumber, event) {
-                orangeStudentCardList_port(pageNumber);
+                orangeMessageList_port(pageNumber);
             }
         });
     };
 };
 
-// 新建路线
-function orangeLinesAddOrUpdate_port() {
+// 新建消息
+function orangeMessageAdd_port() {
     var arr=[];
     for(var i=0;i<$('.student').length;i++){
         arr.push($('.student').eq(i).attr('data-id'))
     };
     var data={
-            lineId:$('#content01').find(".pageTitle >small").attr('data-lineid') || 0,
-            name:$('#newTitle').val(),
-            userUuidList:JSON.stringify(arr)    
+            content:$('#newTitle').val(),
+            studentUuidList:JSON.stringify(arr)    
     };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.orangeLinesAddOrUpdate,param,orangeLinesAddOrUpdate_callback);
+    initAjax(httpUrl.orangeMessageAdd,param,orangeMessageAdd_callback);
 };
-function orangeLinesAddOrUpdate_callback(res) {
+function orangeMessageAdd_callback(res) {
     if(res.code==200){
         $(".closeBtn").click();
-        toastTip("提示",'保存路线成功');
-        orangeStudentCardList_port();
+        toastTip("提示",'保存消息成功');
+        orangeMessageList_port();
     }else{
         toastTip("提示",res.info);
     };
 };
 
-// 删除路线
+// 删除消息
 function orangeLinesRemove_port() {
     var data={
             lineId:$('#tableBox td.current >.fa-check-square-o').attr('data-id')
@@ -430,32 +351,7 @@ function orangeLinesRemove_port() {
 function orangeLinesRemove_callback(res) {
     if(res.code==200){
         $(".closeBtn").click();
-        orangeStudentCardList_port();
-    }else{
-        toastTip("提示",res.info);
-    };
-};
-
-// 获取线路详情
-function orangeLinesDetail_port(lineId) {
-    var data={
-            lineId: lineId  
-    };
-    var param={
-            params:JSON.stringify(data),
-            loginId:httpUrl.loginId
-    };
-    initAjax(httpUrl.orangeLinesDetail,param,orangeLinesDetail_callback);
-};
-function orangeLinesDetail_callback(res) {
-    if(res.code==200){
-        var data=JSON.parse(res.data);
-        $("#newTitle").val(data.name).removeClass('empty');
-        $('.newNumBtn >span').text(data.name.length);
-
-        var data={arr:data.studentVOList};
-        var html=template("personBox_script",data);
-        $("#personBox").empty().append(html);
+        orangeMessageList_port();
     }else{
         toastTip("提示",res.info);
     };
@@ -487,13 +383,7 @@ function chooseRow() {
                 $(this).parent().find('i').removeClass('fa-square-o').addClass('fa-check-square-o'); 
                 $(this).parent().siblings().find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
             };
-            ValidateBtn();
-
-            var data={arr:JSON.parse($(this).parent().attr('data-json'))};
-            console.log(data);
-            var html=template("tableBox02_script",data);
-            $("#tableBox02").empty().append(html);
-            chooseNiceScroll("#tableBox02");  
+            ValidateBtn();  
         }
     });
 };

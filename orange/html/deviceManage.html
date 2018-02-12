@@ -52,7 +52,7 @@
             <div class="pageTitle">设备管理</div>
             <div id="prevBg">
                 <img src="../images/deviceManage/empty01.png" alt=""><br>
-                <span>新建设备</span>
+                <span>添加设备</span>
             </div>
         </div> 
 
@@ -74,18 +74,20 @@
                             <thead>
                                 <tr>
                                     <tr>
-                                        <th style="width: 20%;">序号</th>
-                                        <th style="width: 40%;">卡号</th>
-                                        <th style="width: 40%;">姓名</th>
+                                        <th style="width: 25%;">序号</th>
+                                        <th style="width: 25%;">设备名称</th>
+                                        <th style="width: 25%;">设备码</th>
+                                        <th style="width: 25%;">设备类型</th>
                                     </tr>
                                 </tr>
                             </thead>
                            	<tbody>
                            	 	{{each list as item i}}
-                            	<tr data-id="{{item.id}}" data-json={{item.studentJson}}>
+                            	<tr data-id="{{item.id}}">
                                     <td class="num email-sender"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
-                                    <td class="email-sender">{{item.cardId}}</td>
-                                    <td class="email-sender">{{item.studentName}}</td>
+                                    <td class="email-sender">{{item.name}}</td>
+                                    <td class="email-sender">{{item.rfid}}</td>
+                                    <td class="email-sender">{{if item.type==1}}固定设备{{else}}手持设备{{/if}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -96,36 +98,32 @@
 	    </div> 
 
         <div id="content01" class="content hide">
-            <div class="pageTitle">设备管理 <small>新建路线</small></div>
+            <div class="pageTitle">设备管理 <small>添加设备</small></div>
             <div class="newBox">
                 <ul>
                     <li>
-                        <span class="col01"><i class="redIcon">*</i> 线路名称：</span>
+                        <span class="col01"><i class="redIcon">*</i> 设备码：</span>
                         <span class="col02">
-                            <input type="text" id="newTitle" placeholder="请输入线路名称..." class="need" maxlength="30">
+                            <input type="text" id="deviceCode" placeholder="请输入设备码" class="need" maxlength="200">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01"><i class="redIcon">*</i> 设备名称：</span>
+                        <span class="col02">
+                            <input type="text" id="deviceName" placeholder="请输入设备名称" class="need" maxlength="120">
                             <span class="newNumBtn"><span>0</span>/30</span>
                         </span>
                     </li>
                     <li>
-                        <span class="col01">添加学生：</span>
+                        <span class="col01"><i class="redIcon">*</i>设备类型：</span>
                         <span class="col02">
-                            <span id="person" class="person"></span>
-                            <br>
-                            <div id="personBox" class="personBox"></div>
-                            <script id="personBox_script" type='text/html'>
-                                {{each arr as value i}}
-                                <span class="student {{if value.type ==0}}noaddress{{/if}}" data-id={{value.studentUuid}} data-name={{value.studentName}}>
-                                    {{value.studentName}}
-                                    <span class="delBtn"></span>
-                                </span>
-                                {{/each}}
-                            </script>
+                            <select id="deviceType">
+                                <option value="1">固定设备</option>
+                                <option value="2">手持设备</option>
+                            </select>
                         </span>
                     </li>
-                    <li>备注：1、"<i class="redIcon01"></i>" 代表该学生地址未编辑，"<i class="redIcon02"></i>"代表该学生地址已编辑；
-                        <br>
-                        <i class="redIcon03"></i>
-                        2、"<i class="redIcon">*</i>" 为必填项
+                    <li>备注："<i class="redIcon">*</i>" 为必填项
                     </li>
                 </ul>
                 <div id="new" class="new">
@@ -135,42 +133,6 @@
             </div>
         </div>
 	</div>
-
-    <div class="modal fade" id="modal-class" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div id="classBox" class='classBox'></div>
-            </div>
-            <script id="classBox_script" type="text/html">
-                <div class="title">添加学生</div>
-                <div><label><span class="allInput" id="allInput">全选</span></label></div>
-                <ul id="classBody" class='classBody'>
-                    {{each arr as value i}}
-                    <li class="class">
-                        <div class="classTitle">
-                            <span class="right" data-classname="{{value.className}}"></span>
-                            <span>
-                                {{value.className}}
-                            </span>
-                        </div>
-                        <div class="children">
-                            {{each value.studentCheckList as item j}}
-                            <div class="child {{if item.type=='-1'}}disable{{/if}}" data-id="{{item.studentUuid}}">
-                                <span class="childBtn"></span>
-                                <span>{{item.studentName}}</span>
-                            </div>
-                            {{/each}}
-                        </div>
-                    </li>
-                    {{/each}}
-                </ul>
-                <div class="buttonBox">
-                    <span id="cancel">取消</span>
-                    <span id="save">确定</span>
-                </div>
-            </script>
-        </div>
-    </div>
 
 	<script src="../js/common/jquery-1.11.1.min.js"></script>
     <script src="../js/common/modal.js"></script>

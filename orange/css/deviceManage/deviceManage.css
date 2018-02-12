@@ -339,13 +339,12 @@ th,td {
 .redIcon{
 	color: #f64747;
 }
-.person{
+.col02 > input.person{
 	display:inline-block;
-	width: 0.36rem;
+	width: 3rem;
 	height: 0.36rem;
 	border: 1px solid #cdcdcd;
-	border-radius:0.05rem;
-	background: #fff url(../../images/linesmanage/add.png) center center no-repeat;
+	border-radius:0.1rem;
 	cursor: pointer;
 }
 .person:hover{
@@ -402,11 +401,14 @@ th,td {
 .col02 >input.empty{
 	border: 0.01rem solid #fb8085;
 }
+.col02 >input:focus{
+	border: 0.01rem solid #5bdfdf;
+}
 .studentAdd input{
 	border: transparent;
 }
 .col02 > select {
-	width: 100%;
+	width: 3rem;
 	height: 0.4rem;
 	margin-right: 0.4rem;
 	border: 0.01rem solid #c9cccb;
@@ -780,7 +782,7 @@ th,td {
 	background-color: #0dcdd2;
 }
 .classBody{
-	padding-top: 0.9rem;
+	padding-top: 0.7rem;
 	padding-bottom: 1rem;
 }
 .classBox{
@@ -796,6 +798,7 @@ th,td {
 	top:0;
 }
 .classBox >div:nth-of-type(2){
+	display:none;
 	top:0.6rem;
 }
 .classBox >div:last-of-type{
@@ -818,6 +821,7 @@ body.modal-open {
 	line-height: 0.2rem;
 	font-size: 0.12rem;
 	color: #fff;
+	display:none;
 }
 .right:hover{
 	box-shadow:0 0 0.03rem #333;

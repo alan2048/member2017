@@ -59,6 +59,9 @@ var httpUrl={
 		orangeAddressSome:path+"/web/pinge/student/some/address",// 获取多个学生地址
 		orangeStudentList:path+"/web/pinge/school/student/list",// 获取学校所有学生里列表
 
+		orangeMessageAdd:path+"/web/pinge/school/message/add",// 添加推送消息
+		orangeMessageList:path+"/web/pinge/school/message/list",// 获取推送消息列表
+
 		// 08设置
 		setting:'' 
 };
