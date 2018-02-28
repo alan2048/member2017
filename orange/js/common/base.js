@@ -44,6 +44,7 @@ var httpUrl={
 		orangeCardAddOrUpdate:path+"/web/pinge/student/card/addOrUpdate",// 新增或编辑卡片信息
 		orangeStudentCardList:path+"/web/pinge/student/card/list",// 获取卡片列表
 		orangeStudentCardAll:path+"/web/pinge/school/student/all",// 获取学校所有学生里列表
+		orangeStudentcardCheck:path+"/web/pinge/school/cardCheck/student/list",// 签到卡学生列表
 
 		orangeEquipmentRemove:path+"/web/pinge/equipment/remove",// 删除设备信息
 		orangeEquipmentAddOrUpdate:path+"/web/pinge/equipment/addOrUpdate",// 新增或编辑设备信息

@@ -177,12 +177,14 @@ function addClassFn() {
 
 // 获得幼儿所在班级列表
 function orangeStudentCardAll_port(obj) {
-    var data={};
+    var data={
+            id:$('.pageTitle small').attr('data-lineid') || 0
+    };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.orangeStudentCardAll,param,orangeStudentCardAll_callback,obj);
+    initAjax(httpUrl.orangeStudentcardCheck,param,orangeStudentCardAll_callback,obj);
 };
 function orangeStudentCardAll_callback(res,obj) {
     if(res.code==200){
