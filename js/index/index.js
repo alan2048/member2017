@@ -1,4 +1,10 @@
 $(function () {
+	delCookie("loginId");
+	history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+
 	winResize();// 窗口
 	login();// 登录函数
 });

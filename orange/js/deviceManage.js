@@ -142,16 +142,16 @@ function orangeEquipmentList_callback(res) {
     if(res.code==200){
         loadingOut();//关闭loading
         var data=JSON.parse(res.data);
-        console.log(data.list);
 
         $('.content').addClass('hide');
-        if(data.list.length ==0){
+        /*if(data.list.length ==0){
             $('#contentPrev').removeClass('hide');
         }else{
             $('#content').removeClass('hide');
-        };
+        };*/
+        $('#content').removeClass('hide');
         
-        var html=template("tableBox_script",data);
+        var html=template("tableBox_script",{list:data});
         $("#tableBox").empty().append(html);
         chooseRow();
         

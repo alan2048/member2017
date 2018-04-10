@@ -141,7 +141,16 @@ function init() {
                 teacherUpdate_port($("#content01 >.pageTitle >small").attr("data-useruuid"));
             };
         }else{
-            toastTip("提示","请先填写完整。。");   
+            if($(this).attr("data-time")){
+                var time=new Date().getTime() -$(this).attr("data-time");
+                if(time >2000){
+                    toastTip("提示","请先填写完整。。"); 
+                };
+                $(this).attr("data-time",new Date().getTime());
+            }else{
+                toastTip("提示","请先填写完整。。"); 
+                $(this).attr("data-time",new Date().getTime());
+            };
         };
     });
 
@@ -268,7 +277,13 @@ function ajaxSubmitForm() {
             dataType : 'json',
             success : function(data) {
                 teacherGetImportUserInfo_port();
-                toastTip("提示",data.data,3000);
+                console.log(data)
+                if(data.code ==200){
+                    toastTip("提示",data.data,3000);
+                }else{
+                    toastTip("提示",data.info,3000);
+                }
+                
             },
             error: function(data) {
                 console.log(data);   
@@ -652,6 +667,10 @@ function teacherStaffInfo_callback(res) {
         var html=template("tableBox_script",data);
         $("#tableBox").empty().append(html);
         $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+
+        if(data.resultList.length ==0){
+            toastTip("提示",$("#teacherClass >option:selected").text()+" 该教师不存在");
+        };
 
         // 渲染分页
         $("#pagination").pagination({

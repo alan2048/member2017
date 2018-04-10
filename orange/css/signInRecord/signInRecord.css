@@ -224,6 +224,20 @@ th,td {
 	color: #5ce0de;
 	cursor: pointer;
 }
+.table.table-email tr td.email-sender >span{
+	display:none;
+}
+.table.table-email tr td.email-sender:hover >span{
+	position: absolute;
+	display:inline-block;
+	width: 0.45rem;
+	margin-left: 0.1rem;
+	border: 1px solid #999;
+	border-radius:0.05rem;
+}
+.table.table-email tr td.email-sender.current >span:hover,.table.table-email tr td.email-sender:hover >span:hover{
+	box-shadow:0 0 2px #999;
+}
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	padding: 0.14rem 0.08rem;
 	line-height: 1.42857143;

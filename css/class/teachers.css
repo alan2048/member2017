@@ -241,7 +241,7 @@ th,td {
 /*ÐÂÔö start*/
 .newBox{
 	width: 10rem;
-	height: 7rem;
+	min-height: 7rem;
 	margin: auto;
 	background-color: #f4f7f6;
 	color: #969998;
@@ -254,14 +254,12 @@ th,td {
 	margin-top: 1rem;
 }
 .newBox ul >li{
-	height: 0.4rem;
 	margin-bottom: 0.3rem;
 }
 .newBox ul >li:nth-of-type(5){
 	margin-bottom: 0.2rem;
 }
 .newBox ul >li:last-of-type{
-	padding-top: 0.2rem;
 	padding-left: 0.4rem;
 }
 .redIcon{
@@ -319,6 +317,16 @@ th,td {
 	line-height: 0.2rem;
 	margin-right: 0.1rem;
 	cursor: pointer;
+	display:inline-block;
+	width: 1.0rem;
+	overflow-y: auto;
+	height: 0.25rem;
+}
+.col02 >label:hover{
+	color:#5cdfe2;
+}
+#teacherClass01{
+	padding-top: 0.1rem;
 }
 #new,#new01{
 	width: 0.8rem;
@@ -420,9 +428,15 @@ th,td {
 	display:inline-block;
 }
 .modal-dialog{
-	height: 6rem;
+	height: auto;
 	width: 8.5rem;
 	margin:1.6rem auto 0;
+}
+#importEditBox{
+	padding-bottom: 0.6rem;
+}
+#teacherClass02{
+	padding-top: 0.1rem;
 }
 
 .col03 {
@@ -477,9 +491,11 @@ th,td {
 	line-height: 0.2rem;
 	margin-right: 0.1rem;
 	cursor: pointer;
+	display:inline-block;
+	width: 1.1rem;
 }
 #importEditBox >ul >li{
-	height: 0.4rem;
+	
 	margin-bottom: 0.2rem;
 }
 #importEditBox >h4{

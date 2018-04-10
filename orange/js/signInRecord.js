@@ -18,11 +18,14 @@ function init() {
 
             var beginTime=new Date($("#beginTime03").val()).getTime();
             var endTime=new Date($("#endTime03").val()).getTime();
-            if(beginTime < endTime){
-                orangeCardList_port();
-            }else{
-                orangeCardList_port();
-                toastTip("提示","开始时间 需小于 结束时间。",2000);
+
+            if(beginTime && endTime){
+                if(beginTime <= endTime){
+                    orangeCardList_port();
+                }else{
+                    orangeCardList_port();
+                    toastTip("提示","开始时间 需小于 结束时间。",2000);
+                };
             };
     });
 
@@ -39,11 +42,14 @@ function init() {
 
             var beginTime=new Date($("#beginTime03").val()).getTime();
             var endTime=new Date($("#endTime03").val()).getTime();
-            if(beginTime < endTime){
-                orangeCardList_port();
-            }else{
-                orangeCardList_port();
-                toastTip("提示","开始时间 需小于 结束时间。",2000);
+
+            if(beginTime && endTime){
+                if(beginTime <= endTime){
+                    orangeCardList_port();
+                }else{
+                    orangeCardList_port();
+                    toastTip("提示","开始时间 需小于 结束时间。",2000);
+                };
             };
     });
 
@@ -70,14 +76,19 @@ function init() {
     $('#prevBg >span').on('click',function () {
         orangeCardList_port();
     });
+
+    // 卡号复制剪切板成功
+    new Clipboard('.copyBtn', {
+        text: function(trigger) {
+            toastTip('提示','卡号复制剪切板成功');
+            return trigger.getAttribute('data-id');
+        }
+    });
 };
 
 // 获取设备列表
 function orangeEquipmentList_port(pageNum) {
-    var data={
-            pageNumber:pageNum || 1,
-            pageSize:1000
-    };
+    var data={};
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
@@ -86,8 +97,10 @@ function orangeEquipmentList_port(pageNum) {
 };
 function orangeEquipmentList_callback(res) {
     if(res.code==200){
+        loadingOut();//关闭loading
+
         var data=JSON.parse(res.data);
-        var html=template("device_script",{arr:data.list});
+        var html=template("device_script",{arr:data});
         $("#device").append(html);
         orangeCardList_port();
     };
@@ -95,7 +108,22 @@ function orangeEquipmentList_callback(res) {
 
 // 获取所有的刷卡记录
 function orangeCardList_port(pageNum,type) {
+    if($("#beginTime03").val()){
+        var beginTime=new Date($("#beginTime03").val()+" 00:00:00").getTime()/1000;
+    }else{
+        var beginTime="";
+    };
+    if($("#endTime03").val()){
+        var endTime=new Date($("#endTime03").val()+" 23:59:59").getTime()/1000;
+    }else{
+        var endTime="";
+    };
+
     var data={
+            beginTime:beginTime || "",
+            endTime:endTime || "",
+            equipmentId:$("#device").val(),
+            studentName:$("#studentName").val(),
             pageNumber:pageNum || 1,
             pageSize:20
     };
@@ -107,15 +135,16 @@ function orangeCardList_port(pageNum,type) {
 };
 function orangeCardList_callback(res,type) {
     if(res.code==200){
-        loadingOut();//关闭loading
+        
         var data=JSON.parse(res.data);
 
         $('.content').addClass('hide');
-        if(data.list.length ==0){
-            $('#contentPrev').removeClass('hide');
-        }else{
-            $('#content').removeClass('hide');
-        };
+        // if(data.list.length ==0){
+        //     $('#contentPrev').removeClass('hide');
+        // }else{
+        //     $('#content').removeClass('hide');
+        // };
+        $('#content').removeClass('hide');
         
         for(var i=0;i<data.list.length;i++){
             data.list[i].createTime01=new Date(data.list[i].createTime*1000).Format("yyyy-MM-dd hh:mm");

@@ -5,8 +5,10 @@ $(function () {
 function init() {
     menu();
     $("#year01,#month01,#day01").change(function () {
+        changeDay($(this));
         echart_A01_port();
     });
+
     $("#searchBtn01").click(function () {
         echart_A01_port();
     });
@@ -18,7 +20,11 @@ function init() {
         echart_A03_port();
     });
 
-    $("#year04,#month04,#day04,#teacherClass04").change(function () {
+    $("#year04,#month04,#day04").change(function () {
+        changeDay($(this));
+        echart_A04_port();
+    });
+    $("#teacherClass04").change(function () {
         echart_A04_port();
     });
     $("#searchBtn04").click(function () {
@@ -49,6 +55,31 @@ function init() {
         };
         window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.attendExportPersonalExcel+"&params="+JSON.stringify(data));
     });
+};
+
+
+// 日期随月份动态化
+function changeDay(_self) {
+    if(!$(_self).hasClass('day')){
+        var maxDate=new Date($(_self).parents('.search').find('.year').val(),$(_self).parents('.search').find('.month').val(),0).getDate();
+        var day={arr:[]};
+        for(var i=0;i<maxDate;i++){
+            var obj={
+                name:function () {
+                    if(i<9){
+                        return "0"+(i+1).toString();
+                    }else{
+                        return (i+1).toString();
+                    } 
+                }(),
+                val:i+1
+            };
+            day.arr.push(obj)
+        };
+        var htmlDay=template('day_script',day);
+        var chooseDay=$(_self).parents('.search').find('.day').val()
+        $(_self).parents('.search').find('.day').empty().append(htmlDay).find("option[value="+chooseDay+"]").prop("selected",true);
+    }
 };
 
 // 获得当前用户所在班级列表
@@ -785,13 +816,6 @@ function basicMyClassInfo_callback(res) {
         $("#teacherClass,#teacherClass04").append(html);
 
         echart_A03_port();        
-        $("#teacherClass").change(function () {
-            echart_A03_port(); 
-        });
-
         echart_A04_port();        
-        $("#teacherClass").change(function () {
-            echart_A04_port(); 
-        });
     };
 };

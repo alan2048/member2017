@@ -55,7 +55,7 @@ function myClassInfo_callback(res) {
 
             var beginTime=new Date($("#beginTime01").val()).getTime();
             var endTime=new Date($("#endTime01").val()).getTime();
-            if(beginTime < endTime){
+            if(beginTime <= endTime){
                 echart_A01_port();
             }else{
                 echart_A01_port();
@@ -76,7 +76,7 @@ function myClassInfo_callback(res) {
 
             var beginTime=new Date($("#beginTime02").val()).getTime();
             var endTime=new Date($("#endTime02").val()).getTime();
-            if(beginTime < endTime){
+            if(beginTime <= endTime){
                 echart_A02_port();
             }else{
                 echart_A02_port();
@@ -97,7 +97,7 @@ function myClassInfo_callback(res) {
 
             var beginTime=new Date($("#beginTime03").val()).getTime();
             var endTime=new Date($("#endTime03").val()).getTime();
-            if(beginTime < endTime){
+            if(beginTime <= endTime){
                 echart_A03_port();
             }else{
                 echart_A03_port();
@@ -118,7 +118,7 @@ function myClassInfo_callback(res) {
 
             var beginTime=new Date($("#beginTime01").val()).getTime();
             var endTime=new Date($("#endTime01").val()).getTime();
-            if(beginTime < endTime){
+            if(beginTime <= endTime){
                 echart_A01_port();
             }else{
                 echart_A01_port();
@@ -139,7 +139,7 @@ function myClassInfo_callback(res) {
 
             var beginTime=new Date($("#beginTime02").val()).getTime();
             var endTime=new Date($("#endTime02").val()).getTime();
-            if(beginTime < endTime){
+            if(beginTime <= endTime){
                 echart_A02_port();
             }else{
                 echart_A02_port();
@@ -160,7 +160,7 @@ function myClassInfo_callback(res) {
 
             var beginTime=new Date($("#beginTime03").val()).getTime();
             var endTime=new Date($("#endTime03").val()).getTime();
-            if(beginTime < endTime){
+            if(beginTime <= endTime){
                 echart_A03_port();
             }else{
                 echart_A03_port();

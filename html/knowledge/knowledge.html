@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>发现知识</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="../../css/common/sweetalert.css" rel="stylesheet">
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/knowledge/knowledge.css?t=20170927" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #c1ec69;}
+                    {{/each}}
+                    </style>
+                </script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+        <div id="contentPrev" class="content">
+            <div class="pageTitle">发现知识</div>
+            <div id="prevBg">
+                <img src="../../images/knowledge/empty01.png" alt=""><br>
+                <span>新增</span>
+            </div>
+        </div> 
+
+		<div id="content" class="content hide">
+			<div class="pageTitle">发现知识</div>
+			<div id="search"></div>
+			<div id="buttonBox"></div>
+            <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+            </script>
+			<div id="main">
+				<div class="panel">
+                   	<div class="email-content" id="tableBox"></div>
+                    <ul id="pagination"></ul>
+                    <script type="text/html" id="tableBox_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">序号</th>
+                                    <th style="width: 20%;">发布时间</th>
+                                    <th style="width: 30%;">封面</th>
+                                    <th style="width: 30%;">标题</th>
+                                </tr>
+                            </thead>
+                           	<tbody>
+                           	 	{{each list as item i}}
+                            	<tr data-id="{{item.id}}" data-url="{{item.url}}" >
+                                    <td class="num"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                    <td class="email-sender">{{item.createTime01}}</td>
+                                    <td class="email-sender">
+                                        <img src="{{path_img}}{{item.cover}}-scale200" alt="">
+                                    </td>
+                                    <td class="email-sender">{{item.name}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                </div>
+			</div> 
+	    </div> 
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle">发现知识 <small>新增</small></div>
+            <div class="newBox">
+                <ul>
+                    <li>
+                        <span class="col01"><i class="redIcon">*</i> 封面：</span>
+                        <span class="col02">
+                            <div>
+                                <a href="#" id="addPicBtn"></a>
+                                <span class="deleteBtn"></span>
+                            </div>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01"><i class="redIcon">*</i> 标题：</span>
+                        <span class="col02">
+                            <input id="newTitle" placeholder="请在此输入标题" class="need" maxlength="30" type="text">
+                            <span class="newNumBtn"><span>0</span>/30</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01"><i class="redIcon">*</i> 链接网址：</span>
+                        <span class="col02">
+                            <input id="url" placeholder="请在此输入链接网址" class="need" type="text">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="col01">备注：</span>
+                        <span class="col02">
+                            "<i class="redIcon">*</i>" 为必填项
+                        </span>
+                    </li>
+                </ul>
+                <div id="new" class="new">
+                    <span>返回上级</span>
+                    <span>发布</span>
+                </div>
+            </div>
+        </div>
+	</div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <!-- <script src="../../js/common/modal.js"></script> -->
+	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/plupload/plupload.full.min.js" ></script>
+    <script src="../../js/common/plupload/qiniu.js" ></script>
+
+	<script src="../../js/common/base.js?t=20171219"></script>
+	<script src="../../js/knowledge/knowledge.js?t=20171222"></script>
+</body>
+</html>

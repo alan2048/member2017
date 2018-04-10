@@ -77,11 +77,20 @@ function buttonFn() {
                 num="image";
             }
         };
+
+        var arr02=["mp4"];
+        for(var i=0;i<arr02.length;i++){
+            if(className.indexOf(arr02[i]) >= 0){
+                num="mp4";
+            }
+        };
     
         if(num == "text"){
             downloadUrl1_port($(this).attr('data-md5'),"text");
         }else if(num == "image"){
             downloadUrl1_port($(this).attr('data-md5'),"image");
+        }else if(num == "mp4"){
+            downloadUrl1_port($(this).attr('data-md5'),"mp4");
         }else{
             toastTip("提示","此格式暂不支持预览。。");
         }
@@ -695,6 +704,10 @@ function downloadUrl1_callback(res,kind) {
         switch (kind){
             case "image":
                     $("#carousel_img").empty().append("<img src="+res.data+" />");
+                    $("#modal-dialog-img").modal("show");
+                break;
+            case "mp4":
+                    $("#carousel_img").empty().append("<video src="+res.data+" controls=\"controls\"></video>");
                     $("#modal-dialog-img").modal("show");
                 break;
             case "text":

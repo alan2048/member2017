@@ -62,7 +62,17 @@ function init() {
             growthLabelAddOrUpdate_port();
         }else{
             $(".labelBox input").addClass("empty");
-            toastTip("提示","请先填写完整。。"); 
+
+            if($(this).attr("data-time")){
+                var time=new Date().getTime() -$(this).attr("data-time");
+                if(time >2000){
+                    toastTip("提示","请先填写完整。。"); 
+                };
+                $(this).attr("data-time",new Date().getTime());
+            }else{
+                toastTip("提示","请先填写完整。。"); 
+                $(this).attr("data-time",new Date().getTime());
+            };
         };
     });
 };

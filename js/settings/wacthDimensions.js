@@ -601,8 +601,8 @@ function getDimLevelList_hover() {
                 },
                 function(isConfirm){
                     if (isConfirm) {
-                        deleteDimLevel_port(data);
-                        AA.remove();
+                        deleteDimLevel_port(data,AA);
+                        // AA.remove();
                     };
             });
          
@@ -713,14 +713,15 @@ function updateDimLevel_callback(res) {
     }
 }
 // 水平描述删除接口函授
-function deleteDimLevel_port(data) {
+function deleteDimLevel_port(data,_self) {
     var param={
             params:JSON.stringify(data),loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.dimLevelDelete,param,deleteDimLevel_callback);
+    initAjax(httpUrl.dimLevelDelete,param,deleteDimLevel_callback,_self);
 };
-function deleteDimLevel_callback(res) {
+function deleteDimLevel_callback(res,_self) {
     if(res.code==200){
+        $(_self).remove();
         // console.log(res);
     }
 }

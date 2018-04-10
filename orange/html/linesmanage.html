@@ -83,7 +83,7 @@
                             </thead>
                            	<tbody>
                            	 	{{each list as item i}}
-                            	<tr data-id="{{item.id}}" data-json={{item.studentJson}}>
+                            	<tr data-id="{{item.id}}" data-json="{{item.studentJson}}">
                                     <td class="num email-sender"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
                                     <td class="email-sender">{{item.name}}</td>
                                     <td class="email-sender">{{item.createTime01}}</td>

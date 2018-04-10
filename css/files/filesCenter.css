@@ -178,7 +178,8 @@
 	padding-left: 0.2rem;
 	cursor: pointer;
 	background: url(../../images/files/unSelect.png) 0 center no-repeat;
-	word-break:keep-all;
+	height: 0.2rem;
+	overflow-y: auto;
 }
 .list >.todoName:hover{
 	color:#5cdfe2;
@@ -191,6 +192,9 @@
 }
 .list .pic.zip{
 	background: url(../../images/files/zip.png) center center no-repeat;
+}
+.list .pic.mp4{
+	background: url(../../images/files/mp4.png) center center no-repeat;
 }
 .list .pic.xlsx,.list .pic.xls{
 	background: url(../../images/files/excel.png) center center no-repeat;
@@ -315,6 +319,9 @@
 }
 #modal-dialog-img img{
 	height: 100%;
+	width: 100%;
+}
+#carousel_img >video{
 	width: 100%;
 }
 .content{

@@ -48,7 +48,7 @@ var httpUrl={
 
 		orangeEquipmentRemove:path+"/web/pinge/equipment/remove",// 删除设备信息
 		orangeEquipmentAddOrUpdate:path+"/web/pinge/equipment/addOrUpdate",// 新增或编辑设备信息
-		orangeEquipmentList:path+"/web/pinge/equipment/list",// 获取设备列表
+		orangeEquipmentList:path+"/web/pinge/equipment/listOfAll",// 获取设备列表
 		orangeEquipmentDetail:path+"/web/pinge/equipment/detail",// 获取设备详情
 
 		orangeLinesList:path+"/web/pinge/school/line/list",// 获取所有线路列表

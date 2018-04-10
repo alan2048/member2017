@@ -291,6 +291,11 @@ var httpUrl={
 		questionRemove:path+"/web/questionnaire/remove",// 删除调查问卷
 		questionOption:path+"/web/questionnaire/option/userList",// 选项统计详情
 
+		discoverKnowledgeList:path+"/web/discover/thirdLink/list",// 发现列表
+		discoverKnowledgeAdd:path+"/web/discover/thirdLink/addOrUpdate",// 发现新增或编辑第三方链接
+		discoverKnowledgeDetail:path+"/web/discover/thirdLink/detail",// 发现第三方链接详情
+		discoverKnowledgeRemove:path+"/web/discover/thirdLink/remove",// 发现删除第三方链接
+
 		// 08设置
 		setting:'' 
 };
@@ -431,13 +436,6 @@ function toastTip(heading,text,hideAfter,afterHidden) {
             afterHidden: afterHidden
     });
 };
-
-// 退出清理cookie
-$(function () {
-	$(".userPic >a").click(function (e) {
-        delCookie("loginId");
-    });
-});
 
 
 
