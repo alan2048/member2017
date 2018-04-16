@@ -11,13 +11,41 @@ function init() {
     tsTempBookCourse();
 };
 function timeInit() {
-    var week=[{id:1,name:"一"},{id:2,name:"二"},{id:3,name:"三"},{id:4,name:"四"},{id:5,name:"五"},{id:6,name:"六"},{id:7,name:"日"}];
+    /*var week=[{id:1,name:"一"},{id:2,name:"二"},{id:3,name:"三"},{id:4,name:"四"},{id:5,name:"五"},{id:6,name:"六"},{id:7,name:"日"}];
     var html01=template("startWeek_script",{week:week});
-    $("#startWeek,#endWeek").empty().append(html01);  
+    $("#startWeek,#endWeek").empty().append(html01); */ 
 
     var time=[{id:0,name:"00:00"},{id:1,name:"01:00"},{id:2,name:"02:00"},{id:3,name:"03:00"},{id:4,name:"04:00"},{id:5,name:"05:00"},{id:6,name:"06:00"},{id:7,name:"07:00"},{id:8,name:"08:00"},{id:9,name:"09:00"},{id:10,name:"10:00"},{id:11,name:"11:00"},{id:12,name:"12:00"},{id:13,name:"13:00"},{id:14,name:"14:00"},{id:15,name:"15:00"},{id:16,name:"16:00"},{id:17,name:"17:00"},{id:18,name:"18:00"},{id:19,name:"19:00"},{id:20,name:"20:00"},{id:21,name:"21:00"},{id:22,name:"22:00"},{id:23,name:"23:00"},{id:24,name:"24:00"}];
     var html02=template("startTime_script",{time:time});
     $("#startTime,#endTime").empty().append(html02); 
+
+    $('#startWeek').datepicker({
+        todayHighlight:true,
+        language:'zh-CN'
+    }).on("changeDate",function (ev) {
+        if($("#startWeek").val()){
+            $("#startWeek").removeClass("empty");
+        }else{
+            $("#startWeek").addClass("empty");
+        };
+        $('#startWeek').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
+    });
+
+    $('#endWeek').datepicker({
+        todayHighlight:true,
+        language:'zh-CN'
+    }).on("changeDate",function (ev) {
+        if($("#endWeek").val()){
+            $("#endWeek").removeClass("empty");
+        }else{
+            $("#endWeek").addClass("empty");
+        };
+        $('#endWeek').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
+    });
     
 };
 function mousehover() {
@@ -50,6 +78,7 @@ function mousehover() {
         $("#addPicBtn").css({"background":""});
         $("#switchBtn").removeClass("close").text("启用").next("input[name=isStop]").val();
         $("form.form-horizontal select >option").prop("selected",false);
+        $(".fill,.fillnum").removeClass('empty').val("");
     });
 
     // 编辑活动
@@ -128,11 +157,21 @@ function mousehover() {
                 data[arr[i].name]=arr[i].value
             };
 
-            if($("select[name=bookTimeWeekEnd]").val() > $("select[name=bookTimeWeekStart]").val() || ($("select[name=bookTimeWeekEnd]").val() == $("select[name=bookTimeWeekStart]").val() && $("select[name=bookTimeHourEnd]").val() > $("select[name=bookTimeHourStart]").val())){
+            var startWeek=Date.parse(new Date($("#startWeek").val()+" "+$("#startTime >option:selected").text()))/1000;
+            var endWeek=Date.parse(new Date($("#endWeek").val()+" "+$("#endTime >option:selected").text()))/1000;
+
+            if(endWeek-startWeek >0 && endWeek-startWeek <=604800){
+                data.bookTimeStart=startWeek.toString();
+                data.bookTimeEnd=endWeek.toString();
+                delete data['bookTimeHourStart'];
+                delete data['bookTimeHourEnd'];
+                
                 AddCourse_port(data);
             }else{
-                toastTip("提示","预约结束时间必须大于预约开始时间");
+                toastTip("提示","预约结束时间必须大于预约开始时间,同时保持在一周以内",5000);
             };
+
+
         };
     });
 
@@ -343,7 +382,7 @@ function AddCourse_port(data) {
 function AddCourse_callback(res) {
     if(res.code==200){
         $("#quit").click(); 
-       GetSchoolCourses_port($("#school").val());
+        GetSchoolCourses_port($("#school").val());
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -364,7 +403,7 @@ function GetCourseDetails_port(id,name) {
 function GetCourseDetails_callback(res,name) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-
+        
         $(".content").addClass("hide01");
         $("#content01").removeClass("hide01");
         $("#content01 > h1 > small").text("编辑");
@@ -379,10 +418,12 @@ function GetCourseDetails_callback(res,name) {
             $("textarea[name="+i+"]").val(data[i]);
         };
 
-        $(".form-group select[name='bookTimeWeekStart'] >option[value="+data['bookTimeWeekStart']+"]").prop("selected",true);
-        $(".form-group select[name='bookTimeHourStart'] >option[value="+data['bookTimeHourStart']+"]").prop("selected",true);
-        $(".form-group select[name='bookTimeWeekEnd'] >option[value="+data['bookTimeWeekEnd']+"]").prop("selected",true);
-        $(".form-group select[name='bookTimeHourEnd'] >option[value="+data['bookTimeHourEnd']+"]").prop("selected",true);
+        $("#startWeek").val(new Date(data.bookTimeStart*1000).Format("yyyy-MM-dd"));
+        $(".form-group select[name='bookTimeHourStart'] >option:contains("+new Date(data.bookTimeStart*1000).Format("hh:mm")+")").prop("selected",true);
+
+        $("#endWeek").val(new Date(data.bookTimeStart*1000).Format("yyyy-MM-dd"));
+        $(".form-group select[name='bookTimeHourEnd'] >option:contains("+new Date(data.bookTimeEnd*1000).Format("hh:mm")+")").prop("selected",true);
+        $(".form-group select[name='weekLoop'] >option[value="+data.weekLoop+"]").prop("selected",true);
 
         data.pic=httpUrl.path_img+data.pic+"-scale200";
         if(data.coursePics){
@@ -831,3 +872,16 @@ function basicButton_callback(res) {
         $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     };
 };
+
+(function($){
+    $.fn.datepicker.dates['zh-CN'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            today: "今天",
+            suffix: [],
+            meridiem: ["上午", "下午"]
+    };
+}(jQuery));

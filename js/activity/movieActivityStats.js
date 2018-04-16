@@ -43,6 +43,8 @@ function init() {
         }else{
             $("#email-content tbody").empty();
         }
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     $("#school").change(function () {
@@ -69,6 +71,8 @@ function init() {
         }else{
             $("#email-content01 tbody").empty();
         }
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     $("#userClass").change(function () {

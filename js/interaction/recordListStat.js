@@ -61,6 +61,8 @@ function myClassInfo_callback(res) {
                 echart_A01_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
+        }).on('show',function (ev) {
+            $(this).datepicker("update",$(ev.target).val());
         });
 
         $('#beginTime03').datepicker({
@@ -82,6 +84,8 @@ function myClassInfo_callback(res) {
                 echart_A03_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
+        }).on('show',function (ev) {
+            $(this).datepicker("update",$(ev.target).val());
         });
 
         $('#endTime01').datepicker({
@@ -103,6 +107,8 @@ function myClassInfo_callback(res) {
                 echart_A01_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
+        }).on('show',function (ev) {
+            $(this).datepicker("update",$(ev.target).val());
         });
 
         $('#endTime03').datepicker({
@@ -124,6 +130,8 @@ function myClassInfo_callback(res) {
                 echart_A03_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
+        }).on('show',function (ev) {
+            $(this).datepicker("update",$(ev.target).val());
         });
 
         echart_A01_port();

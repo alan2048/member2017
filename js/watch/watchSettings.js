@@ -100,10 +100,18 @@ function editTable() {
             };
         };
 
-        if(n==0){
+        // 每个领域至少选中一项。。
+        /*if(n==0){
             watchConfigAdd_port(newArr);
         }else{
             toastTip("提示","每个领域至少选中一项。。");
+        };*/
+
+        // 领域至少选中一项。。
+        if(newArr.length >0){
+            watchConfigAdd_port(newArr);
+        }else{
+            toastTip("提示","至少选中一项。。");
         };
     });
 };

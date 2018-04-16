@@ -44,6 +44,8 @@ function loginSuccess() {
             $("#createDate").removeClass("empty");
         };
         $('#createDate').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     //输入身高

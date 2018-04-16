@@ -70,6 +70,8 @@ function init() {
             $("#birthday").addClass("empty");
         };
         $('#birthday').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     $('#birthday01').datepicker({
@@ -82,6 +84,8 @@ function init() {
             $("#birthday01").addClass("empty");
         };
         $('#birthday01').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     // 删除老师按钮

@@ -1032,6 +1032,26 @@ textarea.form-control {
    	color: #969998;
    	background-color: #fff;
 }
+.form-group input{
+	min-width: 1.4rem;
+	height: 0.4rem;
+	margin-right: 0.2rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	color: #969998;
+   	background-color: #fff;
+}
+input.fill.empty {
+	color: #ed6e6e;
+	border-color: #ed6e6e;
+}
+.form-group select#weekLoop{
+	min-width: 3.02rem;
+}
 .form-group select >option{
 	height: 0.3rem;
 	padding: 0.05rem;

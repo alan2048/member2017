@@ -244,6 +244,8 @@ function editTable() {
             $('#planBegintime,#planEndtime').removeClass("empty");
         };
         $('#planBegintime,#planEndtime').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
 };

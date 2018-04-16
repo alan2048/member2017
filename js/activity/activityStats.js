@@ -16,6 +16,8 @@ function init() {
         }else{
             $("#searchBox01").empty();
         }
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     $("#school").change(function () {
@@ -33,6 +35,8 @@ function init() {
         }else{
             $("#searchBox03").empty();
         }
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     $("#school01").change(function () {

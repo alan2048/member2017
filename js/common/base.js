@@ -24,6 +24,7 @@ var httpUrl={
 		streamUrl:path+"/file/streamUrl", // 获取私有资源的URL（文件流）
 		basicFileUpload:path+"/file/business/upload", // 业务文件上传
 		login:path+"/web/login/loginChecking",// 首页登入
+		login2:path+"/web/login/loginChecking2",// 首页登入2
 		loginUserInfo:path+"/web/basic/loginUserInfo",// 获得登录人信息
 		basicButton:path+"/web/ops/menu/button/list",// 获取菜单功能按钮列表
 		basicMyClassInfo:path+"/web/basic/myClassInfo",// 获得当前人 所在班级列表
@@ -259,7 +260,7 @@ var httpUrl={
 		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
 		GetSchoolJYIds:path+"/web/activity/TSCourse_GetSchoolJYIds",//剧场活动 id
 		GetSchoolCourses:path+"/web/activity/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
-		AddCourse:path+"/web/activity/TSCourse_AddCourse",//特色课程 新增
+		AddCourse:path+"/web/activity/TSCourse_AddCourse2",//特色课程 新增
 		GetCourseDetails:path+"/web/activity/TSCourse_GetCourseDetails",//获取学校课程详情
 		tsDelCourse:path+"/web/activity/TSCourse_DelCourse",// 删除学校课程
 		tsGetBookedChildren:path+"/web/activity/TSCourse_GetBookedChildren",// 签到学生列表

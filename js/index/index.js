@@ -57,16 +57,17 @@ function login(){
 	$("#loginIn").click(function (e) {
 		if($("#username").val() && $("#password").val()){
 			$(this).text("正在登录...");
+
 			var data={
 					account:$("#username").val(),
-					password:$("#password").val()
+					code:b64_md5("pwd="+b64_md5($("#password").val())+"&account="+$("#username").val()+"&salt=www.member361.com")
 			};
 			var param={
             		params:JSON.stringify(data),
     		};
     		$.ajax({
 				type : "POST",
-				url : httpUrl.login,
+				url : httpUrl.login2,
 				data:param,
 				dataType : "json",
 				success : function(res) {

@@ -279,6 +279,8 @@ function newQuestion() {
             language:'zh-CN'
         }).on("changeDate",function (ev) {
             $('#beginTime01').datepicker("hide");
+    }).on('show',function (ev) {
+        $(this).datepicker("update",$(ev.target).val());
     });
 
     dateInit();// 时钟分钟 初始化
