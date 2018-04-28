@@ -165,9 +165,9 @@
                     <p>设置 <small>(带“<i class="redIcon">*</i>”为必填)</small></p>
                     <ul>
                         <li>
-                            <span class="col01"> 截止时间：</span>
+                            <span class="col01"><i class="redIcon">*</i> 截止时间：</span>
                             <span class="col02">
-                                <label><input id="beginTime01" readonly="readonly" type="text" placeholder="单击设置日期"></label>
+                                <label><input id="beginTime01" readonly="readonly" type="text" placeholder="单击设置日期" class="need"></label>
                                 <label>
                                     <select id="hour"></select>时
                                     <script type="text/html" id="hour_script">
@@ -203,7 +203,7 @@
                             <span class="col01"> 权限设置：</span>
                             <span class="col02">
                                 <label><input type="checkbox" id="anonymity"> 设置为匿名问卷<i class="redIcon">（勾选后，本人将不可查看统计详情）</i></label><br>
-                                <label><input type="checkbox" id="statVisible"> 查看统计数据<i class="redIcon">（勾选后，教师/家长可将不查看统计详情）</i></label>
+                                <label><input type="checkbox" id="statVisible"> 查看统计数据<i class="redIcon">（勾选后，教师/家长可将查看统计详情）</i></label>
                             </span>
                         </li>
                     </ul>
@@ -248,6 +248,7 @@
                                 <li><span>多选</span></li>
                                 <li><span>预览问卷</span></li>
                                 <li><span>提交问卷</span></li>
+                                <li class="hide"><span>返回顶部</span></li>
                             </ul>
                         </div>
                     </div>
@@ -507,7 +508,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-option" tabindex="-1">
+    <div class="modal fade" id="modal-option" tabindex="-1" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div id="optionHeader" class="optionHeader">
@@ -549,7 +550,7 @@
                         {{each questionOptionList as value i}}
                         <li>
                             <span class="col03">选项<i>{{i+1}}</i>:</span>
-                            <span class="col04 fillImg" data-pic="{{value.picture}}"><img src="{{value.pic}}-scale200" alt=""><i></i></span>
+                            <span class="col04 {{if value.picture}}fillImg{{/if}}" data-pic="{{value.picture}}"><img src="{{value.pic}}-scale200" alt=""><i></i></span>
                             <span class="col05">
                                 <textarea name="input" placeholder="此处填写选项文字描述..." maxlength="140">{{value.content}}</textarea>
                                 <span class="newNumBtn"><span>{{value.content.length}}</span>/140</span>
@@ -586,7 +587,7 @@
                         <span id="opSave" class="opSave">确定</span>
                     </div>
                 </div>
-                <span class="closeBtn01" data-dismiss="modal"></span>
+                <span class="closeBtn01" id="modal-option-close"></span>
             </div>
         </div>
     </div>
@@ -650,7 +651,7 @@
     <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20180117"></script>
-	<script src="../../js/question/question.js?t=20180117"></script>
+	<script src="../../js/common/base.js?t=20180427"></script>
+	<script src="../../js/question/question.js?t=20180427"></script>
 </body>
 </html>

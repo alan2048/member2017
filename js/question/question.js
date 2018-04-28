@@ -275,16 +275,45 @@ function newQuestion() {
 
     $('#beginTime01').datepicker({
             todayHighlight:true,
+            autoclose:true,
             startDate:'today',
             language:'zh-CN'
-        }).on("changeDate",function (ev) {
-            $('#beginTime01').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     dateInit();// 时钟分钟 初始化
     newOptionFn();
+
+    $("#modal-option").on('click','#modal-option-close',function () {
+        swal({
+                title: "您还未点击确定按钮，确定退出吗？",
+                text: "退出将不保存数据",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "退出",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        // 新增之后初始化
+                        $(".opBody").empty().append(template("option_script",{arr:[0,1]}));
+                        $(".opTitle textarea").removeClass('empty').val("");
+                        $(".opTitle .newNumBtn >span").text("0");
+                        $("#opSave").attr("data-time","");
+                        $("#answerNumer").empty().append(template("answerNumer_script",{arr:[2]}));
+
+                        $("#modal-option").modal('hide');
+                };
+        });
+    });
 };
 
 // 时钟分钟 初始化
@@ -309,7 +338,7 @@ function newOptionFn() {
     chooseNiceScroll("#optionBody");
     // 单选
     $(".questionTool >ul >li:nth-of-type(1)").click(function () {
-        if($(".newQuestion >li").length <15){
+        if($(".newQuestion >li").length <15 || $(this).hasClass("editing")){
             $("#optionHeader >span >i").text("单选");
             $("#optionHeader >span >span >i").text("多选");
             $("#optionFloor >div:first-of-type").removeClass("active");
@@ -329,6 +358,11 @@ function newOptionFn() {
             $("#answerNumer").empty().append(html).find("option:contains("+value+")").prop("selected",true);
 
             $("#modal-option").modal("show"); 
+
+            // 编辑状态
+            if($(this).hasClass("editing")){
+                $(this).removeClass("editing");
+            };
         }else{
             swal({
                 title: "最多可添加15个问题",
@@ -369,6 +403,12 @@ function newOptionFn() {
 
     // 预览问卷
     $(".questionTool >ul >li:nth-of-type(3)").click(function () {
+        if($("#beginTime01").val()){
+            $("#beginTime01").removeClass("empty")
+        }else{
+            $("#beginTime01").addClass("empty");
+        };
+
         if($("#person").val()){
             $("#person").removeClass("empty")
         }else{
@@ -424,7 +464,7 @@ function newOptionFn() {
     });
 
 
-    $(".scrollTopBtn").click(function(e){
+    $(".scrollTopBtn,.questionTool >ul >li:nth-of-type(5)").click(function(e){
         e.preventDefault();
         $("html, body").animate({scrollTop:$("body").offset().top},500)
     });
@@ -438,10 +478,25 @@ function newOptionFn() {
                 $(".scrollTopBtn").addClass("hide");
             };
         };
+
+        if(!$("#content01").hasClass("hide")){
+            var e=$(document).scrollTop();
+            if(e>=300){
+                $(".questionTool >ul >li:nth-of-type(5)").removeClass("hide");
+            }else{
+                $(".questionTool >ul >li:nth-of-type(5)").addClass("hide");
+            };
+        };
     });
 
     // 提交问卷
     $(".questionTool >ul >li:nth-of-type(4)").click(function () {
+        if($("#beginTime01").val()){
+            $("#beginTime01").removeClass("empty")
+        }else{
+            $("#beginTime01").addClass("empty");
+        };
+        
         if($("#person").val()){
             $("#person").removeClass("empty")
         }else{
@@ -550,19 +605,27 @@ function newOptionFn() {
 
     // 上移
     $(".opBody").on("click",".opTool >span:nth-of-type(3)",function () {
-        $(this).parents("li").prev().before($(this).parents("li"));
-        // 序列重置
-        for(var i=0;i<$(".opBody >li").length;i++){
-            $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+        if($(this).parents("li").index() ==0){
+            toastTip('提示','此选项已置顶')
+        }else{
+            $(this).parents("li").prev().before($(this).parents("li"));
+            // 序列重置
+            for(var i=0;i<$(".opBody >li").length;i++){
+                $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+            };
         };
     });
 
     // 下移
     $(".opBody").on("click",".opTool >span:nth-of-type(4)",function () {
-        $(this).parents("li").next().after($(this).parents("li"));
-        // 序列重置
-        for(var i=0;i<$(".opBody >li").length;i++){
-            $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+        if($(this).parents("li").index()+1 == $(".opBody >li").length){
+            toastTip('提示','此选项已置底')
+        }else{
+            $(this).parents("li").next().after($(this).parents("li"));
+            // 序列重置
+            for(var i=0;i<$(".opBody >li").length;i++){
+                $(".opBody >li").eq(i).find(".col03").children("i").text(i+1);
+            };
         };
     });
 
@@ -669,7 +732,7 @@ function newOptionFn() {
         $(".opBody").empty().append(html);
         
         if(json.answerNumer ==1){
-            $(".questionTool >ul >li:nth-of-type(1)").click();
+            $(".questionTool >ul >li:nth-of-type(1)").addClass("editing").click();
         }else{
             $("#optionHeader >span >i").text("多选");
             $("#optionHeader >span >span >i").text("单选");
@@ -712,20 +775,28 @@ function newOptionFn() {
 
     // 预览 上移
     $(".newQuestion").on("click","div.quesTool >span:nth-of-type(3)",function () {
-        $(this).parents("li").prev().before($(this).parents("li"));
-        // 序列重置
-        for(var i=0;i<$(".newQuestion >li").length;i++){
-            $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+        if($(this).parents("li").index() ==0){
+            toastTip('提示','此问题已置顶')
+        }else{
+            $(this).parents("li").prev().before($(this).parents("li"));
+            // 序列重置
+            for(var i=0;i<$(".newQuestion >li").length;i++){
+                $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+            };
         };
     });
 
     // 预览 下移
     $(".newQuestion").on("click","div.quesTool >span:nth-of-type(4)",function () {
-        $(this).parents("li").next().after($(this).parents("li"));
-        // 序列重置
-        for(var i=0;i<$(".newQuestion >li").length;i++){
-            $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
-        };
+        if($(this).parents("li").index()+1 == $(".newQuestion >li").length){
+            toastTip('提示','此问题已置底')
+        }else{
+            $(this).parents("li").next().after($(this).parents("li"));
+            // 序列重置
+            for(var i=0;i<$(".newQuestion >li").length;i++){
+                $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+            };
+        }
     });
 };
 

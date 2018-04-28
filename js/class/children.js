@@ -70,8 +70,12 @@ function init() {
             $("#birthday").addClass("empty");
         };
         $('#birthday').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $('#birthday01').datepicker({
@@ -84,8 +88,12 @@ function init() {
             $("#birthday01").addClass("empty");
         };
         $('#birthday01').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     // 删除老师按钮
@@ -370,7 +378,20 @@ function childrenSubmitUserData_port() {
 };
 function childrenSubmitUserData_callback(res) {
     if(res.code==200){
-        toastTip("提示",res.data+" 详情："+res.info,2500);
+        swal({
+                title: res.data,
+                text: "详情："+res.info,
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "确定",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {};
+        });
+        // toastTip("提示",res.data+" 详情："+res.info,2500);
         childrenGetImportUserInfo_port();
         childrenInfo_port();
     }else{

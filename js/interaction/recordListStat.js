@@ -61,9 +61,13 @@ function myClassInfo_callback(res) {
                 echart_A01_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
-        }).on('show',function (ev) {
-            $(this).datepicker("update",$(ev.target).val());
-        });
+        }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
+    });
 
         $('#beginTime03').datepicker({
             todayHighlight:true,
@@ -84,9 +88,13 @@ function myClassInfo_callback(res) {
                 echart_A03_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
-        }).on('show',function (ev) {
-            $(this).datepicker("update",$(ev.target).val());
-        });
+        }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
+    });
 
         $('#endTime01').datepicker({
             todayHighlight:true,
@@ -107,9 +115,13 @@ function myClassInfo_callback(res) {
                 echart_A01_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
-        }).on('show',function (ev) {
-            $(this).datepicker("update",$(ev.target).val());
-        });
+        }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
+    });
 
         $('#endTime03').datepicker({
             todayHighlight:true,
@@ -130,9 +142,13 @@ function myClassInfo_callback(res) {
                 echart_A03_port();
                 toastTip("提示","开始时间 需小于 结束时间。",2000);
             };
-        }).on('show',function (ev) {
-            $(this).datepicker("update",$(ev.target).val());
-        });
+        }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
+    });
 
         echart_A01_port();
         echart_A03_port();

@@ -374,11 +374,14 @@ label > select {
 .questionTool >ul >li:nth-of-type(2){
 	background: #edf0f0 url(../../images/question/add.png) center center no-repeat;
 }
+.questionTool >ul >li:nth-of-type(3){
+	background: #edf0f0 url(../../images/question/preview.png) center center no-repeat;
+}
 .questionTool >ul >li:nth-of-type(4){
 	background: #edf0f0 url(../../images/question/ok.png) center center no-repeat;
 }
-.questionTool >ul >li:nth-of-type(3){
-	background: #edf0f0 url(../../images/question/preview.png) center center no-repeat;
+.questionTool >ul >li:nth-of-type(5){
+	background: #edf0f0 url(../../images/question/uptop01.png) center center no-repeat;
 }
 .questionTool >ul >li >span{
 	display: inline-block;
@@ -1574,4 +1577,7 @@ body.modal-open{
 #carousel_img img {
 	width: 100%;
 	height:auto;
+}
+.sweet-alert h2{
+	font-size: 22px;
 }

@@ -61,8 +61,12 @@ function init() {
             $("#planBegintime").addClass("textbox-invalid");
         };
         $('#planBegintime').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $('#planEndtime').datepicker({
@@ -75,8 +79,12 @@ function init() {
             $("#planEndtime").addClass("textbox-invalid");
         };
         $('#planEndtime').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     // 选择关联教师

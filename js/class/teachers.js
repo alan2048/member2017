@@ -32,8 +32,12 @@ function init() {
             $("#birthday").addClass("empty");
         };
         $('#birthday').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $('#birthday01').datepicker({
@@ -46,8 +50,12 @@ function init() {
             $("#birthday01").addClass("empty");
         };
         $('#birthday01').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     // 图层折叠
@@ -281,7 +289,6 @@ function ajaxSubmitForm() {
             dataType : 'json',
             success : function(data) {
                 teacherGetImportUserInfo_port();
-                console.log(data)
                 if(data.code ==200){
                     toastTip("提示",data.data,3000);
                 }else{
@@ -328,7 +335,21 @@ function teacherSubmitUserData_port() {
 };
 function teacherSubmitUserData_callback(res) {
     if(res.code==200){
-        toastTip("提示",res.data+" 详情："+res.info,2500);
+        swal({
+                title: res.data,
+                text: "详情："+res.info,
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#e15d5d",
+                confirmButtonText: "确定",
+                closeOnConfirm: true,
+                closeOnCancel: true
+                },
+                function(isConfirm){
+                    if (isConfirm) {};
+        });
+        
+        // toastTip("提示",res.data+" 详情："+res.info,2500);
         teacherGetImportUserInfo_port();
         teacherStaffInfo_port();
     }else{
@@ -529,7 +550,6 @@ function teacherSingleStaffInfo_callback(res,userUUID) {
         $("#content01").find("input[type=checkbox]:checked").prop("checked",false);
 
         var data=JSON.parse(res.data);
-        console.log(data);
         $("#birthday").val(data.birthday);
         $("#phoneNum").val(data.phoneNum);
         $("#userName").val(data.name);

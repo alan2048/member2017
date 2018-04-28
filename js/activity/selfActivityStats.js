@@ -43,8 +43,12 @@ function init() {
         }else{
             $("#email-content tbody").empty();
         }
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $("#school").change(function () {
@@ -71,8 +75,12 @@ function init() {
         }else{
             $("#email-content01 tbody").empty();
         }
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $("#userClass").change(function () {

@@ -244,8 +244,12 @@ function editTable() {
             $('#planBegintime,#planEndtime').removeClass("empty");
         };
         $('#planBegintime,#planEndtime').datepicker("hide");
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
 };

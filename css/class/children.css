@@ -602,3 +602,6 @@ th,td {
 .content{
 	min-width: 9.8rem;
 }
+.sweet-alert h2{
+	font-size: 22px;
+}

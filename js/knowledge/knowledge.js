@@ -93,7 +93,8 @@ function init() {
             },
             function(isConfirm){
                 if (isConfirm) {
-                    discoverKnowledgeList_port();
+                    $('.content').addClass('hide');
+                    $("#content").removeClass('hide');
                 };
         });
     });
@@ -219,16 +220,22 @@ function discoverKnowledgeAdd_port() {
             name:$('#newTitle').val(),
             url:$('#url').val()    
     };
+    if(data.id ==0){
+        var pageNumber=1;
+    }else{
+        var pageNumber=$("#pagination").pagination('getCurrentPage');
+    };
+    
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.discoverKnowledgeAdd,param,discoverKnowledgeAdd_callback);
+    initAjax(httpUrl.discoverKnowledgeAdd,param,discoverKnowledgeAdd_callback,pageNumber);
 };
-function discoverKnowledgeAdd_callback(res) {
+function discoverKnowledgeAdd_callback(res,pageNumber) {
     if(res.code==200){
         toastTip("提示",'保存知识成功');
-        discoverKnowledgeList_port();
+        discoverKnowledgeList_port(pageNumber);
     }else{
         toastTip("提示",res.info);
     };

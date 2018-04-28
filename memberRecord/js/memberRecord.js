@@ -702,40 +702,51 @@ function savePic() {
     
 	// 保存图片按钮
     $("#savePic").click(function () {
-        // 评价模板保存
-        if($("#evaluate").hasClass("active")){
-            $("#saveEvaluate").empty().width($("#evaluateBox .temark1").width()).append($("#evaluateBox .temark1").clone());
-            html2canvas($("#saveEvaluate"),{
-                useCORS:true,// 解决跨域问题  不可与allowTaint 共用
-                taintTest: false,
-                height:$("#saveEvaluate").outerHeight(),
-                width:$("#saveEvaluate").outerWidth(),
-                onrendered:function (canvas01) {
-                    swal({
-                        title: "提示",
-                        text: "正在保存，请稍候。。。",
-                        // timer: 3000,
-                        showConfirmButton: false
-                    }); 
-                    recordSaveOrUpdate_port(canvas01.toDataURL('png'));
-                    $("#saveEvaluate").empty();
-                }
-            });
+        if($(this).attr('data-time')){
+            var preTime=$(this).attr('data-time');
         }else{
-            if (!fabric.Canvas.supports('toDataURL')) {
-                alert('This browser doesn\'t provide means to serialize canvas to an image');
-            }else {
-                swal({
-                        title: "提示",
-                        text: "正在保存，请稍候。。。",
-                        // timer: 3000,
-                        showConfirmButton: false
-                    }); 
-                // console.log(canvas.toDataURL("png"));
-                recordSaveOrUpdate_port(canvas.toDataURL('png'),JSON.stringify(canvas));
-            };
-        }
-    	
+            var preTime=0;
+        };
+        var currentTime=new Date().getTime();
+        $(this).attr("data-time",currentTime);
+
+        if(currentTime - preTime >1000){
+            // 评价模板保存
+            if($("#evaluate").hasClass("active")){
+                $("#saveEvaluate").empty().width($("#evaluateBox .temark1").width()).append($("#evaluateBox .temark1").clone());
+                html2canvas($("#saveEvaluate"),{
+                    useCORS:true,// 解决跨域问题  不可与allowTaint 共用
+                    taintTest: false,
+                    height:$("#saveEvaluate").outerHeight(),
+                    width:$("#saveEvaluate").outerWidth(),
+                    onrendered:function (canvas01) {
+                        swal({
+                            title: "提示",
+                            text: "正在保存，请稍候。。。",
+                            // timer: 3000,
+                            showConfirmButton: false
+                        }); 
+                        recordSaveOrUpdate_port(canvas01.toDataURL('png'));
+                        $("#saveEvaluate").empty();
+                    }
+                });
+            }else{
+                if (!fabric.Canvas.supports('toDataURL')) {
+                    alert('This browser doesn\'t provide means to serialize canvas to an image');
+                }else {
+                    swal({
+                            title: "提示",
+                            text: "正在保存，请稍候。。。",
+                            // timer: 3000,
+                            showConfirmButton: false
+                        }); 
+                    // console.log(canvas.toDataURL("png"));
+                    recordSaveOrUpdate_port(canvas.toDataURL('png'),JSON.stringify(canvas));
+                };
+            }
+        }else{
+            console.log('双击去重')
+        };
 	});
 
     // 切换学生列表

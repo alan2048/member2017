@@ -260,7 +260,8 @@ var httpUrl={
 		GetSchoolIds:path+"/web/activity/TSCourse_GetSchoolIds",//特色课程 获取学校课程id
 		GetSchoolJYIds:path+"/web/activity/TSCourse_GetSchoolJYIds",//剧场活动 id
 		GetSchoolCourses:path+"/web/activity/TSCourse_GetSchoolCourses",//特色课程 获取学校课程
-		AddCourse:path+"/web/activity/TSCourse_AddCourse2",//特色课程 新增
+		AddCourse:path+"/web/activity/TSCourse_AddCourse",//特色课程 新增
+		AddCourse2:path+"/web/activity/TSCourse_AddCourse2",//特色课程 新增
 		GetCourseDetails:path+"/web/activity/TSCourse_GetCourseDetails",//获取学校课程详情
 		tsDelCourse:path+"/web/activity/TSCourse_DelCourse",// 删除学校课程
 		tsGetBookedChildren:path+"/web/activity/TSCourse_GetBookedChildren",// 签到学生列表

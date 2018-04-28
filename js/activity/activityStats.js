@@ -16,8 +16,12 @@ function init() {
         }else{
             $("#searchBox01").empty();
         }
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $("#school").change(function () {
@@ -35,8 +39,12 @@ function init() {
         }else{
             $("#searchBox03").empty();
         }
-    }).on('show',function (ev) {
-        $(this).datepicker("update",$(ev.target).val());
+    }).on('click',function () {
+        if($(this).val()){
+            $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
     });
 
     $("#school01").change(function () {

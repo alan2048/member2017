@@ -60,6 +60,7 @@ function login(){
 
 			var data={
 					account:$("#username").val(),
+					// password:$("#password").val(),
 					code:b64_md5("pwd="+b64_md5($("#password").val())+"&account="+$("#username").val()+"&salt=www.member361.com")
 			};
 			var param={
