@@ -4,13 +4,18 @@ var user={
 };
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://test.member361.com";//38测试服务器
-var serverUrl03="https://121.43.150.38";//156测试服务器
-var serverUrl04="https://localhost";//156测试服务器
+
 var serverHost="https://www.member361.com";
 
 var qiniu='https://filepublic.member361.com/';// 七牛公有文件
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=""; //更改服务器地址可设置此值
+if(window.location.host){
+	path="https://"+window.location.host;// 线上环境host自动适配
+}else{
+	path=serverUrl02;// 开发环境默认38服务器
+};
+
 var httpUrl={
 		// 基础
 		loginId:getCookie("loginId"),
@@ -202,6 +207,7 @@ var httpUrl={
 		attendPersonalStat:path+"/web/attendance/teacher/personalStat",// 个人月出勤统计(新)
 		attendExportPersonalExcel:"/web/attendance/exportPersonalExcel",// 个人出勤统计导出
 		attendExportClassExcel:"/web/attendance/exportClassExcel",// 班级出勤人数统计导出
+		attendExportSickLeaveExcel:"/web/attendance/exportSickLeaveExcel",// 病假事由统计导出
 		attendSickLeaveStat:path+"/web/attendance/teacher/sickLeaveStat",// 病假事由统计(新)
 
 		// 公告

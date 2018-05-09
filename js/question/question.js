@@ -105,11 +105,24 @@ function baseFn() {
 
         switch($(this).index()){
             case 0:
+                $("#exportBtn").removeClass('hide');
+                if($("#tableBox").find("tr.active").length !=0){
+                    $("#deleteBtn,#exportBtn").removeClass("disable");
+                }else{
+                    $("#deleteBtn,#exportBtn").addClass("disable");
+                }
+
                 if($("#tableBox").children().length ==0){
                     questionList_port(1,$(this).index()+1);
                 };
                 break;
             case 1:
+                $("#exportBtn").addClass('hide');
+                if($("#tableBox02").find("tr.active").length !=0){
+                    $("#deleteBtn,#exportBtn").removeClass("disable");
+                }else{
+                    $("#deleteBtn,#exportBtn").addClass("disable");
+                }
                 if($("#tableBox02").children().length ==0){
                     questionList_port(1,$(this).index()+1);
                 };
@@ -131,11 +144,13 @@ function baseFn() {
 
     // 公告删除 选中
     $(".tableBox").on("click","tbody >tr >td.num",function () {
+        $(this).toggleClass("active").parents("tr").siblings().removeClass("active").find("i").removeClass("fa-check-square-o").addClass("fa-square-o");
         $(this).toggleClass("active").parents("tr").toggleClass("active").find("i").toggleClass("fa-check-square-o fa-square-o");
+
         if($(this).parents("tbody").find("tr.active").length !=0){
-            $("#deleteBtn,#editBtn").removeClass("disable");
+            $("#deleteBtn,#exportBtn").removeClass("disable");
         }else{
-            $("#deleteBtn,#editBtn").addClass("disable");
+            $("#deleteBtn,#exportBtn").addClass("disable");
         }
     });
 
@@ -158,11 +173,25 @@ function baseFn() {
                 function(isConfirm){
                     if (isConfirm) {
                         var type=$("#tabs >ul >li.current").index()+1;
-                        for(var i=0;i<$("#main >ul >li.current tbody >tr.active").length;i++){
+                        questionRemove_port($("#main >ul >li.current tbody >tr.active").attr("data-id"),type);
+
+                        /*for(var i=0;i<$("#main >ul >li.current tbody >tr.active").length;i++){
                             questionRemove_port($("#main >ul >li.current tbody >tr.active").eq(i).attr("data-id"),type);
-                        };
+                        };*/
                     };
             });
+        };
+    });
+
+    // 导出问卷调查
+    $("#buttonBox").on("click","#exportBtn",function () {
+        if($(this).hasClass("disable")){
+            toastTip("提示","请先选择导出项。。");   
+        }else{
+            var data={
+                    id:$("#main >ul >li.current tbody >tr.active").attr("data-id")
+            };
+            window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&params="+JSON.stringify(data)+"&url=/web/questionnaire/download");
         };
     });
 
@@ -466,7 +495,7 @@ function newOptionFn() {
 
     $(".scrollTopBtn,.questionTool >ul >li:nth-of-type(5)").click(function(e){
         e.preventDefault();
-        $("html, body").animate({scrollTop:$("body").offset().top},500)
+        $("html, body").animate({scrollTop:$("body").offset().top},500);
     });
     // 详情滚动 显示隐藏
     $(document).scroll(function(){
@@ -768,6 +797,11 @@ function newOptionFn() {
                     $(parent).remove();
                     if($(".newQuestion >li").length ==0){
                         $(".newQuestion").removeClass("active");
+                    }else{
+                        // 序列重置
+                        for(var i=0;i<$(".newQuestion >li").length;i++){
+                            $(".newQuestion >li").eq(i).find("i.rank").text(i+1);
+                        };
                     };
                 };
         });
@@ -826,6 +860,7 @@ function questionList_port(pageNum,type) {
 function questionList_callback(res,type) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        $("html, body").animate({scrollTop:$("body").offset().top},100);// 滚动到顶部
         if(data.list.length ==0 && data.pageNumber >1){// 解决删除之后数据为零
             questionList_port(data.pageNumber-1,type)
         }else{
@@ -867,7 +902,7 @@ function questionList_callback(res,type) {
                 });
             };
 
-            $("#deleteBtn").addClass("disable");
+            $("#deleteBtn,#exportBtn").addClass("disable");
         };
     };
 };
@@ -981,7 +1016,7 @@ function questionDetail_callback(res) {
         data.endTime=new Date(data.createDate*1000).Format("yyyy年MM月dd日 hh:mm"); 
         data.path_img=httpUrl.path_img;
 
-
+        $("html, body").animate({scrollTop:$("body").offset().top},100);// 滚动到顶部
         var html=template("detail_script",data);
         $("#detail").empty().append(html);
 
@@ -1341,7 +1376,7 @@ function basicButton_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("buttonBox_script",data);
         $("#buttonBox").append(html);
-        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+        $("#exportBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
     };
 };
 (function($){

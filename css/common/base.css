@@ -143,10 +143,10 @@ body{
     position: fixed;
     top:0;
     display:inline-block;
-    height:4px;
+    height:5px;
     width:0%;
     border-radius:4px;
-    background-color: #5cdee1dd;
+    background-color: rgba(92,222,255,0.8);
     z-index: 10000;
     left:0;
 }

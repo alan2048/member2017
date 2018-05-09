@@ -1,4 +1,4 @@
-var jsonAll01,jsonAll02,jsonAll03,jsonAll04;
+var jsonAll01,jsonAll02,jsonAll03,jsonAll04,jsonAll05,jsonAll06;
 $(function () {
     init();
 });
@@ -35,7 +35,9 @@ function init() {
         echart_A01("searchBox01",jsonAll01);
         echart_A02("searchBox02",jsonAll01);
         echart_A03("searchBox03",jsonAll03);
-        echart_A04("searchBox04",jsonAll04);
+        echart_A04("pie01",jsonAll04);
+        echart_A05("pie02",jsonAll05);
+        echart_A06("pie03",jsonAll06);
     });
 
     $("#buttonBox01").on("click",".export",function () {
@@ -54,6 +56,14 @@ function init() {
                 className:$("#teacherClass >option:selected").text()
         };
         window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.attendExportPersonalExcel+"&params="+JSON.stringify(data));
+    });
+
+    $("#buttonBox04").on("click",".export",function () {
+        var data={
+                year:$("#year04").val(),
+                month:$("#month04").val()
+        };
+        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url="+httpUrl.attendExportSickLeaveExcel+"&params="+JSON.stringify(data));
     });
 };
 
@@ -584,22 +594,16 @@ function echart_A04_port() {
 function echart_A04_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        if(data.length ==0){
-            data.push({num:"0",leaveType2:""})
-        };
-        var json={
-                xAxis:[],
-                series:[],
-                allSeris:[],
-                arr:data
-        };
-        for(var i=0;i<data.length;i++){
-            json.xAxis.push(data[i].leaveType2);
-            json.series.push(data[i].num);
-        };
-
-        jsonAll04=json;
-        echart_A04("searchBox04",json);
+        console.log(data);
+        var html=template("searchBox04_script",data);
+        $(".tableBox").empty().append(html);
+        
+        jsonAll04=data.graph[0];
+        jsonAll05=data.graph[1];
+        jsonAll06=data.graph[2];
+        echart_A04("pie01",data.graph[0]);
+        echart_A05("pie02",data.graph[1]);
+        echart_A06("pie03",data.graph[2]);
     }else if(res.code==500){
         var data=JSON.parse(res.data);
         console.log(data);
@@ -610,81 +614,210 @@ function echart_A04_callback(res) {
 function echart_A04(id,json){
     var myChart = echarts.init(document.getElementById(id));
     myChart.resize();
+
+    var data={
+            arr:[],
+            legend:[]
+    };
+    
+    for(var i=0;i<json.data.length;i++){
+        var obj={};
+        obj.name=json.data[i].subName;
+        obj.value=Number(json.data[i].count);
+
+        data.legend.push(json.data[i].subName)
+        data.arr.push(obj);
+    }
+    
     var option = {
             title:{
-                text:"病假事由统计",
-                left:"center",
+                text:json.name,
+                left:"48%",
+                y : '80%',
                 textStyle: {
                     color: '#656666'
                 }
             },
-            color: ['#f7e463'],
-            tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    shadowStyle:{
-                        color:'rgba(180, 180, 180, 0.1)'
-                    },
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
+            color:["#dc417b","#ffa07f","#5cdfe2","#5c95e1","#ffdb5c","#c05dff","#79e042","#245ddd"],
+            tooltip: {
+                trigger: 'item',
+                formatter: "{b}: {c}人 <br/> 占比：{d}%"
             },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '5%',
-                containLabel: true
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:data.legend
             },
-            xAxis : [
+            series: [
                 {
-                    type : 'category',
-                    data : json.xAxis,
-                    axisTick: {
-                        alignWithLabel: true
-                    },
-                    axisLabel:{
-                        interval:0,
-                        rotate: -60
-                    }
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value'
-                }
-            ],
-            series : [
-                 {
-                    name: '人数',
-                    type: 'bar',
-                    barWidth: '50%',
-                    itemStyle: {
-                    normal: {
-                        show: true,
-                        color:'#f8acaa',
-                        barBorderRadius: 20,
-                        borderWidth: 0,
-                        borderColor: '#333',
-                        }
-                    },
+                    name:json.name,
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    center : ['58%', '40%'],
+                    avoidLabelOverlap: false,
                     label: {
                         normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
                             show: true,
-                            position: 'inside',
                             textStyle: {
-                                color: '#656666',
-                                fontSize: '16'
+                                fontSize: '28',
+                                fontWeight: 'bold'
                             }
                         }
                     },
-                    barGap: '100%',
-                    data: json.series
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:data.arr
                 }
             ]
         };
 
     myChart.setOption(option); 
 };
+function echart_A05(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+    myChart.resize();
 
+    var data={
+            arr:[],
+            legend:[]
+    };
+    
+    for(var i=0;i<json.data.length;i++){
+        var obj={};
+        obj.name=json.data[i].subName;
+        obj.value=Number(json.data[i].count);
+
+        data.legend.push(json.data[i].subName)
+        data.arr.push(obj);
+    }
+    
+    var option = {
+            title:{
+                text:json.name,
+                left:"45%",
+                y : '80%',
+                textStyle: {
+                    color: '#656666'
+                }
+            },
+            color:["#dc417b","#ffa07f","#5cdfe2","#5c95e1","#ffdb5c","#c05dff","#79e042","#245ddd"],
+            tooltip: {
+                trigger: 'item',
+                formatter: "{b}: {c}人 <br/> 占比：{d}%"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:data.legend
+            },
+            series: [
+                {
+                    name:json.name,
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    center : ['58%', '40%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '28',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:data.arr
+                }
+            ]
+        };
+
+    myChart.setOption(option); 
+};
+function echart_A06(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+    myChart.resize();
+
+    var data={
+            arr:[],
+            legend:[]
+    };
+    
+    for(var i=0;i<json.data.length;i++){
+        var obj={};
+        obj.name=json.data[i].subName;
+        obj.value=Number(json.data[i].count);
+
+        data.legend.push(json.data[i].subName)
+        data.arr.push(obj);
+    }
+    
+    var option = {
+            title:{
+                text:json.name,
+                left:"48%",
+                y : '80%',
+                textStyle: {
+                    color: '#656666'
+                }
+            },
+            color:["#dc417b","#ffa07f","#5cdfe2","#5c95e1","#ffdb5c","#c05dff","#79e042","#245ddd"],
+            tooltip: {
+                trigger: 'item',
+                formatter: "{b}: {c}人 <br/> 占比：{d}%"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:data.legend
+            },
+            series: [
+                {
+                    name:json.name,
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    center : ['58%', '40%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '28',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:data.arr
+                }
+            ]
+        };
+
+    myChart.setOption(option); 
+};
 
 
 
@@ -796,7 +929,7 @@ function basicButton_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
         var html=template("buttonBox_script",data);
-        $("#buttonBox01,#buttonBox03").append(html);
+        $("#buttonBox01,#buttonBox03,#buttonBox04").append(html);
     };
 };
 

@@ -234,6 +234,7 @@ function echart_A01_callback(res) {
             json.xAxis.push(data[i].keyStr);
             json.series.push(data[i].valueStr);
         };
+        console.log(json)
         jsonAll01=json;
         echart_A01("searchBox01",json);
     }else if(res.code==500){

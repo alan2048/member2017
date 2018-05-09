@@ -140,7 +140,7 @@
                                                 <span>...</span>
                                                 <span class="fade in hide">
                                                     <span></span>
-                                                    <div></div>
+                                                    <div>{{item.remark}}</div>
                                                 </span>
                                             </td>
                                         </tr>
@@ -218,7 +218,7 @@
                                     <span class="single">单选</span>
                                     {{else}}
                                     <span class="multi">多选</span>
-                                    {{if answerNumer !=0}}
+                                    {{if answerNumer !=-1}}
                                     <i>(最多选择{{answerNumer}}项)</i>
                                     {{/if}}
                                     {{/if}}
@@ -260,7 +260,7 @@
                         <li>
                             <span class="col01"><i class="redIcon">*</i> 选择通知群组/个人：</span>
                             <span class="col02">
-                                <input type="text" id="person01" placeholder="请单击选择群组/个人" class="need person" >
+                                <input type="text" id="person01" placeholder="请单击选择群组/个人" class="need person" readonly="readonly">
                             </span>
                         </li>
                         <li>
@@ -307,7 +307,7 @@
                                 <span class="single">单选</span>
                                 {{else}}
                                 <span class="multi">多选</span>
-                                {{if value.answerNumber !=0}}
+                                {{if value.answerNumber !=-1}}
                                 <i>(最多选择{{value.answerNumber}}项)</i>
                                 {{/if}}
                                 {{/if}}
@@ -575,7 +575,7 @@
                             选项最多选择：
                             <select name="" id="answerNumer"></select>
                             <script type="text/html" id="answerNumer_script">
-                                <option value="">不限</option>
+                                <option value="-1">不限</option>
                                 {{each arr as value i}}
                                 <option value="{{value}}">{{value}}</option>
                                 {{/each}}

@@ -91,6 +91,9 @@
 #deleteBtn >span{
 	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
 }
+#exportBtn >span{
+	background: url(../../images/common/exportBtn.png) 0 center no-repeat;
+}
 .backBtn > span {
 	background: url(../../images/common/backBtn.png) 0 center no-repeat;
 	padding-left: 0.24rem;

@@ -136,3 +136,55 @@
 #searchBtn01,#searchBtn03,#searchBtn04{
 	display:none;
 }
+.table {
+	color: #656565;
+	border-spacing: 1px;
+	border-collapse: separate;
+	width: 100%;
+	margin-bottom: 0.3rem;
+	border: 1px solid #ddd;
+}
+.table > thead > tr {
+	border-bottom: 0.01rem solid #e8ebea;
+}
+.table th {
+	text-align: center;
+	cursor: pointer;
+	vertical-align: middle;
+	background-color: #5cdfe2;
+	color: #666;
+}
+.table > thead > tr > th {
+	color: #fff;
+	font-weight: 500;
+}
+.table > thead > tr > th:first-of-type{
+	min-width: 100px;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+	padding: 0.1rem;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	word-break: break-all;
+}
+th, td {
+	text-align: center;
+	vertical-align: middle;
+}
+.tableTitle{
+	text-align: center;
+	color: #333;
+	font-size: 18px;
+	line-height: 40px;
+}
+.pie{
+	width: 100%;
+	height: 5rem;
+	display: flex;
+	margin-bottom: 0.6rem;
+}
+.pie >div{
+	width: 33%;
+	height: 100%;
+}

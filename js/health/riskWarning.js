@@ -126,7 +126,7 @@ function riskNewHealthAlert_port() {
 };
 function riskNewHealthAlert_callback(res) {
     if(res.code==200){
-        var data={arr:JSON.parse(res.data)};
+        // var data={arr:JSON.parse(res.data)};
         riskGetCompanyHealthAlert_port();
         $("#modal-edit").modal("hide");
     }else{

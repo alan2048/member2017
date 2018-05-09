@@ -9,7 +9,12 @@ var serverUrl02="https://121.43.150.38";//38测试服务器
 
 var qiniu='https://filepublic.member361.com/';// 七牛公有文件
 
-var path=serverUrl02; //更改服务器地址可设置此值
+var path=""; //更改服务器地址可设置此值
+if(window.location.host){
+    path="https://"+window.location.host;// 线上环境host自动适配
+}else{
+    path=serverUrl02;// 开发环境默认38服务器
+};
 
 var httpUrl={
 		path_img:qiniu, // 图片地址

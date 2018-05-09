@@ -130,22 +130,60 @@
                         月份：
                         <select id="month04" class="month"></select>
                     </label>
-                    <label>
-                        日期：
-                        <select id="day04" class="day">
-                            <option value="">未选择</option>
-                        </select>
-                    </label>
-                    <label>
-                        班级：
-                        <select id="teacherClass04">
-                            <option value="">全园</option>
-                        </select>
-                    </label>
                     <span id="searchBtn04">查询</span>
                 </div>
                 <div id="buttonBox04"></div>
-                <div class="searchBox"><div id="searchBox04"></div></div>
+                <div class="searchBox">
+                    <div id="searchBox04">
+                        <div class="tableBox"></div>
+                        <div class="pie">
+                            <div id="pie01"></div>
+                            <div id="pie02"></div>
+                            <div id="pie03"></div>
+                        </div>
+                    </div>
+                    <script id="searchBox04_script" type="text/html">
+                            <p class="tableTitle">症状类型统计</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        {{each title1 as item i}}
+                                        <th colspan="{{item.num}}">{{item.name}}</th>
+                                        {{/each}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each table1 as item i}}
+                                    <tr>
+                                        {{each item as value j}}
+                                        <td>{{value}}</td>
+                                        {{/each}}
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+
+                            <p class="tableTitle">确诊类型统计</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        {{each title2 as item i}}
+                                        <th colspan="{{item.num}}">{{item.name}}</th>
+                                        {{/each}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each table2 as item i}}
+                                    <tr>
+                                        {{each item as value j}}
+                                        <td>{{value}}</td>
+                                        {{/each}}
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                    </script>
+                </div>
             </div>
 	    </div> 
 	</div>
