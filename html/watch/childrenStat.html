@@ -12,6 +12,7 @@
 	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet" />
     <link href="../../css/common/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
     
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
     <link href="../../css/watch/childrenStat.css" rel="stylesheet" />
@@ -88,7 +89,33 @@
                         </script>
                     </label>
                 </div>
-                <div class="searchBox"><div id="searchBox01"></div></div>
+                <div class="searchBox">
+                    <div id="searchBox01"></div>
+                    <div>
+                        <div class="timeBox">
+                            <div>自定义时间</div>
+                            <div>
+                                <span>日期1：</span>
+                                <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="1">
+                            </div>
+                            <div>
+                                <span>日期2：</span>
+                                <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="1">
+                            </div>
+                            <div>
+                                <span>日期3：</span>
+                                <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="1">
+                            </div>
+                            <div><span class="resetBtn">重置</span></div>
+                            <div>
+                                <label>
+                                    <input type="checkbox" data-type="1">
+                                    <span>启用</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div id="search02" class="search">
                     <label>
@@ -117,7 +144,33 @@
                         <select id="month02" class="month"></select>
                     </label>
                 </div>
-                <div class="searchBox"><div id="searchBox02"></div></div>
+                <div class="searchBox">
+                    <div id="searchBox02"></div>
+                    <div>
+                        <div class="timeBox">
+                            <div>自定义时间</div>
+                            <div>
+                                <span>日期1：</span>
+                                <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="2">
+                            </div>
+                            <div>
+                                <span>日期2：</span>
+                                <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="2">
+                            </div>
+                            <div>
+                                <span>日期3：</span>
+                                <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="2">
+                            </div>
+                            <div><span>重置</span></div>
+                            <div>
+                                <label>
+                                    <input type="checkbox" data-type="2">
+                                    <span>启用</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 	    </div> 
 	</div>
@@ -127,6 +180,7 @@
 	<script src="../../js/common/template.js"></script>
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/echarts/echarts.min.js"></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 	<script src="../../js/common/base.js?t=20180427"></script>
 	<script src="../../js/watch/childrenStat.js?t=20180427"></script>

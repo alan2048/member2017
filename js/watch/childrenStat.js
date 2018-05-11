@@ -17,6 +17,84 @@ function init() {
     $("#classMember02,#month02,#year02,#course").change(function () {
         echart_A02_port();
     });
+
+    $(".timeBox input").prop("checked",false).val("");// 自定义时间初始化
+    // 启用 自定义时间
+    $(".timeBox input[type=checkbox]").change(function () {
+        if($(this).is(":checked")){
+            $(this).parents(".timeBox").addClass("active");
+
+            var timeArr=[];
+            for(var i=0;i<$(this).parents(".timeBox").find("input[type=text]").length;i++){
+                if($(this).parents(".timeBox").find("input[type=text]").eq(i).val()){
+                    timeArr.push($(this).parents(".timeBox").find("input[type=text]").eq(i).val());
+                };
+            };
+
+            if($(this).attr("data-type") == 1){
+                if(timeArr.length !=0){
+                    echart_A01_choose_port(timeArr);
+                };
+            }else{
+                if(timeArr.length !=0){
+                    echart_A02_choose_port(timeArr);
+                };
+            };
+        }else{
+            $(this).parents(".timeBox").removeClass("active");
+
+            if($(this).attr("data-type") == 1){
+                echart_A01_port();
+            }else{
+                echart_A02_port();
+            };
+        };
+    });
+
+    // 重置按钮
+    $(".timeBox span.resetBtn").click(function () {
+        if($(this).parents(".timeBox").hasClass("active")){
+            $(this).parents(".timeBox").find("input").val("");
+        }else{
+            toastTip("提示","请先开启启用按钮");
+        } 
+    });
+
+    $('.timeTool').datepicker({
+        format: 'yyyy-mm',
+        todayHighlight:true,
+        startView: 1,
+        maxViewMode: 1,
+        minViewMode:1,
+        autoclose: true,
+        language:'zh-CN'
+    }).on('click',function () {
+        if($(this).val()){
+            // $(this).datepicker("update",$(this).val());
+        }else{
+            $(this).datepicker("update",new Date()).datepicker('update',"");
+        };
+
+        $(this).parents(".timeBox").addClass("active").find("input[type=checkbox]").prop("checked",true);
+    }).on("changeDate",function (ev) {
+
+        var timeArr=[];
+        for(var i=0;i<$(this).parents(".timeBox").find("input[type=text]").length;i++){
+            if($(this).parents(".timeBox").find("input[type=text]").eq(i).val()){
+                timeArr.push($(this).parents(".timeBox").find("input[type=text]").eq(i).val());
+            };
+        };
+
+        if($(this).attr("data-type") == 1){
+            if(timeArr.length !=0){
+                echart_A01_choose_port(timeArr);
+            };
+        }else{
+            if(timeArr.length !=0){
+                echart_A02_choose_port(timeArr);
+            };
+        };
+    });
 };
 
 // 获得当前用户所在班级列表
@@ -292,7 +370,19 @@ function echart_A01(id,json,curName){
 
     myChart.setOption(option);
 };
-
+// echart_A01接口
+function echart_A01_choose_port(arr) {
+    var data={
+            classId:$("#userClass01").val(),
+            useruuid:$("#classMember01").val(),
+            time: arr
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.getStudentAbilityStrongChooseMonths,param,echart_A01_callback);
+};
 
 // 获取用户班级信息接口
 function getUserClassInfo_port01() {
@@ -384,6 +474,19 @@ function echart_A02_port() {
             loginId:httpUrl.loginId
     };
     initAjax(httpUrl.getStudentCourseAbility,param,echart_A02_callback);
+};
+function echart_A02_choose_port(arr) {
+    var data={
+            courseId:$("#course").val(),
+            classId:$("#userClass02").val(),
+            useruuid:$("#classMember02").val(),
+            time: arr
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.getStudentCourseAbilityChooseMonths,param,echart_A02_callback);
 };
 function echart_A02_callback(res) {
     if(res.code==200){
@@ -670,3 +773,17 @@ function loginUserInfo_callback(res) {
         yearMonthInit();
     };
 };
+
+
+(function($){
+    $.fn.datepicker.dates['zh-CN'] = {
+            days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+            daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+            months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+            monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+            today: "今天",
+            suffix: [],
+            meridiem: ["上午", "下午"]
+    };
+}(jQuery));

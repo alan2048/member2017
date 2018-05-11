@@ -171,7 +171,9 @@ var httpUrl={
 
 		// 个体发展水平
 		getStudentAbility:path+"/web/sample/TJ/TJ_GCJL_GetStudentAbilityStrong",// 个人综合能力评价 雷达图
+		getStudentAbilityStrongChooseMonths:path+"/web/sample/TJ/TJ_GCJL_GetStudentAbilityStrongChooseMonths",// 个人综合能力评价 -手动选月份
 		getStudentCourseAbility:path+"/web/sample/TJ/TJ_GCJL_GetStudentCourseAbility",// 个人课程 能力评价 雷达图
+		getStudentCourseAbilityChooseMonths:path+"/web/sample/TJ/TJ_GCJL_GetStudentCourseAbilityChooseMonths",// 个人课程 能力评价 手动选月份
 		
 
 		// 班级发展水平

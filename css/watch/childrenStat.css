@@ -55,7 +55,99 @@
 }
 .searchBox >div{
 	height: 100%;
-	width: 100%;
+	display: inline-block;
+	vertical-align: top;
+}
+.searchBox >div:first-of-type{
+	width: 66%;
+}
+.searchBox >div:last-of-type{
+	width: 33%;
+	text-align: center;
+}
+.searchBox >div:last-of-type >div{
+	display: inline-block;
+	width: 3.5rem;
+	height: 3.35rem;
+	border-radius: 0.1rem;
+	box-shadow: 0 0 0.05rem #eee;
+	text-align: center;
+	margin-top: 1rem;
+}
+.searchBox >div:last-of-type >div.active{
+	box-shadow: 0 0 0.05rem #ddd;
+}
+.timeBox >div{
+	line-height: 0.5rem;
+}
+.timeBox >div >input[type="text"]{
+	width: 2rem;
+	height: 0.3rem;
+	border-radius: 0.05rem;
+	border: 1px solid #ccc;
+	color: #ccc;
+	padding-left: 0.1rem;
+}
+.timeBox.active >div >input[type="text"]{
+	border: 1px solid #c9cccb;
+	color: #666;
+}
+.timeBox >div{
+	color: #ccc;
+}
+.timeBox.active >div{
+	color: #666;
+}
+.timeBox >div:nth-of-type(5){
+	text-align: right;
+} 
+.timeBox >div:nth-of-type(5) >span{
+	display: inline-block;
+	width: 0.7rem;
+	height: 0.3rem;
+	border-radius: 0.05rem;
+	background-color: #edf0f0;
+	line-height: 0.3rem;
+	color: #cacdcc;
+	text-align: center;
+	margin-right: 0.5rem;
+	cursor: default;
+}
+.timeBox.active >div:nth-of-type(5) >span{
+	color: #fff;
+	cursor: pointer;
+	background-color: #5cdfe2;
+}
+.timeBox >div:nth-of-type(5) >span:hover{
+	background-color: #edf0f0;
+}
+.timeBox.active >div:nth-of-type(5) >span:hover{
+	background-color: #29d1d5;
+}
+.timeBox >div:nth-of-type(6){
+	text-align: right;
+	line-height: 0.3rem;
+}
+.timeBox >div:nth-of-type(6) >label{
+	margin-right: 0.5rem;
+	cursor: pointer;
+	color: #5cdfe2;
+	font-weight: 600;
+}
+.timeBox >div:nth-of-type(6) >label:hover{
+	color: #29d1d5;
+}
+.timeBox >div:nth-of-type(6) input{
+	vertical-align: middle;
+}
+.timeBox >div:first-of-type{
+	color: #ccc;
+	font-size: 18px;
+	font-weight: 600;
+	padding-top: 0.3rem;
+}
+.timeBox.active >div:first-of-type{
+	color: #666;
 }
 .title {
 	text-align: center;
@@ -87,4 +179,7 @@ table {
 }
 .searchBox03{
 	height: 3.5rem;
+}
+.content{
+	min-width: 11.5rem;
 }
