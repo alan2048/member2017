@@ -162,6 +162,10 @@
 	padding-top: 0.3rem;
 	overflow: hidden;
 }
+.todolistBox >.list.curData{
+	background: rgba(235,235,235,0.5);
+	border-radius: 10%;
+}
 .list >.pic{
 	display:inline-block;
 	width: 1rem;
@@ -462,7 +466,7 @@
 	margin-right: 10px;
 }
 
-body,#page-container,#content{
+body,#page-container,#content,#contentPrev{
 	height: 100%;
 }
 
@@ -499,4 +503,62 @@ body,#page-container,#content{
 }
 .opacity{
 	opacity:0.4;
+}
+
+.area {
+	width: 100%;
+	height: 80%;
+	margin: 0 auto;
+	padding: 10% 0;
+}
+.area > div {
+	display: inline-block;
+	width: 36%;
+	height: 100%;
+	min-height: 3rem;
+	margin: 0 6%;
+	border-radius: 2%;
+	position: relative;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid #f7faf9;
+	box-shadow: 0 0 8px #ddd;
+}
+.area > div:hover {
+	border: 1px solid #60dce1;
+	box-shadow: 0 0 8px #60dce1;
+	color: #46e4de;
+}
+.area > div:first-of-type {
+	background: #fff url(../../images/files/area01.png) center center no-repeat;
+	background-size: 50%;
+}
+.area > div:first-of-type:hover {
+	background: #fff url(../../images/files/area01_hover.png) center center no-repeat;
+	background-size: 50%;
+}
+.area > div:last-of-type {
+	background: #fff url(../../images/files/area02.png) center center no-repeat;
+	background-size: 50%;
+}
+.area > div:last-of-type:hover {
+	background: #fff url(../../images/files/area02_hover.png) center center no-repeat;
+	background-size: 50%;
+}
+.area > div > span {
+	position: absolute;
+	display: inline-block;
+	width: 100%;
+	bottom: 8%;
+	text-align: center;
+	left: 0%;
+	font-size: 0.22rem;
+	color: #c9cccb;
+}
+.area > div:hover > span{
+	color: #46e4de;
+}
+.backBtn > span {
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
 }

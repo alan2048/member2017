@@ -72,7 +72,37 @@
                 </div>
                 <div class="searchBox"><div id="searchBox01"></div></div>
 
+                <div id="search02" class="search">
+                    <label>
+                        年份：
+                        <select id="year02" class="year"></select>
+                    </label>
+                    <label>
+                        月份：
+                        <select id="month02" class="month"></select>
+                    </label>
+                </div>
+                <div class="searchBox"><div id="searchBox02"></div></div>
+
                 <div id="search03" class="search">
+                    <label>
+                        班级：
+                        <select id="userClass03"></select>
+                        <script type="text/html" id="userClass_script">
+                            {{each data as value i}}
+                            <option value="{{value.classUUID}}">{{value.className}}</option>
+                            {{/each}}
+                        </script>
+                    </label>
+                    <label>
+                        课程：
+                        <select id="course"></select>
+                        <script type="text/html" id="course_script">
+                            {{each data as value i}}
+                            <option value="{{value.id}}">{{value.name}}</option>
+                            {{/each}}
+                        </script>
+                    </label>
                     <label>
                         年份：
                         <select id="year03" class="year"></select>

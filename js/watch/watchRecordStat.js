@@ -7,14 +7,17 @@ function init() {
     $("#year01,#month01").change(function () {
         echart_A01_port();
     });
-    $("#year03,#month03,#class").change(function () {
+    $("#year02,#month02,#class").change(function () {
+        echart_A02_port();
+    });
+    $("#userClass03,#course,#year03,#month03").change(function () {
         echart_A03_port();
     });
 
     $(window).resize(function () {
         echart_A01("searchBox01",jsonAll01);
+        echart_A02("searchBox02",jsonAll02);
         echart_A03("searchBox03",jsonAll03);
-        
     });
 };
 
@@ -36,7 +39,9 @@ function myClassInfo_port() {
         $(".year").append(yearMonth).find("option[value="+d.getFullYear()+"]").prop("selected",true);
 
         echart_A01_port();
-        echart_A03_port();
+        echart_A02_port();
+
+        getUserClassInfo_port();
 };
 
 
@@ -133,20 +138,20 @@ function echart_A01(id,json){
     myChart.setOption(option); 
 };
 
-// echart_A03接口
-function echart_A03_port() {
+// echart_A02接口
+function echart_A02_port() {
     var data={
-            year:$("#year03").val(),
-            month:$("#month03").val(),
+            year:$("#year02").val(),
+            month:$("#month02").val(),
             classId:$("#class").val()
         };
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.watchClassStat,param,echart_A03_callback);
+    initAjax(httpUrl.watchClassStat,param,echart_A02_callback);
 };
-function echart_A03_callback(res) {
+function echart_A02_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         var json={
@@ -158,8 +163,8 @@ function echart_A03_callback(res) {
             json.series.push(data[i].valueStr);
         };
 
-        jsonAll03=json;
-        echart_A03("searchBox03",json);
+        jsonAll02=json;
+        echart_A02("searchBox02",json);
     }else if(res.code==500){
         var data=JSON.parse(res.data);
         console.log(data);
@@ -167,7 +172,7 @@ function echart_A03_callback(res) {
         // console.log('请求错误，返回code非200');
     }
 };
-function echart_A03(id,json){
+function echart_A02(id,json){
     var myChart = echarts.init(document.getElementById(id));
 
     var option = {
@@ -228,7 +233,141 @@ function echart_A03(id,json){
     myChart.setOption(option); 
 };
 
+// 获取用户班级信息接口
+function getUserClassInfo_port() {
+    var data={};
+    var param={
+            // params:JSON.stringify(data)
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.childrenMyClassInfo,param,getUserClassInfo_callback);
+};
+function getUserClassInfo_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("userClass_script",{data:data});
+        $("#userClass03").append(html);
 
+        getPersonCourse_port();
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+// 获取个人关联课程接口
+function getPersonCourse_port() {
+    var data={};
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.watchCourseList,param,getPersonCourse_callback);
+};
+function getPersonCourse_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("course_script",{data:data});
+        $("#course").empty().append(html);
+
+        echart_A03_port();
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+
+function echart_A03_port() {
+    var data={
+            year:$("#year03").val(),
+            month:$("#month03").val(),
+            courseId:$("#course").val(),
+            classId:$("#userClass03").val()
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.watchCourseStat,param,echart_A03_callback);
+};
+function echart_A03_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var json={
+                xAxis:[],
+                series:[]
+        };
+        for(var i=0;i<data.length;i++){
+            json.xAxis.push(data[i].keyStr);
+            json.series.push(data[i].valueStr);
+        };
+
+        jsonAll03=json;
+        echart_A03("searchBox03",json);
+    }else if(res.code==500){
+        var data=JSON.parse(res.data);
+        console.log(data);
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+function echart_A03(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+
+    var option = {
+            title:{
+                text:"各观察指标相关观察记录数量",
+                left:"center",
+                textStyle: {
+                    color: '#656666'
+                }
+            },
+            color: ['#a2d7f6'],
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '5%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : json.xAxis,
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel:{
+                        interval:0,
+                        rotate: -60
+                    }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'发帖数量',
+                    type:'bar',
+                    barWidth: '60%',
+                    data:json.series,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            ]
+        };
+
+    myChart.setOption(option); 
+};
 
 
 

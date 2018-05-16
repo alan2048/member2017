@@ -47,11 +47,19 @@
 			</div>
 			<div id="switch" class=""><span></span></div>
 		</div>
-
-		<div id="content" class="content">
-			<div class="pageTitle">文件中心</div>
+        
+        <div id="contentPrev" class="content">
+            <div class="pageTitle">文件中心</div>
+            <div class="area">
+                <div data-type="public"><span>共享区</span></div>
+                <div data-type="private"><span>个人区</span></div>
+            </div>
+        </div>
+		<div id="content" class="content hide">
+			<div class="pageTitle">文件中心 <small id="typeName"></small></div>
             <div id="buttonBox"></div>
             <script type="text/html" id="buttonBox_script">
+                <a href="javascript:void(0);" id="backBtn" class="backBtn defaultBtn"><span>返回上一级</span></a>
                 {{each arr as value  i}}
                 <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
                 {{/each}}

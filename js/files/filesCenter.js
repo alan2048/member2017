@@ -9,6 +9,34 @@ function init() {
 
 // 按钮功能区
 function buttonFn() {
+    // 个人区 共享区选择
+    $(".area >div").click(function () {
+        var type=$(this).attr("data-type");
+        
+        if(type=="public"){
+            console.log(user.typeID);
+            if(user.typeID == 10 || user.typeID ==11 || user.typeID ==12){
+                $("#newFiles").removeClass("hide");
+            }else{
+                $("#newFiles").addClass("hide");
+            };
+
+            $("#typeName").text("共享区").attr("data-type","public");
+            fileGetRoot_port("public");
+        } else if(type ="private"){
+            $("#newFiles").removeClass("hide");
+
+            $("#typeName").text("个人区").attr("data-type","private");
+            fileGetRoot_port("private");
+        };
+    });
+
+    // 返回上一级
+    $("#buttonBox").on("click","#backBtn",function () {
+        $(".content").addClass("hide");
+        $("#contentPrev").removeClass("hide");
+    });
+
     // 面包屑
     $(".breadBox").on("click","span",function () {
         var length=$(".breadBox >span").length;
@@ -270,7 +298,14 @@ function buttonFn() {
                 params:JSON.stringify(data),
                 loginId:httpUrl.loginId
             };
-            initAjax(httpUrl.fileAddFileInfo,param,fileAddFileInfo_callback,parentuuid);
+
+            var type=$("#typeName").attr("data-type");
+            if(type =="public"){
+                initAjax(httpUrl.filePublicAddFileInfo,param,fileAddFileInfo_callback,parentuuid); 
+            };
+            if(type =="private"){
+                initAjax(httpUrl.filePrivateAddFileInfo,param,fileAddFileInfo_callback,parentuuid); 
+            };
         }else{
             toastTip("提示","请先填写文件夹名");
         }
@@ -415,7 +450,7 @@ function fileCopy_callback(res,parent) {
             toastTip('提示','已成功复制至目标文件夹');
         };
     }else{
-        toastTip("提示",res.info);
+        toastTip("提示",res.info,4000);
     };
 };
 
@@ -439,21 +474,30 @@ function fileCut_callback(res,parent) {
             toastTip('提示','已成功剪切至目标文件夹');
         };
     }else{
-        toastTip("提示",res.info);
+        toastTip("提示",res.info,4000);
     };
 };
 
 // 获取根目录
-function fileGetRoot_port() {
+function fileGetRoot_port(type) {
     var data={};
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.fileGetRoot,param,fileGetRoot_callback);
+    if(type =="public"){
+        initAjax(httpUrl.filePublicGetRoot,param,fileGetRoot_callback);
+    }
+    if(type =="private"){
+        initAjax(httpUrl.filePrivateGetRoot,param,fileGetRoot_callback);
+    };
 };
 function fileGetRoot_callback(res) {
     if(res.code==200){
+        $("#todolist").empty();
+        $(".content").addClass("hide");
+        $("#content").removeClass("hide");
+
         var data=JSON.parse(res.data);
         $(".root").attr("data-fileuuid",data.fileUUID);
         fileGetChildFileInfo_port(data.fileUUID);
@@ -461,7 +505,7 @@ function fileGetRoot_callback(res) {
 };
 
 // 获取文件的所有子级文件
-function fileGetChildFileInfo_port(fileUUID,obj) {
+function fileGetChildFileInfo_port(fileUUID,obj,curData) {
     var data={
             fileUUID:fileUUID
     };
@@ -469,9 +513,16 @@ function fileGetChildFileInfo_port(fileUUID,obj) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.fileGetChildFileInfo,param,fileGetChildFileInfo_callback,obj);
+    var type=$("#typeName").attr("data-type");
+    if(type =="public"){
+        initAjax(httpUrl.filePublicGetChildFileInfo,param,fileGetChildFileInfo_callback,obj,curData);
+    };
+    if(type =="private"){
+        initAjax(httpUrl.filePrivateGetChildFileInfo,param,fileGetChildFileInfo_callback,obj,curData);
+    };
+    
 };
-function fileGetChildFileInfo_callback(res,obj) {
+function fileGetChildFileInfo_callback(res,obj,curData) {
     if(res.code==200){
         var data={
                 arr:JSON.parse(res.data),
@@ -505,6 +556,10 @@ function fileGetChildFileInfo_callback(res,obj) {
             }else{
                 $(".breadBack").removeClass("active");
             };
+        };
+
+        if(curData){
+            $("#todolistBox >li[data-fileuuid="+curData+"]").addClass("curData");
         };
 
         // 移动插件
@@ -577,13 +632,19 @@ function fileDeleteFileInfo_port(fileUUID,parentuuid) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.fileDeleteFileInfo,param,fileDeleteFileInfo_callback,parentuuid);
+    var type=$("#typeName").attr("data-type");
+    if(type =="public"){
+        initAjax(httpUrl.filePublicDeleteFileInfo,param,fileDeleteFileInfo_callback,parentuuid);
+    };
+    if(type =="private"){
+        initAjax(httpUrl.filePrivateDeleteFileInfo,param,fileDeleteFileInfo_callback,parentuuid);
+    };
 };
 function fileDeleteFileInfo_callback(res,parentuuid) {
     if(res.code==200){
         fileGetChildFileInfo_port(parentuuid);
     }else{
-        toastTip("提示",res.info);
+        toastTip("提示",res.info,3000);
     };
 };
 
@@ -596,7 +657,14 @@ function fileGetSingleFileInfo_port(fileUUID,parentuuid) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.fileGetSingleFileInfo,param,fileGetSingleFileInfo_callback,parentuuid);
+
+    var type=$("#typeName").attr("data-type");
+    if(type =="public"){
+        initAjax(httpUrl.filePublicGetSingleFileInfo,param,fileGetSingleFileInfo_callback,parentuuid);
+    };
+    if(type =="private"){
+        initAjax(httpUrl.filePrivateGetSingleFileInfo,param,fileGetSingleFileInfo_callback,parentuuid);
+    };
 };
 function fileGetSingleFileInfo_callback(res,parentuuid) {
     if(res.code==200){
@@ -617,12 +685,25 @@ function fileUpdateFileName_port(parentuuid) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.fileUpdateFileName,param,fileUpdateFileName_callback,parentuuid);
+
+    var type=$("#typeName").attr("data-type");
+    if(type =="public"){
+        initAjax(httpUrl.filePublicUpdateFileName,param,fileUpdateFileName_callback,parentuuid);
+    };
+    if(type =="private"){
+        initAjax(httpUrl.filePrivateUpdateFileName,param,fileUpdateFileName_callback,parentuuid);
+    };
 };
 function fileUpdateFileName_callback(res,parentuuid) {
     if(res.code==200){
         fileGetChildFileInfo_port(parentuuid);
         $("#modal-rename").modal("hide");
+    }else{
+        toastTip("提示",res.info,3000,function () {
+            if(res.code==3260){
+                $(".modal").modal("hide");// 重命名文件夹失败  关闭modal
+            };
+        });
     };
 };
 
@@ -671,7 +752,15 @@ function loadFiles01() {
                         params:JSON.stringify(data),
                         loginId:httpUrl.loginId
                 };
-                initAjax(httpUrl.fileAddFileInfo,param,fileAddFileInfo_callback,parentuuid); 
+
+                var type=$("#typeName").attr("data-type");
+                if(type =="public"){
+                    initAjax(httpUrl.filePublicAddFileInfo,param,fileAddFileInfo_callback,parentuuid); 
+                };
+                if(type =="private"){
+                    initAjax(httpUrl.filePrivateAddFileInfo,param,fileAddFileInfo_callback,parentuuid); 
+                };
+                
                 $('.qiniuBar').remove();
             },
             'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
@@ -707,7 +796,7 @@ function downloadUrl1_callback(res,kind) {
                     $("#modal-dialog-img").modal("show");
                 break;
             case "mp4":
-                    $("#carousel_img").empty().append("<video src="+res.data+" controls=\"controls\"></video>");
+                    $("#carousel_img").empty().append("<video src="+res.data+" controls=\"controls\" preload=\"none\"></video>");
                     $("#modal-dialog-img").modal("show");
                 break;
             case "text":
@@ -742,10 +831,14 @@ function streamUrl_callback(res) {
 
 function fileAddFileInfo_callback(res,parentuuid) {
     if(res.code==200){
-        fileGetChildFileInfo_port(parentuuid);
+        fileGetChildFileInfo_port(parentuuid,"",res.data);
         $(".modal").modal("hide");
     }else{
-        toastTip("提示",res.info);
+        toastTip("提示",res.info,4000,function () {
+            if(res.code==3260){
+                $(".modal").modal("hide");// 新增文件夹失败  关闭modal
+            };
+        });
     };
 };
 
@@ -831,6 +924,8 @@ function loginUserInfo_callback(res) {
             background:"url("+data.path_img+data.portraitMD5+"-scale200) no-repeat scroll center center / 100%"
         });
         user.companyUUID=data.companyUUID;
+        user.typeID=data.typeID;
+        user.userUUID=data.userUUID;
         loadingOut();//关闭loading
 
         basicButton_port();
@@ -853,7 +948,7 @@ function basicButton_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("buttonBox_script",data);
         $("#buttonBox").append(html);
-        fileGetRoot_port();
+        
         upToken1_port();
     };
 };

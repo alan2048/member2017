@@ -143,6 +143,7 @@ var httpUrl={
 
 		watchTeacherStat:path+"/web/sample/report/teacher",// 观察记录统计
 		watchClassStat:path+"/web/sample/report/class",// 观察记录统计01
+		watchCourseStat:path+"/web/sample/report/course/dim",//  观察计划维度统计
 
 		// 观察计划
 		watchPlanList:path+"/web/sample/company/course/list",// 获取观察计划列表
@@ -290,6 +291,23 @@ var httpUrl={
 		fileAddFileInfo:path+"/web/fileCenter/addFileInfo",// 增加一项文件信息
 		fileDeleteFileInfo:path+"/web/fileCenter/deleteFileInfo",// 删除文件信息
 		fileUpdateFileName:path+"/web/fileCenter/updateFileName",// 更新文件名
+
+		// 个人区
+		filePrivateGetRoot:path+"/web/fileCenter/private/getRoot",// 获取根目录
+		filePrivateGetChildFileInfo:path+"/web/fileCenter/private/getChildFileInfo",// 获取文件的所有子级文件
+		filePrivateGetSingleFileInfo:path+"/web/fileCenter/private/getSingleFileInfo",// 获取单项文件信息
+		filePrivateAddFileInfo:path+"/web/fileCenter/private/addFileInfo",// 增加一项文件信息
+		filePrivateDeleteFileInfo:path+"/web/fileCenter/private/deleteFileInfo",// 删除文件信息
+		filePrivateUpdateFileName:path+"/web/fileCenter/private/updateFileName",// 更新文件名
+
+		// 共享区
+		filePublicGetRoot:path+"/web/fileCenter/public/getRoot",// 获取根目录
+		filePublicGetChildFileInfo:path+"/web/fileCenter/public/getChildFileInfo",// 获取文件的所有子级文件
+		filePublicGetSingleFileInfo:path+"/web/fileCenter/public/getSingleFileInfo",// 获取单项文件信息
+		filePublicAddFileInfo:path+"/web/fileCenter/public/addFileInfo",// 增加一项文件信息
+		filePublicDeleteFileInfo:path+"/web/fileCenter/public/deleteFileInfo",// 删除文件信息
+		filePublicUpdateFileName:path+"/web/fileCenter/public/updateFileName",// 更新文件名
+
 		fileCopy:path+"/web/fileCenter/copy",// 复制文件(夹)
 		fileCut:path+"/web/fileCenter/cut",// 剪切文件(夹)
 

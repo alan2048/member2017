@@ -11,11 +11,41 @@ function init() {
 
     // echart_A01接口函数
     $("#classMember01,#month01,#year01").change(function () {
-        echart_A01_port();
+        if($("input[type=checkbox][data-type=1]").is(":checked")){
+            var timeArr=[];
+            for(var i=0;i<$("input[type=checkbox][data-type=1]").parents(".timeBox").find("input[type=text]").length;i++){
+                if($("input[type=checkbox][data-type=1]").parents(".timeBox").find("input[type=text]").eq(i).val()){
+                    timeArr.push($("input[type=checkbox][data-type=1]").parents(".timeBox").find("input[type=text]").eq(i).val());
+                };
+            };
+
+            if(timeArr.length !=0){
+                echart_A01_choose_port(timeArr);
+            }else{
+                toastTip("提示","请先选择自定义时间",3000)
+            };
+        }else{
+            echart_A01_port();
+        };
     });
 
     $("#classMember02,#month02,#year02,#course").change(function () {
-        echart_A02_port();
+        if($("input[type=checkbox][data-type=2]").is(":checked")){
+            var timeArr=[];
+            for(var i=0;i<$("input[type=checkbox][data-type=2]").parents(".timeBox").find("input[type=text]").length;i++){
+                if($("input[type=checkbox][data-type=2]").parents(".timeBox").find("input[type=text]").eq(i).val()){
+                    timeArr.push($("input[type=checkbox][data-type=2]").parents(".timeBox").find("input[type=text]").eq(i).val());
+                };
+            };
+
+            if(timeArr.length !=0){
+                echart_A02_choose_port(timeArr);
+            }else{
+                toastTip("提示","请先选择自定义时间",3000)
+            };
+        }else{
+            echart_A02_port();
+        };
     });
 
     $(".timeBox input").prop("checked",false).val("");// 自定义时间初始化
@@ -32,20 +62,28 @@ function init() {
             };
 
             if($(this).attr("data-type") == 1){
+                $("#year01,#month01").attr("disabled",true);
                 if(timeArr.length !=0){
                     echart_A01_choose_port(timeArr);
+                }else{
+                    toastTip("提示","请同时选择自定义时间",3000)
                 };
             }else{
+                $("#year02,#month02").attr("disabled",true);
                 if(timeArr.length !=0){
                     echart_A02_choose_port(timeArr);
+                }else{
+                    toastTip("提示","请同时选择自定义时间",3000)
                 };
             };
         }else{
             $(this).parents(".timeBox").removeClass("active");
 
             if($(this).attr("data-type") == 1){
+                $("#year01,#month01").attr("disabled",false);
                 echart_A01_port();
             }else{
+                $("#year02,#month02").attr("disabled",false);
                 echart_A02_port();
             };
         };
@@ -76,6 +114,11 @@ function init() {
         };
 
         $(this).parents(".timeBox").addClass("active").find("input[type=checkbox]").prop("checked",true);
+        if($(this).attr("data-type") == 1){
+            $("#year01,#month01").attr("disabled",true);
+        }else{
+            $("#year02,#month02").attr("disabled",true);
+        };
     }).on("changeDate",function (ev) {
 
         var timeArr=[];
@@ -88,10 +131,14 @@ function init() {
         if($(this).attr("data-type") == 1){
             if(timeArr.length !=0){
                 echart_A01_choose_port(timeArr);
+            }else{
+                toastTip("提示","请先选择自定义时间",3000)
             };
         }else{
             if(timeArr.length !=0){
                 echart_A02_choose_port(timeArr);
+            }else{
+                toastTip("提示","请先选择自定义时间",3000)
             };
         };
     });
@@ -165,8 +212,22 @@ function getClassStudentInfo_callback(res,tabIndex) {
         var html=template("classMember_script",{data:data});
         $("#classMember01").empty().append(html);
 
-        // 初始化echartA01
-        echart_A01_port();
+        if($("input[type=checkbox][data-type=1]").is(":checked")){
+            var timeArr=[];
+            for(var i=0;i<$("input[type=checkbox][data-type=1]").parents(".timeBox").find("input[type=text]").length;i++){
+                if($("input[type=checkbox][data-type=1]").parents(".timeBox").find("input[type=text]").eq(i).val()){
+                    timeArr.push($("input[type=checkbox][data-type=1]").parents(".timeBox").find("input[type=text]").eq(i).val());
+                };
+            };
+
+            if(timeArr.length !=0){
+                echart_A01_choose_port(timeArr);
+            }else{
+                toastTip("提示","请先选择自定义时间",3000)
+            };
+        }else{
+            echart_A01_port();
+        };
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -434,7 +495,22 @@ function getClassStudentInfo_callback01(res,tabIndex) {
         if($("#course").children().length ==0){
             getPersonCourse_port();
         }else{
-            echart_A02_port();
+            if($("input[type=checkbox][data-type=2]").is(":checked")){
+                var timeArr=[];
+                for(var i=0;i<$("input[type=checkbox][data-type=2]").parents(".timeBox").find("input[type=text]").length;i++){
+                    if($("input[type=checkbox][data-type=2]").parents(".timeBox").find("input[type=text]").eq(i).val()){
+                        timeArr.push($("input[type=checkbox][data-type=2]").parents(".timeBox").find("input[type=text]").eq(i).val());
+                    };
+                };
+
+                if(timeArr.length !=0){
+                    echart_A02_choose_port(timeArr);
+                }else{
+                    toastTip("提示","请先选择自定义时间",3000)
+                };
+            }else{
+                echart_A02_port();
+            };
         };
     }else{
         // console.log('请求错误，返回code非200');
