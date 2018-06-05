@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>成长档案相册</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta name="screen-orientation" content="portrait"><!-- uc强制竖屏 -->
+	<meta name="x5-orientation" content="portrait"><!-- QQ强制竖屏 -->
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png">
+	
+	<link rel="stylesheet" href="./plugins/swiper/4x/swiper.min.css">
+	<link rel="stylesheet" href="./plugins/swiper/4x/animate.min.css">
+	<link rel="stylesheet" href="./css/recordList_photo.css">
+</head>
+<body>
+	<div class="swiper-container">
+		<div class="swiper-wrapper"></div>
+
+		<div class="bgm-btn rotate" data-event="11205" style="display: block;" _tracker_click_="_tracker_click_">
+			<audio loop="" src="images/recordList/music.mp3" autoplay="" preload=""></audio>
+		</div>
+
+		<div class="u-arrow-bottom" style="bottom: 30px;">
+			<div class="pre-wrap-bottom">
+				<div class="pre-box1">
+					<div class="pre1"></div>
+				</div>
+				<div class="pre-box2">
+					<div class="pre2"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="swiper-pagination"></div>
+	</div>
+    <script type="text/html" id="swiper_script">
+    	<section class="swiper-slide swiper-slide-0">
+    		<div class="swiperBg">
+				<img src="./images/recordList/section-0-bg.png" alt="">
+			</div>
+			<div class="layer">
+				<img class="ani" src="./images/recordList/section-0-01.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.5s" style="width:100%;left:0;bottom: 0;z-index:1;">
+				<img class="ani" src="./images/recordList/section-0-02.png" swiper-animate-effect="slideDown" swiper-animate-duration="1s" swiper-animate-delay="0.5s" style="left:10px;top:40%;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani" src="./images/recordList/section-0-03.png" swiper-animate-effect="slideDown" swiper-animate-duration="1s" swiper-animate-delay="0.5s" style="right: 0;top:40%;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani" src="./images/recordList/section-0-04.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="1s" swiper-animate-delay="0.5s" style="right:0;top:0;z-index:1;" >
+				<img class="ani" src="./images/recordList/section-0-05.png" swiper-animate-effect="tada" swiper-animate-duration="1.5s" swiper-animate-delay="0.5s" style="right: 0;bottom: 10px;z-index:4;animation-iteration-count: infinite;" >
+				<span class="ani" style="margin-top:70%;z-index:5;position: static; text-align: center;line-height: 1;display: inline-block;color: #f17408;font-weight: 600;font-size: 18px;">
+					<span class="ani" swiper-animate-effect="rollInRight" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" style="position: relative;z-index: 1;line-height: 2;font-size: 24px;">{{nameArr[0]}}</span>
+					<br>
+					<span class="ani" swiper-animate-effect="rollInRight" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" style="position: relative;z-index: 1;line-height: 2;">{{nameArr[1]}}</span>
+					<br>
+					<img class="ani" src="./images/recordList/section-0-06.png" swiper-animate-effect="swing" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" style="position: relative;margin-top: -75%;">
+				</span>
+			</div>
+		</section>
+
+		{{if pictureList[0]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-1-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:120%;left:-10%;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[0]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-1-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:0;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[1]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-2-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:120%;left:-10%;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[1]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-2-pet.png" swiper-animate-effect="tada" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="right:10px;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[2]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-3-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="height:50%;left:-100%;top: 0;z-index:0;">
+				<img class="ani sectionBg" src="./images/recordList/section-3-bg02.png" swiper-animate-effect="bounceIn" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;left:0;bottom: 0;z-index:3;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[2]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-3-pet01.png" swiper-animate-effect="swing" swiper-animate-duration="2s" swiper-animate-delay="0.5s" style="left:10px;bottom:50px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-3-pet02.png" swiper-animate-effect="swing" swiper-animate-duration="8s" swiper-animate-delay="1.5s" style="left:50%;bottom:40px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-3-pet03.png" swiper-animate-effect="swing" swiper-animate-duration="3s" swiper-animate-delay="1s" style="right:20px;bottom:30px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[3]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-4-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:120%;left:-10%;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[3]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-4-pet01.png" swiper-animate-effect="rotateIn" swiper-animate-duration="1.5s" swiper-animate-delay="0.5s" style="left:15px;bottom:50px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-4-pet02.png" swiper-animate-effect="rotateIn" swiper-animate-duration="1.5s" swiper-animate-delay="0.5s" style="left:70px;bottom:30px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-4-pet03.png" swiper-animate-effect="rotateIn" swiper-animate-duration="1.5s" swiper-animate-delay="0.5s" style="right:20px;bottom:40px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[4]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-5-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="height:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[4]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-5-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="right:20px;bottom:20px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[5]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<div class="ani sectionBg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="background-color: #ffe55e;z-index: 0;left:0;top: 0;height: 100%;width: 100%;position: absolute;"></div>
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[5]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-6-pet.png" swiper-animate-effect="tada" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="right:10px;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-6-pet02.png" swiper-animate-effect="tada" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="left:0;top:10px;z-index:3;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[6]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<div class="ani sectionBg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="background-color: #ffe55e;z-index: 0;left:0;top: 0;height: 100%;width: 100%;position: absolute;"></div>
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[6]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet09.png" swiper-animate-effect="rotateIn" swiper-animate-duration="3s" swiper-animate-delay="0.5s" style="left:20px;top:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet08.png" swiper-animate-effect="rotateIn" swiper-animate-duration="3s" swiper-animate-delay="0.5s" style="left:10px;top:50px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet08.png" swiper-animate-effect="rotateIn" swiper-animate-duration="3s" swiper-animate-delay="0.5s" style="right:10px;top:20px;z-index:3;animation-iteration-count: infinite;" >
+
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet01.png" swiper-animate-effect="swing" swiper-animate-duration="3s" swiper-animate-delay="0.5s" style="left:5%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet02.png" swiper-animate-effect="swing" swiper-animate-duration="4s" swiper-animate-delay="0.5s" style="left:15%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet06.png" swiper-animate-effect="swing" swiper-animate-duration="5s" swiper-animate-delay="0.5s" style="left:22%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet03.png" swiper-animate-effect="swing" swiper-animate-duration="3s" swiper-animate-delay="0.5s" style="left:38%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet04.png" swiper-animate-effect="swing" swiper-animate-duration="5s" swiper-animate-delay="0.5s" style="left:45%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet05.png" swiper-animate-effect="swing" swiper-animate-duration="5s" swiper-animate-delay="0.5s" style="left:55%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet07.png" swiper-animate-effect="swing" swiper-animate-duration="4s" swiper-animate-delay="0.5s" style="right:20%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-7-pet06.png" swiper-animate-effect="swing" swiper-animate-duration="6s" swiper-animate-delay="0.5s" style="right:5%;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[7]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-8-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="height:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[7]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-8-pet01.png" swiper-animate-effect="rubberBand" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="right:40px;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-8-pet02.png" swiper-animate-effect="wobble" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="right:10px;bottom:10px;z-index:3;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[8]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-9-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:100%;height:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[8]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-9-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="left:10px;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[9]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-10-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[9]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-10-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="left:10px;bottom:20px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[10]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-11-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:150%;height:80%;left:-20%;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[10]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-11-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="left:0;bottom:30px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[11]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[11]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionBg" src="./images/recordList/section-12-bg02.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;left:0;bottom: 0;z-index:3;">
+				<img class="ani sectionPet" src="./images/recordList/section-12-pet02.png" swiper-animate-effect="wobble" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:5px;bottom:20px;z-index:3;" >
+				<img class="ani sectionPet" src="./images/recordList/section-12-pet01.png" swiper-animate-effect="rubberBand" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:30px;bottom:20px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-12-pet03.png" swiper-animate-effect="wobble" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="right:15px;top:15px;z-index:3;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[12]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-13-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[12]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionBg" src="./images/recordList/section-13-bg02.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;left:0;bottom: 0;z-index:3;">
+				<img class="ani sectionPet" src="./images/recordList/section-13-pet.png" swiper-animate-effect="fadeInRight" swiper-animate-duration="2s" swiper-animate-delay="1s" style="left:15px;top:10px;z-index:3;" >
+				<img class="ani sectionPet" src="./images/recordList/section-13-pet.png" swiper-animate-effect="fadeInRight" swiper-animate-duration="2s" swiper-animate-delay="1.5s" style="left:40px;top:10px;z-index:3;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[13]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[13]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionBg" src="./images/recordList/section-14-bg02.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;height:100px;left:0;bottom: 0;z-index:3;">
+				<img class="ani sectionPet" src="./images/recordList/section-14-pet03.png" swiper-animate-effect="hingeRight" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:20%;bottom:55px;z-index:3;" >
+				<img class="ani sectionPet" src="./images/recordList/section-14-pet02.png" swiper-animate-effect="" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:50%;bottom:40px;z-index:3;" >
+				<img class="ani sectionPet" src="./images/recordList/section-14-pet01.png" swiper-animate-effect="" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="right:15%;bottom:30px;z-index:3;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[14]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<div class="ani sectionBg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="background-color: #ffe55e;z-index: 0;left:0;top: 0;height: 100%;width: 100%;position: absolute;"></div>
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[14]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-15-pet.png" swiper-animate-effect="tada" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:10px;bottom:20px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[15]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-16-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:120%;left:-10%;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[15]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionBg" src="./images/recordList/section-16-bg02.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;height:100px;left:0;bottom: 0;z-index:3;">
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[16]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[16]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionBg" src="./images/recordList/section-17-bg02.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;height:100px;left:0;bottom: 0;z-index:3;">
+				<img class="ani sectionPet" src="./images/recordList/section-17-pet.png" swiper-animate-effect="tada" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:5px;top:10px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[17]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-18-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:120%;left:-10%;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[17]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionBg" src="./images/recordList/section-18-bg02.png" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s" style="width:100%;left:0;bottom: 0;z-index:3;">
+				<img class="ani sectionPet" src="./images/recordList/section-18-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="2s" swiper-animate-delay="1.5s" style="right:20px;bottom:20px;z-index:3;animation-iteration-count: infinite;" >
+				<img class="ani sectionPet" src="./images/recordList/section-18-pet02.png" swiper-animate-effect="wobble" swiper-animate-duration="2s" swiper-animate-delay="1.5s" style="left:0;bottom:20px;z-index:3;" >
+			</div>
+		</section>
+		{{/if}}
+
+
+		{{if pictureList[18]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-19-bg.jpg" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[18]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-19-pet.png" swiper-animate-effect="wobble" swiper-animate-duration="1s" swiper-animate-delay="1.5s" style="left:0;bottom:10px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+
+		{{if pictureList[19]}}
+		<section class="swiper-slide">
+			<div class="layer">
+				<img class="ani sectionBg" src="./images/recordList/section-20-bg.png" swiper-animate-effect="fadeInDown" swiper-animate-duration="2s" swiper-animate-delay="0s" style="width:100%;left:0;top: 0;z-index:0;">
+				<span class="ani sectionBorder" swiper-animate-effect="puffIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+					<img class="ani sectionPic" src="{{path_img}}{{pictureList[19]}}" swiper-animate-effect="zoomIn" swiper-animate-duration="1s" swiper-animate-delay="2s" style="" >
+				</span>
+				<img class="ani sectionPet" src="./images/recordList/section-20-pet01.png" swiper-animate-effect="wobble" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="right:0;bottom:20px;z-index:3;" >
+				<img class="ani sectionPet" src="./images/recordList/section-20-pet02.png" swiper-animate-effect="swing" swiper-animate-duration="3s" swiper-animate-delay="1.5s" style="left:10px;top:20px;z-index:3;animation-iteration-count: infinite;" >
+			</div>
+		</section>
+		{{/if}}
+	</script>
+
+	<!-- <script src="js/jquery-1.11.1.min.js"></script>  -->
+	<script src="js/common/zepto.min.js"></script>
+	<script src="js/common/template.js"></script>
+	<script src="./plugins/swiper/4x/swiper.min.js"></script> 
+	<script src="./plugins/swiper/4x/swiper.animate.min.js"></script>
+	<script src="./js/base.js?t=20180102"></script>
+	<script src="./js/recordList_photo.js?t=20180102"></script>
+</body>
+</html>

@@ -562,3 +562,9 @@ body,#page-container,#content,#contentPrev{
 	background: url(../../images/common/backBtn.png) 0 center no-repeat;
 	padding-left: 0.24rem;
 }
+.todolistBox01 >li:nth-of-type(odd){
+	background-color: #fff;
+}
+.todolistBox01 >li:nth-of-type(even){
+	background-color: #f8f8f8;
+}

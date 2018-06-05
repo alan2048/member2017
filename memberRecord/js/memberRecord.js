@@ -1461,25 +1461,29 @@ function dateInit() {
 
     // 年度切换按钮
     $(".query2016 >span").click(function () {
-    	if($(this).attr("data-value") == 2016){
-    		$(this).attr("data-value",2017).text("2017");
-    		$(this).parent(".query2016").next(".query2017").children("span:first").attr("data-value",2016).text("2016");
+        var curYear=new Date().getFullYear();
+        var preYear=curYear-1;
+    	if($(this).attr("data-value") == preYear){
+    		$(this).attr("data-value",curYear).text(curYear);
+    		$(this).parent(".query2016").next(".query2017").children("span:first").attr("data-value",preYear).text(preYear);
     		recordPiclib_port();
-    	} else if($(this).attr("data-value") == 2017){
-    		$(this).attr("data-value",2016).text("2016");
-    		$(this).parent(".query2016").next(".query2017").children("span:first").attr("data-value",2017).text("2017");
+    	} else if($(this).attr("data-value") == curYear){
+    		$(this).attr("data-value",preYear).text(preYear);
+    		$(this).parent(".query2016").next(".query2017").children("span:first").attr("data-value",curYear).text(curYear);
     		recordPiclib_port();
     	}
     });
 
     $(".query2017").on("click",">span:first",function () {
-    	if($(this).attr("data-value") == 2016){
-    		$(this).attr("data-value",2017).text("2017");
-    		$(this).parent(".query2017").prev(".query2016").children("span:first").attr("data-value",2016).text("2016");
+        var curYear=new Date().getFullYear();
+        var preYear=curYear-1;
+    	if($(this).attr("data-value") == preYear){
+    		$(this).attr("data-value",curYear).text(curYear);
+    		$(this).parent(".query2017").prev(".query2016").children("span:first").attr("data-value",preYear).text(preYear);
     		recordPiclib_port();
-    	} else if($(this).attr("data-value") == 2017){
-    		$(this).attr("data-value",2016).text("2016");
-    		$(this).parent(".query2017").prev(".query2016").children("span:first").attr("data-value",2017).text("2017");
+    	} else if($(this).attr("data-value") == curYear){
+    		$(this).attr("data-value",preYear).text(preYear);
+    		$(this).parent(".query2017").prev(".query2016").children("span:first").attr("data-value",curYear).text(curYear);
     		recordPiclib_port();
     	}
     });

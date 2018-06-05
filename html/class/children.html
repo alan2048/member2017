@@ -58,6 +58,7 @@
       				班级：
       				<select id="teacherClass"></select>
     				<script id="teacherClass_script" type="text/html">
+                        <option value="">全部</option>
       					{{each arr as value i}}
 						<option value="{{value.classUUID}}" data-name="{{value.className}}">{{value.className}}</option>
       					{{/each}}

@@ -35,6 +35,8 @@ function buttonFn() {
     $("#buttonBox").on("click","#backBtn",function () {
         $(".content").addClass("hide");
         $("#contentPrev").removeClass("hide");
+        $(".navgition .breadBack").removeClass('active');
+        $(".breadBox").empty().append("<span class=\"root\">根目录</span>");
     });
 
     // 面包屑
@@ -48,6 +50,10 @@ function buttonFn() {
             };
             fileGetChildFileInfo_port($(this).attr("data-fileuuid"),obj);
         };
+    });
+
+    $(document).click(function () {
+        $(".todolistBox > .list").removeClass("curData");
     });
 
     // 返回上级

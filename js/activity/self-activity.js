@@ -20,7 +20,9 @@ function timeInit() {
     $("#startTime,#endTime").empty().append(html02); 
 
     $('#startWeek').datepicker({
+        autoclose:true,
         todayHighlight:true,
+        weekStart:1,
         language:'zh-CN'
     }).on("changeDate",function (ev) {
         if($("#startWeek").val()){
@@ -28,7 +30,34 @@ function timeInit() {
         }else{
             $("#startWeek").addClass("empty");
         };
-        $('#startWeek').datepicker("hide");
+        
+        if($("#content01 > h1 > small").text() =="新建"){
+            if($(this).val()){
+                var curDate=$(this).datepicker('getFormattedDate');
+                $('#endWeek').datepicker('setStartDate',curDate);
+                var week=new Date(curDate).getDay();
+                var time=new Date(curDate).getTime()+(7-week)*24*3600*1000;
+                var maxDate=new Date(time).Format('yyyy-MM-dd');
+
+                $('#endWeek').datepicker('setEndDate',maxDate);
+            }else{
+                $('#endWeek').datepicker('setStartDate',"today").datepicker('setEndDate',Infinity);
+            };
+        }else{
+            if($(this).val()){
+                var curDate=$(this).datepicker('getFormattedDate');
+                $('#endWeek').datepicker('setStartDate',curDate);
+                var week=new Date(curDate).getDay();
+                var time=new Date(curDate).getTime()+(7-week)*24*3600*1000;
+                var maxDate=new Date(time).Format('yyyy-MM-dd');
+
+                $('#endWeek').datepicker('setEndDate',maxDate);
+            }else{
+                $('#endWeek').datepicker('setStartDate',-Infinity).datepicker('setEndDate',Infinity);
+            };
+        };
+        
+
     }).on('click',function () {
         if($(this).val()){
             $(this).datepicker("update",$(this).val());
@@ -38,7 +67,9 @@ function timeInit() {
     });
 
     $('#endWeek').datepicker({
+        autoclose:true,
         todayHighlight:true,
+        weekStart:1,
         language:'zh-CN'
     }).on("changeDate",function (ev) {
         if($("#endWeek").val()){
@@ -46,7 +77,7 @@ function timeInit() {
         }else{
             $("#endWeek").addClass("empty");
         };
-        $('#endWeek').datepicker("hide");
+        
     }).on('click',function () {
         if($(this).val()){
             $(this).datepicker("update",$(this).val());
@@ -87,10 +118,13 @@ function mousehover() {
         $("#switchBtn").removeClass("close").text("启用").next("input[name=isStop]").val();
         $("form.form-horizontal select >option").prop("selected",false);
         $(".fill,.fillnum").removeClass('empty').val("");
+
+        $('#startWeek,#endWeek').datepicker('setStartDate',"today").datepicker('setEndDate',Infinity);
     });
 
     // 编辑活动
     $("#activityList").on("click","span.editBtn",function () {
+        $('#startWeek,#endWeek').datepicker('setStartDate',-Infinity).datepicker('setEndDate',Infinity);
         GetCourseDetails_port($(this).attr("data-id"),$(this).attr("data-name"));
     });
 

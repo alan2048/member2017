@@ -2,7 +2,7 @@ var user={
 		useruuid:GetQueryString("useruuid")
 };
 if(!user.useruuid){
-	alert("useruuid为空");
+	console.log("useruuid为空");
 };
 var serverUrl01="https://www.member361.com";//84正式服务器
 var serverUrl02="https://121.43.150.38";//38测试服务器

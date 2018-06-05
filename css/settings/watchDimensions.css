@@ -308,6 +308,7 @@ ul.showOther li.addsmall{
 	display: block;
 	padding: 0 18px;
 	position: relative;
+	height: 100%;
 }
 #treesmain > ul > li.list a input{
 	position: absolute;

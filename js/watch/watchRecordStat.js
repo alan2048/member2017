@@ -310,16 +310,18 @@ function echart_A03_callback(res) {
 };
 function echart_A03(id,json){
     var myChart = echarts.init(document.getElementById(id));
+    var className=$("#userClass03 >option:selected").text();
+    var courseName=$("#course >option:selected").text();
 
     var option = {
             title:{
-                text:"各观察指标相关观察记录数量",
+                text:courseName+"-数量",
                 left:"center",
                 textStyle: {
                     color: '#656666'
                 }
             },
-            color: ['#a2d7f6'],
+            color: ['#c1ec69'],
             tooltip : {
                 trigger: 'axis',
                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -341,7 +343,7 @@ function echart_A03(id,json){
                     },
                     axisLabel:{
                         interval:0,
-                        rotate: -60
+                        rotate:0
                     }
                 }
             ],
@@ -352,7 +354,7 @@ function echart_A03(id,json){
             ],
             series : [
                 {
-                    name:'发帖数量',
+                    name:className,
                     type:'bar',
                     barWidth: '60%',
                     data:json.series,

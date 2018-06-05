@@ -5,56 +5,67 @@
 	<title>成长档案</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
 	<meta content="" name="description" />
+	<meta name="screen-orientation" content="portrait"><!-- uc强制竖屏 -->
+	<meta name="x5-orientation" content="portrait"><!-- QQ强制竖屏 -->
 	<meta content="" name="author" />
 	<link rel="shortcut icon" href="./images/favicon.png">
 	<link href="js/common/photoswipe/default-skin/default-skin.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="./plugins/swiper/3x/swiper.min.css">
 	<link rel="stylesheet" href="./css/recordList.css">
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
-	<div id="app">
-		<div class="nav">
-			<div>
-				<label for="class">
-					<select name="class" id="class"></select>
-					<script id="class_script" type="text/html">
-      					{{each arr as value i}}
-						<option value="{{value.classUuid}}">{{value.className}}</option>
-      					{{/each}}
-      				</script>
-				</label>
+	
+    <script type="text/html" id="swiper_script">
+    	<div class="swiper-container">
+    		<div class="swiper-wrapper">
+			{{each arr as value i}}
+			<div class="swiper-slide">
+				<div class="main-img">
+					<div class="swiperBox {{if value.monthDanVOList.length==0}}empty{{/if}}">
+						{{if value.monthDanVOList.length !=0}}
+						<ul>
+							{{each value.monthDanVOList as value01 j}}
+							<li class="month">
+								<div><img src="{{path_img}}{{value01.coverMd5}}-scale600" data-pic="{{value01.picMd5List}}"></div>
+								<div>{{value01.month}}月 <span>（{{value01.number}}张）</span></div>
+							</li>
+							{{/each}}
+						</ul>
+						<div class="swiperBtn">
+							<a data-bookid="{{value.id}}" href="./recordList_photo.html?bookId={{value.id}}">一键预览</a>
+						</div>
+						{{/if}}
+					</div>
+					<div class="swiperName">{{value.name}}</div>
+				</div>
 			</div>
-			<div>
-				<label for="children">
-					<select name="children" id="children"></select>
-					<script id="children_script" type="text/html">
-      					{{each arr as value i}}
-						<option value="{{value.studentUuid}}">{{value.studentName}}</option>
-      					{{/each}}
-      				</script>
-				</label>
-			</div>
-			<div>
-				<label for="year">
-					<select name="year" id="year"></select>
-					<script id="year_script" type="text/html">
-                        {{each arr as value i}}
-                        <option value="{{value}}">{{value}}</option>
-                        {{/each}}
-                    </script>
-				</label>
+			{{/each}}
 			</div>
 		</div>
-		<div id="recordBody">
-			<ul></ul>
-			<script type="text/html" id="recordBody_script">
-				{{each arr as value i}}
-				<li class="month">
-					<div><img src="{{path_img}}{{value.coverMd5}}-scale600" data-pic="{{value.picMd5List}}"></div>
-					<div>{{value.month}}月 <span>（{{value.number}}张）</span></div>
-				</li>
-				{{/each}}
-			</script>
+	</script>
+
+	<div class="nav">
+		<div>
+			<label for="class">
+				<select name="class" id="class"></select>
+				<script id="class_script" type="text/html">
+      				{{each arr as value i}}
+					<option value="{{value.classUuid}}">{{value.className}}</option>
+      				{{/each}}
+      			</script>
+			</label>
+		</div>
+		<div>
+			<label for="children">
+				<select name="children" id="children"></select>
+				<script id="children_script" type="text/html">
+      				{{each arr as value i}}
+					<option value="{{value.studentUuid}}">{{value.studentName}}</option>
+      				{{/each}}
+      			</script>
+			</label>
 		</div>
 	</div>
 
@@ -93,14 +104,12 @@
         </div>
     </div>
 
-	<div id="imgBox"></div>
-	
-
 	<!-- <script src="js/jquery-1.11.1.min.js"></script>  -->
 	<script src="js/common/zepto.min.js"></script>
 	<script src="js/common/photoswipe/photoswipe.js"></script>
     <script src="js/common/photoswipe/photoswipe-ui-default.js"></script> 
-	<script src="js/common/template.js"></script> 
+	<script src="js/common/template.js"></script>
+	<script src="./plugins/swiper/3x/swiper.min.js"></script> 
 	<script src="./js/base.js?t=20180102"></script>
 	<script src="./js/recordList.js?t=20180102"></script>
 </body>
