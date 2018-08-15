@@ -162,9 +162,12 @@
 	padding-top: 0.3rem;
 	overflow: hidden;
 }
-.todolistBox >.list.curData{
+.todolistBox >.list.curData,.todolistBox >.list.active{
 	background: rgba(235,235,235,0.5);
 	border-radius: 10%;
+}
+.todolistBox01 >.list.curData,.todolistBox01 >.list.active{
+	background: rgba(200,200,200,0.5);
 }
 .list >.pic{
 	display:inline-block;

@@ -35,7 +35,7 @@
 				<script id="menu_script" type="text/html">
                     {{each arr as value i}}
                     <li class="has-list">
-                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}" {{if value.type==1}}target="_blank"{{/if}}>{{value.name}}</a>
                     </li>
                     {{/each}}
                     <style>
@@ -109,7 +109,7 @@
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/modal.js"></script>
 
-	<script src="../../js/common/base.js?t=20180427"></script>
-	<script src="../../js/growth/growthLabel.js?t=20180427"></script>
+	<script src="../../js/common/base.js?t=20180716"></script>
+	<script src="../../js/growth/growthLabel.js?t=20180716"></script>
 </body>
 </html>

@@ -14,9 +14,11 @@
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
 	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
-    
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="../../js/common/videojs/video-js.min.css" rel="stylesheet">
+
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/watch/watchRecord.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/watch/watchRecord01.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -131,7 +133,7 @@
                 <script type="text/html" id="members_script">
                     {{each data as value i}}
                     <li>
-                        <a class="membersBg" data-username="{{value.userName}}" data-useruuid="{{value.userUuid}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal">
+                        <a class="membersBg" data-username="{{value.userName}}" data-useruuid="{{value.userUuid}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal001">
                             <div>
                                 <span class="icon01">{{value.recordNum}}</span>
                                 {{if value.evaNum==0}}
@@ -146,196 +148,333 @@
                     {{/each}}
                 </script>
 			</div>
-	    </div> 
-	</div>
+	    </div>
 
-    <div class="modal fade" id="modal-dialog-qunzu" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="col-md-6 first-content">
-                    <h1 class="page-header" id="page-header"></h1>
-                    <script id="page-header_script" type="text/html">
-                        <i class="curName"></i>
-                        <span>关联课程：{{courses}}</span>
-                        <span>关联指标：{{coursesDim}}</span>
-                        <span>{{year}}</span>
-                        <span>{{month}}</span>
-                    </script>
-                    <!--begin 功能板块 -->
-                    <div class="email-btn-row hidden-xs">
-                        <a href="#" class="defaultBtn" id="dailyEvaluationDelete" data-childid=""><span>删除</span></a>
-                        <span>未评价</span>
-                        <span>典型案例</span>
-                    </div>
-                    <div class="panel panel-inverse" style="text-align: center;">
-                        <div class="email-content" id="email-content"></div>
-                        <script type="text/html" id="table-email">
-                            <table class="table table-email">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;width: 5%;" class="email-select"><a href="#" data-click="email-select-all"></a></th>
-                                        <th style="text-align: center;width: 5%;">ID</th>
-                                        <th style="text-align: center;width: 15%;">记录时间</th>
-                                        <th style="text-align: center;width: 15%;">观察人</th>
-                                        <th style="text-align: center;width: 15%;">观察维度</th>
-                                        <th style="text-align: center;width: 15%;">评价状态</th>
-                                        <th style="text-align: center;width: 15%;">评价时间</th>
-                                        <th style="text-align: center;width: 15%;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{each list as item i}}
-                                    <tr>
-                                        <td class="email-select">
-                                            <a href="#" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-id={{item.id}} data-delete={{item.canDelete}}></i></a>
-                                        </td>
-                                        <td class="email-sender">{{item.id}}</td>
-                                        <td class="email-sender">{{item.createDate}}</td>
-                                        <td class="email-sender">{{item.createUserName}}</td>
-                                        <td class="email-sender">{{item.dimName}}</td>
-                                        <td class="email-sender">
-                                            {{if item.state=="0"}}
-                                                <span class="unRead"></span>
-                                            {{else}}
-                                                {{item.state}}
-                                            {{/if}}
-                                        </td>
-                                        <td class="email-sender">{{item.evaluateDate}}</td>
-                                        <td class="email-sender">{{if item.typical ==1}}<span class="typical"></span>{{/if}}</td>
-                                    </tr>
-                                    {{/each}}
-                                </tbody>
-                            </table>
-                        </script>
-                        <ul id="pagination"></ul>
-                    </div>
-                               
+        <div id="content01" class="content hide">
+            <div class="pageTitle"></div>
+            <div>
+                <a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a>
+                <a href="javascript:void(0);" id="newBtn" class="defaultBtn"><span>新增</span></a>
+            </div>
+            <div>
+                <h1 class="page-header" id="page-header"></h1>
+                <script id="page-header_script" type="text/html">
+                    <span>关联课程：{{courses}}</span>
+                    <span>关联指标：{{coursesDim}}</span>
+                    <span>{{year}}</span>
+                    <span>{{month}}</span>
+                </script>
+                <div class="email-btn-row hidden-xs">
+                    <span>未评价</span>
+                    <span>典型案例</span>
                 </div>
+            </div>
+            <div class="panel panel-inverse" style="text-align: center;">
+                <div class="email-content" id="email-content"></div>
+                <script type="text/html" id="table-email">
+                    <table class="table table-email">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;width: 5%;">序号</th>
+                                <th style="text-align: center;width: 15%;">记录时间</th>
+                                <th style="text-align: center;width: 15%;">观察人</th>
+                                <th style="text-align: center;width: 15%;">观察维度</th>
+                                <th style="text-align: center;width: 15%;">评价状态</th>
+                                <th style="text-align: center;width: 15%;">评价时间</th>
+                                <th style="text-align: center;width: 5%;"></th>
+                                <th style="text-align: center;width: 15%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{each list as item i}}
+                            <tr data-id="{{item.id}}">
+                                <td class="email-sender">{{i+1}}</td>
+                                <td class="email-sender">{{item.createDate}}</td>
+                                <td class="email-sender">{{item.createUserName}}</td>
+                                <td class="email-sender">{{item.dimName}}</td>
+                                <td class="email-sender">
+                                    {{if item.state=="0"}}
+                                        <span class="unRead"></span>
+                                    {{else}}
+                                        {{item.state}}
+                                    {{/if}}
+                                </td>
+                                <td class="email-sender">{{item.evaluateDate}}</td>
+                                <td class="email-sender">{{if item.typical ==1}}<span class="typical"></span>{{/if}}</td>
+                                <td class="controllBtn">
+                                    {{if item.canDelete ==1}}
+                                    <span class="parentEdit" data-id="{{item.id}}"></span>
+                                    <span class="parentDelete" data-id="{{item.id}}" data-delete="{{item.canDelete}}"></span>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </script>
+                <ul id="pagination"></ul>
+            </div>
+        </div>
 
+        <div id="content02" class="content hide">
+            <div class="pageTitle"><span></span><small>新增</small></div>
+            <div>
+                <a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a>
+            </div>
+            <div class="panel-inverse" style="margin-top: 0.2rem;">
+                <div class="panel-body" id="evaluation"></div>
+                <script type="text/html" id="evaluation_script">
+                    <div class="col-md-12">
+                        <div class="panelBox newLevel">
+                            <h4 class="title">观察维度：<span id="addIcon"></span></h4>
+                            <div id="addDim"></div>
+                        </div>
 
-                <!-- 评价区域 -->
-                <div class="col-md-6 second-content" id="second-content">
-                    <div class="panel panel-inverse">
-                        <div class="panel-body" id="evaluation"></div>
-                        <script type="text/html" id="evaluation_script">
-                            <div class="col-md-12">
-                                <h4 class="title">记录信息</h4>
-                                {{if typical ==1}}
-                                <img src="../../images/watch/typicalIcon.png" alt="典型案例" class="typicalIcon">
-                                {{/if}}
-                                <div class="col-md-12 ui-sortable dimBox" style="padding-bottom:10px; background:#fff">
-                                    <div class="form-group col-md-6"><span>姓名：</span>{{childUserName}}</div>
-                                    <div class="form-group col-md-6"><span>关联课程：</span>{{courseName}}</div>
-                                    <div class="form-group col-md-6"><span>关联观察维度：</span>{{dimName}}</div>
-                                    <div class="form-group col-md-6"><span>记录时间：</span>{{createDate}}</div>
-                                </div>
-                                
-                                <div class="ui-sortable">
-                                    <h4 class="title">图片记录</h4>
+                        <div class="panelBox editLevel">
+                            <span>记录时间：{{createDate}}</span>
+                            <span>观察维度： <span class="subTitle">{{dimName}}</span></span>
+                            <span>观察人：{{observerName}}</span>
+                        </div>
+                        
+                        <div class="panelBox">
+                            <h4 class="title">记录信息- <span class="subTitle">{{dimName}}</span></h4>
+                            {{if typical ==1}}
+                            <img src="../../images/watch/typicalIcon.png" alt="典型案例" class="typicalIcon">
+                            {{/if}}
+
+                            <div>
+                                <span class="col01 middle">文字：</span>
+                                <span class="col02">
+                                    <textarea id="comment" class="form-control validate {{if commentNum>1000}}max{{/if}}" placeholder="请输入文字记录..." rows="5" maxlength="1000">{{comment}}</textarea>
+                                    <div class="maxNum"><span class="{{if commentNum>1000}}max{{/if}}">{{commentNum}}</span>/1000</div>
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="col01">图片：</span>
+                                <span class="col02">
                                     <ul id="carousel">
-                                        {{each picMd5List as value i}}
-                                        <li>
+                                        {{each pictureList as value i}}
+                                        <li data-pic="{{value}}" class="picItem">
                                             <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
                                                 <img src="{{path_img}}{{value}}-scale200">
                                                 <span class="deleteBtn"></span>
                                             </a>
                                         </li>
                                         {{/each}}
-                                        <li>
+                                        <li class="addPicBox">
                                             <a href="#" id="addPicBtn"></a>
                                         </li>
                                     </ul>
-                                    <h4 class="title">音频记录</h4>
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="col01">短视频：</span>
+                                <span class="col02">
                                     <ul class="voiceList"> 
-                                        {{each voiceMd5List as value i}}
+                                        {{each videoList as value i}}
                                         <li>
-                                            <audio controls="controls" src="{{value}}"></audio>
+                                            <a href="#modal-dialog-video" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                                <img src='../../images/watch/play.png' class='mascot'>
+                                                <span class="deleteBtn"></span>
+                                            </a>
                                         </li>
                                         {{/each}}
+                                        <li class="addPicBox">
+                                            <a href="#" id="addPicBtn02"></a>
+                                        </li>
                                     </ul>
-                                    <h4 class="title">文字记录</h4>
-                                    <div class="col-md-12 ui-sortable">
-                                        <textarea id="comment" class="form-control validate {{if commentNum>1000}}max{{/if}}" placeholder="请输入文字记录..." rows="5">{{comment}}</textarea>
-                                        <div class="maxNum"><span class="{{if commentNum>1000}}max{{/if}}">{{commentNum}}</span>/1000</div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                                   
-                                <h4 class="title">我的评价</h4>
-                                <div class="col-md-12">
-                                    <form class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label ui-sortable">水平</label>
-                                            <div class="col-md-10 ui-sortable">
-                                                <select class="form-control" id="level">
-                                                    <option value="" data-desc="">请选择</option>
-                                                    {{each recordLevel.dimLevelVOList as value i}}
-                                                    <option value="{{value.id}}" data-id="{{value.id}}" data-desc="{{value.description}}">{{value.level}}</option>
-                                                    {{/each}}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label ui-sortable">水平描述</label>
-                                            <div class="col-md-10 ui-sortable">
-                                                <div class="form-control" id="description"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label ui-sortable"> 评语</label>
-                                            <div class="col-md-10 ui-sortable">
-                                                <textarea class="form-control validate {{if recordLevel.evaluateNum>1000}}max{{/if}}" placeholder="请写下您的评语..." rows="7" id="evaluate"></textarea>
-                                                <div class="maxNum"><span class="{{if recordLevel.evaluateNum>1000}}max{{/if}}">{{recordLevel.evaluateNum}}</span>/1000</div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label ui-sortable"> 建议策略</label>
-                                            <div class="col-md-10 ui-sortable">
-                                                <textarea class="form-control validate {{if recordLevel.adviceNum>1000}}max{{/if}}" placeholder="请填写建议策略..." rows="7" id="advice"></textarea>
-                                                <div class="maxNum"><span class="{{if recordLevel.adviceNum>1000}}max{{/if}}">{{recordLevel.adviceNum}}</span>/1000</div>
-                                            </div>
-                                        </div>
-                                    </form>        
-                                </div>
-
-                                <h4 class="title">典型案例</h4>
-                                <div class="col-md-12 ui-sortable" style="padding-bottom: 20px;">
-                                    是否标记为典型案例:
-                                    <span id="switchBtn" {{if typical==1}} class="has-hover" {{else}} class="has-hover off" {{/if}} ></span>
-                                </div>
-
-                                <h4 class="title">共享评价</h4>
-                                <div class="col-md-12 ui-sortable">
-                                    是否向家长共享评价信息:
-                                    <span id="switchBtn01" {{if recordLevel.share==1}} class="has-hover" {{else}} class="has-hover off" {{/if}}></span>
-                                </div>
-                                
-                                <div class="form-group pull-right" style="margin-top:20px">
-                                    <div class="col-md-12 ui-sortable">
-                                        {{if operation == 1}}
-                                        <button type="submit" class="btn btn-sm btn-success" id="finalBtn" data-id="{{id}}">提交</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
+                                </span>
                             </div>
-                        </script>
-                    </div>       
-                </div>
+                        </div>
+                        
+                        <div class="panelBox {{if !isMySelf}}isMySelf{{/if}} isMySelf01">
+                            <h4 class="title">发展水平（<i class="redIcon">*</i>为必填项）- <span class="subTitle">{{dimName}}</span></h4>
+                            <div>
+                                <span class="col01"><i class="redIcon">*</i>选择水平：</span>
+                                <span class="col02">
+                                    <select class="form-control" id="level">
+                                        <option value="" data-desc="">请选择</option>
+                                        {{each dimLevelList as value i}}
+                                        <option value="{{value.id}}" data-id="{{value.id}}" data-desc="{{value.description}}">水平{{value.level}}:{{value.description}}</option>
+                                        {{/each}}
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="description">
+                                <span class="col01 middle">水平描述：</span>
+                                <span class="col02">
+                                   <div class="form-control" id="description"></div>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="col01 middle">评语：</span>
+                                <span class="col02">
+                                    <textarea class="form-control validate {{if evaluateNum>1000}}max{{/if}}" placeholder="请写下您的评语..." rows="7" id="evaluate"></textarea>
+                                    <div class="maxNum"><span class="{{if evaluateNum>1000}}max{{/if}}">{{evaluateNum}}</span>/1000</div>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="col01 middle">建议策略：</span>
+                                <span class="col02">
+                                    <textarea class="form-control validate {{if adviceNum>1000}}max{{/if}}" placeholder="请填写建议策略..." rows="7" id="advice"></textarea>
+                                    <div class="maxNum"><span class="{{if adviceNum>1000}}max{{/if}}">{{adviceNum}}</span>/1000</div>
+                                </span>
+                            </div>
+                        </div>
 
+                        <div class="panelBox {{if isMySelf}}isMySelf{{/if}} isMySelf02">
+                            <h4 class="title">发展水平 - <span class="subTitle">{{dimName}}</span></h4>
+                            <div>
+                                <span id="curLevel"></span>
+                            </div>
+                        </div>
+
+                        <div class="panelBox noLooking">
+                            <h4 class="title">设置- <span class="subTitle">{{dimName}}</span></h4>
+                            <div class="timeBox">
+                                <span class="col01">时间设置：</span>
+                                <span class="col02">
+                                   <div><span class="timeBtn defaultTime {{if timeType ==0}}active{{/if}}"><i></i>默认</span></div>
+                                   <div><span class="timeBtn {{if timeType ==1}}active{{/if}}"><i></i>自定义时间</span></div>
+                                   <div class="timePlug">
+                                        <input id="timeSetting" readonly="readonly" type="text">
+                                        <select name="" id="timeHour">
+                                            {{each hour as value i}}
+                                            <option value="{{value}}">{{if value <10}}0{{value}}{{else}}{{value}}{{/if}}</option>
+                                            {{/each}}
+                                        </select>时
+                                        <select name="" id="timeMinute">
+                                            {{each minute as value i}}
+                                            <option value="{{value}}">{{if value <10}}0{{value}}{{else}}{{value}}{{/if}}</option>
+                                            {{/each}}
+                                        </select>分
+                                   </div>
+                                </span>
+                            </div>
+                            <div class="setting">
+                                <span><i class="switchBtn typical {{if typical==1}}active{{/if}}"></i>标记为典型案例</span>
+                                <span><i class="switchBtn share {{if share==1}}active{{/if}}"></i>向家长共享记录信息</span>
+                            </div>
+                        </div>
+
+                        <div class="panelBox looking">
+                            <h4 class="title">设置- <span class="subTitle">{{dimName}}</span></h4>
+                            <div>
+                                {{if timeType ==1}}
+                                <span class="col01 top">时间设置：自定义时间 {{createDate}}</span>
+                                {{/if}}
+                            </div>
+                            <div class="setting01">
+                                {{if typical==1}}<span><i class="switchBtn01"></i>标记为典型案例</span>{{/if}}
+                                {{if share==1}}<span><i class="switchBtn01"></i>向家长共享记录信息</span>{{/if}}
+                            </div>
+                        </div>
+                        
+                        <div class="absolute">
+                            <button type="submit" class="btn btn-sm btn-success" id="finalBtn" data-id="{{recordId}}">确定</button>
+                        </div>
+                    </div>
+                </script>
+                <script id="addDim_script" type="text/html">
+                    {{each arr as value i}}
+                    <span data-id="{{value.id}}" class="{{if i==0}}active{{/if}}">{{value.name}}<span class="deleteBtn"></span></span>
+                    {{/each}}
+                </script>
+                <script id="level_script" type="text/html">
+                    <option value="" data-desc="">请选择</option>
+                    {{each arr as value i}}
+                    <option value="{{value.id}}" data-id="{{value.id}}" data-desc="{{value.description}}">水平{{value.level}}:{{value.description}}</option>
+                    {{/each}}
+                </script>
+                <script id="pictureList_script" type="text/html">
+                    {{each pictureList as value i}}
+                    <li data-pic="{{value}}" class="picItem">
+                        <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                            <img src="{{path_img}}{{value}}-scale200">
+                            <span class="deleteBtn"></span>
+                        </a>
+                    </li>
+                    {{/each}}
+                </script>
+                <script id="videoList_script" type="text/html">
+                    {{each videoList as value i}}
+                    <li>
+                        <a href="#modal-dialog-video" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                            <img src="../../images/watch/play.png" class="mascot">
+                            <span class="deleteBtn"></span>
+                        </a>
+                    </li>
+                    {{/each}}
+                </script>
+            </div> 
+        </div>
+
+	</div>
+
+    <div class="modal fade" id="modal-dialog-qunzu" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="dimBox"></div>
+                <script id="dimBox_script" type="text/html">
+                    <div class="modal-header">
+                        <ul>
+                        {{each arr as value i}}
+                        <li data-courseid="{{value.courseId}}" class="dimHeader {{if i==0}}active{{/if}}">{{value.courseName}}</li>
+                        {{/each}}
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                        {{each arr as value i}}
+                        <li data-courseid="{{value.courseId}}" class="dimBody {{if i==0}}active{{/if}}">
+                            <ul>
+                                {{each value.dimStructureList as value01 j}}
+                                <li>
+                                    <div class="dimTitle" data-id="{{value01.id}}">{{value01.name}}</div>
+                                    <div>
+                                        {{each value01.list as value02 n}}
+                                        <span data-id="{{value02.id}}" class="dimPiece">{{value02.name}}</span>
+                                        {{/each}}
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        {{/each}}
+                        </ul>
+                    </div>
+                    <div class="modal-footer"><span>确定</span></div>
+                </script>
                 <span class="closeBtn" data-dismiss="modal"></span>
-                <div style="clear:both"></div>
             </div>
             <div id="imgBg"></div>
         </div>
     </div>
 
-    <div class="modal fade" id="modal-dialog-img" tabindex="-1">
+    <div class="modal fade" id="modal-dialog-img" tabindex="0">
         <div class="modal-dialog">
             <div class="modal-content">
+                <span class="prevBtn"></span>
                 <div id="carousel_img"></div>
-                <span class="closeBtn" data-dismiss="modal"></span>
+                <span class="nextBtn"></span>
             </div>
         </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+        <span class="deleteBtn01 hide"></span>
+    </div>
+
+    <div class="modal fade" id="modal-dialog-video" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="video_img">
+                    <video id="my-player" class="video-js" controls preload="auto" poster="#" data-setup='{}'>
+                    </video>
+                </div>
+            </div>
+        </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
     </div>
 
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
@@ -347,8 +486,10 @@
     <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/plupload/plupload.full.min.js" ></script>
     <script src="../../js/common/plupload/qiniu.js" ></script>
+    <script src="../../js/common/videojs/video.min.js" ></script>
+    <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 	<script src="../../js/common/base.js?t=20180427"></script>
-	<script src="../../js/watch/watchRecord.js?t=20180427"></script>
+	<script src="../../js/watch/watchRecord01.js?t=20180427"></script>
 </body>
 </html>

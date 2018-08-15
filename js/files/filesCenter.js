@@ -53,7 +53,7 @@ function buttonFn() {
     });
 
     $(document).click(function () {
-        $(".todolistBox > .list").removeClass("curData");
+        $(".todolistBox > .list,.todolistBox01 > .list").removeClass("curData");
     });
 
     // 返回上级
@@ -63,7 +63,7 @@ function buttonFn() {
 
     // 选中文件
     $("#todolist").on("click",".todoName,.col01",function (e) {
-        $("span.todoName[data-fileuuid="+$(this).attr("data-fileuuid")+"]").toggleClass("active");
+        $("span.todoName[data-fileuuid="+$(this).attr("data-fileuuid")+"]").toggleClass("active").parents("li.list").toggleClass("active");
         e.stopPropagation();
     });
 
@@ -78,7 +78,7 @@ function buttonFn() {
                 };
                 fileGetChildFileInfo_port($(this).find('.todoName').attr("data-fileuuid"),obj);
             }else{
-                $("span.todoName[data-fileuuid="+$(this).find(".todoName").attr("data-fileuuid")+"]").toggleClass("active");
+                $("span.todoName[data-fileuuid="+$(this).find(".todoName").attr("data-fileuuid")+"]").toggleClass("active").parents("li.list").toggleClass("active");
             };
         }else{
             // 图标模式
@@ -89,7 +89,7 @@ function buttonFn() {
                 };
                 fileGetChildFileInfo_port($(this).attr("data-fileuuid"),obj);
             }else{
-                $("span.todoName[data-fileuuid="+$(this).parent(".list").find(".todoName").attr("data-fileuuid")+"]").toggleClass("active");
+                $("span.todoName[data-fileuuid="+$(this).parent(".list").find(".todoName").attr("data-fileuuid")+"]").toggleClass("active").parents("li.list").toggleClass("active");
             };
         };
     });
@@ -194,7 +194,7 @@ function buttonFn() {
                 toastTip("提示","请先选择预览项。。");
             }else if(num >1){
                 toastTip("提示","预览时为单项。。");
-                $("#todolistBox .todoName.active").removeClass("active");
+                $("#todolist .todoName.active").removeClass("active").parents("li.list").removeClass("active");
             }else{
                 if($("#todolistBox .todoName.active").hasClass("folder")){
                     toastTip("提示","暂不支持预览文件夹。。");
@@ -261,7 +261,7 @@ function buttonFn() {
             toastTip("提示","请先选择重命名项。。");
         }else if($("#todolistBox .todoName.active").length >1){
             toastTip("提示","重命名项时为单选。。");
-            $("#todolistBox .todoName.active").removeClass("active");
+            $("#todolist .todoName.active").removeClass("active").parents("li.list").removeClass("active");
         }else{
             fileGetSingleFileInfo_port($("#todolistBox .todoName.active").attr("data-fileuuid"));
         };
@@ -327,9 +327,9 @@ function buttonFn() {
     // 全选
     $("#buttonBox").on("click","#allSelect",function () {
         if($(".todoName.active").length==$(".todoName").length){
-            $(".todoName").removeClass("active");
+            $(".todoName").removeClass("active").parents("li.list").removeClass("active");
         }else{
-            $(".todoName").addClass("active");
+            $(".todoName").addClass("active").parents("li.list").addClass("active");
         };
     });
     
@@ -451,7 +451,8 @@ function fileCopy_port(uuid,parent) {
 };
 function fileCopy_callback(res,parent) {
     if(res.code==200){
-        fileGetChildFileInfo_port($('.breadBox >span:last').attr('data-fileuuid'));
+        var curData=JSON.parse(res.data);
+        fileGetChildFileInfo_port($('.breadBox >span:last').attr('data-fileuuid'),"",curData[0]);
         if(parent){
             toastTip('提示','已成功复制至目标文件夹');
         };
@@ -475,7 +476,8 @@ function fileCut_port(uuid,parent) {
 function fileCut_callback(res,parent) {
     if(res.code==200){
         $('#cut').attr('data-fileuuid','');
-        fileGetChildFileInfo_port($('.breadBox >span:last').attr('data-fileuuid'));
+        var curData=JSON.parse(res.data);
+        fileGetChildFileInfo_port($('.breadBox >span:last').attr('data-fileuuid'),"",curData[0]);
         if(parent){
             toastTip('提示','已成功剪切至目标文件夹');
         };
@@ -565,6 +567,7 @@ function fileGetChildFileInfo_callback(res,obj,curData) {
         };
 
         if(curData){
+            $("#todolistBox01 >li[data-fileuuid="+curData+"]").addClass("curData");
             $("#todolistBox >li[data-fileuuid="+curData+"]").addClass("curData");
         };
 

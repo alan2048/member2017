@@ -21,12 +21,12 @@ var httpUrl={
 		loginId:getCookie("loginId"),
 		path_img:qiniu, // 图片地址
 		// path_img:path+"/file/getImage?md5=", // 图片地址
-		download:path+"/file/downloadOne?", // 文件下载
+		download:serverUrl01+"/file/downloadOne?", // 文件下载
 		picUrl:path+"/file/upload2", // 图片上传地址
-		upToken1:path+"/file/upToken1", // 获取公有文件上传token
-		upToken2:path+"/file/upToken2", // 获取私有文件上传token
-		downloadUrl1:path+"/file/downloadUrl1", // 获取私有资源下载URL
-		streamUrl:path+"/file/streamUrl", // 获取私有资源的URL（文件流）
+		upToken1:serverUrl01+"/file/upToken1", // 获取公有文件上传token 
+		upToken2:serverUrl01+"/file/upToken2", // 获取私有文件上传token 
+		downloadUrl1:serverUrl01+"/file/downloadUrl1", // 获取私有资源下载URL
+		streamUrl:serverUrl01+"/file/streamUrl", // 获取私有资源的URL（文件流）
 		basicFileUpload:path+"/file/business/upload", // 业务文件上传
 		login:path+"/web/login/loginChecking",// 首页登入
 		login2:path+"/web/login/loginChecking2",// 首页登入2
@@ -143,7 +143,13 @@ var httpUrl={
 
 		watchTeacherStat:path+"/web/sample/report/teacher",// 观察记录统计
 		watchClassStat:path+"/web/sample/report/class",// 观察记录统计01
-		watchCourseStat:path+"/web/sample/report/course/dim",//  观察计划维度统计
+		watchCourseStat:path+"/web/sample/report/course/dim",// 观察计划维度统计
+
+		watchDimStructure:path+"/web/sample/course/dim_structure/list",// 获取观察计划及其下维度列表（新增观察记录前）
+		watchDimLevel_map:path+"/web/sample/dimLevel_map",// 所选维度的水平映射结构（用于选择水平）
+		watchBatchAdd:path+"/web/sample/student/record/batch",// 批量新增
+		watchUpdate2:path+"/web/sample/student/record/update2",// 更新观察记录
+		watchSingle_detail:path+"/web/sample/student/record/single_detail",// 获取单项观察记录详情
 
 		// 观察计划
 		watchPlanList:path+"/web/sample/company/course/list",// 获取观察计划列表
@@ -251,10 +257,11 @@ var httpUrl={
 		healthCalculateAge:path+"/web/healthInfo/calculateAge",// 根据生日，体检日期，计算年龄
 		healthHPValue:path+"/web/healthInfo/HPValue",// 计算身高p值
 		healthWPValue:path+"/web/healthInfo/WPValue",// 计算体重p值
+		healthCalculateAll:path+"/web/healthInfo/calculateAll",// 计算数据(所有)
 		healthFatnessValue:path+"/web/healthInfo/FatnessValue",// 计算肥胖值
-		healthNewHealthInfo:path+"/web/healthInfo/newHealthInfo",// 新增健康信息
+		healthNewHealthInfo:path+"/web/healthInfo/newHealthInfo2",// 新增健康信息
 		healthGetSingleHI:path+"/web/healthInfo/getSingleHI",// 获得单条健康信息
-		healthUpdateHealthInfo:path+"/web/healthInfo/updateHealthInfo",// 更新健康信息
+		healthUpdateHealthInfo:path+"/web/healthInfo/updateHealthInfo2",// 更新健康信息
 		healthDeleteHealthInfo:path+"/web/healthInfo/deleteHealthInfo",// 删除健康信息
 		healthImport:path+"/web/healthInfo/uploadExl",// 导入健康信息
 		healthExport:"/web/healthInfo/exportExcel",// 导出健康信息详情

@@ -96,6 +96,7 @@ function GetSchoolCourses_port(id) {
 function GetSchoolCourses_callback(res,id) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        console.log(data)
         for(var i=0;i<data.length;i++){
         	data[i].pic=httpUrl.path_img+data[i].pic
         };

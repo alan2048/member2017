@@ -542,8 +542,10 @@ function menu() {
         });
     });
     $("#subMenu").on("click","a.hasTitle",function () {
-        $("a.hasTitle").removeClass("active")
-        $(this).addClass("active");
+        $(this).toggleClass("active");
+        if($(this).attr("target")=="_blank"){
+            $(this).removeClass("active");
+        };
     });
 };
 // 左侧 菜单接口

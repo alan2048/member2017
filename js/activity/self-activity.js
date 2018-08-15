@@ -179,17 +179,24 @@ function mousehover() {
     });
 
     $("#submit").click(function () {
-        if(!$(".form-horizontal input.fill").val()){
-            $(".form-horizontal input.fill").attr("placeholder","此为必填项。。").addClass("empty");
+        for(var i=0;i<$(".form-horizontal input.fill").length;i++){
+            if(!$(".form-horizontal input.fill").eq(i).val()){
+                $(".form-horizontal input.fill").eq(i).attr("placeholder","此为必填项。。").addClass("empty");
+            }else{
+                $(".form-horizontal input.fill").eq(i).attr("placeholder","此为必填项。。").removeClass("empty");
+            };
         };
+        
 
         var reg = new RegExp("^[0-9]*[1-9][0-9]*$");
         if(!$(".form-horizontal input.fillnum").val() || !$(".form-horizontal input.fillnum").val().match(reg)){
             $(".form-horizontal input.fillnum").attr("placeholder","容纳人数需为数字。。").addClass("empty");
         };
 
-        if($(".faceimage.fill").css("background-image").indexOf("addBtn.png") >0){
+        if($(".faceimage.fill").css("background-image").indexOf("addBtn02.png") >0){
             $(".faceimage.fill").addClass("empty");
+        }else{
+            $(".faceimage.fill").removeClass("empty");
         };
 
         if($(".form-horizontal input.fill.empty").length==0 && $(".faceimage.fill.empty").length==0 && $(".form-horizontal input.fillnum.empty").length==0){
@@ -214,6 +221,8 @@ function mousehover() {
             };
 
 
+        }else{
+            toastTip("提示","请先将红色必填项填写完整",2000);
         };
     });
 
@@ -423,8 +432,13 @@ function AddCourse_port(data) {
 };
 function AddCourse_callback(res) {
     if(res.code==200){
-        $("#quit").click(); 
-        GetSchoolCourses_port($("#school").val());
+        if(res.data=="OK"){
+            $("#quit").click(); 
+            GetSchoolCourses_port($("#school").val());
+        }else{
+            toastTip("提示",res.data,4000);
+        };
+        
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -445,7 +459,6 @@ function GetCourseDetails_port(id,name) {
 function GetCourseDetails_callback(res,name) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        
         $(".content").addClass("hide01");
         $("#content01").removeClass("hide01");
         $("#content01 > h1 > small").text("编辑");
@@ -459,11 +472,16 @@ function GetCourseDetails_callback(res,name) {
             $("input[name="+i+"]").val(data[i]);
             $("textarea[name="+i+"]").val(data[i]);
         };
+        if(data.isStop==0){
+            $("#switchBtn").removeClass('close').text("启用");
+        }else{
+            $("#switchBtn").addClass('close').text("停用");
+        };
 
         $("#startWeek").val(new Date(data.bookTimeStart*1000).Format("yyyy-MM-dd"));
         $(".form-group select[name='bookTimeHourStart'] >option:contains("+new Date(data.bookTimeStart*1000).Format("hh:mm")+")").prop("selected",true);
 
-        $("#endWeek").val(new Date(data.bookTimeStart*1000).Format("yyyy-MM-dd"));
+        $("#endWeek").val(new Date(data.bookTimeEnd*1000).Format("yyyy-MM-dd"));
         $(".form-group select[name='bookTimeHourEnd'] >option:contains("+new Date(data.bookTimeEnd*1000).Format("hh:mm")+")").prop("selected",true);
         $(".form-group select[name='weekLoop'] >option[value="+data.weekLoop+"]").prop("selected",true);
 
@@ -604,7 +622,7 @@ function loadFiles() {
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 filters : {
                     max_file_size : '1024mb',
-                    prevent_duplicates: true,
+                    prevent_duplicates: false,
                     mime_types: [
                         {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
                     ]
@@ -657,7 +675,7 @@ function loadFiles() {
                 auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                 filters : {
                     max_file_size : '1024mb',
-                    prevent_duplicates: true,
+                    prevent_duplicates: false,
                     mime_types: [
                         {title : "Image files", extensions : "jpg,jpeg,bmp,gif,png"} // 限定jpg,gif,png后缀上传
                     ]

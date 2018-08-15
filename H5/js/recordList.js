@@ -3,10 +3,9 @@ httpUrl.classList=path+"/app/mbtrack/search/user/classList"; // 获取当前人�
 httpUrl.studentList=path+"/app/mbtrack/search/class/studentList"; // 获取班级的幼儿列表
 httpUrl.bookList=path+"/app/mbtrack/child/bookList"; // 获取档案册列表
 
-winResize();
 $(function () {
 	init();
-    $("#page-loader").addClass("hide");
+    winResize();
 }); 
 function init() {
 	classList_port();
@@ -79,6 +78,7 @@ function studentList_port() {
 };
 function studentList_callback(res) {
     if(res.code==200 && res.data){
+        $("#page-loader").addClass("hide");
         var data={arr:JSON.parse(res.data)};
         if(data.arr.length ==0){
             $("#children").empty();
@@ -86,6 +86,12 @@ function studentList_callback(res) {
         }else{
             var html=template("children_script",data);
             $("#children").empty().append(html);
+
+            // 家长账号
+            if($("#class >option").length ==1 && $("#children >option").length ==1){
+                $(".nav").addClass("hide");
+            };
+            
             bookList_port();
         };
     }else{

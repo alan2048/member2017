@@ -555,6 +555,8 @@ input.fill.empty{
 	margin: 0px auto 10px;
 	width: 50%;
 	height: 0.35rem;
+	word-break: break-all;
+	overflow-y: auto;
 }
 .conTitle:hover{
 	background-color: #f8f8f8;

@@ -581,6 +581,7 @@ table > tbody > tr.active > td {
 	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
 	color: #969998;
 	background-color: #fff;
+	width: 1.59rem;
 }
 .newBox select > option {
 	height: 0.3rem;

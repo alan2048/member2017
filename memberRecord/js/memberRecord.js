@@ -738,7 +738,7 @@ function savePic() {
                             title: "提示",
                             text: "正在保存，请稍候。。。",
                             // timer: 3000,
-                            showConfirmButton: false
+                            showConfirmButton: true
                         }); 
                     // console.log(canvas.toDataURL("png"));
                     recordSaveOrUpdate_port(canvas.toDataURL('png'),JSON.stringify(canvas));
@@ -856,13 +856,18 @@ function recordSaveOrUpdate_port(imgBase64,content) {
 };
 function recordSaveOrUpdate_callback(res) {
 	if(res.code==200){
-		// console.log(res.data);
+        swal.close();
+        toastTip("success",res.info);
         $("#savePic").attr("data-id","");// 区分新增、编辑 
 		recordDanList_port();
 	}else if(res.code==404){
+        swal.close();
         toastTip("提示","加载失败，请稍候重试。。","2500");
 		// window.location.href=httpUrl.loginHttp;
-	};
+	}else{
+        swal.close();
+        toastTip("提示",res.info,"3000");
+    };
 };
 function autoCanvasWidth() {
 	var h=$("#canvas-wrapper").height();

@@ -336,7 +336,7 @@ function ajaxSubmitForm() {
             dataType : 'json',
             success : function(data) {
                 childrenGetImportUserInfo_port();
-                toastTip("提示",data.data,3000);
+                toastTip("提示",data.info,3000);
             },
             error: function(data) {
                 console.log(data);   
@@ -358,7 +358,7 @@ function childrenGetImportUserInfo_port() {
 function childrenGetImportUserInfo_callback(res) {
     if(res.code==200){
         var data={arr:JSON.parse(res.data)};
-        console.log(data.arr);
+        // console.log(data.arr);
         var html=template("tableBox01_script",data);
         $("#tableBox01").empty().append(html);
         $(".importEditBtn,.importDelBtn").addClass("disable");

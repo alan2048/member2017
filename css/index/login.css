@@ -39,7 +39,7 @@ body{
 }
 .login > .loginBox >.title{
     height: 1.1rem;
-    font-family: æ¥·ä½“;
+    font-family: ¿¬Ìå;
     color:#fff;
     font-size: .5rem;
     text-align: center;
@@ -330,4 +330,18 @@ body{
 
 .jq-toast-single {
     width: auto;
+}
+#reference{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    background-color: rgba(256,256,256,0.2);
+    color:#333;
+}
+#reference a{
+    color:#333;
+    text-decoration: underline;
 }

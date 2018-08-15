@@ -41,7 +41,9 @@ function init() {
                 },
                 function(isConfirm){
                     if (isConfirm) {
-                        healthDeleteHealthInfo_port();
+                        for(var i=0;i<$("#tableBox .table tbody tr.active").length;i++){
+                            healthDeleteHealthInfo_port($("#tableBox .table tbody tr.active").eq(i).attr("data-id"));
+                        };
                     };
             });
         };
@@ -69,7 +71,7 @@ function ajaxSubmitForm() {
             type : 'POST',
             dataType : 'json',
             success : function(data) {
-                toastTip("提示",data.info,4000);
+                toastTip("提示",data.info,6000);
                 healthGetExamDateList_port(data.data);
             },
             error: function(data) {
@@ -158,9 +160,9 @@ function healthGetClassHealthInfo_callback(res) {
 };
 
 // 删除健康信息
-function healthDeleteHealthInfo_port() {
+function healthDeleteHealthInfo_port(hiUUID) {
     var data={
-            hiUUID:$(".table >tbody >tr.active").attr("data-id")
+            hiUUID:hiUUID
     };
     var param={
             params:JSON.stringify(data),
@@ -184,16 +186,24 @@ function chooseRow() {
     $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
 
     $("#tableBox").on("click",".table tbody tr",function () {
-        $(this).toggleClass("active").siblings().removeClass("active");
-        if($(this).hasClass("active")){
-            $("#editBtn,#deleteBtn").removeClass("disable");
-        }else{
-            $("#editBtn,#deleteBtn").addClass("disable");
-        };
+        $(this).toggleClass("active")
+
+        ValidateBtn();
     });
 };
 
-
+// 验证编辑删除按钮
+function ValidateBtn() {
+    var num=$("#tableBox .table tbody tr.active").length;
+    if(num ==0){
+        $("#editBtn,#deleteBtn").addClass("disable"); // 控制编辑和删除按钮的显示隐藏
+    }else if( num ==1){
+        $("#editBtn,#deleteBtn").removeClass("disable");
+    }else{
+        $("#editBtn").addClass("disable");
+        $("#deleteBtn").removeClass("disable");
+    };
+};
 
 
 

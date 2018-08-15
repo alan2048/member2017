@@ -646,6 +646,9 @@ function echart_A04(id,json){
             legend: {
                 orient: 'vertical',
                 x: 'left',
+                textStyle:{
+                    fontSize:10
+                },
                 data:data.legend
             },
             series: [
@@ -663,7 +666,7 @@ function echart_A04(id,json){
                         emphasis: {
                             show: true,
                             textStyle: {
-                                fontSize: '28',
+                                fontSize: '20',
                                 fontWeight: 'bold'
                             }
                         }
@@ -715,6 +718,9 @@ function echart_A05(id,json){
             legend: {
                 orient: 'vertical',
                 x: 'left',
+                textStyle:{
+                    fontSize:10
+                },
                 data:data.legend
             },
             series: [
@@ -732,7 +738,7 @@ function echart_A05(id,json){
                         emphasis: {
                             show: true,
                             textStyle: {
-                                fontSize: '28',
+                                fontSize: '20',
                                 fontWeight: 'bold'
                             }
                         }
@@ -784,6 +790,9 @@ function echart_A06(id,json){
             legend: {
                 orient: 'vertical',
                 x: 'left',
+                textStyle:{
+                    fontSize:10
+                },
                 data:data.legend
             },
             series: [
@@ -801,7 +810,7 @@ function echart_A06(id,json){
                         emphasis: {
                             show: true,
                             textStyle: {
-                                fontSize: '28',
+                                fontSize: '20',
                                 fontWeight: 'bold'
                             }
                         }

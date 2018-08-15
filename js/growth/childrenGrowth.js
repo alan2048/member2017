@@ -88,7 +88,16 @@ function newInit() {
 
     // 发帖 添加图片
     $("#editor .newPicBtn").click(function () {
-        $("#modal-picture").modal("show"); 
+        $("#modal-picture").modal("show");
+        var arr=[];
+        for(var i=0;i<$("#picListUl >li").length;i++){
+            arr.push($("#picListUl >li").eq(i).attr("data-pic"));
+        };
+
+        $(".picBody >li.loadImg").removeClass("active");
+        for(var i=0;i<arr.length;i++){
+            $(".picBody >li.loadImg[data-md5="+arr[i]+"]").addClass("active");
+        };
     });
 
     // 发帖 谁可见
@@ -177,42 +186,53 @@ function newInit() {
         if($("#editor >#input >textarea").hasClass("more")){
             toastTip("提示","最多输入1000字...",2000);
         }else if($("#editor >#input >textarea").val() || $("#picListUl >li").length >0){
-            var pictureList=[];
-            for(var i=0;i<$("#picListUl >li").length;i++){
-                pictureList.push($("#picListUl >li").eq(i).attr("data-pic"))
-            };
-            pictureList=distinct(pictureList);// 数组去重
-
-            var labelList=[];
-            if($(".newLabel >span").length==0){
-                labelList=[];
+            if(!$("#editor >#input >textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"") && $("#picListUl >li").length==0){
+                toastTip("提示","文字不可只为空格或回车",2000);
             }else{
-                for(var i=0;i<$(".newLabel >span").length;i++){
-                    labelList.push($(".newLabel >span").eq(i).attr("data-id"));
+                var pictureList=[];
+                for(var i=0;i<$("#picListUl >li").length;i++){
+                    pictureList.push($("#picListUl >li").eq(i).attr("data-pic"))
                 };
-            };
-            var childUseruuidList=[];
-            for(var i=0;i<$(".newWho >li.active").length;i++){
-                childUseruuidList.push($(".newWho >li.active").eq(i).attr("data-studentuuid"))
-            };
-            var stickyPost;
-            if($(".newTopBtn").hasClass("active")){
-                stickyPost="1";
-            }else{
-                stickyPost="0"
-            };
+                pictureList=distinct(pictureList);// 数组去重
+
+                var labelList=[];
+                if($(".newLabel >span").length==0){
+                    labelList=[];
+                }else{
+                    for(var i=0;i<$(".newLabel >span").length;i++){
+                        labelList.push($(".newLabel >span").eq(i).attr("data-id"));
+                    };
+                };
+                var childUseruuidList=[];
+                for(var i=0;i<$(".newWho >li.active").length;i++){
+                    childUseruuidList.push($(".newWho >li.active").eq(i).attr("data-studentuuid"))
+                };
+                var stickyPost;
+                if($(".newTopBtn").hasClass("active")){
+                    stickyPost="1";
+                }else{
+                    stickyPost="0"
+                };
         
-            var data={
-                    childUseruuidList:childUseruuidList,
-                    classId:user.classId.toString(),
-                    content:$("#input >textarea").val(),
-                    labelList:labelList,
-                    pictureList:pictureList,
-                    stickyPost:stickyPost,
-                    video:""
-            };
-            // console.log(data);
-            growthAdd_port(data);  
+                // 去空格去回车
+                var content="";
+                if(!$("#editor >#input >textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
+                    content=""
+                }else{
+                    content=$("#input >textarea").val();
+                };
+                var data={
+                        childUseruuidList:childUseruuidList,
+                        classId:user.classId.toString(),
+                        content:content,
+                        labelList:labelList,
+                        pictureList:pictureList,
+                        stickyPost:stickyPost,
+                        video:""
+                };
+                // console.log(data);
+                growthAdd_port(data);
+            };  
         }else{
             toastTip("提示","文字和图片至少需选择一项",2000);
         };      
@@ -638,9 +658,21 @@ function growthList_callback(res,type) {
         var html=template("list_script",data);
         if(type ==0){
             $("#list").empty().append(html);
+            $("#scroll-top").click();// 切换班级之后滚动到顶部
         }else{
             $("#list").append(html);
         };
+
+        //懒加载
+        echo.init({
+            offset: 500,
+            throttle: 0,
+            unload: false,
+            callback: function (element, op) {
+                // console.log(element, 'has been', op + 'ed')
+            }
+        });
+        echo.render();
     }else{
         console.log(res.info);
     };

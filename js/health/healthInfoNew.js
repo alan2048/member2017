@@ -39,7 +39,10 @@ function loginSuccess() {
         todayHighlight:true,
         language:'zh-CN'
     }).on("changeDate",function (ev) {
-        calculateAge_port($("#h-birthday").val(),$("#createDate").val());
+        // calculateAge_port($("#h-birthday").val(),$("#createDate").val());
+        if($("#h-weight").val() && $("#h-height").val()){
+            getHealthCalculateAll();
+        };
         if($("#createDate").val()){
             $("#createDate").removeClass("empty");
         };
@@ -55,14 +58,13 @@ function loginSuccess() {
     //输入身高
     $("#h-height").change(function(){
         if($("#createDate").val()){
-            if($(this).val()){
-                getHeightPvalue();//取得身高P值
-            }else{
-                $("#h-heightValue").val("");
-            };
             if($(this).val() && $("#h-weight").val()){
-                getFatnessValue();//取得肥胖值
+                getHealthCalculateAll();
             }else{
+                if(!$("#h-weight").val() || $(this).val()){
+                    $("#h-weight").focus();
+                }
+                $("#h-heightValue").val("");
                 $("#h-fatValue").val("");
                 $("#h-fat").val("");
             };
@@ -75,14 +77,13 @@ function loginSuccess() {
     //输入体重
     $("#h-weight").change(function(){
         if($("#createDate").val()){
-            if($(this).val()){
-                getWeightPvalue();//取得体重
-            }else{
-                $("#h-weightValue").val("");
-            };
             if($(this).val() && $("#h-height").val()){
-                getFatnessValue();//取得肥胖值
+                getHealthCalculateAll();
             }else{
+                if(!$("#h-height").val() || $(this).val()){
+                    $("#h-height").focus();
+                };
+                $("#h-heightValue").val("");
                 $("#h-fatValue").val("");
                 $("#h-fat").val("");
             };
@@ -241,9 +242,7 @@ function healthGetSingleHI_callback(res) {
         $("#h-visionr").val(data.visionR);
         $("#h-weight").val(data.weight);
 
-        getHeightPvalue();//取得身高P值
-        getWeightPvalue();//取得体重
-        getFatnessValue();//取得肥胖值
+        getHealthCalculateAll();//取得身高P值
 
         $(".content").addClass("hide");
         $("#content01").removeClass("hide").find(".pageTitle >small").text("编辑").attr("data-id",data.hiUUID);
@@ -273,7 +272,7 @@ function getBirthdaySex_callback(res) {
         $("#h-sex").val(data.sex)
         $("#h-birthday").val(data.birthday);
         if($("#createDate").val()){
-            calculateAge_port($("#h-birthday").val(),$("#createDate").val());
+            // calculateAge_port($("#h-birthday").val(),$("#createDate").val());
         };
     }else{
         $("#h-birthday").val("");
@@ -320,6 +319,40 @@ function getPValue_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         $("#h-heightValue").val(data);
+    }else{
+        $("#h-heightValue").val("");
+        toastTip("提示",res.info,2000);
+        // console.log(res);
+    }
+};
+
+function getHealthCalculateAll() {
+    var data={
+            childUUID:$("#classMember").val(),
+            examDate:$("#createDate").val(),
+            height:$("#h-height").val(),
+            weight:$("#h-weight").val()
+        };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.healthCalculateAll,param,getHealthCalculateAll_callback);
+}
+function getHealthCalculateAll_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        
+        $("#h-heightValue").val(data.hPvalue);
+        $("#h-weightValue").val(data.wPvalue);
+        $("#h2wPvalue").val(data.h2wPvalue);
+        $("#h-fatValue").val(data.fatnessValue);
+        $("#h-fat").val(data.fatnessResult);
+        $("#h-age").val(data.age);
+        Diagnosis();
+        if(data.info){
+            toastTip("提示",data.info,4000);
+        };
     }else{
         $("#h-heightValue").val("");
         toastTip("提示",res.info,2000);
@@ -439,6 +472,11 @@ function insertHealthInfo(){
     var data={
             childUUID:$("#classMember").val(),
             examDate:$("#createDate").val(),
+            fatnessResult:$("#h-fat").val(),
+            fatnessValue:$("#h-fatValue").val(),
+            h2wPvalue:$("#h2wPvalue").val(),
+            hPvalue:$("#h-heightValue").val(),
+            wPvalue:$("#h-weightValue").val(),
             height:$("#h-height").val(),
             hemachrome:$("#h-hemachrome").val(),
             visionL:$("#h-visionl").val(),

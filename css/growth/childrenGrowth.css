@@ -905,6 +905,8 @@ li:hover >.commentDelete{
 	left: -0.8rem;
 	-webkit-background-size: contain;
 	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 .createUserPhoto:hover{
 	// border: 0.02rem solid #5cdfe2;

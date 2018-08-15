@@ -91,19 +91,18 @@
                             <thead>
                                 <tr>
                                     <th style="width: 4%;">序号</th>
-                                    <th style="width: 9%;">体检日期</th>
-                                    <th style="width: 7%;">姓名</th>
+                                    <th style="width: 9%;">姓名</th>
                                     <th style="width: 4%;">性别</th>
                                     <th style="width: 6%;">年龄</th>
                                     <th style="width: 8%;">身高（cm）</th>
                                     <th style="width: 8%;">体重（kg）</th>
                                     <th style="width: 8%;">血色素（g/l）</th>
-                                    <th style="width: 8%;">视力</th>
-                                    <th style="width: 6%;">身高P值</th>
-                                    <th style="width: 6%;">体重P值</th>
-                                    <th style="width: 6%;">身高别体重P值</th>
+                                    <th style="width: 9%;">视力</th>
+                                    <th style="width: 7%;">身高P值</th>
+                                    <th style="width: 7%;">体重P值</th>
+                                    <th style="width: 9%;">身高别体重P值</th>
                                     <th style="width: 7%;">肥胖值</th>
-                                    <th style="width: 7%;">肥胖值判定</th>
+                                    <th style="width: 7%;">体检结果</th>
                                     <th style="width: 7%;">预警信息</th>
                                 </tr>
                             </thead>
@@ -111,7 +110,6 @@
                            	 	{{each arr as item i}}
                                 <tr data-id="{{item.hiUUID}}" data-age="{{item.userAge}}">
                                     <td class="email-sender">{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
-                                    <td class="email-sender">{{item.examDate}}</td>
                                     <td class="email-sender">{{item.userName}}</td>
                                     <td class="email-sender">{{item.userSex}}</td>
                                     <td class="email-sender">{{item.userAge}}</td>
@@ -188,7 +186,7 @@
                             <input id="h-birthday" type="text" readonly="readonly">
                         </label>
                         <label>
-                            <span>体检日期：</span>
+                            <span>体检日期<i class="redIcon">*</i>：</span>
                             <input id="createDate" type="text" readonly="readonly">
                         </label>
                         <label>
@@ -228,6 +226,7 @@
                         <label>
                             <span>身高P值：</span>
                             <input id="h-heightValue" type="text" readonly class="readonly" />
+                            <input id="h2wPvalue" type="hidden" readonly class="readonly" />
                         </label>
                         <label>
                             <span>体重P值：</span>
@@ -264,8 +263,8 @@
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20180427"></script>
-	<script src="../../js/health/healthInfo.js?t=20180427"></script>
-    <script src="../../js/health/healthInfoNew.js?t=20180427"></script>
+	<script src="../../js/common/base.js?t=20180622"></script>
+	<script src="../../js/health/healthInfo.js?t=20180622"></script>
+    <script src="../../js/health/healthInfoNew.js?t=20180622"></script>
 </body>
 </html>

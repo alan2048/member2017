@@ -496,11 +496,16 @@ function courseSave_port(id) {
                     id:id // id(0为新增，非0为更新)
                 }
         };
+
     var param={
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.watchPlanAddOrUpdate,param,courseSave_callback);
+    if(new Date($("#planBegintime").val()).getTime() <new Date($("#planEndtime").val()).getTime()){
+        initAjax(httpUrl.watchPlanAddOrUpdate,param,courseSave_callback);
+    }else{
+        toastTip("提示","开始时间需小于结束时间");
+    }
 };
 function courseSave_callback(res) {
     var currentNum=$("#pagination span.current:not(.next,.prev)").text()

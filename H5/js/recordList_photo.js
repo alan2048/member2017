@@ -8,6 +8,23 @@ $(function () {
 }); 
 function init() {
 	danList_port();
+
+    var audio=document.getElementById("audio");
+    if(audio.paused){
+        $(audio).parent().removeClass("running").addClass("paused");
+    }else{
+        $(audio).parent().addClass("running").removeClass("paused");
+    };
+    $(".audio").click(function () {
+        var audio=document.getElementById("audio");
+        if(audio.paused){
+            audio.play();
+            $(audio).parent().addClass("running").removeClass("paused");
+        }else{
+            audio.pause();
+            $(audio).parent().removeClass("running").addClass("paused");
+        };
+    });
 };
 
 // 获取档案册列表
@@ -28,22 +45,6 @@ function danList_callback(res) {
 
         var html=template("swiper_script",data);
         $(".swiper-wrapper").append(html);
-
-        /*scaleW=window.innerWidth/320;
-          scaleH=window.innerHeight/480;
-          var resizes = document.querySelectorAll('.resize');
-          for (var j=0; j<resizes.length; j++) {
-               resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-             resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-             resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-             resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
-          }
-          var scales = document.querySelectorAll('.txt');
-          for (var i=0; i<scales.length; i++) {
-             ss=scales[i].style;
-             ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
-          }*/
-
 
         var total=data.pictureList.length+1;// 总页码
         var mySwiper = new Swiper('.swiper-container', {
