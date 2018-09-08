@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>个案管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png" />
+	<link rel="stylesheet" href="./js/dialog/dialog.css" />
+	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll.css" />
+	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_time.css" />
+	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_android.css" />
+	<link rel="stylesheet" href="./css/caseManage.css?t=20180906" />
+</head>
+<body>
+	<div id="app">
+		<section id="section01" class="box-content current">
+			<div class="container">
+				<div class="listBox"></div>
+				<span id="addIcon"></span>
+				<script id="listBox_script" type="text/html">
+					{{each arr as value i}}
+					<li class="caseBox" data-uuid="{{value.uuid}}">
+						<div>
+							<div class="casePhoto"><span style="background: url({{value.photo}}) center center no-repeat;"></span></div>
+							<div class="caseName">{{value.studentName}}</div>
+							<div class="caseTime">创建于{{value.createDate}}</div>
+							<div class="infoBtn"><span></span>性别：{{value.sex}}</div>
+							<div class="infoBtn"><span></span>年龄：{{value.age}}</div>
+							<div class="infoBtn"><span></span>情况分析：{{value.analysis}}</div>
+							<div class="infoBtn"><span></span>体检结果：{{value.examResult}}</div>
+							<div class="btnBox">{{if value.canDelete ==1}}<span class="editBtn" data-uuid="{{value.uuid}}"></span><span class="deleteBtn" data-uuid="{{value.uuid}}"></span>{{/if}}</div>
+						</div>
+						{{if value.status ==1}}
+						<span class="statusBtn">结案</span>
+						{{/if}}
+					</li>
+					{{/each}}
+				</script>
+			</div> 
+		</section>
+		<section id="section02" class="box-content">
+			<div class="container">
+				<div class="classBox">
+					<label for="class">
+						<select name="class" id="class"></select>
+						<script id="class_script" type="text/html">
+      						{{each arr as value i}}
+							<option value="{{value.classUUID}}">{{value.className}}</option>
+      						{{/each}}
+      					</script>
+					</label>
+				</div>
+				<div id="students"></div>
+				<script id="students_script" type="text/html">
+      				{{each arr as value i}}
+					<div class="studentBox">
+						<div class="studentPhoto" style="background: url({{value.photo}}) center center no-repeat;"></div>
+						<div class="studentName">{{value.studentName}}</div>
+						<div class="studentBtn" data-studentuuid="{{value.studentUUID}}"></div>
+					</div>	
+      				{{/each}}
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+			</div> 
+		</section>
+		<section id="section03" class="box-content">
+			<div class="container">
+				<div id="heathExam"></div>
+				<script id="heathExam_script" type="text/html">
+      				{{each arr as value i}}
+					<div class="heathExamBox" data-content="{{value.json}}">{{value.examDate}}</div>	
+      				{{/each}}
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+			</div> 
+		</section>
+		<section id="section04" class="box-content">
+				<div id="currentExamBox"></div>
+				<script id="currentExam_script" type="text/html">
+					<span id="addIcon01">保存</span>
+      				<div class="currentDate">{{examDate}}</div>
+      				<div class="currentInfo" data-json="{{json}}">
+						<div>
+							<div>姓名：{{studentName}}</div>
+							<div>性别：{{sex}}</div>
+						</div>
+						<div>
+							<div>年龄：{{age}}</div>
+							<div>身高：{{height}} Cm</div>
+						</div>
+						<div>
+							<div>体重：{{weight}} Kg</div>
+							<div>血色素：{{hemachrome}}</div>
+						</div>
+						<div>
+							<div>身高P值：{{hPvalue}}</div>
+							<div>体重P值：{{wPvalue}}</div>
+						</div>
+						<div>
+							<div>视力：{{vision}}</div>
+							<div>肥胖值：{{fatnessValue}}</div>
+						</div>
+						<div>
+							<div>身高别体重P值：{{h2wPvalue}}</div>
+						</div>
+						<div>
+							<div>体检结果：{{fatnessResult}}</div>
+						</div>
+      				</div>
+      				<div class="analysis">
+						<div class="analysisTitle">情况分析</div>
+						<div class="analysisInput">
+							<textarea name="" id="analysisInput" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000"></textarea>
+						</div>
+      				</div>
+      				<div class="solution">
+						<div class="solutionTitle">矫治方案</div>
+						<div class="solutionInput">
+							<textarea name="" id="solutionInput" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000"></textarea>
+						</div>
+      				</div>
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+		</section>
+		<section id="section05" class="box-content">
+			<div id="updateExamBox"></div>
+			<script id="updateExam_script" type="text/html">
+				{{if editing ==1}}
+				<span id="addIcon02">保存</span>
+				{{/if}}
+      			<div class="currentDate">{{name}}</div>
+      			<div class="updateDate">
+      				<div>
+						{{each caseStageVOList as value i}}
+						<span {{if i==0}}class="current"{{/if}}><i></i>{{value.examDate}}</span>
+						{{/each}}
+						<span><i></i>总结</span>
+					</div>
+      			</div>
+      			<div class="updateDateBox">
+      				{{each caseStageVOList as value i}}
+      				<div {{if i==0}}class="current"{{/if}} data-examdate="{{value.examDate}}" data-stageuuid="{{value.stageUUID}}">
+      					<div class="currentInfo">
+							<div>
+								<div>姓名：{{value.studentName}}</div>
+								<div>性别：{{value.sex}}</div>
+							</div>
+							<div>
+								<div>年龄：{{value.age}}</div>
+								<div>身高：{{value.height}} Cm</div>
+							</div>
+							<div>
+								<div>体重：{{value.weight}} Kg</div>
+								<div>血色素：{{value.hemachrome}}</div>
+							</div>
+							<div>
+								<div>身高P值：{{value.hPvalue}}</div>
+								<div>体重P值：{{value.wPvalue}}</div>
+							</div>
+							<div>
+								<div>视力：{{value.vision}}</div>
+								<div>肥胖值：{{value.fatnessValue}}</div>
+							</div>
+							<div>
+								<div>身高别体重P值：{{value.h2wPvalue}}</div>
+							</div>
+							<div>
+								<div>体检结果：{{value.fatnessResult}}</div>
+							</div>
+      					</div>
+      					{{each value.content as item j}}
+      					<div class="updateArea">
+							<div class="updateTitle">{{item.title}}</div>
+							<div class="updateInput">
+								<textarea name="" id="updateInput{{j}}" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if item.text}}{{item.text}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+							</div>
+      					</div>
+      					{{/each}}
+      				</div>
+      				{{/each}}
+      				<div class="summary" data-uuid="{{uuid}}">
+      					<div class="summaryArea">
+							<div class="summaryTitle fr">
+								<span>个案创建时间</span>
+								<span>{{createDate}}</span>
+							</div>
+      					</div>
+						<div class="summaryArea">
+							<div class="summaryTitle">个案创建原因</div>
+							<div class="summaryInput">
+								<textarea name="" id="createReason" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if createReason}}{{createReason}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+							</div>
+      					</div>
+      					<div class="summaryArea">
+							<div class="summaryTitle fr">
+								<span>个案撤销时间</span>
+								{{if editing == 0}}
+								<span>{{endDate}}</span>
+								{{else}}
+								<span><input type="text" id="mobiscrollBtn" runat="server"  readonly="readonly" value="{{endDate}}"></span>
+								{{/if}}
+							</div>
+      					</div>
+      					<div class="summaryArea">
+							<div class="summaryTitle">个案撤销原因</div>
+							<div class="summaryInput">
+								<textarea name="" id="endReason" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if endReason}}{{endReason}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+							</div>
+      					</div>
+      					<div class="summaryArea">
+							<div class="summaryTitle">小结</div>
+							<div class="summaryInput">
+								<textarea name="" id="summary" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if summary}}{{summary}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+							</div>
+      					</div>
+      					<div class="summaryArea">
+							<div class="summaryTitle fr">
+								<span>设置为个案结案</span>
+								{{if editing == 0}}
+								<span>{{if status ==1}}已结案{{else}}未结案{{/if}}</span>
+								{{else}}
+								<span class="switch {{if status ==1}}on{{/if}}"></span>
+								{{/if}}
+							</div>
+      					</div>
+      				</div>
+      			</div>
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+		</section>
+	</div>
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/dialog/dialog.min.js"></script>
+	<script src="./js/mobiscrollTime/js/mobiscroll_scroller.js"></script>
+	<script src="./js/mobiscrollTime/js/mobiscroll.js"></script>
+	<script src="./js/mobiscrollTime/js/mobiscroll_default.js"></script>
+	<script src="js/template.js"></script> 
+	<script src="./js/base.js?t=20180906"></script>
+	<script src="./js/caseManage.js?t=20180907"></script>
+</body>
+</html>

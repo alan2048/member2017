@@ -1,0 +1,479 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+h1,h2,h3,h4,h5,h6,em,i {
+    font-weight: 100;
+    font-style: normal
+}
+ul,ol,li {
+    list-style-type: none;
+}
+a {
+    color: #666;
+    text-decoration: none;
+    outline: 0
+}
+select:focus,input:focus{
+    outline-style:none;
+}
+textarea{
+    resize:none;
+}
+textarea:focus{
+    outline:none;
+}
+a:hover {
+    text-decoration: none
+}　
+html{
+    font-family: arial;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    /* 防止点击闪烁 */
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    /* 缩放网页，文字大小不变 */
+    -webkit-text-size-adjust:none;
+    box-sizing: border-box;
+    font-size:0.24rem;
+}
+ul,ol,li {
+    list-style-type: none;
+}
+html {
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+}
+body{
+	font-size: 0.24rem;
+	background-color: #f9fcfb;
+}
+
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.box-content{
+	display: none;
+	background-color: #fff;
+}
+.box-content.current{
+	display: block;
+}
+
+body,#app{
+	height: 100%;
+}
+.dialog-content{
+	width: 80%;
+}
+section {
+	min-height: 100%;
+	padding-bottom: 1.6rem;
+}
+#section01.empty{
+	background: url(../images/empty.png) center center  no-repeat;
+	-webkit-background-size: 30%;
+	background-size: 30%;
+}
+.listBox{
+	padding-top: 0.2rem;
+}
+.caseBox{
+	background-color: #fff;
+	margin: 1.3rem 0 0;
+	position: relative;
+	box-shadow: 0 0 0.1rem #ccc;
+	border-radius: 0.06rem;
+	height: 5.8rem;
+	padding: 0 0.4rem;
+	cursor: pointer;
+}
+.caseBox:first-of-type{
+	margin-top: 0.8rem;
+}
+.caseBox:hover{
+	box-shadow: 0 0 0.1rem #5edfe0;
+}
+
+.casePhoto{
+	text-align: center;
+}
+.casePhoto >span{
+	height: 1.2rem;
+	width: 1.2rem;
+	border-radius: 50%;
+	display: inline-block;
+	-webkit-background-size: 100% !important;
+	background-size: 100% !important;
+	border: 1px solid #ccc;
+	margin-top: -0.6rem;
+}
+.caseName{
+	font-size: 0.32rem;
+	color: #666;
+	text-align: center;
+}
+.caseTime{
+	font-size: 0.24rem;
+	color: #c8cbca;
+	text-align: center;
+	line-height: 0.6rem;
+}
+.infoBtn{
+	font-size: 0.32rem;
+	color: #666;
+	line-height: 0.6rem;
+	max-height: 1.2rem;
+	overflow-y: scroll;
+}
+.infoBtn >span{
+	display: inline-block;
+	height: 0.3rem;
+	width: 0.08rem;
+	background-color: #5edfe0;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+	border-radius: 0.5rem;
+}
+.caseBox .editBtn{
+	display: inline-block;
+	height: 0.5rem;
+	width: 0.42rem;
+	padding: 0.1rem;
+	background: url(../images/edit.png) center center no-repeat;
+	-webkit-background-size: cover;
+	background-size: cover;
+	cursor: pointer;
+	margin-right: 1rem;
+	border-radius: 0.04rem;
+}
+.caseBox .deleteBtn{
+	display: inline-block;
+	height: 0.5rem;
+	width: 0.42rem;
+	padding: 0.1rem;
+	background: url(../images/delete.png) center center no-repeat;
+	-webkit-background-size: cover;
+	background-size: cover;
+	cursor: pointer;
+	margin-right: 0.4rem;
+	border-radius: 0.04rem;
+}
+.caseBox .editBtn:hover,.caseBox .deleteBtn:hover{
+	box-shadow: 0 0 0.05rem #5edfe0;
+}
+.btnBox{
+	text-align: right;
+	position: absolute;
+	bottom: 0.4rem;
+	left: 0;
+	width: 100%;
+}
+.statusBtn{
+	display: inline-block;
+	width: 0.7rem;
+	height: 1.1rem;
+	background: url(../images/status.png) center center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	color: #fff;
+	text-align: center;
+	line-height: 1rem;
+	position: absolute;
+	top: 0;
+	right: 0.4rem;
+}
+#addIcon{
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background:  #5edfe0 url(../images/add.png) center center no-repeat;
+	-webkit-background-size: 44%;
+	background-size: 44%;
+	cursor: pointer;
+	position: fixed;
+	bottom: 0.4rem;
+	right: 0.4rem;
+}
+#addIcon:hover{
+	box-shadow: 0 0 0.1rem #777;
+}
+
+
+.classBox{
+	text-align: center;
+}
+.classBox select {
+	line-height: 1.3rem;
+	font-size: 0.32rem;
+	height: 1.3rem;
+	padding-right: 0.4rem;
+	border: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(../images/selectArray.png) 100% center no-repeat;
+	-webkit-background-size: 12%;
+	background-size: 12%;
+	color: #686868;
+	background-color: #fff;
+	cursor: pointer;
+}
+.studentBox{
+	display: inline-block;
+	width: 32%;
+	text-align: center;
+	color:#666;
+	font-size: 0.3rem;
+}
+.studentBox >.studentPhoto{
+	display: inline-block;
+	width: 1.16rem;
+	height: 1.16rem;
+	border-radius: 50%;
+	-webkit-background-size: contain !important;
+	background-size: contain !important;
+	border: 1px solid #ccc;
+}
+.studentBox >.studentName{
+	line-height: 0.6rem;
+}
+.studentBox >.studentBtn{
+	display: inline-block;
+	width: 1.16rem;
+	height: 0.5rem;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	background:#e8ebea url(../images/add01.png) center center no-repeat;
+	-webkit-background-size: 25%;
+	background-size: 25%;
+	margin-bottom: 0.5rem;
+}
+.studentBox >.studentBtn:hover{
+	background:#5edfe0 url(../images/add01.png) center center no-repeat;
+	-webkit-background-size: 25%;
+	background-size: 25%;
+}
+.backBar{
+	position: fixed;
+	border-top: 1px solid #e9eceb;
+	height: 1rem;
+	width: 100%;
+	background-color: #f7faf9;
+	bottom: 0;
+	left: 0;
+}
+.backBar >div{
+	width: 50%;
+	float: left;
+	height: 100%;
+}
+.backBar >div:first-of-type >span{
+	display: inline-block;
+	width: 0.8rem;
+	height: 100%;
+	line-height: 1rem;
+	background:url(../images/leftArray.png) center center no-repeat;
+	-webkit-background-size: 30%;
+	background-size: 30%;
+	float: right;
+	margin-right: 0.5rem;
+	cursor: pointer;
+}
+.backBar >div:first-of-type >span:hover{
+	background:#bef3f3 url(../images/leftArray.png) center center no-repeat;
+	-webkit-background-size: 30%;
+	background-size: 30%;
+}
+.backBar >div:last-of-type >span{
+	display: inline-block;
+	width: 0.8rem;
+	height: 100%;
+	line-height: 1rem;
+	background:url(../images/rightArray.png) center center no-repeat;
+	-webkit-background-size: 30%;
+	background-size: 30%;
+	float: left;
+	margin-left: 0.5rem;
+	opacity: 0.3;
+}
+#students{
+	margin-bottom: 1rem;
+}
+#addIcon01,#addIcon02{
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background:  #5edfe0;
+	-webkit-background-size: 44%;
+	background-size: 44%;
+	cursor: pointer;
+	position: fixed;
+	bottom: 1.2rem;
+	right: 0.4rem;
+	z-index: 100;
+	color: #fff;
+	text-align: center;
+	font-size: 0.3rem;
+	line-height: 1rem;
+}
+#addIcon01:hover,#addIcon02:hover{
+	box-shadow: 0 0 0.1rem #777;
+}
+
+#updateBox{
+	color: #646766;
+	font-size: 0.32rem;
+}
+.photoBox{
+	height: 2.4rem;
+	text-align: center;
+	background-color: #fff;
+}
+.photoBox div > span {
+	height: 1.2rem;
+	width: 1.2rem;
+	border-radius: 50%;
+	display: inline-block;
+	-webkit-background-size: 100% !important;
+	background-size: 100% !important;
+	border: 1px solid #ccc;
+	margin-top: 0.3rem;
+}
+.curTimeTitle, .morningTitle, .dailyTitle {
+	height: 0.9rem;
+	line-height: 1rem;
+	color: #646766;
+	font-size: 0.34rem;
+	padding-left: 0.3rem;
+	background-color: #f2f5f4;
+}
+.curTimeInput{
+	height: 0.9rem;
+	line-height: 0.9rem;
+	padding: 0 0.3rem;
+	color: #646766;
+	font-size: 0.32rem;
+	vertical-align: top;
+}
+.curTimeInput >.fr{
+	float: right;
+	cursor: pointer;
+}
+.itemTitle{
+	height: 0.9rem;
+	line-height: 0.9rem;
+	padding: 0 0.3rem;
+	color: #646766;
+	font-size: 0.32rem;
+	vertical-align: top;
+}
+.itemTitle >i{
+	display: inline-block;
+	height: 0.32rem;
+	width: 0.08rem;
+	background-color: #5edfe0;
+	vertical-align: middle;
+	margin-right: 0.2rem;
+	border-radius: 0.5rem;
+}
+#updateBox textarea {
+	border: none;
+	width: 100%;
+	height: 1.5rem;
+	padding: 0 0.5rem;
+	font-size: 0.3rem;
+	color: #676767;
+}
+.dailySubTitle{
+	height: 0.9rem;
+	line-height: 0.9rem;
+	padding: 0 0.3rem;
+	color: #646766;
+	font-size: 0.32rem;
+	vertical-align: top;
+	border-top: 1px solid #e9eceb;
+	border-bottom: 1px solid #e9eceb;
+}
+#mobiscrollBtn{
+	border: none;
+}
+
+
+
+
+body{
+	position: relative;
+	overflow-x: hidden;
+}
+.android-ics .dwc {
+	margin: 0;
+	padding: 30px 0 1px 0;
+}
+.dw-persp, .dwo {
+	/*position: fixed;*/
+}
+.dwbc-p .dwbw {
+	width: 33.33%;
+	float: right;
+}
+.android-ics.light .dwb-s .dwb, .android-ics.light .dwb-n .dwb {
+	border-left: 1px solid #dbdbdb;
+	border-right: none;
+}
+#mobiscrollBtn{
+	height: 0.6rem;
+	font-size: 0.26rem;
+	color: #646766;
+	text-align: right;
+	cursor: pointer;
+	background: #fff url(../images/array01.png) 100% center no-repeat;
+	-webkit-background-size: 8%;
+	background-size: 8%;
+}
+#mobiscrollBtn:hover{
+	color: #5edfe0;
+}
+#mobiscrollBtn[disabled=disabled]{
+	background-color: #fff;
+}
+.android-ics.light .dww .dw-li.dw-sel{
+	color: #5cdfe2;
+}
+.summaryTitle {
+	height: 0.9rem;
+	line-height: 1rem;
+	color: #646766;
+	font-size: 0.34rem;
+	padding-left: 0.3rem;
+	background-color: #f2f5f4;
+}

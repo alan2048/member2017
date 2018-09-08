@@ -749,7 +749,7 @@ th,td {
 	padding-right: 0.08rem;
 	text-align: right;
 	vertical-align: top;
-	line-height: 0.4rem;
+	line-height: 0.3rem;
 }
 .col02{
 	display: inline-block;
@@ -1146,7 +1146,7 @@ button.btn-success{
 	margin-top: 0.2rem;
 }
 .modal-footer{
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	bottom: 0;
 	height: 0.5rem;
@@ -1213,6 +1213,10 @@ button.btn-success{
 #addDim >span.active >.deleteBtn,#addDim >span:hover >.deleteBtn{
 	display: inline-block;
 	right: -8px;
+}
+#addDim >span >.deleteBtn:hover{
+	box-shadow: 0 0 4px #222;
+	border-radius: 50%;
 }
 li.addPicBox{
 	display: none;
@@ -1392,4 +1396,10 @@ li.addPicBox{
 }
 .modal-open #modal-dialog-video{
 	overflow-y: hidden;
+}
+input[disabled=disabled]#timeSetting{
+	background:#eee url(../../images/watch/calendar.png) 8% center no-repeat !important;
+}
+select[disabled=disabled]{
+	background: #eee url(../../images/common/selectArrow.png) 95% center no-repeat !important;
 }

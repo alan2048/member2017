@@ -225,11 +225,21 @@ function content02fn() {
     // 时间设置控件
     $("#evaluation").on("click",".timeBtn",function () {
         $(this).addClass("active").parent().siblings().find(".timeBtn").removeClass("active");
+        if($(this).hasClass("defaultTime")){
+            $(".timePlug").find("input,select").attr("disabled",'disabled');
+        }else{
+            $(".timePlug").find("input,select").attr("disabled",false);
+        };
         localStorageFn();
     });
 
     // 时间设置控件
     $("#evaluation").on("click","#addIcon",function () {
+        if($("#addDim").attr("data-courseid")){
+            $(".dimHeader[data-courseid="+$("#addDim").attr("data-courseid")+"]").addClass('active').siblings().removeClass('active');
+            $(".dimBody").eq($(".dimHeader.active").index()).addClass('active').siblings().removeClass('active');
+        };
+        
         var arr=[];
         for(var i=0;i<$("#addDim >span").length;i++){
             arr.push($("#addDim >span").eq(i).attr("data-id"));
@@ -292,14 +302,16 @@ function content02fn() {
                 $("#timeSetting").val(curLoaclStorage.timeSetting);
                 $("#timeHour >option[value="+curLoaclStorage.timeHour+"]").prop("selected",true);
                 $("#timeMinute >option[value="+curLoaclStorage.timeMinute+"]").prop("selected",true);
-                $("#level >option[value="+curLoaclStorage.levelId+"]").prop("selected",true);
-                $("#description").text($("#level >option[value="+curLoaclStorage.levelId+"]").attr("data-desc"));
+                if(curLoaclStorage.levelId){
+                    $("#level >option[value="+curLoaclStorage.levelId+"]").prop("selected",true);
+                    $("#description").text($("#level >option[value="+curLoaclStorage.levelId+"]").attr("data-desc"));
+                };
             };  
         };
         
     });
 
-    $("#evaluation").on("change","#timeSetting,#timeHour,#timeMinute",function () {
+    $("#evaluation").on("change","#timeHour,#timeMinute",function () {
         localStorageFn();
     });
 
@@ -349,7 +361,23 @@ function content02fn() {
                 arr.push(obj);
             };
             var html=template("addDim_script",{arr:arr});
+
+            // 如果已选观察维度时
+            var curDimId=$("#addDim >span.active").attr("data-id");
             $("#addDim").empty().append(html).attr("data-courseid",$(".dimHeader.active").attr("data-courseid"));
+            if(curDimId){
+                var length=$("#addDim >span[data-id="+curDimId+"]").length;
+                if(length !=0){
+                    $("#addDim >span[data-id="+curDimId+"]").click();
+                }else{
+                    $("#addDim >span").eq(0).addClass("active");
+                    emptyNewFn();
+                };
+            }else{
+                $("#addDim >span").eq(0).addClass("active");
+                emptyNewFn();
+            };
+
             $(".subTitle").text(arr[0].name);
 
             var dimIds=[];
@@ -482,7 +510,6 @@ function localStorageFn() {
                 timeMinute:$("#timeMinute").val()
         };
         localStorage.setItem("dimId_"+obj.courseId+"_"+obj.dimId,JSON.stringify(obj));
-        console.log(obj);
     }else{
         if($("#evaluation").hasClass("newState")){
             toastTip("提示","请先选择观察维度",4000);
@@ -525,6 +552,7 @@ function watchRecordList_port(childUuid,pageNumber) {
 function watchRecordList_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+
         for(var i=0;i<data.list.length;i++){
             switch (data.list[i].state){
                 case '0':
@@ -587,12 +615,21 @@ function watchDimStructure_port() {
 function watchDimStructure_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
         
         var html=template("dimBox_script",{arr:data});
         $("#dimBox").append(html);
 
+        // 兼容数据过多过长
+        $("#modal-dialog-qunzu").modal("show");
+        var w=0;
+        for(var i=0;i<$(".dimHeader").length;i++){
+            w+=$(".dimHeader").eq(i).outerWidth()+45;
+        };
+        $("#modal-dialog-qunzu").modal("hide");
+        $("#dimBox >.modal-header >ul").css("width",w);
+
         chooseNiceScroll("#dimBox");
+        chooseNiceScroll("#dimBox >.modal-header","","2px");
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -830,8 +867,10 @@ function watchRecordDetail_callback(res) {
             todayHighlight:true,
             language:'zh-CN'
         }).on("changeDate",function (ev) {
+            localStorageFn();
             $('#timeSetting').datepicker("hide");
         }).on('click',function () {
+            localStorageFn();
             if($(this).val()){
                 $(this).datepicker("update",$(this).val());
             }else{
@@ -848,6 +887,10 @@ function watchRecordDetail_callback(res) {
             $("#advice").val(data.advice);
         };
 
+        if($("#content02").hasClass("looking")){
+            $("#comment,#evaluate,#advice").attr("readonly",true);
+            $("#level").attr("disabled",true);
+        };
         loadFiles();// 上传图片接口
         
     }else{
@@ -1140,20 +1183,25 @@ function loadFiles() {
                 },
                 init: {
                     'FileUploaded': function(up, file, info) {
-                        var data={
-                                md5:JSON.parse(info.response).key,
-                                path_img:httpUrl.path_img
-                        };
-                        var url=data.path_img+data.md5;
-                        var html="<li data-pic="+data.md5+" class='picItem'>"+
-                                "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
-                                    "<img src="+url+"-scale400>"+
-                                    "<span class=\"deleteBtn\"></span>"+
-                                "</a>"+
-                            "</li>";
-                        $("#addPicBtn").parent("li").before(html);
-                        $('.qiniuBar').remove();
-                        localStorageFn();
+                        if($("#carousel >.picItem").length <40){
+                            var data={
+                                    md5:JSON.parse(info.response).key,
+                                    path_img:httpUrl.path_img
+                            };
+                            var url=data.path_img+data.md5;
+                            var html="<li data-pic="+data.md5+" class='picItem'>"+
+                                    "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
+                                        "<img src="+url+"-scale400>"+
+                                        "<span class=\"deleteBtn\"></span>"+
+                                    "</a>"+
+                                "</li>";
+                            $("#addPicBtn").parent("li").before(html);
+                            $('.qiniuBar').remove();
+                            localStorageFn();
+                        }else{
+                            toastTip("提示","图片数量上限为40张",4000);
+                            $('.qiniuBar').remove();
+                        }
                     },
                     'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
                         $("body").append("<span class='qiniuBar'></span>");
@@ -1191,20 +1239,25 @@ function loadFiles() {
                 },
                 init: {
                     'FileUploaded': function(up, file, info) {
-                        var data={
-                                md5:JSON.parse(info.response).key,
-                                path_img:httpUrl.path_img
+                        if($(".voiceList >li:not(.addPicBox)").length <1){
+                            var data={
+                                    md5:JSON.parse(info.response).key,
+                                    path_img:httpUrl.path_img
+                            };
+                            var url=data.path_img+data.md5;
+                            var html="<li>"+
+                                    "<a href=\"#modal-dialog-video\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
+                                        "<img src='../../images/watch/play.png' class='mascot' style='background:url("+url+"?vframe/png/offset/1/w/480/h/360) center center no-repeat;background-size: contain;'>"+
+                                        "<span class=\"deleteBtn\"></span>"+
+                                    "</a>"+
+                                "</li>";
+                            $("#addPicBtn02").parent("li").before(html);
+                            $('.qiniuBar').remove();
+                            localStorageFn();
+                        }else{
+                            toastTip("提示","短视频上限为1个",4000);
+                            $('.qiniuBar').remove();
                         };
-                        var url=data.path_img+data.md5;
-                        var html="<li>"+
-                                "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
-                                    "<img src='../../images/watch/play.png' class='mascot'>"+
-                                    "<span class=\"deleteBtn\"></span>"+
-                                "</a>"+
-                            "</li>";
-                        $("#addPicBtn02").parent("li").before(html);
-                        $('.qiniuBar').remove();
-                        localStorageFn();
                     },
                     'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
                         $("body").append("<span class='qiniuBar'></span>");

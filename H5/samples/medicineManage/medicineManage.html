@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>服药管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png" />
+	<link rel="stylesheet" href="./js/dialog/dialog.css" />
+	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll.css" />
+	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_time.css" />
+	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_android.css" />
+	<link rel="stylesheet" href="./css/medicineManage.css?t=20180906" />
+</head>
+<body>
+	<div id="app">
+		<section id="section01" class="box-content current">
+			<div class="container">
+				<div class="listBox"></div>
+				<span id="addIcon"></span>
+				<script id="listBox_script" type="text/html">
+					{{each arr as value i}}
+					<li class="caseBox" data-uuid="{{value.uuid}}">
+						<div>
+							<div class="casePhoto"><span style="background: url({{value.photo}}) center center no-repeat;"></span></div>
+							<div class="caseName">{{value.studentName}}</div>
+							<div class="caseTime">创建于{{value.createDate}}</div>
+							<div class="infoBtn"><span></span>服药日期：{{value.takeMedicineDate}}</div>
+							<div class="infoBtn"><span></span>药品名称：{{value.medicineName}}</div>
+							<div class="infoBtn"><span></span>使用剂量：{{value.dosage}}</div>
+							<div class="infoBtn"><span></span>确诊疾病：{{value.disease}}</div>
+							<div class="infoBtn"><span></span>就诊医院：{{value.hospital}}</div>
+							<div class="btnBox">{{if value.canDelete ==1}}<span class="editBtn" data-uuid="{{value.uuid}}"></span><span class="deleteBtn" data-uuid="{{value.uuid}}"></span>{{/if}}</div>
+						</div>
+					</li>
+					{{/each}}
+				</script>
+			</div> 
+		</section>
+		<section id="section02" class="box-content">
+			<div class="container">
+				<div class="classBox">
+					<label for="class">
+						<select name="class" id="class"></select>
+						<script id="class_script" type="text/html">
+      						{{each arr as value i}}
+							<option value="{{value.classUUID}}">{{value.className}}</option>
+      						{{/each}}
+      					</script>
+					</label>
+				</div>
+				<div id="students"></div>
+				<script id="students_script" type="text/html">
+      				{{each arr as value i}}
+					<div class="studentBox">
+						<div class="studentPhoto" style="background: url({{value.photo}}) center center no-repeat;"></div>
+						<div class="studentName">{{value.studentName}}</div>
+						<div class="studentBtn" data-studentuuid="{{value.studentUUID}}" data-studentphoto="{{value.studentPhoto}}" data-name="{{value.studentName}}"></div>
+					</div>	
+      				{{/each}}
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+			</div> 
+		</section>
+		<section id="section03" class="box-content">
+			<div id="updateBox"></div>
+			<script id="update_script" type="text/html">
+				{{if editing ==1}}
+				<span id="addIcon02">保存</span>
+				{{/if}}
+      			<div class="photoBox" data-studentuuid="{{studentUUID}}" data-uuid="{{uuid}}">
+					<div><span style="background: url({{photo}}) center center no-repeat;"></span></div>
+					<div>{{studentName}}</div>
+				</div>
+				<div class="curTime">
+					<div class="curTimeTitle">服药时间</div>
+					<div class="curTimeInput">
+						<span>家长提醒时间</span>
+						<span class="fr">
+							<select id="parentRemind">
+								<option value="午餐后" {{if parentRemind == "午餐后"}}selected="true"{{/if}} >午餐后</option>
+								<option value="午餐前" {{if parentRemind == "午餐前"}}selected="true"{{/if}} >午餐前</option>
+							</select>
+						</span>
+					</div>
+					<div class="curTimeInput">
+						<span>实际服药时间</span>
+						<span class="fr"><input type="text" value="{{takeMedicineDate}}" id="mobiscrollBtn" readonly="readonly" {{if editing == 0}}disabled="disabled"{{/if}}></span>
+					</div>
+      			</div>
+      			<div class="morning">
+					<div class="morningTitle">药物信息</div>
+					<div class="morningBox">
+						<div>
+							<div class="itemTitle"><i></i>药品名称</div>
+							<div><textarea name="" id="medicineName" {{if editing == 0}}readonly="readonly"{{/if}} >{{medicineName}}</textarea></div>
+						</div>
+						<div>
+							<div class="itemTitle"><i></i>药品图片</div>
+							<div><textarea name="" id="medicinePicture" {{if editing == 0}}readonly="readonly"{{/if}} >{{medicinePicture}}</textarea></div>
+						</div>
+						<div>
+							<div class="itemTitle"><i></i>使用方法</div>
+							<div><textarea name="" id="instruction" {{if editing == 0}}readonly="readonly"{{/if}} >{{instruction}}</textarea></div>
+						</div>
+						<div>
+							<div class="itemTitle"><i></i>注重事项</div>
+							<div><textarea name="" id="attention" {{if editing == 0}}readonly="readonly"{{/if}} >{{attention}}</textarea></div>
+						</div>
+					</div>
+      			</div>
+      			<div class="summaryArea">
+					<div class="summaryTitle">使用剂量</div>
+					<div class="summaryInput">
+						<textarea name="" id="dosage" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if dosage}}{{dosage}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+					</div>
+      			</div>
+      			<div class="summaryArea">
+					<div class="summaryTitle">确诊疾病</div>
+					<div class="summaryInput">
+						<textarea name="" id="disease" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if disease}}{{disease}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+					</div>
+      			</div>
+      			<div class="summaryArea">
+					<div class="summaryTitle">就诊医院</div>
+					<div class="summaryInput">
+						<textarea name="" id="hospital" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if hospital}}{{hospital}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+					</div>
+      			</div>
+      			<div class="summaryArea">
+					<div class="summaryTitle">病历卡</div>
+					<div class="summaryInput">
+						<textarea name="" id="medicalRecordPicture" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if medicalRecordPicture}}{{medicalRecordPicture}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+					</div>
+      			</div>
+      			<div class="summaryArea">
+					<div class="summaryTitle">备注</div>
+					<div class="summaryInput">
+						<textarea name="" id="remark" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if remark}}{{remark}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+					</div>
+      			</div>
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+		</section>
+	</div>
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/dialog/dialog.min.js"></script>
+	<script src="./js/mobiscrollTime/js/mobiscroll_scroller.js"></script>
+	<script src="./js/mobiscrollTime/js/mobiscroll.js"></script>
+	<script src="./js/mobiscrollTime/js/mobiscroll_default.js"></script>
+	<script src="js/template.js"></script> 
+	<script src="./js/base.js?t=20180906"></script>
+	<script src="./js/medicineManage.js?t=20180907"></script>
+</body>
+</html>

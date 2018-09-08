@@ -1,4 +1,4 @@
-var jsonAll01,jsonAll02,jsonAll03;
+var jsonAll01,jsonAll02,jsonAll03,jsonAll04;
 $(function () {
     init();
 });
@@ -7,6 +7,7 @@ function init() {
     $(window).resize(function () {
         echart_A01("searchBox01",jsonAll01);
         echart_A02("searchBox02",jsonAll02);
+        echart_A04("searchBox04",jsonAll04);
     });
 
     // echart_A01接口函数
@@ -22,7 +23,22 @@ function init() {
         echart_A03_port();
     });
 
-    $("#userClass04,#course04,#year04,#month04").change(function () {
+    $("#userClass04,#course04,#year04,#month04,#userGrade04").change(function () {
+        if(this.id=="userClass04"){
+            if($(this).val()){
+                $("#userGrade04 >option:contains(未选择)").prop("selected",true);
+            }else{
+                $("#userGrade04 >option").eq(1).prop("selected",true);
+            }
+        };
+
+        if(this.id=="userGrade04"){
+            if($(this).val()){
+                $("#userClass04 >option:contains(未选择)").prop("selected",true);
+            }else{
+                $("#userClass04 >option").eq(1).prop("selected",true);
+            }
+        };
         echart_A04_port();
     });
 };
@@ -44,14 +60,13 @@ function yearMonthInit() {
         var yearMonth=template("year_script",year);
         $(".year").append(yearMonth).find("option[value="+d.getFullYear()+"]").prop("selected",true);
         
-        echart_A01_port();
         getUserClassInfo_port();
 };
 
 // echart_A01接口
 function echart_A01_port() {
     var data={
-            gradeId:$("#userClass01").val(),
+            classId:$("#userClass01").val(),
             useruuid:user.useruuid,
             time: $("#year01").val() +"-"+$("#month01").val()
         };
@@ -74,230 +89,94 @@ function echart_A01_callback(res) {
         // console.log('请求错误，返回code非200');
     }
 };
-function echart_A01(id,json,curName){
-    var myChart = echarts.init(document.getElementById(id));
-
-    var data={
-            name:curName,
-            indicator:[],
-            legend:json.ExtraInfo,
-            value:json.Val
-    };
-
-    for(var i=0;i<json.Name.length;i++){
-        var aa={};
-        aa.name=json.Name[i];
-        aa.max=json.ValMax[i];
-        data.indicator.push(aa);
-    };
-
-    var option={
-            backgroundColor: '#fff',
-            title: {
-                text: '领域发展水平—'+data.name,
-                left: 'center',
-                textStyle: {
-                    color: '#525252',
-                    fontSize: 20
-                },
-                subtextStyle: {
-                    color: '#525252',
-                    fontSize: 16
-                }
-            },
-            legend: {
-                bottom: 5,
-                icon:"roundRect",
-                data: data.legend,
-                itemGap: 20,
-                textStyle: {
-                    color: '#525252',
-                    fontSize: 14
-                }
-            },
-            tooltip: {
-                trigger: 'item',
-                backgroundColor : 'rgba(94,94,94,0.6)'
-            },
-            radar: {
-                indicator: data.indicator,
-                shape: 'circle',
-                splitNumber: 5,
-                name: {
-                    textStyle: {
-                        color: '#525252',
-                        fontSize:16
-                    }
-                },
-                splitLine: {
-                    lineStyle: {
-                        color: [
-                            'rgba(52, 52, 52, 0.1)', 'rgba(52, 52, 52, 0.2)',
-                            'rgba(52, 52, 52, 0.4)', 'rgba(52, 52, 52, 0.6)',
-                            'rgba(52, 52, 52, 0.8)', 'rgba(52, 52, 52, 1)'
-                        ].reverse()
-                    }
-                },
-                splitArea: {
-                    show: false
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: 'rgba(52, 52, 52, 0.5)'
-                    }
-                }
-            },
-            series: [
-                {
-                    name: data.legend[0],
-                    type: 'radar',
-                    data: [
-                        {
-                            value: data.value[0],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter:function(params) {
-                                        return params.value;
-                                    },
-                                    textStyle: {
-                                        fontSize:16
-                                    }
-                                }
-
-                            }
-                        }
-                    ],
-                    itemStyle: {
-                        normal: {
-                            color: '#beec60'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            opacity: 0.3
-                        }
-                    }
-                },
-                {
-                    name: data.legend[1],
-                    type: 'radar',
-                    data: [
-                        {
-                            value: data.value[1],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter:function(params) {
-                                        return params.value;
-                                    },
-                                    textStyle: {
-                                        fontSize:16
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    itemStyle: {
-                        normal: {
-                            color: '#fedf68'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            opacity: 0.3
-                        }
-                    }
-                },
-                {
-                    name: data.legend[2],
-                    type: 'radar',
-                    data: [
-                        {
-                            value: data.value[2],
-                            label: {
-                                normal: {
-                                    show: true,
-                                    formatter:function(params) {
-                                        return params.value;
-                                    },
-                                    textStyle: {
-                                        fontSize:16
-                                    }
-                                }
-                            }
-                        }
-                    ],
-                    itemStyle: {
-                        normal: {
-                            color: '#f8a7a6'
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            opacity: 0.3
-                        }
-                    }
-                }
-            ]
-        };
-
-    myChart.setOption(option);
-};
 function colorfn(trans) {
-    var color=['rgba(42,159,194,'+trans+')','rgba(39,107,182,'+trans+')','rgba(104,73,203,'+trans+')','rgba(198,91,207,'+trans+')','rgba(199,83,96,'+trans+')','rgba(203,140,89,'+trans+')','rgba(42,159,194,'+trans+')','rgba(39,107,182,'+trans+')','rgba(104,73,203,'+trans+')','rgba(198,91,207,'+trans+')','rgba(199,83,96,'+trans+')','rgba(203,140,89,'+trans+')'];
+    var color=['rgba(194,235,105,'+trans+')','rgba(248,226,100,'+trans+')','rgba(106,234,212,'+trans+')','rgba(244,155,127,'+trans+')','rgba(137,163,244,'+trans+')','rgba(239,154,154,'+trans+')','rgba(42,159,194,'+trans+')','rgba(39,107,182,'+trans+')','rgba(104,73,203,'+trans+')','rgba(198,91,207,'+trans+')','rgba(199,83,96,'+trans+')','rgba(203,140,89,'+trans+')'];
     return color;
 }
-function echart_A01(id,json){
+function echart_A01(id,data){
     var myChart = echarts.init(document.getElementById(id));
     var res={
             legend:[],
             series:[]
     };
-    for(var i=0;i<json.length;i++){
-        res.legend.push(json[i].name);
+
+    for(var i=0;i<data.pie.length;i++){
+        res.legend.push(data.pie[i].LYName);
     };
-    res.xAxis=json[0].detail.BJNames;
+    res.xAxis=data.bar[0].detail.BJNames;
     
-    var color=colorfn(1);
-    for(var i=0;i<json.length;i++){
+    var colorArr=["#c2eb69","#f8e264","#6aead4","#f49b7f","#89a3f4","#ef9a9a","#c2eb69","#f8e264"];
+    for(var i=0;i<data.bar.length;i++){
         var per01={
-                name:json[i].name,
+                name:data.bar[i].name,
                 type:'bar',
-                // barWidth: 0.0001,
                 label: {
                     normal: {
                         show: true
                     }
                 },
-                itemStyle: {normal: {color:color[i], label:{show:false}}},
-                data:json[i].detail.BJVals
+                itemStyle: {normal: {color:colorArr[i], label:{show:false}}},
+                data:data.bar[i].detail.BJVals
         };
         res.series.push(per01);
     };
 
-    var option={
-            color: ['#3398DB'],
+    // 二次定位bar
+    res.curIndex=0;
+    if($("#searchBox01").attr("curname")){
+        for(var i=0;i<res.series.length;i++){
+            if(res.series[i].name == $("#searchBox01").attr("curname")){
+                res.curIndex=i;
+            };
+        };
+    };
+
+    var curClass=$("#userClass01 >option:selected").text();
+    var pieArr=[];
+
+    for(var i=0;i<data.pie.length;i++){
+        var obj={
+                value:data.pie[i].Val,
+                name:data.pie[i].LYName,
+                itemStyle:{normal:{color:colorArr[i]}}
+                /*,selected:function () {
+                    var bool=false;
+                    if(i==res.curIndex){
+                        bool=true;
+                    };
+                    return bool;  
+                }()*/ // 默认选中状态
+        };
+        pieArr.push(obj);
+    };
+
+    var option = {
+            title : [{
+                text: '班级六大领域发展水平-'+curClass,
+                x:'center'
+            },{
+                text:curClass,
+                x:'25%',
+                y:'90%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            },{
+                text:pieArr[res.curIndex].name+' -全年级对比',
+                x:'75%',
+                y:'90%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            }],
             tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                top:'4%',
-                left: '5%',
-                right: '5%',
-                bottom: '8%',
-                containLabel: true
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c}"
             },
             legend: {
-                x:'center',
-                y:'bottom',
-                selectedMode:'single',
-                // selected:res.selected,// 子项初始化series
+                x : 'center',
+                y : 'bottom',
                 data:res.legend
             },
+            calculable : true,
             xAxis : [
                 {
                     type : 'category',
@@ -315,10 +194,80 @@ function echart_A01(id,json){
                     type : 'value'
                 }
             ],
-            series : res.series
-    };
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                top:'10%',
+                left: '55%',
+                right: '5%',
+                bottom: '12%',
+                containLabel: true
+            },
+            series : [
+                {
+                    name:curClass,
+                    type:'pie',
+                    selectedMode: 'single',
+                    radius : [50, 150],
+                    center : ['25%', '50%'],
+                    roseType : 'area',
+                    data:pieArr,
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c}"
+                    }
+                },
+                res.series[res.curIndex]
+            ]
+        };
 
     myChart.setOption(option);
+
+    myChart.on('click', function (params) {
+        if(params.seriesType=="pie"){
+            var index=params.dataIndex;
+            option.series=[
+                {
+                    name:curClass,
+                    type:'pie',
+                    radius : [50, 150],
+                    center : ['25%', '50%'],
+                    roseType : 'area',
+                    data:pieArr
+                },res.series[index]
+            ];
+            option.title=[{
+                text: '班级六大领域发展水平-'+curClass,
+                x:'center'
+            },{
+                text:curClass,
+                x:'25%',
+                y:'90%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            },{
+                text:params.name+' -全年级对比',
+                x:'75%',
+                y:'90%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            }];
+
+            myChart.setOption(option);
+            $("#searchBox01").attr("curname",params.name); // 二次定位
+        }else{
+            var curName=params.name;
+            if($("#userClass01 >option:selected").text() != curName){
+                $("#userClass01 >option:contains("+curName+")").prop("selected",true);
+                
+                echart_A01_port();
+            };
+        };
+    });
       
 };
 
@@ -342,7 +291,7 @@ function echart_A01(id,json){
 function echart_A02_port() {
     var data={
             courseId:$("#course").val(),
-            gradeId:$("#userClass02").val(),
+            classId:$("#userClass02").val(),
             useruuid:user.useruuid,
             time: $("#year02").val() +"-"+$("#month02").val()
         };
@@ -365,56 +314,110 @@ function echart_A02_callback(res) {
         // console.log('请求错误，返回code非200');
     }
 };
-function echart_A02(id,json){
+function echart_A02(id,data){
     var myChart = echarts.init(document.getElementById(id));
     var res={
             legend:[],
-            series:[]
+            series:[],
+            pieArr01:[],
+            pieArr02:[]
     };
-    for(var i=0;i<json.length;i++){
-        res.legend.push(json[i].name);
+
+    // 里面圆 总和计算
+    for(var i=0;i<data.pie.length;i++){
+        data.pie[i].sum=0;
+        for(var j=0;j<data.pie[i].detail.length;j++){
+            data.pie[i].sum += Number(data.pie[i].detail[j].Val);
+        };
     };
-    res.xAxis=json[0].detail.BJNames;
+
+    // 里面圆 pie计算
+    for(var i=0;i<data.pie.length;i++){
+        var obj={
+            value:data.pie[i].sum, 
+            name:data.pie[i].LYName
+        };
+        res.pieArr01.push(obj);
+    };
+
+    for(var i=0;i<data.pie.length;i++){
+        for(var j=0;j<data.pie[i].detail.length;j++){
+            res.legend.push(data.pie[i].detail[j].dimName);
+        };
+    };
     
-    var color=colorfn(1);
-    for(var i=0;i<json.length;i++){
+    res.xAxis=data.bar[0].detail.BJNames;
+    
+    var colorArr=["#c2eb69","#f8e264","#6aead4","#f49b7f","#89a3f4","#ef9a9a"];
+    for(var i=0;i<data.bar.length;i++){
         var per01={
-                name:json[i].name,
+                name:data.bar[i].name,
                 type:'bar',
-                // barWidth: 0.0001,
                 label: {
                     normal: {
                         show: true
                     }
                 },
-                itemStyle: {normal: {color:color[i], label:{show:false}}},
-                data:json[i].detail.BJVals
+                itemStyle: {normal: {color:"#c2eb69", label:{show:false}}},
+                data:data.bar[i].detail.BJVals
         };
         res.series.push(per01);
     };
 
-    var option={
-            color: ['#3398DB'],
+    // 二次定位bar
+    res.curIndex=0;
+    if($("#searchBox02").attr("curname")){
+        for(var i=0;i<res.series.length;i++){
+            if(res.series[i].name == $("#searchBox02").attr("curname")){
+                res.curIndex=i;
+            };
+        };
+    };
+
+    var curClass=$("#userClass02 >option:selected").text();
+    var pieArr=[];
+
+    var colorNum=0;
+    for(var i=0;i<data.pie.length;i++){
+        for(var j=0;j<data.pie[i].detail.length;j++){
+            var obj={
+                    value:data.pie[i].detail[j].Val,
+                    name:data.pie[i].detail[j].dimName,
+                    itemStyle: {normal: {color:colorArr[colorNum]}}
+            };
+            pieArr.push(obj);
+            colorNum++;
+        };
+    };
+
+
+    var option = {
+            title : [{
+                text: '班级维度分数统计-'+curClass,
+                x:'center'
+            },{
+                text:curClass,
+                x:'25%',
+                y:'88%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            },{
+                text:pieArr[res.curIndex].name+' -全年级对比',
+                x:'75%',
+                y:'88%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            }],
             tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                top:'4%',
-                left: '5%',
-                right: '5%',
-                bottom: '8%',
-                containLabel: true
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c}"
             },
             legend: {
-                x:'center',
-                y:'bottom',
-                selectedMode:'single',
-                // selected:res.selected,// 子项初始化series
+                x : 'center',
+                y : 'bottom',
                 data:res.legend
             },
+            calculable : true,
             xAxis : [
                 {
                     type : 'category',
@@ -432,10 +435,124 @@ function echart_A02(id,json){
                     type : 'value'
                 }
             ],
-            series : res.series
-    };
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                top:'10%',
+                left: '55%',
+                right: '5%',
+                bottom: '12%',
+                containLabel: true
+            },
+            series : [
+                {
+                    name:'内圆',
+                    type:'pie',
+                    radius: [0, '30%'],
+                    center : ['25%', '50%'],
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {c}"
+                    },
+                    data:res.pieArr01
+                },{
+                    name:curClass,
+                    type:'pie',
+                    selectedMode: 'single',
+                    radius : ['40%', '55%'],
+                    center : ['25%', '50%'],
+                    data:pieArr,
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c}"
+                    }
+                },
+                res.series[res.curIndex]
+            ]
+        };
+
 
     myChart.setOption(option);
+
+    myChart.on('click', function (params) {
+        if(params.seriesType=="pie" && params.seriesName !="内圆"){
+            var index=params.dataIndex;
+            
+            option.series=[
+                {
+                    name:'内圆',
+                    type:'pie',
+                    selectedMode: 'single',
+                    radius: [0, '30%'],
+                    center : ['25%', '50%'],
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:res.pieArr01
+                },{
+                    name:curClass,
+                    type:'pie',
+                    radius : ['40%', '55%'],
+                    center : ['25%', '50%'],
+                    data:pieArr,
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c}"
+                    }
+                },res.series[index]
+            ];
+
+            option.series[2].itemStyle.normal.color=params.color;// pie与bar 色彩统一
+
+            option.title=[{
+                text: '班级维度分数统计-'+curClass,
+                x:'center'
+            },{
+                text:curClass,
+                x:'25%',
+                y:'90%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            },{
+                text:params.name+' -全年级对比',
+                x:'75%',
+                y:'90%',
+                textAlign: 'center',
+                textStyle:{fontSize:14}
+            }];
+
+            myChart.setOption(option);
+            $("#searchBox02").attr("curname",params.name); // 二次定位
+        }else if(params.seriesType=="bar"){ 
+            var curName=params.name;
+            if($("#userClass02 >option:selected").text() != curName){
+                $("#userClass02 >option:contains("+curName+")").prop("selected",true);
+                
+                echart_A02_port();
+            };
+        };
+    });
       
 };
 
@@ -453,11 +570,33 @@ function getUserClassInfo_port() {
 function getUserClassInfo_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        data.splice(data.length-1,1);// 切除 未分配组员
         var html=template("userClass_script",{data:data});
-        $("#userClass03,#userClass04").append(html);
+        $("#userClass01,#userClass02,#userClass03,#userClass04").append(html);
 
+        echart_A01_port();
         echart_A03_port();
         getPersonCourse_port(); // 获取课程列表
+    }else{
+        // console.log('请求错误，返回code非200');
+    }
+};
+
+// 获取用户班级信息接口
+function classGradeList_port() {
+    var data={};
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.classGradeList,param,classGradeList_callback);
+};
+function classGradeList_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("userGrade_script",{data:data});
+        $("#userGrade04").append(html);
+        echart_A04_port();
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -479,7 +618,7 @@ function getPersonCourse_callback(res) {
         $("#course,#course04").empty().append(html);
 
         echart_A02_port();
-        echart_A04_port();
+        classGradeList_port();
     }else{
         // console.log('请求错误，返回code非200');
     }
@@ -500,6 +639,7 @@ function echart_A03_port() {
 function echart_A03_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        // console.log(data);
         var html=template("searchBox03_script",{data:data});
         $("#searchBox03").empty().append(html);
     }else if(res.code==500){
@@ -514,6 +654,7 @@ function echart_A03_callback(res) {
 function echart_A04_port() {
     var data={
             classId:$("#userClass04").val(),
+            gradeId:$("#userGrade04").val(),
             courseId:$("#course04").val(),
             useruuid:user.useruuid,
             time: $("#year04").val() +"-"+$("#month04").val()
@@ -527,9 +668,9 @@ function echart_A04_port() {
 function echart_A04_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        var html=template("searchBox03_script",{data:data});
-        $("#searchBox04").empty().append(html);
-        $(".classAreaTitle").text($("#course04 option:selected").text());
+
+        jsonAll04=data;
+        echart_A04("searchBox04",data);
     }else if(res.code==500){
         var data=JSON.parse(res.data);
     }else{
@@ -537,6 +678,155 @@ function echart_A04_callback(res) {
         toastTip("提示",res.info);
         // console.log('请求错误，返回code非200');
     }
+};
+function echart_A04(id,json){
+    var myChart = echarts.init(document.getElementById(id));
+    var res={
+            legend:[],
+            series:[[],[],[],[],[]],
+            yAxis:[]
+    };
+    for(var i=1;i<json.length;i++){
+        res.yAxis.push(json[i][0]);
+        if(json[i][1] !=0){
+            res.series[0].push(json[i][1]);
+        }else{
+            res.series[0].push("");
+        };
+
+        if(json[i][2] !=0){
+            res.series[1].push(json[i][2]);
+        }else{
+            res.series[1].push("");
+        };
+
+        if(json[i][3] !=0){
+            res.series[2].push(json[i][3]);
+        }else{
+            res.series[2].push("");
+        };
+
+        if(json[i][4] !=0){
+            res.series[3].push(json[i][4]);
+        }else{
+            res.series[3].push("");
+        };
+
+        if(json[i][5] !=0){
+            res.series[4].push(json[i][5]);
+        }else{
+            res.series[4].push("");
+        };
+    };
+
+    var curTitle="";
+    if($("#userClass04").val()){
+        curTitle=$("#userClass04 >option:selected").text();
+    };
+    if($("#userGrade04").val()){
+        curTitle=$("#userGrade04 >option:selected").text();
+    };
+
+    var option = {
+            title:{
+                text: curTitle+'—各维度水平分布统计',
+                x:'center'
+            },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        x : 'center',
+        y : 'bottom',
+        data: ['水平1', '水平2','水平3','水平4','水平5']
+    },
+    grid: {
+        left: '3%',
+        right: '10%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis:  {
+        type: 'value'
+    },
+    yAxis: {
+        type: 'category',
+        data: res.yAxis
+    },
+    series: [
+        {
+            name: '水平1',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            data: res.series[0],
+            itemStyle:{normal:{color:"#7deef1"}}
+        },
+        {
+            name: '水平2',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            data: res.series[1],
+            itemStyle:{normal:{color:"#65e392"}}
+        },
+        {
+            name: '水平3',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            data: res.series[2],
+            itemStyle:{normal:{color:"#ed9869"}}
+        },
+        {
+            name: '水平4',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            data: res.series[3],
+            itemStyle:{normal:{color:"#69a1ed"}}
+        },
+        {
+            name: '水平5',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside'
+                }
+            },
+            data: res.series[4],
+            itemStyle:{normal:{color:"#ed69eb"}}
+        }
+    ]
+    };
+
+
+    myChart.setOption(option);     
 };
 
 

@@ -175,13 +175,12 @@
                     <table class="table table-email">
                         <thead>
                             <tr>
-                                <th style="text-align: center;width: 5%;">序号</th>
+                                <th style="text-align: center;width: 10%;">序号</th>
                                 <th style="text-align: center;width: 15%;">记录时间</th>
                                 <th style="text-align: center;width: 15%;">观察人</th>
-                                <th style="text-align: center;width: 15%;">观察维度</th>
+                                <th style="text-align: center;width: 20%;">观察维度</th>
                                 <th style="text-align: center;width: 15%;">评价状态</th>
-                                <th style="text-align: center;width: 15%;">评价时间</th>
-                                <th style="text-align: center;width: 5%;"></th>
+                                <th style="text-align: center;width: 10%;"></th>
                                 <th style="text-align: center;width: 15%;"></th>
                             </tr>
                         </thead>
@@ -199,7 +198,6 @@
                                         {{item.state}}
                                     {{/if}}
                                 </td>
-                                <td class="email-sender">{{item.evaluateDate}}</td>
                                 <td class="email-sender">{{if item.typical ==1}}<span class="typical"></span>{{/if}}</td>
                                 <td class="controllBtn">
                                     {{if item.canDelete ==1}}
@@ -311,14 +309,14 @@
                             <div>
                                 <span class="col01 middle">评语：</span>
                                 <span class="col02">
-                                    <textarea class="form-control validate {{if evaluateNum>1000}}max{{/if}}" placeholder="请写下您的评语..." rows="7" id="evaluate"></textarea>
+                                    <textarea class="form-control validate {{if evaluateNum>1000}}max{{/if}}" placeholder="请写下您的评语..." rows="7" id="evaluate" maxlength="1000"></textarea>
                                     <div class="maxNum"><span class="{{if evaluateNum>1000}}max{{/if}}">{{evaluateNum}}</span>/1000</div>
                                 </span>
                             </div>
                             <div>
                                 <span class="col01 middle">建议策略：</span>
                                 <span class="col02">
-                                    <textarea class="form-control validate {{if adviceNum>1000}}max{{/if}}" placeholder="请填写建议策略..." rows="7" id="advice"></textarea>
+                                    <textarea class="form-control validate {{if adviceNum>1000}}max{{/if}}" placeholder="请填写建议策略..." rows="7" id="advice" maxlength="1000"></textarea>
                                     <div class="maxNum"><span class="{{if adviceNum>1000}}max{{/if}}">{{adviceNum}}</span>/1000</div>
                                 </span>
                             </div>
@@ -339,13 +337,13 @@
                                    <div><span class="timeBtn defaultTime {{if timeType ==0}}active{{/if}}"><i></i>默认</span></div>
                                    <div><span class="timeBtn {{if timeType ==1}}active{{/if}}"><i></i>自定义时间</span></div>
                                    <div class="timePlug">
-                                        <input id="timeSetting" readonly="readonly" type="text">
-                                        <select name="" id="timeHour">
+                                        <input id="timeSetting" readonly="readonly" type="text" {{if timeType ==0}}disabled="disabled"{{/if}}>
+                                        <select name="" id="timeHour" {{if timeType ==0}}disabled="disabled"{{/if}}>
                                             {{each hour as value i}}
                                             <option value="{{value}}">{{if value <10}}0{{value}}{{else}}{{value}}{{/if}}</option>
                                             {{/each}}
                                         </select>时
-                                        <select name="" id="timeMinute">
+                                        <select name="" id="timeMinute" {{if timeType ==0}}disabled="disabled"{{/if}}>
                                             {{each minute as value i}}
                                             <option value="{{value}}">{{if value <10}}0{{value}}{{else}}{{value}}{{/if}}</option>
                                             {{/each}}
@@ -359,6 +357,7 @@
                             </div>
                         </div>
 
+                        {{if isMySelf}}
                         <div class="panelBox looking">
                             <h4 class="title">设置- <span class="subTitle">{{dimName}}</span></h4>
                             <div>
@@ -371,6 +370,7 @@
                                 {{if share==1}}<span><i class="switchBtn01"></i>向家长共享记录信息</span>{{/if}}
                             </div>
                         </div>
+                        {{/if}}
                         
                         <div class="absolute">
                             <button type="submit" class="btn btn-sm btn-success" id="finalBtn" data-id="{{recordId}}">确定</button>
@@ -379,7 +379,7 @@
                 </script>
                 <script id="addDim_script" type="text/html">
                     {{each arr as value i}}
-                    <span data-id="{{value.id}}" class="{{if i==0}}active{{/if}}">{{value.name}}<span class="deleteBtn"></span></span>
+                    <span data-id="{{value.id}}" >{{value.name}}<span class="deleteBtn"></span></span>
                     {{/each}}
                 </script>
                 <script id="level_script" type="text/html">

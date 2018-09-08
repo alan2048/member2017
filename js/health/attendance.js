@@ -90,8 +90,8 @@ function attendGetClassAttendanceInfo_callback(res,today) {
             }else{
                 toastTip("提示","此班级此月暂无请假记录。。");
             };
-            $("#curDay").empty().removeClass("emptyBox");
         };
+        $("#curDay").empty().removeClass("emptyBox");
         monthObj=data;// 获得当前全月数据
         if(today ==1){
             $(".sc-today").click();
