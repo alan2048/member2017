@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll.css" />
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_time.css" />
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_android.css" />
+	<link href="./js/photoswipe/default-skin/default-skin.css" rel="stylesheet">
+	<link href="./js/photoswipe/photoswipe_define.css" rel="stylesheet">
 	<link rel="stylesheet" href="./css/medicineManage.css?t=20180906" />
 </head>
 <body>
@@ -56,7 +58,7 @@
 					<div class="studentBox">
 						<div class="studentPhoto" style="background: url({{value.photo}}) center center no-repeat;"></div>
 						<div class="studentName">{{value.studentName}}</div>
-						<div class="studentBtn" data-studentuuid="{{value.studentUUID}}" data-studentphoto="{{value.studentPhoto}}" data-name="{{value.studentName}}"></div>
+						<div class="studentBtn" data-studentuuid="{{value.studentUuid}}" data-studentphoto="{{value.studentPhoto}}" data-name="{{value.studentName}}"></div>
 					</div>	
       				{{/each}}
       			</script>
@@ -89,7 +91,7 @@
 					</div>
 					<div class="curTimeInput">
 						<span>实际服药时间</span>
-						<span class="fr"><input type="text" value="{{takeMedicineDate}}" id="mobiscrollBtn" readonly="readonly" {{if editing == 0}}disabled="disabled"{{/if}}></span>
+						<span class="fr"><input type="text" value="{{takeMedicineDate}}" readonly="readonly" id="mobiscrollBtn" {{if editing == 0}}disabled="disabled"{{/if}} {{if typeId == 20}}disabled="disabled"{{/if}}></span>
 					</div>
       			</div>
       			<div class="morning">
@@ -97,19 +99,39 @@
 					<div class="morningBox">
 						<div>
 							<div class="itemTitle"><i></i>药品名称</div>
-							<div><textarea name="" id="medicineName" {{if editing == 0}}readonly="readonly"{{/if}} >{{medicineName}}</textarea></div>
+							<div><textarea name="" id="medicineName" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}} >{{if medicineName}}{{medicineName}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 						</div>
 						<div>
 							<div class="itemTitle"><i></i>药品图片</div>
-							<div><textarea name="" id="medicinePicture" {{if editing == 0}}readonly="readonly"{{/if}} >{{medicinePicture}}</textarea></div>
+							<div id="addBtnBox01">
+								<ul id="carousel" class="carousel">
+                                    {{each medicinePictureArr as value i}}
+                                    <li data-pic="{{value}}" class="picItem">
+                                        <a href="javascript:void(0);" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                            <img src="{{path_img}}{{value}}-scale400" data-pic="{{value}}">
+                                            {{if editing ==1}}
+                                            <span class="deleteIcon"></span>
+                                            {{/if}}
+                                        </a>
+                                    </li>
+                                    {{/each}}
+                                    {{if editing ==1}}
+                                    <li class="addPicBox">
+                                        <a href="#" id="addPicBtn"></a>
+                                    </li>
+                                    {{else}}
+                                    	{{if medicinePictureArr.length ==0}}<li class="emptyInfo">暂无图片</li>{{/if}}
+                                    {{/if}}
+                                </ul>
+							</div>
 						</div>
 						<div>
 							<div class="itemTitle"><i></i>使用方法</div>
-							<div><textarea name="" id="instruction" {{if editing == 0}}readonly="readonly"{{/if}} >{{instruction}}</textarea></div>
+							<div><textarea name="" id="instruction" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}} >{{if instruction}}{{instruction}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 						</div>
 						<div>
 							<div class="itemTitle"><i></i>注重事项</div>
-							<div><textarea name="" id="attention" {{if editing == 0}}readonly="readonly"{{/if}} >{{attention}}</textarea></div>
+							<div><textarea name="" id="attention" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}} >{{if attention}}{{attention}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 						</div>
 					</div>
       			</div>
@@ -134,7 +156,25 @@
       			<div class="summaryArea">
 					<div class="summaryTitle">病历卡</div>
 					<div class="summaryInput">
-						<textarea name="" id="medicalRecordPicture" cols="30" rows="10" placeholder="此处输入内容" maxlength="1000" {{if editing == 0}}readonly="readonly"{{/if}}>{{if medicalRecordPicture}}{{medicalRecordPicture}}{{else if editing == 0}}暂无内容{{/if}}</textarea>
+						<ul id="carousel02" class="carousel">
+                          	{{each medicalRecordPictureArr as value i}}
+                          	<li data-pic="{{value}}" class="picItem">
+                              	<a href="javascript:void(0);" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                  	<img src="{{path_img}}{{value}}-scale400" data-pic="{{value}}">
+                                  	{{if editing ==1}}
+                                    <span class="deleteIcon"></span>
+                                    {{/if}}
+                              	</a>
+                          	</li>
+                          	{{/each}}
+                          	{{if editing ==1}}
+                          	<li class="addPicBox">
+                              	<a href="#" id="addPicBtn02"></a>
+                          	</li>
+                          	{{else}}
+                             	{{if medicalRecordPictureArr.length ==0}}<li class="emptyInfo">暂无图片</li>{{/if}}
+                            {{/if}}
+                      	</ul>
 					</div>
       			</div>
       			<div class="summaryArea">
@@ -151,12 +191,51 @@
 		</section>
 	</div>
 
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/dialog/dialog.min.js"></script>
+	<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    	<div class="pswp__bg"></div>
+    	<div class="pswp__scroll-wrap">
+        	<div class="pswp__container">
+            	<div class="pswp__item"></div>
+            	<div class="pswp__item"></div>
+            	<div class="pswp__item"></div>
+       	    </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+	<script src="./js/dialog/dialog.min.js"></script>
 	<script src="./js/mobiscrollTime/js/mobiscroll_scroller.js"></script>
 	<script src="./js/mobiscrollTime/js/mobiscroll.js"></script>
 	<script src="./js/mobiscrollTime/js/mobiscroll_default.js"></script>
-	<script src="js/template.js"></script> 
+	<script src="./js/template.js"></script>
+	<script src="./js/plupload/plupload.full.min.js" ></script>
+    <script src="./js/plupload/qiniu.js" ></script><!-- 上传插件 --> 
+    <script src="./js/photoswipe/photoswipe.js"></script>
+    <script src="./js/photoswipe/photoswipe-ui-default.js"></script>
 	<script src="./js/base.js?t=20180906"></script>
 	<script src="./js/medicineManage.js?t=20180907"></script>
 </body>

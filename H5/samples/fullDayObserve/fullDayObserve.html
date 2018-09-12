@@ -58,7 +58,7 @@
 					<div class="studentBox">
 						<div class="studentPhoto" style="background: url({{value.photo}}) center center no-repeat;"></div>
 						<div class="studentName">{{value.studentName}}</div>
-						<div class="studentBtn" data-studentuuid="{{value.studentUUID}}" data-studentphoto="{{value.studentPhoto}}" data-name="{{value.studentName}}"></div>
+						<div class="studentBtn" data-studentuuid="{{value.studentUuid}}" data-studentphoto="{{value.studentPhoto}}" data-name="{{value.studentName}}"></div>
 					</div>	
       				{{/each}}
       			</script>
@@ -90,15 +90,15 @@
 					<div class="morningBox">
 						<div>
 							<div class="itemTitle"><i></i>异常情况（体温、精神、口腔、皮肤等）</div>
-							<div><textarea name="" id="morningAnomaly" {{if editing == 0}}readonly="readonly"{{/if}} >{{morningAnomaly}}</textarea></div>
+							<div><textarea name="" id="morningAnomaly" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}} >{{if morningAnomaly}}{{morningAnomaly}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 						</div>
 						<div>
 							<div class="itemTitle"><i></i>家长代诉</div>
-							<div><textarea name="" id="parentTell" {{if editing == 0}}readonly="readonly"{{/if}} >{{parentTell}}</textarea></div>
+							<div><textarea name="" id="parentTell" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}} >{{if parentTell}}{{parentTell}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 						</div>
 						<div>
 							<div class="itemTitle"><i></i>处理</div>
-							<div><textarea name="" id="morningDispose" {{if editing == 0}}readonly="readonly"{{/if}} >{{morningDispose}}</textarea></div>
+							<div><textarea name="" id="morningDispose" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}} >{{if morningDispose}}{{morningDispose}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 						</div>
 					</div>
       			</div>
@@ -109,22 +109,22 @@
 							<div class="dailySubTitle">上午观察情况</div>
 							<div>
 								<div class="itemTitle"><i></i>异常情况（体温、精神、口腔、皮肤等）</div>
-								<div><textarea name="" id="amAnomaly" {{if editing == 0}}readonly="readonly"{{/if}}>{{amAnomaly}}</textarea></div>
+								<div><textarea name="" id="amAnomaly" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}}>{{if amAnomaly}}{{amAnomaly}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 							</div>
 							<div>
 								<div class="itemTitle"><i></i>处理</div>
-								<div><textarea name="" id="amDispose" {{if editing == 0}}readonly="readonly"{{/if}}>{{amDispose}}</textarea></div>
+								<div><textarea name="" id="amDispose" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}}>{{if amDispose}}{{amDispose}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 							</div>
 						</div>
 						<div>
 							<div class="dailySubTitle">下午观察情况</div>
 							<div>
 								<div class="itemTitle"><i></i>异常情况（体温、精神、口腔、皮肤等）</div>
-								<div><textarea name="" id="pmAnomaly" {{if editing == 0}}readonly="readonly"{{/if}}>{{pmAnomaly}}</textarea></div>
+								<div><textarea name="" id="pmAnomaly" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}}>{{if pmAnomaly}}{{pmAnomaly}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 							</div>
 							<div>
 								<div class="itemTitle"><i></i>处理</div>
-								<div><textarea name="" id="pmDispose" {{if editing == 0}}readonly="readonly"{{/if}}>{{pmDispose}}</textarea></div>
+								<div><textarea name="" id="pmDispose" placeholder="此处输入内容" {{if editing == 0}}readonly="readonly"{{/if}}>{{if pmDispose}}{{pmDispose}}{{else if editing == 0}}暂无内容{{/if}}</textarea></div>
 							</div>
 						</div>
 					</div>

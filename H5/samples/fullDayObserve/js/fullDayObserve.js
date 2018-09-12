@@ -3,7 +3,7 @@ httpUrl.deleteDailyObservation=path+"/app/heath/deleteDailyObservation";//删除
 httpUrl.dailyObservationDetail=path+"/app/heath/dailyObservationDetail";//获取全日观察详情列表
 httpUrl.dailyObservationList=path+"/app/heath/dailyObservationList";//获取全日观察记录列表
 httpUrl.classList=path+"/app/basic/myClassInfo"; // 获取当前人所在班级
-httpUrl.basicStudent=path+"/app/heath/caseStudentList",// 获取当前班级学生列表
+httpUrl.basicStudent=path+"/common/basic/class/student",// 获取当前班级学生列表
 httpUrl.roleOfUser=path+"/app/heath/roleOfUser",// 获取当前用户角色
 winResize();
 $(function () {
@@ -76,7 +76,7 @@ function section01Fn() {
                 studentName: $(this).attr("data-name"),
                 studentPhoto: $(this).attr("data-studentphoto"),
                 studentUUID: $(this).attr("data-studentuuid"),
-                uuid: "1ff90068-d66e-49dd-a189-9fcd8929b499",
+                uuid: "",
                 editing: 1
         };
             
@@ -101,14 +101,17 @@ function section01Fn() {
 
     // 新增 修改 接口
     $("#section03").on("click","#addIcon02",function () {
-        addOrUpdateDailyObservation_port();
-    });
-
-    // 时间新增按钮
-    $("#section03").on("click","#addTimeBtn",function () {
-        console.log(111);
-        $("#mobiscrollBtn").click();
-        console.log(111);
+        if($("#mobiscrollBtn").val()){
+            addOrUpdateDailyObservation_port();
+        }else{
+            $(document).dialog({
+                type:"notice",
+                infoText:"观察日期为必填项",
+                autoClose: 2000,
+                position:"bottom"
+            });
+        }
+        
     });
 };
 
@@ -150,7 +153,6 @@ function dailyObservationList_callback(res) {
     if(res.code==200){	
         var data=JSON.parse(res.data);
 
-        console.log(data);
         if(data.length >0){
             for(var i=0;i<data.length;i++){
                 data[i].createDate=new Date(data[i].createTime*1000).Format("yyyy-MM-dd hh:mm");
@@ -159,7 +161,9 @@ function dailyObservationList_callback(res) {
             };
             var html=template("listBox_script",{arr:data});
             $(".listBox").empty().append(html);
+            $("#section01").removeClass("empty");
         }else{
+            $(".listBox").empty();
             $("#section01").addClass("empty");
         };
 

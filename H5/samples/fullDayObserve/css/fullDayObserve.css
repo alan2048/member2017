@@ -95,7 +95,7 @@ body,#app{
 }
 section {
 	min-height: 100%;
-	padding-bottom: 1rem;
+	padding-bottom: 1.6rem;
 }
 #section01.empty{
 	background: url(../images/empty.png) center center  no-repeat;
@@ -457,8 +457,9 @@ body{
 	text-align: right;
 	cursor: pointer;
 	background: #fff url(../images/array01.png) 100% center no-repeat;
-	-webkit-background-size: 8%;
-	background-size: 8%;
+	-webkit-background-size: 6%;
+	background-size: 6%;
+	padding-right: 0.3rem;
 }
 #mobiscrollBtn:hover{
 	color: #5edfe0;

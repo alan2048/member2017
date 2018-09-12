@@ -387,7 +387,6 @@ section {
 }
 .curTimeInput >.fr{
 	float: right;
-	cursor: pointer;
 }
 .itemTitle{
 	height: 0.9rem;
@@ -457,8 +456,13 @@ body{
 	text-align: right;
 	cursor: pointer;
 	background: #fff url(../images/array01.png) 100% center no-repeat;
-	-webkit-background-size: 8%;
-	background-size: 8%;
+	-webkit-background-size: 6%;
+	background-size: 6%;
+	padding-right: 0.5rem;
+}
+#mobiscrollBtn[disabled=disabled]{
+	background-image: none;
+	cursor: default;
 }
 #mobiscrollBtn:hover{
 	color: #5edfe0;
@@ -476,4 +480,91 @@ body{
 	font-size: 0.34rem;
 	padding-left: 0.3rem;
 	background-color: #f2f5f4;
+}
+#addPicBtn,#addPicBtn02{
+	display: inline-block;
+	width: 1.5rem;
+	height: 1.5rem;
+	border: 1px solid #e7eae9;
+	border-radius: 0.1rem;
+	cursor: pointer;
+	background: #f2f5f4 url(../images/add01.png) center center no-repeat;
+}
+#carousel02{
+	padding: 0.3rem 0.5rem 0.6rem;
+}
+.carousel{
+	padding: 0 0.5rem;
+}
+.carousel a {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	border: 2px solid #fff;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-color: #e7eae9;
+	color: #fff;
+	border-radius: 0.1rem !important;
+	position: relative;
+	text-align: center;
+}
+.carousel li {
+	display: inline-block;
+	list-style: none;
+	margin: 0 0.18rem 0.18rem 0;
+}
+.carousel img {
+	cursor: pointer;
+	cursor: -webkit-zoom-in;
+	cursor: -moz-zoom-in;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	border-radius: 0.1rem;
+}
+.deleteIcon {
+	position: absolute;
+	display: inline-block;
+	width: 0.4rem;
+	height: 0.4rem;
+	background: url(../images/deleteBtn.png) center center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	top: -0.2rem;
+	right: -0.2rem;
+	cursor: pointer;
+	z-index: 10;
+}
+.qiniuBar{
+    position: fixed;
+    top:0;
+    display:inline-block;
+    height:0.06rem;
+    width:0%;
+    border-radius:0.04rem;
+    background-color: rgba(92,222,255,0.8);
+    z-index: 10000;
+    left:0;
+}
+#parentRemind{
+	padding: 0.1rem;
+}
+.pswp {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+	-ms-touch-action: none;
+	touch-action: none;
+	z-index: 1500;
+	-webkit-text-size-adjust: 100%;
+	-webkit-backface-visibility: hidden;
+	outline: none;
+}
+.pswp--open {
+	display: block;
 }

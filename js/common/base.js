@@ -13,7 +13,7 @@ var path=""; //更改服务器地址可设置此值
 if(window.location.host){
 	path="https://"+window.location.host;// 线上环境host自动适配
 }else{
-	path=serverUrl02;// 开发环境默认38服务器
+	path=serverUrl01;// 开发环境默认38服务器
 };
 
 var httpUrl={

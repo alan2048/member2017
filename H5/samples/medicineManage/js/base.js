@@ -18,6 +18,7 @@ if(window.location.host){
 
 var httpUrl={
 		path_img:qiniu, // 图片地址
+        upToken1:serverUrl01+"/file/upToken1", // 获取公有文件上传token 
         loginUserInfo:path+"/app/basic/loginUserInfo", // 获得登录人员信息
 		// 08设置
 		setting:'' 
