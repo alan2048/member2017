@@ -1,0 +1,334 @@
+*{
+    box-sizing: border-box;
+}
+.pageTitle{
+	color: #646766;
+	font-size: 0.24rem;
+	font-weight: 900;
+	margin-bottom: 0.4rem;
+}
+.pageTitle >small{
+	font-size: 0.16rem;
+	font-weight: 500;
+}
+#search{
+	color: #636665;
+	margin-bottom: 0.3rem;
+}
+#search >label >select{
+	min-width: 1.4rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem;
+	-webkit-appearance: none; 
+   	-moz-appearance: none;
+   	appearance: none;
+   	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+   	color: #969998;
+   	background-color: #fff;
+}
+#search >label >select >option{
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+#search >label >input{
+	min-width: 1.4rem;
+	height: 0.4rem;
+	margin-right: 0.4rem;
+	border: 0.01rem solid #c9cccb;
+	border-radius: 0.1rem;
+	padding: 0.05rem 0.1rem;
+   	color: #969998;
+}
+#searchBtn{
+	display: inline-block;
+	border: 0.01rem solid #c9cccb;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0 0 0.25rem;
+	border-radius: 0.1rem;
+	width: 0.88rem;
+	cursor: pointer;
+	background: url(../../images/common/searchIcon.png) 0.15rem center no-repeat;
+	text-align: center;
+	background-color: #fff;
+	vertical-align: top;
+}
+#searchBtn:hover{
+	background-color: #e1e1e1;
+}
+.defaultBtn{
+	display: inline-block;
+	width: 1.08rem;
+	margin-right: 0.2rem;
+	height: 0.55rem;
+	text-align: center;
+	line-height: 0.5rem;
+	background: url(../../images/common/btnBg.png) center center no-repeat;
+}
+.backBtn > span {
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
+}
+.defaultBtn:hover{
+	background: url(../../images/common/btnBgHover.png) center center no-repeat;
+}
+.defaultBtn >span{
+	display: inline-block;
+	padding-left: 0.28rem;	
+}
+.defaultBtn:hover >span{
+	color: #5cdfe2;
+}
+#newBtn >span{
+	background: url(../../images/common/newBtn.png) 0 center no-repeat;
+}
+#editBtn >span{
+	background: url(../../images/common/editBtn.png) 0 center no-repeat;
+}
+#deleteBtn >span{
+	background: url(../../images/common/deleteBtn.png) 0 center no-repeat;
+}
+#importBtn{
+	display:none;
+}
+#importBtn >span{
+	background: url(../../images/common/importBtn.png) 0 center no-repeat;
+}
+#buttonBox{
+	margin-bottom: 0.2rem;
+}
+.disable{
+	opacity:0.3;
+}
+
+ul,li{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.navbar{
+	z-index: 1;
+}
+.sidebar{
+	z-index: 0;
+}
+
+
+.yearBox > li {
+	width: 200px;
+	height: 320px;
+	margin-top: 20px;
+	margin-right: 30px;
+	float: left;
+}
+.yearBox > li > div.yearBg {
+	width: 200px;
+	height: 280px;
+	text-align: center;
+	line-height: 360px;
+	background-color: #fff;
+	background-size: contain;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	position: relative;
+}
+.yearBox > li > div.yearBg:hover{
+	box-shadow: 0 0 5px #ccc;
+}
+.yearTitle {
+	text-align: center;
+	color: #747474;
+	padding-top: 10px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.yearBg > span.addBtn {
+	width: 70px;
+	height: 70px;
+	cursor: pointer;
+	display: inline-block;
+	line-height: 20px;
+	text-align: center;
+	cursor: pointer;
+	color: #e7eceb;
+}
+.addBtn >i{
+	text-align: center;
+	display: inline-block;
+	height: 70px;
+	width: 70px;
+	border: 1px dashed #e7eceb;
+	border-radius: 6px;
+	background: #fff url(../../images/interaction/addBtn01.png) center center no-repeat;
+}
+.yearBg:hover i{
+	background: #f7fafa url(../../images/interaction/addBtn01.png) center center no-repeat;
+}
+.yearBg > span.addBtn:hover{
+	color: #5bdfdf;
+}
+.yearBg > span.addBtn:hover >i{
+	border: 1px dashed #5bdfdf;
+}
+.editBtn{
+	position: absolute;
+	display: inline-block;
+	height: 30px;
+	width: 70px;
+	border-radius: 15px;
+	background-color: rgba(153,153,153,0.9);
+	color: #fff;
+	line-height: 30px;
+	text-align: center;
+	bottom: 10px;
+	left: 66px;
+	display: none;
+	cursor: pointer;
+}
+.yearBg:hover .editBtn{
+	display: inline-block;
+}
+.editBtn:hover{
+	background-color: #5bdfdf;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#modal-dialog-qunzu .modal-dialog {
+	width: 53%;
+	height: 74%;
+	margin: 130px auto 0;
+}
+.closeBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.5rem;
+	height: 1.1rem;
+	background: url(../../images/growth/closeBtn.png) no-repeat center center;
+	position: absolute;
+	top: -1rem;
+	right: 0rem;
+	z-index: -1;
+}
+#picLib {
+	background: url(../../images/interaction/tabPic01.png) 110% 35px no-repeat, url(../../images/interaction/tabPic02.png) 0 -60px no-repeat, url(../../images/interaction/tabPic03.png) 70px 90px no-repeat;
+	box-shadow: 0 0 10px #444;
+}
+#modal-dialog-qunzu .modal-content {
+	height: 100%;
+	background-color: #fff;
+	overflow: visible !important;
+}
+.nav-tabs {
+	position: absolute;
+	width: 100%;
+	z-index: 10;
+}
+#picTabContent {
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	padding-top: 42px;
+	padding-bottom: 65px;
+}
+#emptyBtn {
+	position: absolute;
+	display: inline-block;
+	width: 100px;
+	height: 40px;
+	background-color: #5cdee1;
+	color: #fff;
+	text-align: center;
+	line-height: 40px;
+	bottom: 20px;
+	right: 160px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 10px;
+}
+#picBtn {
+	position: absolute;
+	display: inline-block;
+	width: 80px;
+	height: 40px;
+	background-color: #f8e264;
+	color: #fff;
+	text-align: center;
+	line-height: 40px;
+	bottom: 20px;
+	right: 50px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 10px;
+}
+.nav-tabs > li {
+	float: left;
+	width: 50%;
+	text-align: center;
+	margin-bottom: -1px;
+}
+.nav-tabs > li > a {
+	color: #fff;
+	line-height: 50px;
+	font-size: 16px;
+	margin-top: -8px;
+	display: block;
+	height: 50px;
+	cursor: pointer;
+	background: url(../../images/interaction/tabBg01.png) center center no-repeat;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+	background: url(../../images/interaction/tabBg.png) center center no-repeat;
+}
+#picTabContent > div {
+	height: 100%;
+	width: 100%;
+}
+.tab-content > .tab-pane {
+	display: none;
+}
+.tab-content > .active {
+	display: block;
+}
+.picMain {
+	padding: 20px 60px;
+}
+body.modal-open{
+	overflow: hidden;
+}
+.templateBg{
+	width: 180px;
+	height: 250px;
+	box-shadow: 0 0 5px #777;
+	border-radius: 10px;
+	cursor: pointer;
+	box-sizing: border-box;
+	margin: 0 20px 40px 20px;
+}
+.templateBg.active,.templateBg:hover{
+	border: 2px solid #5bdfdf;
+	box-shadow: 0 0 5px #5bdfdf;
+}
+#picBtn:hover {
+	box-shadow: 0 0 2px #777;
+}
+.modal-content {
+	padding: 0;
+}

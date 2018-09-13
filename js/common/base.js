@@ -13,7 +13,7 @@ var path=""; //更改服务器地址可设置此值
 if(window.location.host){
 	path="https://"+window.location.host;// 线上环境host自动适配
 }else{
-	path=serverUrl01;// 开发环境默认38服务器
+	path=serverUrl02;// 开发环境默认38服务器
 };
 
 var httpUrl={
@@ -199,6 +199,11 @@ var httpUrl={
 
 		recordTeacherStat:path+"/web/mbtrack/report/teacher",// 教师成长档案统计
 		recordParentStat:path+"/web/mbtrack/report/parent",// 家长成长档案统计
+
+		// 成长档案 模板设置
+		recordTemAddOrUpdate:path+"/web/mbtrack/intelligence/monthPage/addOrUpdate",// 新增或编辑某月的模板
+		recordTemCompanyMonthPageList:path+"/web/mbtrack/intelligence/companyMonthPageList",// 获取学校每月相册模版列表
+		recordTemListOfAllPage:path+"/web/mbtrack/intelligence/listOfAllPage",// 获取所有可选的模板库
 
 		// 考勤
 		attendGetChildOfClass:path+"/web/attendance/teacher/getChildInfoOfClass",// 获得班级所有幼儿信息
