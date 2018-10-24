@@ -252,6 +252,17 @@ function echart_A01_callback(res) {
         jsonAll01=data;
         var name=$("#classMember01").find("option:selected").text();
         echart_A01("searchBox01",data,name);
+        if(data.type ==0){
+            data.curTime=$("#year01").val()+"年"+$("#month01").val()+"月";
+            data.childName=$("#classMember01 >option:selected").text();
+            var html=template("advice_script",data);
+            $(".analysisBody").empty().append(html);
+            $(".analysisTitle >span").text(data.curTime);
+            $('.detailBox').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            });
+            chooseNiceScroll(".analysisBody");
+        }
     }else if(res.code==500){
         var data=JSON.parse(res.data);
         jsonAll01=data;
@@ -261,6 +272,12 @@ function echart_A01_callback(res) {
         // console.log('请求错误，返回code非200');
     }
 };
+
+function textareaAutoFn() { 
+    
+
+}
+
 function echart_A01(id,json,curName){
     var myChart = echarts.init(document.getElementById(id));
 

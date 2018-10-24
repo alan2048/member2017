@@ -13,6 +13,9 @@ function init() {
             json.path_img=httpUrl.path_img;
             var html=template("detail_script",json);
             $("#detail").empty().append(html);
+            $('textarea.autoTextarea').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            });
 
             if($(this).parent().hasClass("isReaded")){
                 $("#read").addClass("active").attr("data-contentid","").attr("data-noticeid","");

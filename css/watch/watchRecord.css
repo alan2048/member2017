@@ -83,9 +83,9 @@ ul,li{
 
 
 #modal-dialog-qunzu .modal-dialog{
-	width: 88%;
-	height: 80%;
-	margin: 1rem auto 0;
+	width: 60%;
+	height: 60%;
+	margin: 1.5rem auto 0;
 }
 #modal-dialog-qunzu .modal-content{
 	height: 100%;
@@ -110,6 +110,9 @@ ul,li{
 	color:#656666;
 	overflow-y: auto;
 }
+#page-header{
+	float: left;
+}
 #page-header span{
 	font-size: 12px;
 	color: #fff;
@@ -122,7 +125,6 @@ ul,li{
 	padding-left: 20px;
 	float: right;
 	background: url(../../images/watch/delete.png) no-repeat 0 center;
-	line-height: 50px;
 }
 .email-btn-row >span:nth-of-type(2){
 	font-size: 12px;
@@ -130,7 +132,6 @@ ul,li{
 	margin-right: 15px;
 	float: right;
 	background: url(../../images/watch/typicalBtn.png) no-repeat 0 center;
-	line-height: 50px;
 }
 .typical{
 	display:inline-block;
@@ -139,7 +140,7 @@ ul,li{
 	background: url(../../images/watch/typicalBtn01.png) no-repeat center center;
 }
 .email-btn-row {
-	margin: 25px 0 25px 0;
+	float: right;
 }
 #email-content tbody tr{
 	cursor: pointer;
@@ -212,6 +213,9 @@ ul,li{
 	display: none;
 }
 .deleteBtn.current{
+	display: none;
+}
+.newState .deleteBtn.current,.editState .deleteBtn.current{
 	display: inline-block;
 }
 #carousel a:hover {
@@ -324,8 +328,9 @@ ul,li{
 	border-radius: 3px;
 }
 .btn:hover, .btn:focus, .btn.focus {
-	color: #333;
+	color: #fff;
 	text-decoration: none;
+	box-shadow: 0 0 2px #000;
 }
 .btn.btn-inverse {
 	color: #fff;
@@ -367,7 +372,10 @@ ul,li{
 #carousel li {
 	display:inline-block;
 	list-style: none;
-	margin: 0px 20px 20px 0px;
+	margin: 0px 18px 18px 0px;
+}
+#carousel li.addPicBox{
+	display: none;
 }
 #carousel img {
 	width: 118px;
@@ -399,9 +407,10 @@ ul,li{
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	font-size: 12px;
-	border-radius: 0.1rem;
-	-webkit-border-radius: 0.1rem;
-	-moz-border-radius: 0.1rem;
+	border-radius: 0.06rem;
+	-webkit-border-radius: 0.06rem;
+	-moz-border-radius: 0.06rem;
+	background-color: #f7fafa;
 }
 textarea.form-control {
 	height: auto;
@@ -426,22 +435,13 @@ textarea.form-control {
 	padding-right: 0;
 	padding-left: 0;
 }
-.btn.btn-success {
-	color: #fff;
-	width: 0.8rem;
-	height: 0.4rem;
-	border-radius: 0.1rem;
-	font-size:0.16rem;
-	background: #5cdee1;
-	border-color: #5cdee1;
-}
 .btn.btn-success.active, .btn.btn-success:active, .btn.btn-success:focus, .btn.btn-success:hover, .open .dropdown-toggle.btn-success {
-	background: #008a8a;
-	border-color: #008a8a;
+	background: #0de4e4;
+	border-color: #0de4e4;
 }
 .modal-content{
 	overflow: hidden;
-	border-radius: 0.12rem;
+	border-radius: 0.08rem;
 	height:auto;
 }
 #page-header i.curName{
@@ -486,6 +486,7 @@ textarea.form-control {
 .pageTitle >small{
 	font-size: 0.16rem;
 	font-weight: 500;
+	margin-left: 0.1rem;
 }
 #search{
 	color: #636665;
@@ -600,7 +601,6 @@ textarea.form-control {
 /*table start*/
 .panel {
 	margin-bottom: 0.2rem;
-	padding: 0.15rem;
 	background-color: #fff;
 	border: 0.01rem solid #e8ebea;
 	border-radius: 0.1rem;
@@ -626,9 +626,10 @@ th,td {
 	cursor: pointer;
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-	padding: 0.14rem 0.08rem;
+	padding: 0.04rem 0 0.03rem;
+	height: 0.5rem;
 	line-height: 1.42857143;
-	vertical-align: top;
+	vertical-align: middle;
 	border-bottom: 1px solid #ddd;
 }
 .fa.fa-check-square-o{
@@ -672,7 +673,7 @@ th,td {
 
 
 
-/*分页 start*/
+/*路脰脪鲁 start*/
 #main{
 	text-align: center;
 }
@@ -711,9 +712,9 @@ th,td {
 .pagination > li > a:hover{
 	background-color: #e2e7eb;
 }
-/*分页 end*/
+/*路脰脪鲁 end*/
 
-/*新增 start*/
+/*脨脗脭枚 start*/
 .newBox{
 	width: 10rem;
 	height: 7rem;
@@ -744,15 +745,15 @@ th,td {
 }
 .col01 {
 	display: inline-block;
-	width: 1.1rem;
+	width: 1rem;
 	padding-right: 0.08rem;
 	text-align: right;
 	vertical-align: top;
-	line-height: 0.4rem;
+	line-height: 0.3rem;
 }
 .col02{
 	display: inline-block;
-	width: 5.9rem;
+	width: 7.6rem;
 	height: 100%;
 	color: #666;
 }
@@ -820,13 +821,8 @@ th,td {
 	right: 0rem;
 	z-index: -1;
 }
-/*新增 end*/
+/*脨脗脭枚 end*/
 
-.title{
-	font-size:16px;
-	color:#656666;
-	margin-bottom: 0.2rem;
-}
 .typicalIcon{
 	position: absolute;
 	top: 0.2rem;
@@ -841,7 +837,7 @@ th,td {
 	color:#ff5157;
 }
 #comment{
-	height: 1.5rem;
+	height: 1.3rem;
 }
 #comment.max,#evaluate.max,#advice.max{
 	border: 0.01rem solid #ff5157;
@@ -851,4 +847,559 @@ th,td {
 }
 #searchBtn{
 	display:none;
+}
+
+
+
+
+
+
+
+
+
+
+/*鏂癱ss*/
+.backBtn > span {
+	background: url(../../images/common/backBtn.png) 0 center no-repeat;
+	padding-left: 0.24rem;
+}
+#newBtn > span {
+	background: url(../../images/common/newBtn01.png) 0 center no-repeat;
+}
+#content01 >div:nth-of-type(3){
+	margin: 0.2rem 0 0.2rem;
+}
+#content01 >div:nth-of-type(4){
+	margin-top: 0.5rem;
+}
+.parentEdit {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background: url(../../images/common/editBtn.png) center center no-repeat;
+	cursor: pointer;
+	padding: 5px;
+}
+.parentEdit:hover,.parentDelete:hover {
+	border: 1px solid #5ce0de;
+	border-radius: 8px;
+}
+.parentDelete {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background: url(../../images/common/deleteBtn.png) center center no-repeat;
+	cursor: pointer;
+	padding: 5px;
+	float: right;
+	margin-right: 20%;
+}
+.panelBox{
+	padding: 0.2rem 0.4rem;
+	background-color: #fff;
+	margin-bottom: 0.3rem;
+	border: 1px solid #e8ebea;
+	border-radius: 0.08rem;
+	min-width: 9.5rem;
+}
+.newLevel{
+	display: none;
+}
+.newState .newLevel{
+	display: block;
+}
+.newState .editLevel{
+	display: none;
+}
+.editState .editLevel{
+	display: block;
+}
+#evaluation{
+	color:#656565;
+}
+#evaluation .panelBox:nth-of-type(2) >span{
+	margin-right: 0.6rem;
+}
+.title{
+	font-size:16px;
+	color:#656666;
+	font-weight: 700;
+	margin-bottom: 0.2rem;
+}
+.middle{
+	line-height: 1.3rem;
+}
+#description{
+	margin: 0.35rem 0 0.3rem;
+}
+.switchBtn{
+	display: inline-block;
+	vertical-align: middle;
+	width: 0.3rem;
+	height: 0.2rem;
+	background: #fff url(../../images/watch/switchBtn03.png) center center no-repeat;
+	cursor: pointer;
+}
+.switchBtn.active{
+	background: #fff url(../../images/watch/switchBtn04.png) center center no-repeat;
+}
+.setting >span{
+	cursor: pointer;
+}
+.setting >span:first-of-type{
+	margin-right: 0.6rem;
+}
+.setting >span:hover{
+	color: #5cdee1;
+}
+.timeBtn{
+	margin-top: 0.2rem;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.timeBtn:hover{
+	color: #5cdee1;
+}
+.timeBtn >i{
+	display: inline-block;
+	width: 0.3rem;
+	height: 0.3rem;
+	vertical-align: middle;
+	background: #fff url(../../images/watch/unchecked01.png) center center no-repeat;
+}
+.timeBtn.active >i{
+	display: inline-block;
+	width: 0.3rem;
+	height: 0.3rem;
+	vertical-align: middle;
+	background: #fff url(../../images/watch/checked01.png) center center no-repeat;
+}
+.col01.top {
+	line-height: 0.25rem;
+	width: 100%;
+	text-align: left;
+	margin-bottom: 0.15rem;
+}
+select#timeHour,select#timeMinute {
+	min-width: 0.8rem;
+	height: 0.3rem;
+	margin-left: 0.2rem;
+	border: 0.01rem solid #e7ecea;
+	border-radius: 0.06rem;
+	padding: 0.05rem;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	background: url(../../images/common/selectArrow.png) 95% center no-repeat;
+	color: #969998;
+	background-color: #fff;
+}
+select#timeHour option,select#timeMinute option {
+	height: 0.3rem;
+	padding: 0.05rem;
+	display: block;
+	line-height: 0.3rem;
+	vertical-align: middle;
+}
+#timeSetting{
+	width: 1.5rem;
+	height: 0.28rem;
+	border: 1px solid #e7ecea;
+	border-radius: 0.06rem;
+	padding-left: 0.4rem;
+	background: url(../../images/watch/calendar.png) 8% center no-repeat;
+}
+.timePlug{
+	margin: 0.1rem 0 0.2rem;
+}
+.absolute{
+	position: fixed;
+	bottom: 0;
+	height: 0.6rem;
+	width: 100%;
+	background-color: #fff;
+	left: 0;
+	z-index: 5;
+	border-top: 1px solid #e9eceb;
+	line-height: 0.6rem;
+	display: none;
+}
+.newState .absolute,.editState .absolute{
+	display: block;
+}
+.sidebar{
+	z-index: 10;
+}
+button.btn-success{
+	float: right;
+	margin-right: 0.65rem;
+	width: 1.3rem;
+	height: 0.36rem;
+	color: #fff;
+	font-size:0.16rem;
+	background: #5cdee1;
+	border-radius: 0.06rem;
+	margin-top: 0.12rem;
+}
+.editState li.addPicBox,.newState li.addPicBox{
+	display: inline-block !important;
+}
+#evaluation >.col-md-12{
+	padding-bottom: 0.6rem;
+}
+.switchBtn01{
+	display: inline-block;
+	vertical-align: top;
+	width: 0.3rem;
+	height: 0.2rem;
+	background: #fff url(../../images/watch/checked02.png) center center no-repeat;
+}
+.setting01 >span:first-of-type{
+	margin-right: 0.6rem;
+}
+.newState .looking,.editState .looking{
+	display: none;
+}
+#addIcon{
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.2rem;
+	background: #fff url(../../images/watch/addBtn01.png) center center no-repeat;
+	background-color: #5ce0e0;
+	vertical-align: middle;
+	border-radius: 0.04rem;
+}
+#addIcon:hover{
+	box-shadow:  0 0 3px #000;
+	cursor: pointer;
+}
+.modal-open .modal#modal-dialog-qunzu{
+	overflow-y: auto;
+}
+.modal-header{
+	height: 0.8rem;
+	background-color: #f7fafa;
+	border-bottom: 1px solid #e8ebea;
+	line-height: 0.8rem;
+	color:#646766;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	border-top-left-radius: 0.08rem;
+	border-top-right-radius: 0.08rem;
+}
+.modal-body{
+	padding: 0.8rem 0 0.6rem;
+}
+.dimHeader{
+	display: inline-block;
+	margin: 0 0.2rem;
+	min-width: 0.5rem;
+	text-align: center;
+	cursor: pointer;
+	line-height: 0.3rem;
+}
+.dimHeader.active{
+	color:#5adfe1;
+	border-bottom: 3px solid #5adfe1;
+}
+.dimHeader:hover{
+	color:#5adfe1;
+}
+.dimBody{
+	display: none;
+}
+.dimBody.active{
+	display: block;
+}
+.dimTitle{
+	font-weight: 700;
+	color:#666;
+	font-size: 16px;
+}
+.dimPiece{
+	display: inline-block;
+	text-align: center;
+	border: 1px solid #cbcbcb;
+	color:#656565;
+	height: 0.3rem;
+	line-height: 0.26rem;
+	min-width: 1.3rem;
+	border-radius: 0.15rem;
+	margin: 0.15rem 0.22rem 0.15rem 0;
+	cursor: pointer;
+	padding: 0 0.2rem; 
+}
+.dimPiece.active{
+	color: #fff;
+	background-color: #5bdee1;
+}
+.dimPiece:hover{
+	color: #fff;
+	background-color: #18d5da;
+}
+.dimBody{
+	padding: 0 0.4rem;
+}
+.dimBody >ul >li{
+	margin-top: 0.2rem;
+}
+.modal-footer{
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	height: 0.5rem;
+	background-color: #f7fafa;
+	border-top: 1px solid #e8ebeb;
+	border-bottom-left-radius: 0.08rem;
+	border-bottom-right-radius: 0.08rem;
+	overflow: hidden;
+	z-index: 1050;
+}
+.modal-footer >span{
+	color: #fff;
+	text-align: center;
+	float: right;
+	width: 1.1rem;
+	height: 0.5rem;
+	background-color: #5cdfe2;
+	font-size: 0.18rem;
+	line-height: 0.48rem;
+	text-align: center;
+	cursor: pointer;
+}
+.modal-footer >span:hover{
+	background-color: #18d5da;
+}
+#dimBox{
+	height: 100%;
+}
+.modal-open{
+	height: 100%;
+}
+.modal-open #page-container{
+	height: 100%;
+}
+.modal-open #content02{
+	height: 100%;
+	overflow: hidden;
+}
+.sweet-alert h2{
+	font-size: 24px;
+}
+#addDim >span{
+	position: relative;
+	display: inline-block;
+	height: 0.3rem;
+	min-width: 1.3rem;
+	border-radius: 0.15rem;
+	text-align: center;
+	line-height: 0.28rem;
+	color: #646766;
+	padding: 0 0.2rem;
+	background-color: #e8ebeb;
+	margin: 0 0.3rem 0.2rem 0;
+	cursor: pointer;
+}
+#addDim >span.active{
+	color: #fff;
+	background-color: #5bdee1;
+}
+#addDim >span:hover{
+	color: #fff;
+	background-color: #18d5da;
+}
+#addDim >span.active >.deleteBtn,#addDim >span:hover >.deleteBtn{
+	display: inline-block;
+	right: -8px;
+}
+#addDim >span >.deleteBtn:hover{
+	box-shadow: 0 0 4px #222;
+	border-radius: 50%;
+}
+li.addPicBox{
+	display: none;
+}
+li.addPicBox {
+	display: none;
+	list-style: none;
+	margin: 0px 18px 18px 0px;
+}
+li.addPicBox a {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	border: 2px solid #fff;
+	width: 122px;
+	height: 122px;
+	color: #fff;
+	border-radius: 10px !important;
+	position: relative;
+	text-align: center;
+}
+#addPicBtn02 {
+	background: #cacbcc url(../../images/watch/addBtn.png) center center no-repeat;
+}
+.voiceList img {
+	cursor: pointer;
+	cursor: -webkit-zoom-in;
+	cursor: -moz-zoom-in;
+	border-radius: 10px;
+	overflow: hidden;
+	width: 118px;
+	height: 118px;
+}
+.voiceList a {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	border: 2px solid #fff;
+	width: 122px;
+	height: 122px;
+	background-color: #cacbcc;
+	color: #fff;
+	border-radius: 10px !important;
+	position: relative;
+	text-align: center;
+}
+.voiceList li {
+	display:inline-block;
+	list-style: none;
+	margin: 0px 18px 18px 0px;
+}
+li.addPicBox{
+	display: none;
+}
+.voiceList a:hover {
+	border: 2px solid #13b5dd;
+}
+.mascot{
+	background: url(../../images/watch/mascot.png) center center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+}
+.description{
+	min-height: 0.25rem;
+}
+.description span{
+	display: none;
+}
+.newState .description span{
+	display: inline-block;
+}
+.timeBox{
+	display: none;
+}
+.newState .timeBox{
+	display: block;
+}
+.newState .noLooking,.editState .noLooking{
+	display: block;
+}
+.noLooking{
+	display: none;
+}
+.isMySelf{
+	display: none;
+}
+.newState .isMySelf,.editState .isMySelf{
+	display: block;
+}
+.newState .isMySelf02,.editState .isMySelf02{
+	display: none;
+}
+.modal-open #page-container {
+	height: 100%;
+	overflow-x: hidden;
+}
+.modal-open .modal {
+	overflow-y: auto;
+}
+
+
+.prevBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 1rem;
+	height: 1.6rem;
+	background: url(../../images/growth/prev.png) no-repeat center center;
+	position: absolute;
+	top: 30%;
+	left: -2rem;
+	border-radius: 0.1rem;
+	z-index: -1;
+}
+#carousel_img {
+	text-align: center;
+	height: 100%;
+	padding: 2%;
+	vertical-align: middle;
+}
+#carousel_img img {
+	max-height: 100%;
+	max-width: 100%;
+	vertical-align: middle;
+}
+.nextBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 1rem;
+	height: 1.6rem;
+	background: url(../../images/growth/next.png) no-repeat center center;
+	position: absolute;
+	top: 30%;
+	right: -2rem;
+	border-radius: 0.1rem;
+	z-index: -1;
+}
+.closeBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.8rem;
+	height: 0.8rem;
+	background: url(../../images/growth/closeBtn01.png) no-repeat center center;
+	position: absolute;
+	top: 0.3rem;
+	right: 0.5rem;
+	z-index: -1;
+	border-radius: 0.1rem;
+}
+.deleteBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.8rem;
+	height: 0.8rem;
+	background: url(../../images/growth/deleteBtn01.png) no-repeat center center;
+	position: absolute;
+	top: 0.3rem;
+	right: 1.6rem;
+	z-index: -1;
+	border-radius: 0.8rem;
+}
+.prevBtn:hover, .nextBtn:hover, .closeBtn01:hover, .deleteBtn01:hover {
+	background-color: rgba(0,0,0,0.2);
+}
+#modal-dialog-video .modal-dialog{
+	height: 60%;
+	width: 70%;
+}
+#modal-dialog-video .modal-content,#modal-dialog-video #video_img{
+	height: 100%;
+}
+#video_img{
+	height: 100%;
+}
+#video_img .video-js{
+	height: 100%;
+	width: auto;
+}
+.modal-open #modal-dialog-video{
+	overflow-y: hidden;
+}
+input[disabled=disabled]#timeSetting{
+	background:#eee url(../../images/watch/calendar.png) 8% center no-repeat !important;
+}
+select[disabled=disabled]{
+	background: #eee url(../../images/common/selectArrow.png) 95% center no-repeat !important;
 }

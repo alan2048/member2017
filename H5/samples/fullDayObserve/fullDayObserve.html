@@ -11,9 +11,10 @@
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll.css" />
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_time.css" />
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_android.css" />
-	<link rel="stylesheet" href="./css/fullDayObserve.css?t=20180906" />
+	<link rel="stylesheet" href="./css/fullDayObserve.css?t=20180920" />
 </head>
 <body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<div id="app">
 		<section id="section01" class="box-content current">
 			<div class="container">
@@ -29,7 +30,7 @@
 							<div class="infoBtn"><span></span>观察日期：{{value.observationDate}}</div>
 							<div class="infoBtn"><span></span>晨检情况：{{value.morningAnomaly}}</div>
 							<div class="infoBtn"><span></span>全日观察情况{{value.analysis}}</div>
-							<div class="infoBtn">
+							<div class="infoBtn diff">
 								<div>上午观察情况：{{value.amAnomaly}}</div>
 								<div>下午观察情况：{{value.pmAnomaly}}</div>
 							</div>
@@ -143,7 +144,7 @@
 	<script src="./js/mobiscrollTime/js/mobiscroll.js"></script>
 	<script src="./js/mobiscrollTime/js/mobiscroll_default.js"></script>
 	<script src="js/template.js"></script> 
-	<script src="./js/base.js?t=20180906"></script>
-	<script src="./js/fullDayObserve.js?t=20180907"></script>
+	<script src="./js/base.js?t=20181016"></script>
+	<script src="./js/fullDayObserve.js?t=20181016"></script>
 </body>
 </html>

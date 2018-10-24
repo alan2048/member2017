@@ -13,9 +13,10 @@
 	<link rel="stylesheet" href="./js/mobiscrollTime/css/mobiscroll_android.css" />
 	<link href="./js/photoswipe/default-skin/default-skin.css" rel="stylesheet">
 	<link href="./js/photoswipe/photoswipe_define.css" rel="stylesheet">
-	<link rel="stylesheet" href="./css/medicineManage.css?t=20180906" />
+	<link rel="stylesheet" href="./css/medicineManage.css?t=20180919" />
 </head>
 <body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<div id="app">
 		<section id="section01" class="box-content current">
 			<div class="container">
@@ -90,8 +91,12 @@
 						</span>
 					</div>
 					<div class="curTimeInput">
+						<span>家长提醒时间</span>
+						<span class="fr"><input type="text" value="{{parentRemindDate}}" readonly="readonly" id="mobiscrollBtn01" class="mobiscrollBtn" {{if editing == 0}}disabled="disabled"{{/if}}></span>
+					</div>
+					<div class="curTimeInput">
 						<span>实际服药时间</span>
-						<span class="fr"><input type="text" value="{{takeMedicineDate}}" readonly="readonly" id="mobiscrollBtn" {{if editing == 0}}disabled="disabled"{{/if}} {{if typeId == 20}}disabled="disabled"{{/if}}></span>
+						<span class="fr"><input type="text" value="{{takeMedicineDate}}" readonly="readonly" id="mobiscrollBtn" class="mobiscrollBtn" {{if editing == 0}}disabled="disabled"{{/if}} {{if typeId == 20}}disabled="disabled"{{/if}}></span>
 					</div>
       			</div>
       			<div class="morning">
@@ -236,7 +241,7 @@
     <script src="./js/plupload/qiniu.js" ></script><!-- 上传插件 --> 
     <script src="./js/photoswipe/photoswipe.js"></script>
     <script src="./js/photoswipe/photoswipe-ui-default.js"></script>
-	<script src="./js/base.js?t=20180906"></script>
-	<script src="./js/medicineManage.js?t=20180907"></script>
+	<script src="./js/base.js?t=20181016"></script>
+	<script src="./js/medicineManage.js?t=20181016"></script>
 </body>
 </html>

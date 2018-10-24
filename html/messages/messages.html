@@ -15,7 +15,7 @@
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/messages/messages.css?t=2017090120" rel="stylesheet" type="text/css" />
+	<link href="../../css/messages/messages.css?t=20181018" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -101,7 +101,7 @@
 	    </div> 
 
         <div id="content01" class="content hide">
-            <div class="pageTitle detail">餐点介绍 <small>新增</small></div>
+            <div class="pageTitle detail"> <small>新增</small></div>
             <div class="newBox">
                 <span class="closeBtn"></span>
                 <ul>
@@ -155,7 +155,7 @@
                             内容：
                         </span>
                         <span class="col02">
-                            <textarea name="input" placeholder="请在此输入内容" id="newContent" maxlength="1000"></textarea>
+                            <textarea name="input" placeholder="请在此输入内容" id="newContent" maxlength="1000" class="textarea01"></textarea>
                             <span class="newNumBtn"><span>0</span>/1000</span>
                         </span>
                     </li>
@@ -171,7 +171,7 @@
         </div>
 
         <div id="content02" class="content hide">
-            <div class="pageTitle">餐点介绍 <small>详情</small></div>
+            <div class="pageTitle"> <small>详情</small></div>
             <div>
                 <a href="#" class="backBtn tip defaultBtn"><span>返回上级</span></a>
             </div>
@@ -184,10 +184,10 @@
                     <div>{{if voice}}<audio controls="controls" src="{{path_img}}{{voice}}"></audio>{{/if}}</div>
                     <div>
                         {{each pictures as value i}}
-                        <img src="{{path_img}}{{value}}-scale600" alt="">
+                        <img src="{{path_img}}{{value}}" alt="">
                         {{/each}}
                     </div>
-                    <div>{{content}}</div>
+                    <div><textarea disabled="disabled" class="autoTextarea">{{content}}</textarea></div>
                 </script>
             </div>
         </div> 
@@ -308,7 +308,7 @@
     <script src="../../js/common/plupload/qiniu.js" ></script>
     <script src="../../js/common/modal.js"></script>
 
-	<script src="../../js/common/base.js?t=20180427"></script>
-	<script src="../../js/messages/messages.js?t=20180427"></script>
+	<script src="../../js/common/base.js?t=20181018"></script>
+	<script src="../../js/messages/messages.js?t=20181018"></script>
 </body>
 </html>

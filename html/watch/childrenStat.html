@@ -92,7 +92,26 @@
                 <div class="searchBox">
                     <div id="searchBox01"></div>
                     <div>
-                        <div class="timeBox">
+                        <div class="analysisBox">
+                            <div class="analysisTitle"><span></span>综合分析</div>
+                            <div class="analysisBody"></div>
+                            <script type="text/html" id="advice_script">
+                                {{if highPoint}}
+                                <div>
+                                    <div class="title01"><i></i>综合概述:</div>
+                                    <div class="detailBox">
+                                        <div>老师，您好！</div>
+                                        <div>截止至<span class="green">{{curTime}}</span>的雷达图可看出，<span class="green">{{childName}}</span>小朋友入园以来的优势在<span class="green">{{highPoint}}</span>领域，需在<span class="green">{{lowPoint}}</span>域继续加油哦～ </div>
+                                    </div>
+                                </div>
+                                {{/if}}
+                                <div>
+                                    <div class="title01"><i></i>教育建议:</div>
+                                    <textarea name="" id="" class="detailBox" disabled="disabled">{{advice}}</textarea>
+                                </div>
+                            </script>
+                        </div>
+                        <div class="timeBox diff">
                             <div>自定义时间</div>
                             <div>
                                 <span>日期1：</span>
@@ -106,12 +125,12 @@
                                 <span>日期3：</span>
                                 <input type="text" placeholder="单击此处选择日期" readonly="true" class="timeTool" data-type="1">
                             </div>
-                            <div><span class="resetBtn">重置</span></div>
                             <div>
                                 <label>
                                     <input type="checkbox" data-type="1">
                                     <span>启用</span>
                                 </label>
+                                <span class="resetBtn">重置</span>
                             </div>
                         </div>
                     </div>

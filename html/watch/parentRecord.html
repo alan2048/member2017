@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>家长记录</title>
+	<meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+	<link rel="shortcut icon" href="../../images/favicon.png">
+
+	<link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet" />
+    <link href="../../css/common/sweetalert.css" rel="stylesheet" />
+	<link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="../../js/common/videojs/video-js.min.css" rel="stylesheet">
+
+	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/watch/parentRecord.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="page-container" class="">
+		<div id="sidebar" class="sidebar">
+			<div id="sidebarBox">
+				<div id="user">
+					<div class="userPic"><a href="../../index.html">退出登录</a></div>
+					<div class="userName"></div>
+					<div class="userRole"></div>
+				</div>
+				<div id="home"> 
+					<a class="homePic" href="../../menu.html">主页</a>
+				</div>
+				<ul id="subMenu"></ul>
+				<script id="menu_script" type="text/html">
+					{{each arr as value i}}
+					<li class="has-list">
+						<a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+					</li>
+					{{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #f3b369;}
+                    {{/each}}
+                    </style>
+				</script>
+			</div>
+			<div id="switch" class=""><span></span></div>
+		</div>
+
+		<div id="content" class="content">
+			<div class="pageTitle">家长记录</div>
+			<div id="search">
+                <label>
+                    年份：
+                    <select id="year01"></select>
+                    <script id="year_script" type="text/html">
+                        <option value="" selected="selected">所有年份</option>
+                        {{each arr as value i}}
+                        <option value="{{value}}">{{value}}年</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    月份：
+                    <select id="month01">
+                    </select>
+                    <script type="text/html" id="month_script">
+                        {{each month as value i}}
+                        <option value="{{value}}">{{value}}月</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    班级：
+                    <select id="teacherClass"></select>
+                    <script id="teacherClass_script" type="text/html">
+                        {{each arr as value i}}
+                        <option value="{{value.classUuid}}">{{value.className}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    领域：
+                    <select id="field"></select>
+                    <script type="text/html" id="field_script">
+                        {{each arr as value i}}
+                        <option value="{{value.dim0ID}}" data-id="{{value.dim0ID}}" {{if value.dim0ID=="all"}}selected='selected'{{/if}}>{{value.dim0Name}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    观察维度：
+                    <select id="coursesDim"></select>
+                    <script type="text/html" id="coursesDim_script">
+                        {{each arr as value i}}
+                        <option value="{{value.dim3ID}}" data-id="{{value.dim3ID}}" {{if value.dim3ID=="all"}}selected='selected'{{/if}}>{{value.dim3Name}}</option>
+                        {{/each}}
+                    </script>
+                </label>
+                <label>
+                    <span id="searchBtn">查询</span>
+                </label>
+			</div>
+			<div id="buttonBox">
+                <script type="text/html" id="buttonBox_script">
+                {{each arr as value  i}}
+                    <a href="javascript:void(0);" id="{{value.buttonCode}}" class="defaultBtn"><span>{{value.name}}</span></a>
+                {{/each}}
+                </script>
+			</div>
+
+
+
+
+			<div id="main">
+				<ul id="members"></ul>
+                <script type="text/html" id="members_script">
+                    {{each data as value i}}
+                    <li>
+                        <a class="membersBg" data-username="{{value.childName}}" data-useruuid="{{value.childUUID}}" style="background-image: url({{value.portrait}});" href="#modal-dialog-qunzu" data-toggle="modal001">
+                            <div>
+                                <span class="icon01">{{value.count}}</span>
+                            </div>
+                        </a>
+                        <div class="membersTitle"><span data-useruuid="{{value.childUUID}}" class="unchecked">{{value.childName}}</span></div>
+                    </li>
+                    {{/each}}
+                </script>
+			</div>
+	    </div>
+
+        <div id="content01" class="content hide">
+            <div class="pageTitle"></div>
+            <div>
+                <a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a>
+            </div>
+            <div>
+                <h1 class="page-header" id="page-header"></h1>
+                <script id="page-header_script" type="text/html">
+                    <span>关联课程：{{courses}}</span>
+                    <span>关联指标：{{coursesDim}}</span>
+                    <span>{{year}}</span>
+                    <span>{{month}}</span>
+                </script>
+                <span id="analyse" class="analyse">查看综合分析图</span>
+            </div>
+            <div class="panel panel-inverse" style="text-align: center;">
+                <div class="email-content" id="email-content"></div>
+                <script type="text/html" id="table-email">
+                    <table class="table table-email">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;width: 15%;">序号</th>
+                                <th style="text-align: center;width: 20%;">记录时间</th>
+                                <th style="text-align: center;width: 25%;">观察人</th>
+                                <th style="text-align: center;width: 20%;">观察维度</th>
+                                <th style="text-align: center;width: 20%;">评价状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{each resultList as item i}}
+                            <tr data-id="{{item.recordUUID}}">
+                                <td class="email-sender">{{i+1}}</td>
+                                <td class="email-sender">{{item.createDate}}</td>
+                                <td class="email-sender">{{item.creatorCall}}</td>
+                                <td class="email-sender">{{item.dimName}}</td>
+                                <td class="email-sender">{{item.levelName}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </script>
+                <ul id="pagination"></ul>
+            </div>
+        </div>
+
+        <div id="content02" class="content hide">
+            <div class="pageTitle"><span></span><small>新增</small></div>
+            <div>
+                <a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a>
+            </div>
+            <div class="panel-inverse" style="margin-top: 0.2rem;">
+                <div class="panel-body" id="evaluation"></div>
+                <script type="text/html" id="evaluation_script">
+                    <div class="col-md-12">
+                        <div class="panelBox editLevel">
+                            <span>记录时间：{{createDate}}</span>
+                            <span>观察维度： <span class="subTitle">{{dimName}}</span></span>
+                            <span>观察人：{{creatorCall}}</span>
+                        </div>
+                        
+                        {{if isEmpty}}
+                        <div class="panelBox">
+                            <h4 class="title">记录信息- <span class="subTitle">{{dimName}}</span></h4>
+                            {{if comment.length !=0}}
+                            <div>
+                                <span class="col01 middle">文字：</span>
+                                <span class="col02">
+                                    <textarea id="comment" class="form-control validate {{if commentNum>1000}}max{{/if}}" placeholder="请输入文字记录..." rows="5" maxlength="1000">{{comment}}</textarea>
+                                    <div class="maxNum"><span class="{{if commentNum>1000}}max{{/if}}">{{commentNum}}</span>/1000</div>
+                                </span>
+                            </div>
+                            {{/if}}
+                            {{if picList.length !=0}}
+                            <div>
+                                <span class="col01">图片：</span>
+                                <span class="col02">
+                                    <ul id="carousel">
+                                        {{each picList as value i}}
+                                        <li data-pic="{{value}}" class="picItem">
+                                            <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                                <img src="{{path_img}}{{value}}-scale200">
+                                                <span class="deleteBtn"></span>
+                                            </a>
+                                        </li>
+                                        {{/each}}
+                                        <li class="addPicBox">
+                                            <a href="#" id="addPicBtn"></a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+                            {{/if}}
+                            
+                            {{if videoList.length !=0}}
+                            <div>
+                                <span class="col01">短视频：</span>
+                                <span class="col02">
+                                    <ul class="voiceList"> 
+                                        {{each videoList as value i}}
+                                        <li>
+                                            <a href="#modal-dialog-video" data-toggle="modal" data-src="{{path_img}}{{value}}" class="pic" data-pic="{{value}}">
+                                                <img src='../../images/watch/play.png' class='mascot'>
+                                                <span class="deleteBtn"></span>
+                                            </a>
+                                        </li>
+                                        {{/each}}
+                                        <li class="addPicBox">
+                                            <a href="#" id="addPicBtn02"></a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+                            {{/if}}
+                        </div>
+                        {{/if}}
+
+                        <div class="panelBox isMySelf02">
+                            <h4 class="title">发展水平 - <span class="subTitle">{{dimName}}</span></h4>
+                            <div>
+                                <span id="curLevel">{{state}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            </div> 
+        </div>
+
+        <div id="content03" class="content hide">
+            <div class="pageTitle"><span></span><small>综合分析</small></div>
+            <div>
+                <a href="javascript:void(0);" class="backBtn tip defaultBtn"><span>返回上级</span></a>
+            </div>
+            <div class="panel-inverse" style="margin-top: 0.2rem;">
+                <div id="searchBox01"></div>
+                <div id="advice" class="advice"></div>
+                <script type="text/html" id="advice_script">
+                    {{if highPoint}}
+                    <div>
+                        <div class="title01"><i></i>综合概述:</div>
+                        <div class="detailBox">
+                            <div>亲爱的家长，您好！</div>
+                            <div>由以上雷达图可看出，您的孩子<span class="green">{{childName}}</span>的优势在<span class="green">{{highPoint}}</span>领域，需在<span class="green">{{lowPoint}}</span>域继续加油哦～ </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if false}}
+                    <div>
+                        <div class="title01"><i></i>评测相似度(与教师对比)：<span class="green">66%</span></div>
+                    </div>
+                    {{/if}}
+                    <div>
+                        <div class="title01"><i></i>教育建议:</div>
+                        {{each advice as value i}}
+                        <div class="detailBox"><textarea disabled="disabled">{{value}}</textarea></div>
+                        {{/each}}
+                    </div>
+                </script>
+            </div> 
+        </div>
+
+	</div>
+
+    <div class="modal fade" id="modal-dialog-img" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <span class="prevBtn"></span>
+                <div id="carousel_img"></div>
+                <span class="nextBtn"></span>
+            </div>
+        </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+        <span class="deleteBtn01 hide"></span>
+    </div>
+
+    <div class="modal fade" id="modal-dialog-video" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="video_img">
+                    <video id="my-player" class="video-js" controls preload="auto" poster="#" data-setup='{}'>
+                    </video>
+                </div>
+            </div>
+        </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+    </div>
+
+	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
+	<script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/common/sweetalert.min.js"></script>
+    <script src="../../js/common/simplePagination.js" ></script>
+    <script src="../../js/common/modal.js"></script>
+    <script src="../../js/common/videojs/video.min.js" ></script>
+    <script src="../../js/common/echarts/echarts.min.js"></script>
+
+	<script src="../../js/common/base.js?t=20180427"></script>
+	<script src="../../js/watch/parentRecord.js?t=20180427"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>综合分析</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png" />
+	<link rel="stylesheet" href="./css/radarAnalyse.css?t=20181018" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="app">
+		<section id="section01" class="box-content current">
+			<div class="container">
+				<div id="searchBox01"></div>
+				<div id="advice" class="advice"></div>
+				<script type="text/html" id="advice_script">
+					{{if highPoint}}
+					<div>
+						<div class="title"><i></i>综合概述:</div>
+						<div class="content">
+							<div>亲爱的家长，您好！</div>
+							<div>由以上雷达图可看出，您的孩子<span class="green">{{childName}}</span>的优势在<span class="green">{{highPoint}}</span>领域，需在<span class="green">{{lowPoint}}</span>域继续加油哦～ </div>
+						</div>
+					</div>
+					{{/if}}
+					{{if false}}
+					<div>
+						<div class="title"><i></i>评测相似度(与教师对比)：<span class="green">66%</span></div>
+					</div>
+					{{/if}}
+ 					<div>
+						<div class="title"><i></i>教育建议:</div>
+						{{each advice as value i}}
+						<div class="content"><textarea disabled="disabled">{{value}}</textarea></div>
+						{{/each}}
+					</div>
+				</script>
+			</div> 
+		</section>
+	</div>
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="./js/echarts.min.js"></script>
+	<script src="js/template.js"></script> 
+	<script src="./js/base.js?t=20181018"></script>
+	<script src="./js/radarAnalyse.js?t=20181018"></script>
+</body>
+</html>

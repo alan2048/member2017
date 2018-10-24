@@ -91,3 +91,11 @@ table {
 #searchBox04{
 	height: 6rem;
 }
+
+.hoverBtn {
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 10px;
+	width: 9px;
+	height: 9px;
+}

@@ -1,11 +1,11 @@
-httpUrl.addIndividualCase=path+"/app/heath/addIndividualCase";//新增个案
-httpUrl.updateIndividualCase=path+"/app/heath/updateIndividualCase";//编辑个案
-httpUrl.deleteIndividualCase=path+"/app/heath/deleteIndividualCase";//删除个案
-httpUrl.individualCaseDetail=path+"/app/heath/individualCaseDetail";//获取个案详情列表
-httpUrl.individualCaseList=path+"/app/heath/individualCaseList";//获取个案记录列表
-httpUrl.heathExamList=path+"/app/heath/student/heathExamList";//获取某个学生的体检列表
+httpUrl.addIndividualCase=path+"/app/health/addIndividualCase";//新增个案
+httpUrl.updateIndividualCase=path+"/app/health/updateIndividualCase";//编辑个案
+httpUrl.deleteIndividualCase=path+"/app/health/deleteIndividualCase";//删除个案
+httpUrl.individualCaseDetail=path+"/app/health/individualCaseDetail";//获取个案详情列表
+httpUrl.individualCaseList=path+"/app/health/individualCaseList";//获取个案记录列表
+httpUrl.heathExamList=path+"/app/health/student/heathExamList";//获取某个学生的体检列表
 httpUrl.classList=path+"/app/basic/myClassInfo"; // 获取当前人所在班级
-httpUrl.basicStudent=path+"/app/heath/caseStudentList",// 获取当前班级学生列表
+httpUrl.basicStudent=path+"/app/health/caseStudentList",// 获取当前班级学生列表
 
 winResize();
 $(function () {
@@ -14,6 +14,12 @@ $(function () {
     section01Fn();
     sectionNewFn();
     sectionUpdateFn();
+
+    $("body").on("focus","textarea",function () {
+        $(".backBar").css("position","absolute"); 
+    }).on("blur","textarea",function () {
+        $(".backBar").css("position","fixed"); 
+    });
 }); 
 
 // 查看
@@ -167,7 +173,8 @@ function IndividualCaseList_port() {
     initAjax(httpUrl.individualCaseList,param,IndividualCaseList_callback);
 };
 function IndividualCaseList_callback(res) {
-    if(res.code==200){	
+    if(res.code==200){
+        $("#page-loader").removeClass("in");	
         var data=JSON.parse(res.data);
 
         if(data.length >0){
@@ -176,8 +183,10 @@ function IndividualCaseList_callback(res) {
                 data[i].photo=httpUrl.path_img+data[i].studentPhoto+"-scale400";
             };
             var html=template("listBox_script",{arr:data});
+            $("#section01").removeClass("empty");
             $(".listBox").empty().append(html);
         }else{
+            $(".listBox").empty();
             $("#section01").addClass("empty");
         };
 
@@ -216,7 +225,7 @@ function individualCaseDetail_callback(res,editing) {
         var html=template("updateExam_script",data);
         $("#updateExamBox").empty().append(html);
 
-        $(".updateDate >div").width(2.7*(data.caseStageVOList.length+1)+"rem");
+        $(".updateDate >div").width(2.8*(data.caseStageVOList.length+1)+"rem");
         $("section").removeClass("current");
         $("#section05").addClass("current");
 
@@ -288,7 +297,9 @@ function deleteIndividualCase_callback(res) {
             overlayShow:false,
             position:"bottom"
         });
-    }
+
+        IndividualCaseList_port();
+    };
 };
 
 // 编辑个案
@@ -367,7 +378,7 @@ function heathExamList_callback(res,studentUUID) {
                 data[i].studentUUID=studentUUID;
                 data[i].json=JSON.stringify(data[i]);
             };
-            console.log(data);
+            
             var html=template("heathExam_script",{arr:data});
             $("#heathExam").empty().append(html);
 
@@ -377,7 +388,7 @@ function heathExamList_callback(res,studentUUID) {
             $(document).dialog({
                 type:"notice",
                 infoText:"此学生暂无体检日期，请先在电脑端萌宝家园新建",
-                autoClose: 4000,
+                autoClose: 2500,
                 position:"bottom"
             });
         };

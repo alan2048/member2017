@@ -1007,6 +1007,7 @@ textarea.form-control {
 	padding-left: 0.3rem;
 	cursor: pointer;
 	background: url(../../images/activity/choose01.png) 0 center no-repeat;
+	min-width: 1rem;
 }
 .child:hover{
 	color:#5cdfe2;

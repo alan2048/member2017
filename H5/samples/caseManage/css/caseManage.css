@@ -85,6 +85,7 @@ body{
 }
 .box-content.current{
 	display: block;
+	position: relative;
 }
 
 body,#app{
@@ -111,9 +112,9 @@ section {
 	position: relative;
 	box-shadow: 0 0 0.1rem #ccc;
 	border-radius: 0.06rem;
-	height: 5.8rem;
 	padding: 0 0.4rem;
 	cursor: pointer;
+	padding-bottom: 1rem;
 }
 .caseBox:first-of-type{
 	margin-top: 0.8rem;
@@ -192,7 +193,7 @@ section {
 .btnBox{
 	text-align: right;
 	position: absolute;
-	bottom: 0.4rem;
+	bottom: 0.3rem;
 	left: 0;
 	width: 100%;
 }
@@ -290,6 +291,7 @@ section {
 	background-color: #f7faf9;
 	bottom: 0;
 	left: 0;
+	z-index: 100;
 }
 .backBar >div{
 	width: 50%;
@@ -528,4 +530,83 @@ body{
 }
 .android-ics.light .dww .dw-li.dw-sel{
 	color: #5cdfe2;
+}
+
+
+
+/*loading start*/
+#page-loader {
+    
+}
+#page-loader.fade {
+    display:none
+}
+#page-loader.fade.in {
+    display:block;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background:#E6E8EC;
+    z-index: 10000;
+}
+@-webkit-keyframes rotation {
+from {
+-webkit-transform:rotate(0deg)
+}
+to {
+    -webkit-transform:rotate(359deg)
+}
+}
+@-moz-keyframes rotation {
+from {
+-moz-transform:rotate(0deg)
+}
+to {
+    -moz-transform:rotate(359deg)
+}
+}
+@-o-keyframes rotation {
+from {
+-o-transform:rotate(0deg)
+}
+to {
+    -o-transform:rotate(359deg)
+}
+}
+@keyframes rotation {
+from {
+transform:rotate(0deg)
+}
+to {
+    transform:rotate(359deg)
+}
+}
+.spinner, .spinner-small {
+    height:40px;
+    width:40px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-20px -20px 0 -20px;
+    border:2px solid #fff;
+    border-top:2px solid #24B498;
+    border-radius:100%
+}
+.fade.in .spinner, .fade.in .spinner-small {
+-webkit-animation:rotation .6s infinite linear;
+-moz-animation:rotation .6s infinite linear;
+-o-animation:rotation .6s infinite linear;
+animation:rotation .6s infinite linear
+}
+.spinner-small {
+    border:2px solid rgba(0, 0, 0, .05);
+    border-top:2px solid #24B498;
+    height:30px;
+    width:30px;
+    margin:-15px -15px 0 0
+}
+.hide {
+    display: none !important;
 }

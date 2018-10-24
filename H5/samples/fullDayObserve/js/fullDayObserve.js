@@ -1,15 +1,21 @@
-httpUrl.addOrUpdateDailyObservation=path+"/app/heath/addOrUpdateDailyObservation";//新增 编辑 全日观察
-httpUrl.deleteDailyObservation=path+"/app/heath/deleteDailyObservation";//删除全日观察
-httpUrl.dailyObservationDetail=path+"/app/heath/dailyObservationDetail";//获取全日观察详情列表
-httpUrl.dailyObservationList=path+"/app/heath/dailyObservationList";//获取全日观察记录列表
+httpUrl.addOrUpdateDailyObservation=path+"/app/health/addOrUpdateDailyObservation";//新增 编辑 全日观察
+httpUrl.deleteDailyObservation=path+"/app/health/deleteDailyObservation";//删除全日观察
+httpUrl.dailyObservationDetail=path+"/app/health/dailyObservationDetail";//获取全日观察详情列表
+httpUrl.dailyObservationList=path+"/app/health/dailyObservationList";//获取全日观察记录列表
 httpUrl.classList=path+"/app/basic/myClassInfo"; // 获取当前人所在班级
 httpUrl.basicStudent=path+"/common/basic/class/student",// 获取当前班级学生列表
-httpUrl.roleOfUser=path+"/app/heath/roleOfUser",// 获取当前用户角色
+httpUrl.roleOfUser=path+"/app/health/roleOfUser",// 获取当前用户角色
 winResize();
 $(function () {
 	dailyObservationList_port();
 
     section01Fn();
+
+    $("body").on("focus","textarea",function () {
+        $(".backBar").css("position","absolute"); 
+    }).on("blur","textarea",function () {
+        $(".backBar").css("position","fixed"); 
+    });
 }); 
 
 // 查看
@@ -152,7 +158,7 @@ function dailyObservationList_port() {
 function dailyObservationList_callback(res) {
     if(res.code==200){	
         var data=JSON.parse(res.data);
-
+        $("#page-loader").removeClass("in");
         if(data.length >0){
             for(var i=0;i<data.length;i++){
                 data[i].createDate=new Date(data[i].createTime*1000).Format("yyyy-MM-dd hh:mm");
@@ -226,7 +232,7 @@ function addOrUpdateDailyObservation_port() {
             observationTime: function () {
                     var time="";
                     if($("#mobiscrollBtn").val()){
-                        time=new Date($("#mobiscrollBtn").val()).getTime()/1000
+                        time=new Date($("#mobiscrollBtn").val().replace(/-/g,'/')).getTime()/1000
                     };
                     return time;
             }(),
@@ -331,7 +337,7 @@ function getClassStudentInfo_callback(res,tabIndex) {
         for(var i=0;i<data.length;i++){
             data[i].photo=httpUrl.path_img+data[i].studentPhoto+"-scale400"
         };
-        console.log(data);
+        
         var html=template("students_script",{arr:data});
         $("#students").empty().append(html);
     }else{

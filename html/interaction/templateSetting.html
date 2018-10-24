@@ -67,7 +67,7 @@
                     {{each arr as value i}}
                     <li>
                         <div class="yearBg" style="background-image: url({{path_img}}{{value.picture}}-scale400);">
-                            {{if value.id ==0}}
+                            {{if value.pageId ==0}}
                             <span class="addBtn" data-id="{{value.id}}" data-month="{{value.month}}"><i></i><div>添加模板</div></span>
                             {{else}}
                             <span class="editBtn" data-id="{{value.id}}" data-month="{{value.month}}" data-pageid="{{value.pageId}}">编辑</span>

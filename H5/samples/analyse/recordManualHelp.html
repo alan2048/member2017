@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>观察记录手册</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png" />
+	<style>
+		body{
+			margin: 0;
+		}
+		img{
+			width: 100%;
+		}
+		/*loading start*/
+		#page-loader {
+    
+		}
+		#page-loader.fade {
+    		display:none
+		}
+		#page-loader.fade.in {
+		    display:block;
+		    position:fixed;
+		    top:0;
+		    left:0;
+		    bottom:0;
+		    right:0;
+		    background-color:rgba(230,232,236,0.5);
+		    z-index: 10000;
+		}
+		@-webkit-keyframes rotation {
+		from {
+		-webkit-transform:rotate(0deg)
+		}
+		to {
+		    -webkit-transform:rotate(359deg)
+		}
+		}
+		@-moz-keyframes rotation {
+		from {
+		-moz-transform:rotate(0deg)
+		}
+		to {
+		    -moz-transform:rotate(359deg)
+		}
+		}
+		@-o-keyframes rotation {
+		from {
+		-o-transform:rotate(0deg)
+		}
+		to {
+		    -o-transform:rotate(359deg)
+		}
+		}
+		@keyframes rotation {
+		from {
+		transform:rotate(0deg)
+		}
+		to {
+		    transform:rotate(359deg)
+		}
+		}
+		.spinner, .spinner-small {
+		    height:40px;
+		    width:40px;
+		    position:absolute;
+		    top:50%;
+		    left:50%;
+		    margin:-20px -20px 0 -20px;
+		    border:2px solid #fff;
+		    border-top:2px solid #24B498;
+		    border-radius:100%
+		}
+		.fade.in .spinner, .fade.in .spinner-small {
+		-webkit-animation:rotation .6s infinite linear;
+		-moz-animation:rotation .6s infinite linear;
+		-o-animation:rotation .6s infinite linear;
+		animation:rotation .6s infinite linear
+		}
+		.spinner-small {
+		    border:2px solid rgba(0, 0, 0, .05);
+		    border-top:2px solid #24B498;
+		    height:30px;
+		    width:30px;
+		    margin:-15px -15px 0 0
+		}
+		.hide {
+		    display: none !important;
+		}
+	</style>
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="app">
+		<section id="section01" class="box-content current">
+			<div class="container">
+				<img src="images/recordManualHelp.jpg" alt="" onload="imgLoad(event)">
+			</div> 
+		</section>
+	</div>
+	<script>
+		function imgLoad(e) {
+			document.getElementById("page-loader").classList.add("hide");
+		};
+	</script>
+</body>
+</html>

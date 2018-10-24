@@ -151,6 +151,14 @@ var httpUrl={
 		watchUpdate2:path+"/web/sample/student/record/update2",// 更新观察记录
 		watchSingle_detail:path+"/web/sample/student/record/single_detail",// 获取单项观察记录详情
 
+		// 家长记录
+		parentListField:path+"/web/sample/teacher/parent/listDim0",// 领域列表
+		parentListDim:path+"/web/sample/teacher/parent/listDim3",// 维度列表
+		parentListChildRecordCount:path+"/web/sample/teacher/parent/listChildRecordCount",// 家长记录幼儿列表
+		parentListChildRecord:path+"/web/sample/teacher/parent/listChildRecord",// 某幼儿的记录列表
+		parentSingle_detail:path+"/web/sample/teacher/parent/single_detail",// 单条详情
+		parentStat:path+"/web/sample/teacher/parent/stat",// 综合分析统计
+
 		// 观察计划
 		watchPlanList:path+"/web/sample/company/course/list",// 获取观察计划列表
 		watchPlanDetail:path+"/web/sample/company/course/detail",// 获取观察计划详情
@@ -224,6 +232,11 @@ var httpUrl={
 		attendExportSickLeaveExcel:"/web/attendance/exportSickLeaveExcel",// 病假事由统计导出
 		attendSickLeaveStat:path+"/web/attendance/teacher/sickLeaveStat",// 病假事由统计(新)
 
+		// 考勤卡管理
+		orangeCardRemove:path+"/web/basic/card/remove",// 删除卡片信息
+		orangeCardAddOrUpdate:path+"/web/basic/card/add",// 新增或编辑卡片信息
+		orangeStudentCardList:path+"/web/basic/card/list",// 获取卡片列表
+
 		// 公告
 		getMyClassInfo:path+"/web/basic/getMyClassInfo",// 获取我的班级信息
 		getMyClassInfoIncludeTeacherGroup:path+"/web/basic/getMyClassInfoIncludeTeacherGroup",// 获取我的班级信息（包括教师群）
@@ -270,6 +283,9 @@ var httpUrl={
 		healthDeleteHealthInfo:path+"/web/healthInfo/deleteHealthInfo",// 删除健康信息
 		healthImport:path+"/web/healthInfo/uploadExl",// 导入健康信息
 		healthExport:"/web/healthInfo/exportExcel",// 导出健康信息详情
+		exportMedicineRecord:"/web/health/exportMedicineRecord",// 导出服药记录
+		exportDailyObservation:"/web/health/exportDailyObservation",// 导出全日观察
+		exportIndividualCase:"/web/health/exportIndividualCase",// 导出个案管理
 
 		// 成长曲线
 		healthGraphWH:path+"/web/healthInfo/graphWH",// 按身高测体重(W/H)

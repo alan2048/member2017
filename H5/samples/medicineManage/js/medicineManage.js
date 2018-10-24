@@ -1,14 +1,20 @@
-httpUrl.addOrUpdateMedicineRecord=path+"/app/heath/addOrUpdateMedicineRecord";//新增 编辑 全日观察
-httpUrl.deleteMedicineRecord=path+"/app/heath/deleteMedicineRecord";//删除全日观察
-httpUrl.medicineRecordDetail=path+"/app/heath/medicineRecordDetail";//获取全日观察详情列表
-httpUrl.medicineRecordList=path+"/app/heath/medicineRecordList";//获取全日观察记录列表
+httpUrl.addOrUpdateMedicineRecord=path+"/app/health/addOrUpdateMedicineRecord";//新增 编辑 全日观察
+httpUrl.deleteMedicineRecord=path+"/app/health/deleteMedicineRecord";//删除全日观察
+httpUrl.medicineRecordDetail=path+"/app/health/medicineRecordDetail";//获取全日观察详情列表
+httpUrl.medicineRecordList=path+"/app/health/medicineRecordList";//获取全日观察记录列表
 httpUrl.classList=path+"/app/basic/myClassInfo"; // 获取当前人所在班级
 httpUrl.basicStudent=path+"/common/basic/class/student",// 获取当前班级学生列表
-httpUrl.roleOfUser=path+"/app/heath/roleOfUser",// 获取当前用户角色
+httpUrl.roleOfUser=path+"/app/health/roleOfUser",// 获取当前用户角色
 winResize();
 $(function () {
     roleOfUser_port();
     section01Fn();
+
+    $("body").on("focus","textarea",function () {
+        $(".backBar").css("position","absolute"); 
+    }).on("blur","textarea",function () {
+        $(".backBar").css("position","fixed"); 
+    });
 }); 
 
 // 查看
@@ -51,7 +57,6 @@ function section01Fn() {
                     typeId:user.type,
                     editing: 1
             };
-            console.log(data);
             
             data.takeMedicineDate="";
             data.photo=httpUrl.path_img+data.studentPhoto+"-scale400";
@@ -142,11 +147,7 @@ function section01Fn() {
     $("#section03").on("click",".backBar >div:first-of-type >span",function () {
         scroll2Top();
         $("section").removeClass("current");
-        if(user.type ==20){
-            $("#section01").addClass("current");
-        }else{
-            $("#section02").addClass("current");
-        };
+        $("#section01").addClass("current");
     });
 
     // 新增 修改 接口
@@ -211,6 +212,7 @@ function mobiscrollInit() {
 
     var optDateTime = $.extend(opt['datetime'], opt['default']);
     $("#mobiscrollBtn").mobiscroll(optDateTime).datetime(optDateTime);//年月日时分型
+    $("#mobiscrollBtn01").mobiscroll(optDateTime).datetime(optDateTime);//年月日时分型
 };
 
 function scroll2Top() {
@@ -230,8 +232,8 @@ function medicineRecordList_port() {
 function medicineRecordList_callback(res) {
     if(res.code==200){	
         var data=JSON.parse(res.data);
-
         console.log(data);
+
         if(data.length >0){
             for(var i=0;i<data.length;i++){
                 data[i].createDate=new Date(data[i].createTime*1000).Format("yyyy-MM-dd hh:mm");
@@ -272,10 +274,16 @@ function medicineRecordDetail_port(uuid,editing) {
 function medicineRecordDetail_callback(res,editing) {
     if(res.code==200){  
         var data=JSON.parse(res.data);
+        
         if(data.takeMedicineTime){
             data.takeMedicineDate=new Date(data.takeMedicineTime*1000).Format("yyyy-MM-dd hh:mm");
         }else{
             data.takeMedicineDate="";
+        };
+        if(data.parentRemindTime){
+            data.parentRemindDate=new Date(data.parentRemindTime*1000).Format("yyyy-MM-dd hh:mm");
+        }else{
+            data.parentRemindDate="";
         };
         
         data.photo=httpUrl.path_img+data.studentPhoto+"-scale400";
@@ -300,6 +308,7 @@ function medicineRecordDetail_callback(res,editing) {
         $("section").removeClass("current");
         $("#section03").addClass("current");
 
+        scroll2Top();
         mobiscrollInit();
         if(data.editing ==1){
             loadFiles();
@@ -345,7 +354,14 @@ function addOrUpdateMedicineRecord_port() {
             takeMedicineTime: function () {
                     var time="";
                     if($("#mobiscrollBtn").val()){
-                        time=new Date($("#mobiscrollBtn").val()).getTime()/1000
+                        time=new Date($("#mobiscrollBtn").val().replace(/-/g,'/')).getTime()/1000
+                    };
+                    return time;
+            }(),
+            parentRemindTime: function () {
+                    var time="";
+                    if($("#mobiscrollBtn01").val()){
+                        time=new Date($("#mobiscrollBtn01").val().replace(/-/g,'/')).getTime()/1000
                     };
                     return time;
             }()
@@ -449,7 +465,7 @@ function getClassStudentInfo_callback(res,tabIndex) {
         for(var i=0;i<data.length;i++){
             data[i].photo=httpUrl.path_img+data[i].studentPhoto+"-scale400"
         };
-        console.log(data);
+        
         var html=template("students_script",{arr:data});
         $("#students").empty().append(html);
     }else{
@@ -471,6 +487,7 @@ function roleOfUser_port() {
 function roleOfUser_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        $("#page-loader").removeClass("in");
         user.type=data.type;
         user.student=data.student;
 
@@ -564,7 +581,15 @@ function loadFiles() {
                         $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                        toastTip(errTip);
+                        if(err.code == -601){
+                            if(err.file.type=="video/mp4"){
+                                toastTip("暂不支持视频，请添加图片","",2500);
+                            }else{
+                                toastTip("暂只支持添加图片","",2500);
+                            };
+                        }else{
+                            toastTip(errTip);
+                        }
                     }
                 }
             });
@@ -619,19 +644,27 @@ function loadFiles() {
                         $(".qiniuBar").width(file.percent + "%");
                     },
                     'Error': function(up, err, errTip) {
-                        toastTip(errTip);
+                        if(err.code == -601){
+                            if(err.file.type=="video/mp4"){
+                                toastTip("暂不支持视频，请添加图片","",2500);
+                            }else{
+                                toastTip("暂只支持添加图片","",2500);
+                            };
+                        }else{
+                            toastTip(errTip);
+                        };
                     }
                 }
             });
     };
 };
 
-function toastTip(text,infoText,minite) {
+function toastTip(infoText,text,minite) {
     $(document).dialog({
         type:"notice",
-        text:text,
+        text:text || "",
         infoText:infoText,
-        autoClose: minite,
+        autoClose: minite || 1000,
         overlayShow:false,
         position:"bottom"
     });
