@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>教师考勤</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta name="format-detection" content="telephone=no" /> 
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link rel="shortcut icon" href="./images/favicon.png" />
+	<link rel="stylesheet" href="./js/dialog/dialog.css" />
+	<link href="./js/photoswipe/default-skin/default-skin.css" rel="stylesheet" />
+	<link href="./js/photoswipe/photoswipe_define.css?t=20181025" rel="stylesheet" />
+	<link href="./js/calendar/calendar.css" rel="stylesheet" />
+
+	<link rel="stylesheet" type="text/css" href="./js/mui/mui.min.css" />
+	<link rel="stylesheet" type="text/css" href="./js/mui/mui.picker.min.css" />
+
+	<link rel="stylesheet" href="./font/iconfont.css?t=20181025" />
+	<link rel="stylesheet" href="./css/attendanceSir.css?t=20181025" />
+</head>
+<body>
+	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
+	<div id="app">
+		<section id="section01" class="box-content current">
+			<div class="tabHeader">
+				<div class="active">我的</div>
+				<div>全园</div>
+			</div>
+			<div class="tabBody">
+				<div class="my active">
+					<div id="calendar" class="calendar"></div>
+					<div class="checkBox"></div>
+					<script id="checkBox_script" type="text/html">
+						<div class="checkTitle"><i>{{if isToday}}今{{else}}{{day}}{{/if}}</i>日打卡</div>
+						<div class="checkBody {{if tcheckList.length ==0}}empty{{/if}}">
+							{{each tcheckList as value i}}
+							<div class="pic" {{if value.cameraPhoto}}style="background: url({{path_img}}{{value.cameraPhoto}}-scale200) center center no-repeat;"{{/if}} data-pic="{{value.cameraPhoto}}">
+								<span>{{value.checkingTime}}</span>
+							</div>
+							{{/each}}
+						</div>
+					</script>
+					<div class="leaveBox"></div>
+					<script id="leaveBox_script" type="text/html">
+						{{if tleaveList.length !=0}}
+							<div class="leaveTitle"><i>{{if isToday}}今{{else}}{{day}}{{/if}}</i>日请假</div>
+							{{each tleaveList as value i}}
+							<div class="attendBox">
+	                            <div>
+	                                <span>请假时间：</span>
+	                                <span>{{value.startToEnd}}</span>
+	                            </div>
+	                            <div>
+	                                <span>请假时长：</span>
+	                                <span>{{value.duration}}</span>
+	                            </div>
+	                            <div>
+	                                <span>请假类型：</span>
+	                                <span>{{value.leaveType}}</span>
+	                            </div>
+	                            <div>
+	                                <span>请假理由：</span>
+	                                <span>{{value.description}}</span>
+	                            </div>
+	                            <div>
+	                                <span>审批状态：</span>
+	                                <span class="{{if value.checkStatus ==1}}agree{{else}}disagree{{/if}}">{{value.checkContent}}</span>
+	                            </div>
+	                            <div>
+	                                <span>附件：{{if value.picList.length ==0}}暂无附件{{/if}}</span>
+	                                <div id="picBox">
+	                                    {{each value.picList as value01 j}}
+	                                    <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value01}}" class="pic" data-pic="{{value01}}">
+	                                        <img src="{{path_img}}{{value01}}-scale200">
+	                                    </a>
+	                                    {{/each}}
+	                                </div>
+	                            </div>
+	                        </div>
+	                        {{/each}}
+                        {{/if}}
+					</script>
+					<span id="addIcon"></span>
+				</div>
+				<div class="school">
+					<div>
+						<input type="text" value="" id="mobiscrollBtn01" class="mobiscrollBtn dwtd" readonly="readonly" />
+						<span></span>
+					</div>
+					<div class="schoolBox"></div>
+					<script id="schoolBox_script" type="text/html">
+						<div class="schoolNum">
+							<div>
+								<div>{{totalNum}}</div>
+								<div>全员</div>
+							</div>
+							<div>
+								<div>{{checkingNum}}</div>
+								<div>打卡</div>
+							</div>
+							<div>
+								<div>{{leaveNum}}</div>
+								<div>请假</div>
+							</div>
+						</div>
+						<div class="schoolDetail">
+							<div class="leaveBtn">请假列表</div>
+							<div class="approveBtn"><span>请假审批{{if unreadNum !=0}}<i>{{unreadNum}}</i>{{/if}}</span></div>
+							<div class="checkBtn">打卡记录</div>
+						</div>
+					</script>
+				</div>
+			</div>
+		</section>
+		<section id="leaveSection" class="box-content">
+			<div class="container">
+				<div id="leaveList" class="leaveList"></div>
+				<script id="leaveList_script" type="text/html">
+      				{{each arr as value i}}
+					<div class="leaveItem">
+						<div>
+							<span>{{if value.day <10}}0{{value.day}}日{{else}}{{value.day}}日{{/if}}</span>
+							{{value.leaveUserName}}<i class="{{value.leaveClass}}">{{value.leaveType}}</i>
+						</div>
+						<div>请假时间：<span>{{value.startToEnd}}</span></div>
+						<div>请假时长：<span>{{value.duration}}</span></div>
+					</div>	
+      				{{/each}}
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+			</div> 
+		</section>
+		<section id="approveSection" class="box-content">
+			<div class="container01">
+				<div id="approveList" class="approveList">
+					<div class="approveTab">
+						<div class="active" data-flag="0">未审批</div>
+						<div data-flag="1">已审批</div>
+					</div>
+					<div class="approveBody">
+						<div class="active"></div>
+						<div></div>
+					</div>
+				</div>
+				<script id="approveList_script" type="text/html">
+	      			{{each arr as value i}}
+	      			<div data-tleaveuuid="{{value.tLeaveUUID}}" class="approveLi">
+	      				<div class="approveTime"><span>{{value.applicantTime}}</span></div>
+						<div class="approveItem">
+							<div>{{value.leaveUserName}}</div>
+							<div>
+								请假时间：
+								<div>
+									{{each value.leaveDateArr as item j}}
+									<div class="{{if j >4}}hide{{/if}}">{{item}}</div>
+										{{if value.leaveDateArr.length >5}}
+											{{if j==4}}<span class="approveMore">展开更多</span>{{/if}}
+										{{/if}}
+									{{/each}}
+								</div>
+							</div>
+							<div>请假时长：<span>{{value.duration}}</span></div>
+							<div>请假类型：<span>{{value.leaveType}}</span></div>
+							<div>请假理由：<span>{{value.description}}</span></div>
+							<div>
+								<div>附件：{{if value.picList.length ==0}}<span>暂无附件</span>{{/if}}</div>
+		                        <div>
+		                            {{each value.picList as value01 j}}
+		                            <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value01}}" class="pic" data-pic="{{value01}}">
+		                                <img src="{{path_img}}{{value01}}-scale200">
+		                            </a>
+		                            {{/each}}
+		                        </div>
+		                    </div>
+		                    <div data-tleaveuuid="{{value.tLeaveUUID}}">	
+		                    	{{if value.checkStatus ==0}}
+		                    		<span class="approveRefuse" data-flag="2">拒绝</span>
+		                    		<span class="approveAgree" data-flag="1">同意</span>
+		                    	{{else}}
+		                    		<span class="approveDel">删除</span>
+		                    		<span class="approveGray">{{if value.checkStatus ==1}}已同意{{else}}已拒绝{{/if}}</span>
+		                    	{{/if}}
+		                    </div>
+						</div>
+					</div>	
+	      			{{/each}}
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+			</div> 
+		</section>
+		<section id="checkSection" class="box-content">
+			<div class="container">
+				<div id="checkList" class="checkList"></div>
+				<script id="checkList_script" type="text/html">
+      				{{each arr as value i}}
+					<div class="checkItem">
+						<div>
+							<span>{{if value.day <10}}0{{value.day}}日{{else}}{{value.day}}日{{/if}}</span>
+							{{value.userName}}<i data-useruuid="{{value.userUUID}}" data-name="{{value.userName}}" class="historyBtn">历史记录</i>
+						</div>
+						<div>打卡时间：{{if value.checkingTimeList.length ==0}}<span>未打卡</span>{{/if}}</div>
+						<div>
+							{{each value.checkingTimeList as item j}}
+							<div class="pic" {{if item.cameraPhoto}}style="background: url({{path_img}}{{item.cameraPhoto}}-scale200) center center no-repeat;"{{/if}} data-pic="{{item.cameraPhoto}}">
+								<span>{{item.checkingTime}}</span>
+							</div>
+							{{/each}}
+						</div>
+					</div>	
+      				{{/each}}
+      			</script>
+      			<div class="backBar">
+					<div><span></span></div>
+					<div><span></span></div>
+      			</div>
+			</div> 
+		</section>
+		<section id="historySection" class="box-content">
+			<div id="historyList" class="historyList"></div>
+			<script id="historyList_script" type="text/html">
+				<div class="historyTop"></div>
+				<div class="historyHide" data-uuid={{curUuid}} data-name={{curName}}></div>
+      			{{each arr as value i}}
+      			<div class="historyTitle" data-time="{{value.year}}{{value.month}}">{{value.year}}年{{value.month}}月</div>
+				<div class="historyItem">
+					<div>
+						<span>{{value.day}}日</span>{{curName}}
+					</div>
+					<div>打卡时间：</div>
+					<div>
+						{{each value.checkingTimeList as item j}}
+						<div class="pic" {{if item.cameraPhoto}}style="background: url({{path_img}}{{item.cameraPhoto}}-scale200) center center no-repeat;"{{/if}} data-pic="{{item.cameraPhoto}}">
+							<span>{{item.checkingTime}}</span>
+						</div>
+						{{/each}}
+					</div>
+				</div>	
+      			{{/each}}
+      		</script>
+      		<div class="backBar">
+				<div><span></span></div>
+				<div><span></span></div>
+      		</div>
+		</section>
+
+		<section id="addSection" class="box-content">
+			<div class="addBody">
+				<div class="leaveType">
+					<span>请假类型</span><i class="red">*</i>
+					<div class="leaveTypeBox fr">
+						<select name="" id="leaveType"></select>
+						<i class="arrow"></i>
+					</div>
+					<script id="leaveType_script" type="text/html">
+      					{{each arr as value i}}
+						<option value="{{value}}">{{value}}</option>
+      					{{/each}}
+      				</script>
+				</div>
+				<div class="leaveTime">
+					<div class="addTitle">
+						<span>请假时间</span><i class="red">*</i>
+					</div>
+					<ul class="leaveTimeBox"></ul>
+					<script id="leaveTimeBox_script" type="text/html">
+      					<li class="leavePart">
+							<div>
+								<div data-time="{{time}}" class="dateBtn">{{timeShow}}</div>
+								<div>
+									<span class="timeBtn timeBtn01">08:00</span>
+									<span class="timeIcon">至</span>
+									<span class="timeBtn timeBtn02">17:00</span>
+								</div>
+							</div>
+							<span class="leaveDelBtn"></span>
+      					</li>
+      				</script>
+					<div class="addTotal">请假时长 <span class="fr"><i class="addTotalIcon">9</i>小时</span></div>
+					<div class="addTool">添加日期<i>+</i></div>
+				</div>
+				<div class="leaveDesc">
+					<div class="addTitle">
+						<span class="titleIcon">请假理由</span><i class="red">*</i>
+						<span class="fr"><i class="descNum">0</i>/1000</span>
+					</div>
+					<div>
+						<textarea name="" id="description" maxlength="1000" placeholder="请填写请假理由..."></textarea>
+					</div>
+				</div>
+				<div class="leavePic">
+					<div class="addTitle">
+						<span>附件</span>
+					</div>
+					<ul id="carousel" class="carousel">
+                        <li class="addPicBox">
+                            <a href="#" id="addPicBtn"></a>
+                        </li>
+                    </ul>
+				</div>
+				<span class="saveBtn">保存</span>
+			</div>
+      		<div class="backBar">
+				<div><span></span></div>
+				<div><span></span></div>
+      		</div>
+		</section>
+	</div>
+
+	<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    	<div class="pswp__bg"></div>
+    	<div class="pswp__scroll-wrap">
+        	<div class="pswp__container">
+            	<div class="pswp__item"></div>
+            	<div class="pswp__item"></div>
+            	<div class="pswp__item"></div>
+       	    </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+	<script src="./js/dialog/dialog.min.js"></script>
+	<script src="./js/template.js"></script>
+	<script src="./js/plupload/plupload.full.min.js" ></script>
+    <script src="./js/plupload/qiniu.js" ></script><!-- 上传插件 --> 
+    <script src="./js/photoswipe/photoswipe.js"></script>
+
+    <script src="./js/photoswipe/photoswipe-ui-default.js"></script>
+	<script src="./js/calendar/calendar.js?t=20181222"></script>
+
+	<script src="./js/mui/mui.min.js"></script>
+	<script src="./js/mui/mui.picker.min.js"></script>
+
+	<script src="./js/base.js?t=20181205"></script>
+	<script src="./js/attendanceSir.js?t=20181222"></script>
+</body>
+</html>

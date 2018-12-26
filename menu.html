@@ -9,6 +9,7 @@
 	<meta name="author" content="上海紫越网络科技有限公司" />
 	<link rel="shortcut icon" href="./images/favicon.png">
 	<link href="./css/common/jquery.toast.min.css" rel="stylesheet">
+	<link href="./js/common/bootstrap4-1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="./css/common/base.css" rel="stylesheet" type="text/css" />
 	<link href="./css/index/menu.css" rel="stylesheet" type="text/css" />
 </head>
@@ -16,33 +17,57 @@
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
 	<div id="menu">
 		<div class="menuTitle"><a href="javascript:void(0);"><img src="images/index/menuTitle.png" alt=""></a></div>
-		<ul id="menuBox"></ul>
+		<div id="myCarousel" class="carousel slide">
+        	
+    	</div>
 		<script type="text/html" id="menuBox_script">
-			{{each arr as value i}}
-			<li>
-				<div class="has-list">
-					<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}});" href="{{value.url}}?pid={{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
-					{{if value.childMenuList.length}}
-					<div class="hasBox">
-						<ul class="menuBox">
-							{{each value.childMenuList as value01 j}}
-							<li>
-								{{if value01.search}}
-								<a href="{{value01.url}}&pid={{value.id}}&sid={{value01.id}}&t={{date}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
-								{{else}}
-								<a href="{{value01.url}}?pid={{value.id}}&sid={{value01.id}}&t={{date}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
+			<ol class="carousel-indicators">
+				{{each arr as item j}}
+          		<li data-target="#myCarousel" data-slide-to="{{j}}" {{if j==0}}class="active"{{/if}}></li>
+          		{{/each}}
+        	</ol>
+        	<div class="carousel-inner">
+        		{{each arr as item j}}
+          		<div class="carousel-item {{if j==0}}active{{/if}}">
+					<ul class="menuBoxP">
+						{{each item as value i}}
+						<li>
+							<div class="has-list">
+								<a class="hasTitle" style="background-image: url({{path_img}}{{value.icon}});" href="{{value.url}}?pid={{value.id}}" {{if value.type ==1}}target="_blank"{{/if}}>{{value.name}}</a>
+								{{if value.childMenuList.length}}
+								<div class="hasBox">
+									<ul class="menuBox">
+										{{each value.childMenuList as value01 j}}
+										<li>
+											{{if value01.search}}
+											<a href="{{value01.url}}&pid={{value.id}}&sid={{value01.id}}&t={{date}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
+											{{else}}
+											<a href="{{value01.url}}?pid={{value.id}}&sid={{value01.id}}&t={{date}}" {{if value01.type ==1}}target="_blank"{{/if}}>{{value01.name}}</a>
+											{{/if}}
+										</li>
+										{{/each}}
+									</ul>
+								</div>
+								<div class="hasBoxBg"></div>
 								{{/if}}
-							</li>
-							{{/each}}
-						</ul>
-					</div>
-					<div class="hasBoxBg"></div>
-					{{/if}}
+							</div>
+						</li>
+						{{/each}}
+					</ul>
 				</div>
-			</li>
-			{{/each}}
+				{{/each}}
+        	</div>
+        	<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          		<span class="sr-only">Previous</span>
+        	</a>
+        	<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+          		<span class="sr-only">Next</span>
+        	</a>
 		</script>
 	</div>
+
 	<div id="user">
 		<div class="userPic">
 			<a href="index.html" class="menuA">退出登录</a>
@@ -56,6 +81,7 @@
 	<script src="./js/common/jquery.nicescroll.min.js?t=20180118"></script>
 	<script src="./js/common/jquery.toast.min.js"></script>
 	<script src="./js/common/template.js"></script>
+	<script src="./js/common/bootstrap4-1/js/bootstrap.min.js"></script>
 	<script src="./js/common/base.js?t=20180509"></script>
 	<script src="./js/index/menu.js?t=20171219"></script>
 </body>

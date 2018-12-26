@@ -36,8 +36,15 @@ function init() {
 // 年份 月份初始化 
 function yearInit() {
     var d=new Date();
-    var year={year:[d.getFullYear(),(d.getFullYear()-1)]};
+    // 年份选择初始化
+    var year={year:[d.getFullYear()+1]};
+    for(var i=d.getFullYear();i>2015;i--){
+        year.year.push(i)
+    };
+    year.year.reverse();
+
     var htmlYear=template("year_script",year);
+
     $("#year").append(htmlYear).find("option[value="+d.getFullYear()+"]").prop("selected",true);
 
     $("#year").change(function () {
@@ -627,6 +634,10 @@ function savePic() {
     // 改变颜色
     $("#editor").on("click","#colorBtn",function () {// 颜色
         $("#colorPanel > input[type=color]").click();
+        var color=$("#colorPanel > input[type=color]").val();
+        var o=canvas.getActiveObject();
+        o.setColor(color);
+        canvas.renderAll();
     });
     $("#editor").on("change","#colorPanel > input[type=color]",function () {// 颜色
         var color=$(this).val();
@@ -643,7 +654,11 @@ function savePic() {
         var w01=$("#canvas-wrapper").width();
         if(options.target){
             var length=(w-w01)/2+options.target.left+options.target.width*options.target.scaleX;
-            if(length >1200){length=1200;}
+            if(length >1200){
+                length=1200;
+            }else if(length >(w-w01)/2+w01 && length <=1200){
+                length=(w-w01)/2+w01;
+            };
             if(options.target && (options.target.get("type")=="i-text" || options.target.get("type")=="textbox") ){
                 $("#colorBtn,#fontBtn,#autoSort,#pasteBtn").show();// 文字状态下显示颜色和字体控制按钮
                 $("#editor-bar").css({"left":length+70,"top":options.e.clientY});// 主工具箱
@@ -693,7 +708,39 @@ function savePic() {
         }
     });
 
+    // 键盘上下左右控制移动
+    $(window).on("keyup",function (e) {
+        if(typeof(canvas.getActiveObject()) !== 'undefined') {
+            var o=canvas.getActiveObject();
+            // 水平向左
+            if(e.keyCode ==37){
+                o.left=o.left-10;
+                if(o.left <0){o.left=0;};
+                canvas.renderAll();
+            };
 
+            // 水平向右
+            if(e.keyCode ==39){
+                o.left=o.left+10;
+                if(o.left > canvas.width-100){o.left=canvas.width-100;};
+                canvas.renderAll();
+            };
+
+            // 垂直向上
+            if(e.keyCode ==38){
+                o.top=o.top-10;
+                if(o.top <0){o.top=0;};
+                canvas.renderAll();
+            };
+
+            // 垂直向下
+            if(e.keyCode ==40){
+                o.top=o.top+10;
+                if(o.top > canvas.height-100){o.top=canvas.height-100;};
+                canvas.renderAll();
+            };
+        };
+    });
 
     
 

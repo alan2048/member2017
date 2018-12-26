@@ -78,6 +78,10 @@ function init() {
     $("#searchBtn").click(function () {
         orangeStudentCardList_port();
     });
+
+    $(".clear").click(function () {
+        $(this).prev().val("");
+    });
 };
 
 // 获得签到卡列表
@@ -307,7 +311,7 @@ function basicAllClassInfo_port() {
             // params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.basicAllClassInfo,param,basicAllClassInfo_callback);
+    initAjax(httpUrl.basicAllClassAndTeacherGroupInfo,param,basicAllClassInfo_callback);
 };
 function basicAllClassInfo_callback(res) {
     if(res.code==200){

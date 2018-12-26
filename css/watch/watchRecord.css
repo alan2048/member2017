@@ -415,6 +415,13 @@ ul,li{
 textarea.form-control {
 	height: auto;
 }
+.evaluateBox,.adviceBox{
+	height: 1rem;
+	margin: 0.2rem 0;
+}
+.evaluateBox textarea.form-control,.adviceBox textarea.form-control{
+	height: 100%;
+}
 .jxgl-pjgl-rcpj-wdpj-box {
 	background: #f0f3f4;
 	border: 1px solid #e2e7eb;

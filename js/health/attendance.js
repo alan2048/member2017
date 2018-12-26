@@ -15,15 +15,33 @@ function init() {
         attendGetClassAttendanceInfo_port();
     });
 
-    $("#buttonBox").on("click","#export",function () {
+    $("#main").on("click",".exportBtn",function () {
         var data={
+                day:$(".sc-selected").attr("data-day"),
                 year:$(".sc-select-year").val(),
                 month:$(".sc-select-month").val(),
-                classUUID:$("#teacherClass").val(),
-                className:$("#teacherClass >option:selected").text()
+                classUUID:$("#teacherClass").val()
         };
-        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url=/web/attendance/exportExcel&params="+JSON.stringify(data));
+        window.open(httpUrl.basicZip+"?loginId="+httpUrl.loginId+"&url=/web/attendance/exportDailyRecordExcel&params="+JSON.stringify(data));
     });
+
+    $("#curBox").on("click",".tabNav >i",function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".curBody >div").eq($(this).index()).addClass("active").siblings().removeClass("active");
+    });
+
+    $("#curBox").on("click",".enterPic,.exitPic",function () {
+        if($(this).attr("data-pic")){
+            var src=httpUrl.path_img+$(this).attr("data-pic")+"";
+            $("#carousel_img").empty().append("<img src="+src+" />");
+            $(".prevBtn,.nextBtn").addClass("hide");
+            $("#modal-dialog-img").modal("show");
+        }else{
+            toastTip("提示","无图片数据");
+        };
+    });
+
+    carousel();
 };
 
 // 点击具体天的请假详情
@@ -31,15 +49,55 @@ function clalendarClick() {
     var Arr=monthObj[$(".sc-selected").attr("data-day")]
     var data={
             curDay:$(".sc-selected").attr("data-day"),
-            arr:Arr
+            arr:Arr,
+            path_img:httpUrl.path_img,
+            curIndex:$(".tabNav >i.active").index()
     };
-    var html=template("curDay_script",data);
-    $("#curDay").empty().append(html);
-    chooseNiceScroll("#curDay");
-    if(data.arr.length ==0){
-        $("#curDay").addClass("emptyBox");
+
+    if(user.typeID =="20"){
+        var html=template("curDay_script",data);
+        $("#curDay").empty().append(html).removeClass("hide");
+        chooseNiceScroll("#curDay");
+        if(data.arr.length ==0){
+            $("#curDay").addClass("emptyBox");
+        }else{
+            $("#curDay").removeClass("emptyBox");
+        };
     }else{
-        $("#curDay").removeClass("emptyBox");
+        attendanceList_port(data);
+    };
+};
+
+//  打卡记录列表
+function attendanceList_port(json) {
+    var data={
+            classUUID:$("#teacherClass").val(),
+            month:$(".sc-select-month").val(),
+            year:$(".sc-select-year").val(),
+            day:$(".sc-selected").attr("data-day")
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.attendCheckingRecord,param,attendanceList_callback,json);
+};
+function attendanceList_callback(res,json) {
+    if(res.code==200){
+        var curObj={
+                tab01Arr:json,
+                tab02Arr:JSON.parse(res.data)
+        };
+
+        var html=template("curBox_script",curObj);
+        $("#curBox").empty().append(html).removeClass("hide");
+        chooseNiceScroll("#curBox");
+
+        if(json.arr.length ==0){
+            $(".curBody >div:first-of-type").addClass("emptyBox");
+        }else{
+            $(".curBody >div:first-of-type").removeClass("emptyBox");
+        };
     };
 };
 
@@ -87,14 +145,21 @@ function attendGetClassAttendanceInfo_callback(res,today) {
         if(num ==0){
             if($(".userRole").attr("data-typeid") ==20){
                 toastTip("提示","该学生此月暂无请假记录。。");
+                $("#curDay").empty();
             }else{
                 toastTip("提示","此班级此月暂无请假记录。。");
+                $("#curBox").empty();
             };
         };
         $("#curDay").empty().removeClass("emptyBox");
         monthObj=data;// 获得当前全月数据
         if(today ==1){
             $(".sc-today").click();
+        }else if($(".sc-selected").length !=0){
+            $(".sc-selected").click();
+        }else if(num !=0){
+            $("#curDay,#curBox").empty();
+            toastTip("提示","选择具体天 来查看数据",3000);
         }
     };
 };
@@ -133,6 +198,113 @@ function watchClassList_callback(res) {
         attendGetClassAttendanceInfo_port(1);// 获得班级考勤        
     };
 };
+
+function carousel() {
+    // 帖子列表图片 查看
+    $("#main").on("click","a.pic",function () {
+        var arr=[];
+        var curPic=$(this).attr("data-pic");
+        for(var i=0;i<$(this).parents('#picBox').find('.pic').length;i++){
+            arr.push($(this).parents('#picBox').find('.pic').eq(i).attr("data-pic"));
+        };
+
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"";
+        $("#carousel_img").empty().append("<img src="+src+" data-curpic="+curPic+" />");
+        $("#carousel_img").prev(".prevBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        $("#carousel_img").next(".nextBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        if(arr.indexOf(curPic) ==0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide")
+        }; 
+        if(arr.indexOf(curPic)+1 ==arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide")
+        }; 
+    });
+
+    // 删除 新增图片按钮
+    $("#modal-dialog-img .deleteBtn01").click(function () {
+        var cur=$("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($("#modal-dialog-img .prevBtn").attr("data-arr"));
+        if(arr.length==1){
+            $(this).prev(".closeBtn01").click();
+        }else{
+            if(arr.indexOf(cur)+1 !=arr.length ){
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)+1]+" data-curpic="+arr[arr.indexOf(cur)+1]+" />");
+            }else{
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)-1]+" data-curpic="+arr[arr.indexOf(cur)-1]+" />");
+            };
+        };
+        arr.splice(arr.indexOf(cur),1);
+        $("#modal-dialog-img .nextBtn,#modal-dialog-img .prevBtn").attr("data-arr",JSON.stringify(arr));
+        
+        // 检查前后一步图标是否隐藏
+        var cur01=$("#carousel_img").find("img").attr("data-curpic");
+        if(arr.indexOf(cur01)== 0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide");
+        };
+        if(arr.indexOf(cur01)+1 == arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide");
+        }
+
+        // 删除
+        $("#carousel li.picItem[data-pic="+cur+"]").remove();
+    });
+
+    
+    // 前一张
+    $("#modal-dialog-img .prevBtn").click(function () {
+        var cur=$(this).next("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($(this).attr("data-arr"));
+        if(arr.indexOf(cur) >0){
+            var newCur=arr[arr.indexOf(cur)-1];
+            if(arr.indexOf(cur)-1 == 0){
+                $("#carousel_img").prev(".prevBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            };
+
+            if(arr.indexOf(cur)+1 == arr.length){
+                $("#carousel_img").next(".nextBtn").removeClass("hide");
+            }
+        };
+    });
+
+    // 键盘左右键控制
+    $(window).keyup(function (e) {
+        if($("#modal-dialog-img").hasClass("in")){
+            if(e.which ==37 && !$("#modal-dialog-img .prevBtn").hasClass("hide")){
+                $("#modal-dialog-img .prevBtn").click()
+            };
+            if(e.which ==39 && !$("#modal-dialog-img .nextBtn").hasClass("hide")){
+                $("#modal-dialog-img .nextBtn").click()
+            };
+        };
+    });
+
+    // 后一张
+    $("#modal-dialog-img .nextBtn").click(function () {
+        var cur=$(this).prev("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($(this).attr("data-arr"));
+        if(arr.indexOf(cur)+1 <arr.length){
+            var newCur=arr[arr.indexOf(cur)+1];
+            if(arr.indexOf(cur)+2 == arr.length){
+                $("#carousel_img").next(".nextBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            };
+        };
+
+        if(arr.indexOf(cur)== 0){
+            $("#carousel_img").prev(".prevBtn").removeClass("hide");
+        }
+    });
+};
+
 
 // 菜单
 function menu() {
@@ -202,6 +374,7 @@ function loginUserInfo_port() {
 function loginUserInfo_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        user.typeID=data.typeID;
         data.path_img=httpUrl.path_img;
         $("#user >.userName").text(data.name).attr("data-uuid",data.userUUID).attr("data-childuuid",data.childUUID);
         $("#user >.userRole").text(data.jobTitle).attr("data-typeid",data.typeID);

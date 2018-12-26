@@ -22,7 +22,12 @@ function dateInit() {
     var month={month:[1,2,3,4,5,6,7,8,9,10,11,12]};
     var htmlMonth=template("month_script",month);
     $("#month01").append(htmlMonth).find("option[value="+(d.getMonth()+1)+"]").prop("selected",true);
-    var year={year:[2016,2017,2018]};
+
+    var year={year:[d.getFullYear()+1]};
+    for(var i=d.getFullYear();i>2015;i--){
+        year.year.push(i)
+    };
+    year.year.reverse();
     var htmlYear=template("year_script",year);
     $("#year01").append(htmlYear).find("option[value="+d.getFullYear()+"]").prop("selected",true);
     watchClassList_port();

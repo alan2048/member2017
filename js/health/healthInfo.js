@@ -71,7 +71,7 @@ function ajaxSubmitForm() {
             type : 'POST',
             dataType : 'json',
             success : function(data) {
-                toastTip("提示",data.info,6000);
+                toastTip("提示",data.info,10000);
                 healthGetExamDateList_port(data.data);
             },
             error: function(data) {

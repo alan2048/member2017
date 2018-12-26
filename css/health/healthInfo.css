@@ -675,3 +675,19 @@ a.hasTitle{
 	-webkit-background-size: 0.5rem;
 	background-size: 0.5rem;
 }
+.machine{
+	display: inline-block;
+	width: 0.16rem;
+	height: 0.16rem;
+	background: url(../../images/health/healthBtn.png) center center no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	vertical-align: top;
+	float: right;
+}
+.machineBox{
+	text-align: right;
+}
+.machineBox .machine{
+	float: none;
+}

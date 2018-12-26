@@ -883,8 +883,14 @@ function watchRecordDetail_callback(res) {
             $("#level option[value="+data.levelId+"]").prop("selected", true);
             $("#description").text($("#level option[value="+data.levelId+"]").attr("data-desc"));
             $("#curLevel").text($("#level option[value="+data.levelId+"]").attr("data-desc"));
-            $("#evaluate").val(data.evaluate);
-            $("#advice").val(data.advice);
+            $("#evaluate,#evaluate02").val(data.evaluate);
+            if(!data.evaluate){
+                $(".evaluateBox").addClass("hide");
+            }
+            $("#advice,#advice02").val(data.advice);
+            if(!data.advice){
+                $(".adviceBox").addClass("hide");
+            }
         };
 
         if($("#content02").hasClass("looking")){
@@ -1093,8 +1099,10 @@ function carousel() {
             var newCur=arr[arr.indexOf(cur)-1];
             if(arr.indexOf(cur)-1 == 0){
                 $("#carousel_img").prev(".prevBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             };
 
@@ -1124,8 +1132,10 @@ function carousel() {
             var newCur=arr[arr.indexOf(cur)+1];
             if(arr.indexOf(cur)+2 == arr.length){
                 $("#carousel_img").next(".nextBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             };
         };

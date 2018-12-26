@@ -117,7 +117,7 @@ function mousehover() {
             $(".form-horizontal input.fillnum").attr("placeholder","容纳人数需为数字。。").addClass("empty");
         };
 
-        if($(".faceimage.fill").css("background-image").indexOf("addBtn.png") >0){
+        if($(".faceimage.fill").css("background-image").indexOf("addBtn02.png") >0){
             $(".faceimage.fill").addClass("empty");
         };
 

@@ -4,6 +4,8 @@ $(function () {
 function init() {
     menu();
 
+    carousel();// 图片放大插件函数
+
     // 公告详情
     $("#tableBox").on("click","tbody >tr >td.email-sender:not(.read)",function () {
         if(!$(this).parent().attr("data-url")){
@@ -44,7 +46,7 @@ function init() {
     $("#buttonBox").on("click","#deleteBtn",function () {
         if($(this).hasClass("disable")){
             toastTip("提示","请先选择删除项。。");   
-        }else{
+        }else if($("#tableBox tr.active").attr("data-del") !=0){
             swal({
                 title: "是否删除此信息？",
                 text: "",
@@ -61,6 +63,8 @@ function init() {
                         messageDelete_port();
                     };
             });
+        }else{
+            toastTip("提示","非本人新建公告无删除权限。"); 
         };
     });
 
@@ -95,8 +99,13 @@ function init() {
         $(".detailBody >li").removeClass("active").eq($(this).index()).addClass("active"); 
     });
     // 阅读详情 展开此班级学生数量
-    $("#detailRead").on("click","li.class",function () {
+    $("#detailRead").on("click","li.class",function (e) {
+        e.stopPropagation();
         $(this).toggleClass("active");
+    });
+
+    $("#detailRead").on("click",".children >li",function (e) {
+        e.stopPropagation();
     });
     
     // 新增页
@@ -114,6 +123,7 @@ function init() {
         $(".newNumBtn > span").text("0");
         $("#new").removeClass("hide");
         $("#edit,.voiceList").addClass("hide");
+        $("#newContent,#newUrl").attr("disabled",false).removeClass("empty");
         user.tempId=new Date().getTime();
     });
 
@@ -135,6 +145,7 @@ function init() {
             $("#content01").find("textarea").val(json.content);
             $("#newTitle").val(json.title);
             $("#newUrl").val(json.url);
+            $("#newContent,#newUrl").attr("disabled",false).removeClass("empty");
 
             if(json.voice){
                 $(".voiceList").removeClass("hide").find("audio").attr("src",data.path_img+json.voice);
@@ -172,7 +183,15 @@ function init() {
             toastTip("提示","红色框为必填项。。");
         }else{
             if($("#newUrl").val() || $("#newContent").val()){
-                noticeAddNew_port();
+                if($("#newUrl").val() && $("#newContent").val()){
+                    toastTip("提示","'外链'和'内容' 只可二选一。");
+                }else{
+                    if(!$("#newUrl").hasClass("empty")){
+                        noticeAddNew_port();
+                    };
+                };
+            }else{
+                toastTip("提示","'外链'和'内容' 二者必填其一。");
             };
         };
     });
@@ -215,6 +234,28 @@ function init() {
         } else {
             $(this).removeClass("more");
         };
+
+        if ($(this).val().length > 0) {
+            $("#newUrl").attr("disabled","disabled");
+        } else {
+            $("#newUrl").attr("disabled",false);
+        };
+    });
+
+    // 外链
+    $("#newUrl").keyup(function () {
+        if(isURL($("#newUrl").val())){
+            $(this).removeClass("empty");
+        }else{
+            $(this).addClass("empty");
+        };
+
+        if ($(this).val().length > 0) {
+            $("#newContent").attr("disabled","disabled");
+        } else {
+            $(this).removeClass("empty");
+            $("#newContent").attr("disabled",false);
+        };
     });
     
     $("#person").click(function () {
@@ -248,32 +289,136 @@ function init() {
 };
 
 
+function carousel() {
+    // 帖子列表图片 查看
+    $("#carousel").on("click","a.pic",function () {
+        var arr=[];
+        var curPic=$(this).attr("data-pic");
+        for(var i=0;i<$(this).parents('#carousel').find('.pic').length;i++){
+            arr.push($(this).parents('#carousel').find('.pic').eq(i).attr("data-pic"));
+        };
+        
+        var src=httpUrl.path_img+$(this).attr("data-pic")+"";
+        $("#carousel_img").empty().append("<img src="+src+" data-curpic="+curPic+" />");
+        $("#carousel_img").prev(".prevBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        $("#carousel_img").next(".nextBtn").attr("data-arr",JSON.stringify(arr)).removeClass("hide");
+        if(arr.indexOf(curPic) ==0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide")
+        }; 
+        if(arr.indexOf(curPic)+1 ==arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide")
+        }; 
+    });
+
+    // 删除 新增图片按钮
+    $("#modal-dialog-img .deleteBtn01").click(function () {
+        var cur=$("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($("#modal-dialog-img .prevBtn").attr("data-arr"));
+        if(arr.length==1){
+            $(this).prev(".closeBtn01").click();
+        }else{
+            if(arr.indexOf(cur)+1 !=arr.length ){
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)+1]+" data-curpic="+arr[arr.indexOf(cur)+1]+" />");
+            }else{
+                $("#carousel_img").empty().append("<img src="+httpUrl.path_img+arr[arr.indexOf(cur)-1]+" data-curpic="+arr[arr.indexOf(cur)-1]+" />");
+            };
+        };
+        arr.splice(arr.indexOf(cur),1);
+        $("#modal-dialog-img .nextBtn,#modal-dialog-img .prevBtn").attr("data-arr",JSON.stringify(arr));
+        
+        // 检查前后一步图标是否隐藏
+        var cur01=$("#carousel_img").find("img").attr("data-curpic");
+        if(arr.indexOf(cur01)== 0){
+            $("#carousel_img").prev(".prevBtn").addClass("hide");
+        };
+        if(arr.indexOf(cur01)+1 == arr.length){
+            $("#carousel_img").next(".nextBtn").addClass("hide");
+        }
+
+        // 删除
+        $("#carousel li.picItem[data-pic="+cur+"]").remove();
+    });
+
+    
+    // 前一张
+    $("#modal-dialog-img .prevBtn").click(function () {
+        var cur=$(this).next("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($(this).attr("data-arr"));
+        if(arr.indexOf(cur) >0){
+            var newCur=arr[arr.indexOf(cur)-1];
+            if(arr.indexOf(cur)-1 == 0){
+                $("#carousel_img").prev(".prevBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            };
+
+            if(arr.indexOf(cur)+1 == arr.length){
+                $("#carousel_img").next(".nextBtn").removeClass("hide");
+            }
+        };
+    });
+
+    // 键盘左右键控制
+    $(window).keyup(function (e) {
+        if($("#modal-dialog-img").hasClass("in")){
+            if(e.which ==37 && !$("#modal-dialog-img .prevBtn").hasClass("hide")){
+                $("#modal-dialog-img .prevBtn").click()
+            };
+            if(e.which ==39 && !$("#modal-dialog-img .nextBtn").hasClass("hide")){
+                $("#modal-dialog-img .nextBtn").click()
+            };
+        };
+    });
+
+    // 后一张
+    $("#modal-dialog-img .nextBtn").click(function () {
+        var cur=$(this).prev("#carousel_img").find("img").attr("data-curpic");
+        var arr=JSON.parse($(this).attr("data-arr"));
+        if(arr.indexOf(cur)+1 <arr.length){
+            var newCur=arr[arr.indexOf(cur)+1];
+            if(arr.indexOf(cur)+2 == arr.length){
+                $("#carousel_img").next(".nextBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
+                $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
+            };
+        };
+
+        if(arr.indexOf(cur)== 0){
+            $("#carousel_img").prev(".prevBtn").removeClass("hide");
+        }
+    });
+};
+
 
 // 验证input输入
 function ValidateInput() {
-    if(!$(".need").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
-        $(".need").addClass("empty");
+    for(var i=0;i<$(".need").length;i++){
+        if(!$(".need").eq(i).val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"")){
+            $(".need").eq(i).addClass("empty");
+        }else{
+            $(".need").eq(i).removeClass("empty");
+        };  
     };
 
     if($("#newUrl").val()){
         var aa=isURL($("#newUrl").val());
-        console.log($("#newUrl").val(),aa);
         if(aa){
             $("#newUrl").removeClass('empty');
         }else{
             $("#newUrl").addClass('empty');
-            alert('原文链接格式不对,请重新输入');
+            toastTip("提示","原文链接格式不对,请重新输入");
         };
     }
 };
 
 function isURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    var pattern = new RegExp(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/); 
     return pattern.test(str);
 };
 /*function isURL(str_url){ 
@@ -335,7 +480,7 @@ function noticeGetContentList_port(pageNum) {
 function noticeGetContentList_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
+        
         data.path_img=httpUrl.path_img;
         for(var i=0;i<data.noticeContents.length;i++){
             data.noticeContents[i].time=new Date(data.noticeContents[i].time*1000).Format("yyyy-MM-dd");
@@ -640,19 +785,24 @@ function loadFiles() {
                 },
                 init: {
                     'FileUploaded': function(up, file, info) {
-                        var data={
+                        if($("#carousel a.pic").length <9){
+                            var data={
                                 md5:JSON.parse(info.response).key,
                                 path_img:httpUrl.path_img
+                            };
+                            var url=data.path_img+data.md5;
+                            var html="<li>"+
+                                        "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
+                                            "<img src="+url+"-scale200>"+
+                                            "<span class=\"deleteBtn\"></span>"+
+                                        "</a>"+
+                                    "</li>";
+                            $("#addPicBtn").parent("li").before(html);
+                            $('.qiniuBar').remove();
+                        }else{
+                            toastTip("提示","图片数量上限为9张",4000);
+                            $('.qiniuBar').remove();
                         };
-                        var url=data.path_img+data.md5;
-                        var html="<li>"+
-                                    "<a href=\"#modal-dialog-img\" data-toggle=\"modal\" data-src="+url+" class=\"pic\" data-pic="+data.md5+">"+
-                                        "<img src="+url+"-scale200>"+
-                                        "<span class=\"deleteBtn\"></span>"+
-                                    "</a>"+
-                                "</li>";
-                        $("#addPicBtn").parent("li").before(html);
-                        $('.qiniuBar').remove();
                     },
                     'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
                         $("body").append("<span class='qiniuBar'></span>");

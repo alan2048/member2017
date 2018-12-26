@@ -93,7 +93,7 @@
                             </thead>
                            	 <tbody>
                            	 	{{each resultList as item i}}
-                            	<tr>
+                            	<tr data-id={{item.childUUID}}>
                                   	<td style="word-break:break-all;" class="email-select">
                                   		<a href="javascript:void(0)" data-click="email-select-single"><i class="fa fa-square-o fa-fw" data-id={{item.childUUID}}></i></a>
                                   	</td>
@@ -350,7 +350,7 @@
     <script src="../../js/common/simplePagination.js" ></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20180427"></script>
-	<script src="../../js/class/children.js?t=20171222"></script>
+	<script src="../../js/common/base.js?t=20181025"></script>
+	<script src="../../js/class/children.js?t=20181025"></script>
 </body>
 </html>

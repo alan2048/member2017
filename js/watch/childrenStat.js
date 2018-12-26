@@ -244,14 +244,16 @@ function echart_A01_port() {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getStudentAbility,param,echart_A01_callback);
+    initAjax(httpUrl.getStudentAbility,param,echart_A01_callback,0);
 };
-function echart_A01_callback(res) {
+function echart_A01_callback(res,type) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         jsonAll01=data;
+        data.type=type;
         var name=$("#classMember01").find("option:selected").text();
         echart_A01("searchBox01",data,name);
+
         if(data.type ==0){
             data.curTime=$("#year01").val()+"年"+$("#month01").val()+"月";
             data.childName=$("#classMember01 >option:selected").text();
@@ -459,7 +461,7 @@ function echart_A01_choose_port(arr) {
             params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.getStudentAbilityStrongChooseMonths,param,echart_A01_callback);
+    initAjax(httpUrl.getStudentAbilityStrongChooseMonths,param,echart_A01_callback,1);
 };
 
 // 获取用户班级信息接口
@@ -613,10 +615,12 @@ function echart_A02(id,json,curName){
         data.indicator.push(aa);
     };
 
+    var courseName=$("#course >option:selected").text();
+
     var option={
             backgroundColor: '#fff',
             title: {
-                text: '游戏与生活观察—'+data.name,
+                text: courseName+'—'+data.name,
                 left: 'center',
                 textStyle: {
                     color: '#525252',

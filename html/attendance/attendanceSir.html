@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>教师考勤</title>
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="幼教产品" />
+    <meta name="author" content="上海紫越网络科技有限公司" />
+    <link rel="shortcut icon" href="../../images/favicon.png">
+
+    <link href="../../css/common/base.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
+    <link href="./font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../css/common/modal.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/attendance/simple-calendar.css" rel="stylesheet" />
+
+    
+    <link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/attendance/attendanceSir.css?t=20171219" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <div id="page-container" class="fade in">
+        <div id="sidebar" class="sidebar">
+            <div id="sidebarBox">
+                <div id="user">
+                    <div class="userPic"><a href="../../index.html">退出登录</a></div>
+                    <div class="userName"></div>
+                    <div class="userRole"></div>
+                </div>
+                <div id="home"> 
+                    <a class="homePic" href="../../menu.html">主页</a>
+                </div>
+                <ul id="subMenu"></ul>
+                <script id="menu_script" type="text/html">
+                    {{each arr as value i}}
+                    <li class="has-list">
+                        <a class="hasTitle {{if value.current}}active{{/if}}" href="{{value.url}}?pid={{value.pid}}&sid={{value.newId}}" data-id="{{value.id}}">{{value.name}}</a>
+                    </li>
+                    {{/each}}
+                    <style>
+                    {{each arr as value i}}
+                        a.hasTitle[data-id="{{value.id}}"]{background-image: url({{path_img}}{{value.iconArr[0]}});background-size: 0.45rem;}
+                        a.hasTitle[data-id="{{value.id}}"]:hover,a.hasTitle[data-id="{{value.id}}"].active{background-image: url({{path_img}}{{value.iconArr[1]}});border: 0.02rem solid #656868;background-color: #a8f8ee;background-size: 0.45rem;}
+                    {{/each}}
+                    </style>
+                </script>
+            </div>
+            <div id="switch" class=""><span></span></div>
+        </div>
+
+        <div id="content" class="content">
+            <div class="pageTitle">教师考勤</div>
+            <div id="main">
+                <div class="remark">备注：日历中数字代表当日请假教师人数，请假状态已拒绝的不包含在内</div>
+                <div id='container'></div>
+                <div id="curDay" class="hide"></div>
+                <script id="curDay_script" type="text/html">
+                    <div class="curTitle"><span>{{curDay}}日</span>请假详情</div>
+                    <ul>
+                        {{each arr as value i}}
+                        <li class="attend">
+                            <div class="title">{{value.leaveUserName}}</div>
+                            <div class="attendBox">
+                                <div>
+                                    <span>请假类型：</span>
+                                    <span>{{value.leaveType}}</span>
+                                 </div>
+                                <div>
+                                    <span>{{value.leaveType}}类型：</span>
+                                    <span>{{value.leaveType2}}</span>
+                                </div>
+                                <div>
+                                    <span>请假时间：</span>
+                                    <span>{{value.leaveTime}} {{value.leaveAMPM}}</span>
+                                </div>
+                                <div>
+                                    <span>请假理由：</span>
+                                    <span>{{value.description}}</span>
+                                </div>
+                                <div>
+                                    <span>附件：{{if value.picList.length ==0}}暂无附件{{/if}}</span>
+                                    <div id="picBox">
+                                        {{each value.picList as value01 i}}
+                                        <a href="#modal-dialog-img" data-toggle="modal" data-src="{{path_img}}{{value01}}" class="pic" data-pic="{{value01}}">
+                                            <img src="{{path_img}}{{value01}}-scale200">
+                                        </a>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </script>
+                <div id="curBox" class="curBox hide"></div>
+                <script id="curBox_script" type="text/html">
+                    <div class="curHeader">
+                        <span class="tabNav">
+                            <i class="{{if tab01Arr.curIndex !=1}}active{{/if}}">请假记录</i>
+                            <i class="{{if tab01Arr.curIndex ==1}}active{{/if}}">打卡记录</i>
+                        </span>
+                        <span class="curDate"><i>{{tab01Arr.curDay}}</i>日考勤</span>
+                        <span class="exportBtn">导出</span>
+                    </div>
+                    <div class="curBody">
+                        <div class="{{if tab01Arr.curIndex !=1}}active{{/if}}">
+                            <ul>
+                                {{each tab01Arr.arr.list as value i}}
+                                <li class="attend">
+                                    <div class="title">{{value.leaveUserName}}</div>
+                                    <div class="attendBox">
+                                        <div>
+                                            <span>请假时间：</span>
+                                            <span>{{value.startToEnd}}</span>
+                                        </div>
+                                        <div>
+                                            <span>请假时长：</span>
+                                            <span>{{value.duration}}</span>
+                                        </div>
+                                        <div>
+                                            <span>请假类型：</span>
+                                            <span>{{value.leaveType}}</span>
+                                        </div>
+                                        <div>
+                                            <span>请假理由：</span>
+                                            <span>{{value.description}}</span>
+                                        </div>
+                                        <div>
+                                            <span>请假状态：</span>
+                                            <span class="{{if value.checkStatus ==1}}agree{{else}}disagree{{/if}}">{{value.checkContent}}</span>
+                                        </div>
+                                        <div>
+                                            <span>附件：{{if value.picList.length ==0}}暂无附件{{/if}}</span>
+                                            <div id="picBox">
+                                                {{each value.picList as value01 i}}
+                                                <a href="#modal-dialog-img" data-toggle="modal" data-src="{{tab01Arr.path_img}}{{value01}}" class="pic" data-pic="{{value01}}">
+                                                    <img src="{{tab01Arr.path_img}}{{value01}}-scale200">
+                                                </a>
+                                                {{/each}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        <div class="{{if tab01Arr.curIndex ==1}}active{{/if}}">
+                            <table class="table table-email">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%;">序号</th>
+                                        <th style="width: 18%;">姓名</th>
+                                        <th style="width: 50%;">打卡时间</th>
+                                        <th style="width: 50%;">图片</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{each tab02Arr as item i}}
+                                    <tr>
+                                        <td class="num email-sender"><i class="fa fa-square-o fa-fw" data-id={{item.id}}></i>{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                        <td class="email-sender">{{item.userName}}</td>
+                                        <td class="email-sender">
+                                        {{if item.checkingTimeList.length !=0}}
+                                            {{each item.checkingTimeList as item01 j}}
+                                            <div class="">{{item01.checkingTime}}</div>
+                                            {{/each}}
+                                        {{else}}
+                                            <div class="red">未打卡</div>
+                                        {{/if}}
+                                        </td>
+                                        <td class="email-sender">
+                                        {{if item.checkingTimeList.length !=0}}
+                                            {{each item.checkingTimeList as item01 j}}
+                                            <div class="enterPic active" data-pic="{{item01.cameraPhoto}}">查看图片</div>
+                                            {{/each}}
+                                        {{else}}
+                                            <div class="enterPic">查看图片</div>
+                                        {{/if}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </script>
+            </div>
+        </div> 
+    </div>
+
+    <div class="modal fade" id="modal-dialog-img" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <span class="prevBtn"></span>
+                <div id="carousel_img"></div>
+                <span class="nextBtn"></span>
+            </div>
+        </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+        <span class="deleteBtn01 hide"></span>
+    </div>
+
+    <script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
+    <script src="../../js/common/template.js"></script>
+    <script src="../../js/common/jquery.toast.min.js"></script>
+    <script src="../../js/attendance/simple-calendar.js"></script>
+    <script src="../../js/common/modal.js"></script>
+
+    <script src="../../js/common/base.js?t=20180427"></script>
+    <script src="../../js/attendance/attendanceSir.js?t=20180904"></script>
+</body>
+</html>

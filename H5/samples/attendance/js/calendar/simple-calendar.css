@@ -1,0 +1,258 @@
+.sc-calendar {
+  width: 100%;
+  height: 450px;
+  text-align: center;
+  font-family: "Microsoft Yahei";
+  color: #4A4A4A;
+  box-shadow: 0 0 5px #ddd;
+  margin: auto;
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  user-select: none;
+  -webkit-text-size-adjust: none;
+  font-size: 16px;
+  border-radius:20px;
+  overflow: hidden;
+}
+
+.sc-header {
+  position:relative;
+  height: 100px;
+  border-radius: 20px 20px 0 0;
+  background-color: #5cdee1;
+  border-bottom: 0;
+  color:#fff;
+}
+.sc-body {
+  height: 350px;
+  clear: both;
+  background-color: #fff;
+}
+.sc-week {
+  height: 40px;
+  font-weight: 400;
+  font-size: 20px;
+  color: #4A4A4A;
+}
+.sc-days {
+  height: 88%;
+}
+.sc-item {
+  height: 42px;
+  float: left;
+  font-weight: 300;
+  color: #565555;
+  width: 14.285%;
+  background-color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+  position:relative;
+  line-height:42px;
+}
+.item-nolunar {
+  padding-top: 0px;
+}
+.sc-item:nth-child(7n) .day, .sc-item:nth-child(7n+6) .day {
+  color: #a7a9a9;
+}
+.sc-vocation {
+  background-color: #FFEBEC;
+}
+.sc-mark{
+  background-color: #E5FBFA;
+}
+.sc-vocation:before {
+  content: '休';
+  display: block;
+  position: absolute;
+  font-size: 0.7em;
+  width: 1.2em;
+  font-weight: 100;
+  color: white;
+  background-color: #E00808;
+  margin-top: -10px;
+}
+.sc-othermenth {
+  color: #d5d5d5ff !important;
+}
+.sc-othermenth .day, .sc-othermenth .lunar-day {
+  color: #d5d5d599 !important;
+}
+.sc-active-day, .sc-selected {
+  // border: 1px solid orange;
+}
+.sc-item .day:hover, .sc-selected .day{
+  background-color: #5cdee1;
+  color:#fff !important;
+}
+.sc-today {
+}
+.sc-item .day {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 20px;
+  color: #808080;
+  text-align: center;
+  line-height: 40px;
+}
+.sc-today .day {
+  border: 2px solid #5cdee1;
+}
+.sc-item .lunar-day {
+  position:absolute;
+  font-size: 12px;
+  font-weight: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display:none;
+  width: 20px;
+  height: 20px;
+  background-color: #e15c5c;
+  color:#fff;
+  border-radius: 10px;
+  line-height:20px;
+  top:0;
+  right:24px;
+}
+.sc-item .lunar-day.active{
+  display:inline-block;
+}
+.sc-item .lunar-day.active.sick{
+  background-color: #fce878;
+}
+.sc-item .lunar-day.active.thing{
+  background-color: #f8b9d7;
+}
+.sc-item .lunar-day.active.public{
+  background-color: #a0dbf6;
+}
+.sc-item .lunar-day.active.adjust{
+  background-color: #c0ec6a;
+}
+.sc-item .lunar-day.active.other{
+  background-color: #e2caf5;
+}
+.sc-item .lunar-day.active.refuse{
+  background-color: #dc605e;
+}
+.sc-festival .lunar-day {
+  color: #E00808;
+}
+
+/*.sc-item:last-child, .sc-item:nth-child(7n) {
+  border-width: 0 1px 1px 1px;
+}*/
+
+.sc-week-item {
+  height: 100%;
+  padding-top: 5px;
+  float: left;
+  width: 14.285%;
+  color:#656666;
+  background-color: #f2f5f5;
+  border-width: 1px 0 1px 1px;
+  border-color: #fff;
+  border-style: solid;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color:#656666;
+}
+.sc-week-item:first-of-type{
+  border-radius:10px 0 0 10px;
+}
+.sc-week-item:last-of-type{
+  border-radius:0 10px 10px 0;
+}
+
+.sc-item-small{
+  font-size: 10px !important;
+}
+.sc-week-item:last-child {
+  border-width: 1px 1px 1px 1px;
+}
+.sc-week-item:nth-child(7n), .sc-week-item:nth-child(7n+6) {
+  color: #fff !important;
+  background-color: #5cdee1;
+}
+.sc-actions {
+  display:inline-block;
+  width: 40%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.sc-actions:last-child {
+  position:absolute;
+  width: 130px;
+  right:0;
+}
+.sc-actions-big{
+  width: 50%;
+}
+@media screen and (max-width : 500px){
+  .sc-actions{
+    width: 50%;
+  }
+}
+.sc-header select {
+  border-color: rgba(0, 0, 0, 0);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-family: "Microsoft Yahei";
+  color: #fff;
+  font-size: 35px;
+  background-color: transparent;
+  text-align:center;
+  width: 150px;
+  cursor: pointer;
+}
+.sc-header select:hover{
+  color:#ff0;
+}
+.sc-header input {
+  border-color: rgba(0, 0, 0, 0);
+  padding: 0.2em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-family: "Microsoft Yahei";
+  color: #606060;
+}
+.sc-actions div {
+  display: inline-block;
+  width: 20px;
+  font-size: 45px;
+  height: 20px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.sc-actions div:hover{
+  color:#ff0;
+}
+.sc-return-today {
+  display: inline-block;
+  border-radius: 15px;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  border: 1px solid #fbfefe;
+  margin: auto;
+  margin-top: 38px;
+  cursor: pointer;
+}
+.sc-return-today:hover{
+  color:#ff0;
+  border: 1px solid #ff0;
+}
+.sc-time {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.8em;
+}

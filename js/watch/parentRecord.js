@@ -584,8 +584,10 @@ function carousel() {
             var newCur=arr[arr.indexOf(cur)-1];
             if(arr.indexOf(cur)-1 == 0){
                 $("#carousel_img").prev(".prevBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             };
 
@@ -615,8 +617,10 @@ function carousel() {
             var newCur=arr[arr.indexOf(cur)+1];
             if(arr.indexOf(cur)+2 == arr.length){
                 $("#carousel_img").next(".nextBtn").addClass("hide");
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             }else{
+                $("#carousel_img").empty().append("<img alt='正在加载,请稍后...'/>");
                 $("#carousel_img >img").attr("data-curpic",newCur).attr("src",httpUrl.path_img+newCur+"");
             };
         };

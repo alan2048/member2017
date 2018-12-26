@@ -989,4 +989,30 @@ body.modal-open {
 	background-color: #5cdee1;
 	color: #fff;
 }
-
+.newBox .col02:hover .clear{
+	display: inline-block;
+}
+.clear{
+	position: absolute;
+	right: 0;
+	margin-right: 0.15rem;
+	display: none;
+	width: 0.2rem;
+	height: 0.2rem;
+	background-color: #ccc;
+	text-align: center;
+	line-height: 0.18rem;
+	margin-top: 0.1rem;
+	border-radius: 0.2rem;
+	color: #fff;
+	cursor: pointer;
+	font-size: 0.12rem;
+}
+.clear:hover{
+	color: #666;
+	background-color: #5cdee1;
+	box-shadow: 0 0 0.03rem #5cdee1;
+}
+.newBox .col02{
+	position: relative;
+}

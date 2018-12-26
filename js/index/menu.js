@@ -14,26 +14,35 @@ function menuList_port() {
 };
 function menuList_callback(res) {
     if(res.code==200){
-    	var data={
-    			arr:JSON.parse(res.data),
-    			path_img:httpUrl.path_img,
+        var curArr=JSON.parse(res.data);
+        // 判断是否url自带参数
+        for(var i=0;i<curArr.length;i++){
+            for(var j=0;j<curArr[i].childMenuList.length;j++){
+                if(curArr[i].childMenuList[j].url.indexOf("?") >=0){
+                    curArr[i].childMenuList[j].search=true;
+                }else{
+                    curArr[i].childMenuList[j].search=false;
+                };
+            };
+        };
+
+
+        var newArr=[];
+        for(var i=0;i<curArr.length;i+=12){
+            newArr.push(curArr.slice(i,i+12))
+        };
+
+        var data={
+                arr:newArr,
+                path_img:httpUrl.path_img,
                 date:function () {t=new Date().getTime();return t;}()
-    	};
-    	
-    	// 判断是否url自带参数
-    	for(var i=0;i<data.arr.length;i++){
-    		for(var j=0;j<data.arr[i].childMenuList.length;j++){
-    			if(data.arr[i].childMenuList[j].url.indexOf("?") >=0){
-    				data.arr[i].childMenuList[j].search=true;
-    			}else{
-    				data.arr[i].childMenuList[j].search=false;
-    			};
-    		};
-    	};
+        };
     	
 		var html=template("menuBox_script",data);
-		$("#menuBox").empty().append(html);
-		$("#menuBox").on({
+		$("#myCarousel").empty().append(html);
+        $('.carousel').carousel('pause');
+
+		$(".menuBoxP").on({
 			mouseover:function () {
 				$(this).parent().addClass("active").siblings().removeClass("active");
 			},

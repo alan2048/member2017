@@ -34,6 +34,7 @@ var httpUrl={
 		basicButton:path+"/web/ops/menu/button/list",// 获取菜单功能按钮列表
 		basicMyClassInfo:path+"/web/basic/myClassInfo",// 获得当前人 所在班级列表
 		basicAllClassInfo:path+"/web/basic/allClassInfo",// 获得登录人所在学校所有班级列表
+		basicAllClassAndTeacherGroupInfo:path+"/web/basic/allClassAndTeacherGroupInfo",// 获得登录人所在学校所有班级和教师组列表
 		basicCompanyList:path+"/web/ops/company/list",// 获取所有的学校
 		basicZip:path+"/file/zip",// 获取打包下载zip
 		basicStudent:path+"/common/basic/class/student",// 获取当前班级学生列表
@@ -213,6 +214,9 @@ var httpUrl={
 		recordTemCompanyMonthPageList:path+"/web/mbtrack/intelligence/companyMonthPageList",// 获取学校每月相册模版列表
 		recordTemListOfAllPage:path+"/web/mbtrack/intelligence/listOfAllPage",// 获取所有可选的模板库
 
+		// 幼儿考勤
+		attendCheckingRecord:path+"/web/attendance/teacher/checkingRecord",// 班级打卡记录
+
 		// 考勤
 		attendGetChildOfClass:path+"/web/attendance/teacher/getChildInfoOfClass",// 获得班级所有幼儿信息
 		attendGetAttendanceRecord:path+"/web/attendance/teacher/getAttendanceRecord",// 获得考勤记录
@@ -236,6 +240,26 @@ var httpUrl={
 		orangeCardRemove:path+"/web/basic/card/remove",// 删除卡片信息
 		orangeCardAddOrUpdate:path+"/web/basic/card/add",// 新增或编辑卡片信息
 		orangeStudentCardList:path+"/web/basic/card/list",// 获取卡片列表
+
+		// 教师考勤 我的考勤
+		attendMyLeaveRecord:path+"/web/teacherAttendance/myLeaveRecord",// 我的考勤-请假记录
+		attendMyCheckingRecord:path+"/web/teacherAttendance/myCheckingRecord",// 我的考勤-打卡记录
+
+		attendTeacherLeaveRecord:path+"/web/teacherAttendance/teacherLeaveRecord",// 教师考勤-请假记录
+		attendTeacherCheckingRecord:path+"/web/teacherAttendance/teacherCheckingRecord",// 教师考勤-打卡记录
+		attendExportLeaveChecking:"/web/teacherAttendance/exportLeaveChecking",// 教师考勤-每日请假打卡记录导出
+
+		// 请假审批
+		attendAllStaffList:path+"/web/teacherAttendance/allStaffList",// 请假审批-全园教职工列表
+		attendLeaveRecordForApproval:path+"/web/teacherAttendance/leaveRecordForApproval",// 请假审批-月请假记录列表（带分页从0开始）
+		attendLeaveApproval:path+"/web/teacherAttendance/leaveApproval",// 请假审批-记录审批（同意，拒绝）
+		attendExportLeaveApproval:"/web/teacherAttendance/exportLeaveApproval",// 请假审批-请假审批记录导出
+
+		// 考勤统计
+		attendLeaveStat:path+"/web/teacherAttendance/leaveStat",// 教师请假统计
+		attendCheckingStat:path+"/web/teacherAttendance/checkingStat",// 教师打卡统计
+		attendExportLeaveStat:"/web/teacherAttendance/exportLeaveStat",// 教师请假统计导出
+		attendExportCheckingStat:"/web/teacherAttendance/exportCheckingStat",// 教师打卡统计导出
 
 		// 公告
 		getMyClassInfo:path+"/web/basic/getMyClassInfo",// 获取我的班级信息

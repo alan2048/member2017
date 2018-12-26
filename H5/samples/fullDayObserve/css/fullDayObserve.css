@@ -116,11 +116,13 @@ section {
 	padding: 0 0.4rem;
 	padding-bottom: 1rem;
 	cursor: pointer;
+	border: 1px solid #ccc;
 }
 .caseBox:first-of-type{
 	margin-top: 0.8rem;
 }
 .caseBox:hover{
+	border: 1px solid #5edfe0;
 	box-shadow: 0 0 0.1rem #5edfe0;
 }
 

@@ -84,6 +84,7 @@
                 <input name="file" type="file" accept="application/vnd.ms-excel,.xlsx" />
             </form>
 			<div id="main">
+                <div class="machineBox"><span class="machine"></span>代表身高体重仪导入内容</div>
 				<div class="panel">
                    	<div class="email-content" id="tableBox"></div>
                     <script type="text/html" id="tableBox_script">
@@ -110,7 +111,7 @@
                            	 	{{each arr as item i}}
                                 <tr data-id="{{item.hiUUID}}" data-age="{{item.userAge}}">
                                     <td class="email-sender">{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
-                                    <td class="email-sender">{{item.userName}}</td>
+                                    <td class="email-sender">{{item.userName}}{{if item.creationType ==1}}<span class="machine"></span>{{/if}}</td>
                                     <td class="email-sender">{{item.userSex}}</td>
                                     <td class="email-sender">{{item.userAge}}</td>
                                     <td class="email-sender">{{item.height}}</td>

@@ -15,7 +15,7 @@
     <link href="../../css/common/jquery.toast.min.css" rel="stylesheet">
     <link href="../../css/common/sweetalert.css" rel="stylesheet">
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/messages/messages.css?t=20181018" rel="stylesheet" type="text/css" />
+	<link href="../../css/messages/messages.css?t=20181025" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -84,7 +84,7 @@
                             </thead>
                            	 <tbody>
                            	 	{{each noticeContents as item i}}
-                            	<tr data-json="{{item.json}}" data-url="{{item.url}}" data-contentid="{{item.contentId}}" class="{{if item.isReaded==1}}isReaded{{/if}}">
+                            	<tr data-json="{{item.json}}" data-url="{{item.url}}" data-contentid="{{item.contentId}}" class="{{if item.isReaded==1}}isReaded{{/if}}" data-del="{{item.canDel}}">
                                   	<td class="{{if item.isReaded==1}}isReaded{{/if}} num"><i class="fa fa-square-o fa-fw" data-id={{item.staffUUID}}></i>{{i+1}}</td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}"><img src="{{path_img}}{{item.coverPicture}}-scale200" alt=""></td>
                                   	<td class="email-sender {{if item.isReaded==1}}isReaded{{/if}}">{{if item.url}}<a href="javascript:void(0);">{{item.title}}</a>{{else}}{{item.title}}{{/if}}</td>
@@ -298,6 +298,19 @@
             </script>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-dialog-img" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <span class="prevBtn"></span>
+                <div id="carousel_img"></div>
+                <span class="nextBtn"></span>
+            </div>
+        </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+        <span class="deleteBtn01 hide"></span>
+    </div>
+
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
 	<script src="../../js/common/template.js"></script>
@@ -308,7 +321,7 @@
     <script src="../../js/common/plupload/qiniu.js" ></script>
     <script src="../../js/common/modal.js"></script>
 
-	<script src="../../js/common/base.js?t=20181018"></script>
-	<script src="../../js/messages/messages.js?t=20181018"></script>
+	<script src="../../js/common/base.js?t=20181025"></script>
+	<script src="../../js/messages/messages.js?t=20181025"></script>
 </body>
 </html>

@@ -58,12 +58,14 @@ function editTable() {
         for(var i=0;i<$("input.fill").length;i++){
             if(!$("input.fill").eq(i).val()){
                 $("input.fill").eq(i).addClass("empty");
+            }else{
+                $("input.fill").eq(i).removeClass("empty");
             }
         }
 
         if($("input.fill").hasClass("empty")){
-            $("input.fill").focus();
-        }else{
+            // $("input.fill").focus();
+        }else if(new Date($("#planEndtime").val()).getTime() >= new Date($("#planBegintime").val()).getTime()){
             var json={
                     title:$("#healthTitle").val(),
                     startDate:$("#planBegintime").val(),
@@ -85,6 +87,9 @@ function editTable() {
             };
             healthGetTable_callback(res,json);
             $("#myModal").modal("hide");
+        }else{
+            $("#planEndtime,#planBegintime").addClass("empty");
+            toastTip("提示","结束时间需大于等于开始时间");
         };
     });
 

@@ -502,6 +502,7 @@ function basicAllClassInfo_callback(res) {
         var data={arr:JSON.parse(res.data)};
         var html=template("teacherClass_script",data);
         $("#teacherClass01,#teacherClass02").empty().append(html);
+        $("#teacherClass01 >option:contains('全部'),#teacherClass02 >option:contains('全部')").remove();
     };
 };
 
@@ -793,7 +794,7 @@ function chooseRow() {
         ValidateBtn();
     });
 
-    $("#tableBox .table.table-email tbody tr >td.email-sender").on({
+    $("#tableBox .table.table-email tbody tr >td.email-sender,#tableBox .table.table-email tbody tr >td.email-select").on({
         mouseover:function () {
             $(this).addClass("active").siblings().addClass("active");
         },
@@ -805,7 +806,7 @@ function chooseRow() {
             $(this).addClass("current").siblings().addClass("current");
             var num=$(this).parent().index()*52+70;
             $(".ui-dialog-arrow-a, .ui-dialog-arrow-b").css("top",e.pageY-290);
-            childrenParentInfo_port($(this).prevAll("td.email-select").find("i").attr("data-id"));   
+            childrenParentInfo_port($(this).parent("tr").attr("data-id"));   
         }
     });
 };

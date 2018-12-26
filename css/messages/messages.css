@@ -402,6 +402,7 @@ textarea.textarea01 {
 	border-radius: 10px !important;
 	position: relative;
 	text-align: center;
+	cursor: pointer;
 }
 #carousel a:hover {
 	border: 1px solid #13b5dd;
@@ -425,6 +426,7 @@ textarea.textarea01 {
 #carousel img {
 	width: 120px;
 	height: 120px;
+	cursor: pointer;
 }
 .deleteBtn {
 	position: absolute;
@@ -504,6 +506,7 @@ textarea.textarea01 {
 }
 #detailRead{
 	height: 7rem;
+	cursor: default;
 }
 #detailRead >div{
 	line-height: 1rem;
@@ -567,6 +570,7 @@ textarea.textarea01 {
 	line-height:0.38rem;
 	padding-left: 1.4rem;
 	border-bottom: 1px solid #e8ebea;
+	cursor: default;
 }
 .tipNum{
 	display:inline-block;
@@ -770,4 +774,69 @@ li.class.active .array{
 	width: 100%;
 	background-color: #fff;
 	border: none;
+}
+
+
+
+
+/*图片放大插件函数 start*/
+.closeBtn01 {
+	display: inline-block;
+	cursor: pointer;
+	width: 0.8rem;
+	height: 0.8rem;
+	background: url(../../images/growth/closeBtn01.png) no-repeat center center;
+	position: absolute;
+	top: 0.3rem;
+	right: 0.5rem;
+	z-index: -1;
+	border-radius: 0.1rem;
+}
+.prevBtn:hover, .nextBtn:hover, .closeBtn01:hover, .deleteBtn01:hover {
+	background-color: rgba(0,0,0,0.2);
+}
+.nextBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 1rem;
+	height: 1.6rem;
+	background: url(../../images/growth/next.png) no-repeat center center;
+	position: absolute;
+	top: 30%;
+	right: -2rem;
+	border-radius: 0.1rem;
+	z-index: -1;
+}
+.prevBtn {
+	display: inline-block;
+	cursor: pointer;
+	width: 1rem;
+	height: 1.6rem;
+	background: url(../../images/growth/prev.png) no-repeat center center;
+	position: absolute;
+	top: 30%;
+	left: -2rem;
+	border-radius: 0.1rem;
+	z-index: -1;
+}
+#carousel_img {
+	text-align: center;
+	height: 100%;
+	padding: 2%;
+	vertical-align: middle;
+}
+#carousel_img img {
+	max-height: 100%;
+	max-width: 100%;
+	vertical-align: middle;
+}
+#modal-dialog-img .modal-dialog {
+	width: 550px;
+	margin: 1rem auto 0;
+}
+#modal-dialog-img .modal-content {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 0.08rem;
+	height: auto;
 }
