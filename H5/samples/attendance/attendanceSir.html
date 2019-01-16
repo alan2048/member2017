@@ -10,14 +10,14 @@
 	<link rel="shortcut icon" href="./images/favicon.png" />
 	<link rel="stylesheet" href="./js/dialog/dialog.css" />
 	<link href="./js/photoswipe/default-skin/default-skin.css" rel="stylesheet" />
-	<link href="./js/photoswipe/photoswipe_define.css?t=20181025" rel="stylesheet" />
+	<link href="./js/photoswipe/photoswipe_define.css?t=20190111" rel="stylesheet" />
 	<link href="./js/calendar/calendar.css" rel="stylesheet" />
 
 	<link rel="stylesheet" type="text/css" href="./js/mui/mui.min.css" />
 	<link rel="stylesheet" type="text/css" href="./js/mui/mui.picker.min.css" />
 
-	<link rel="stylesheet" href="./font/iconfont.css?t=20181025" />
-	<link rel="stylesheet" href="./css/attendanceSir.css?t=20181025" />
+	<link rel="stylesheet" href="./font/iconfont.css?t=20190111" />
+	<link rel="stylesheet" href="./css/attendanceSir.css?t=2019011100" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -33,12 +33,23 @@
 					<div class="checkBox"></div>
 					<script id="checkBox_script" type="text/html">
 						<div class="checkTitle"><i>{{if isToday}}今{{else}}{{day}}{{/if}}</i>日打卡</div>
-						<div class="checkBody {{if tcheckList.length ==0}}empty{{/if}}">
+						<div class="checkBody {{if tcheckList.length ==0 && tsignList.length ==0}}empty{{/if}}">
 							{{each tcheckList as value i}}
 							<div class="pic" {{if value.cameraPhoto}}style="background: url({{path_img}}{{value.cameraPhoto}}-scale200) center center no-repeat;"{{/if}} data-pic="{{value.cameraPhoto}}">
 								<span>{{value.checkingTime}}</span>
 							</div>
 							{{/each}}
+							{{if tsignList.length != 0}}
+							<div class="checkSignTitle">手动补卡：</div>
+							<div>
+								{{each tsignList as item j}}
+									<span class="signInOutItem">
+										<div>补卡时间：{{item.checkingTime}}</div>
+										<div>补卡老师：{{item.signUserName}}</div>
+									</span>
+								{{/each}}
+							</div>
+							{{/if}}
 						</div>
 					</script>
 					<div class="leaveBox"></div>
@@ -213,6 +224,22 @@
 							</div>
 							{{/each}}
 						</div>
+						{{if value.signTimeList.length != 0}}
+						<div>
+							<div>手动补卡：</div>
+							<div>
+								{{each value.signTimeList as item j}}
+									<span class="signInOutItem">
+										<div>补卡时间：{{item.checkingTime}}</div>
+										<div>补卡老师：{{item.signUserName}}</div>
+									</span>
+								{{/each}}
+							</div>
+						</div>
+						{{/if}}
+						{{if value.isToday}}
+						<div class="signInOutBox"><span data-useruuid="{{value.userUUID}}" class="signInOutBtn" data-time="{{value.time}}">手动补卡</span></div>
+						{{/if}}
 					</div>	
       				{{/each}}
       			</script>
@@ -233,7 +260,7 @@
 					<div>
 						<span>{{value.day}}日</span>{{curName}}
 					</div>
-					<div>打卡时间：</div>
+					<div>打卡时间：{{if value.checkingTimeList.length == 0}} <span class="red">未打卡</span>{{/if}}</div>
 					<div>
 						{{each value.checkingTimeList as item j}}
 						<div class="pic" {{if item.cameraPhoto}}style="background: url({{path_img}}{{item.cameraPhoto}}-scale200) center center no-repeat;"{{/if}} data-pic="{{item.cameraPhoto}}">
@@ -241,6 +268,17 @@
 						</div>
 						{{/each}}
 					</div>
+					{{if value.signTimeList.length != 0}}
+						<div>手动补卡：</div>
+						<div>
+							{{each value.signTimeList as item j}}
+								<span class="signInOutItem">
+									<div>补卡时间：{{item.checkingTime}}</div>
+									<div>补卡老师：{{item.signUserName}}</div>
+								</span>
+							{{/each}}
+						</div>
+					{{/if}}
 				</div>	
       			{{/each}}
       		</script>
@@ -356,12 +394,12 @@
     <script src="./js/photoswipe/photoswipe.js"></script>
 
     <script src="./js/photoswipe/photoswipe-ui-default.js"></script>
-	<script src="./js/calendar/calendar.js?t=20181222"></script>
+	<script src="./js/calendar/calendar.js?t=20190111"></script>
 
 	<script src="./js/mui/mui.min.js"></script>
 	<script src="./js/mui/mui.picker.min.js"></script>
 
-	<script src="./js/base.js?t=20181205"></script>
-	<script src="./js/attendanceSir.js?t=20181222"></script>
+	<script src="./js/base.js?t=20190111"></script>
+	<script src="./js/attendanceSir.js?t=20190111"></script>
 </body>
 </html>

@@ -57,6 +57,15 @@
 						<span>视力：</span>{{value.visionL}}（左），{{value.visionR}}（右）
 					</div>
 					<div>
+						<span>听力筛查：</span><i class="{{if value.hearing =='可疑，需复查'}}errorTip{{/if}}">{{if value.hearing}}{{value.hearing}}{{else}}暂无{{/if}}</i>
+					</div>
+					<div>
+						<span>尿检：</span><i class="{{if value.uroscopy =='可疑，需复查'}}errorTip{{/if}}">{{if value.uroscopy}}{{value.uroscopy}}{{else}}暂无{{/if}}</i>
+					</div>
+					<div>
+						<span>龋齿：</span><i>{{if value.toothdecay}}{{value.toothdecay}}{{else}}暂无{{/if}}</i>
+					</div>
+					<div>
 						<span>体检结果：</span>{{value.fatnessResult}}
 					</div>
 					<div>
@@ -78,8 +87,17 @@
 									左眼视力（{{if value.visionlAlert ==-1}}<span class="errorTip">偏低</span>{{/if}}）<br>
 							{{/if}}
 							{{if value.visionrAlert !=0}}
-									右眼视力（{{if value.visionrAlert ==-1}}<span class="errorTip">偏低</span>{{/if}}）
-							{{/if}} <br>
+									右眼视力（{{if value.visionrAlert ==-1}}<span class="errorTip">偏低</span>{{/if}}）<br>
+							{{/if}} 
+							{{if value.hearing =='可疑，需复查'}}
+									听力筛查（<span class="errorTip">可疑，需复查</span>）<br>
+							{{/if}} 
+							{{if value.uroscopy =='可疑，需复查'}}
+									尿检（<span class="errorTip">可疑，需复查</span>）<br>
+							{{/if}} 
+							{{if value.toothdecay !=0 && value.toothdecay}}
+									龋齿（<span class="errorTip">{{value.toothdecay}}</span>）<br>
+							{{/if}} 
 							</div>
 						{{/if}}
 					</div>

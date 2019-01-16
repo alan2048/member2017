@@ -164,7 +164,17 @@
                                         <td class="email-sender">
                                         {{if item.checkingTimeList.length !=0}}
                                             {{each item.checkingTimeList as item01 j}}
-                                            <div class="">{{item01.checkingTime}}</div>
+                                                <div class="">
+                                                    {{item01.checkingTime}}
+                                                    {{if item01.signUserName}}
+                                                    <i class="manual">手动补卡
+                                                        <div>
+                                                            <div>补卡时间：{{item01.checkingTime}}</div>
+                                                            <div>补卡老师：{{item01.signUserName}}</div>
+                                                        </div>
+                                                    </i>
+                                                </div>
+                                                {{/if}}
                                             {{/each}}
                                         {{else}}
                                             <div class="red">未打卡</div>
@@ -173,7 +183,7 @@
                                         <td class="email-sender">
                                         {{if item.checkingTimeList.length !=0}}
                                             {{each item.checkingTimeList as item01 j}}
-                                            <div class="enterPic active" data-pic="{{item01.cameraPhoto}}">查看图片</div>
+                                            <div class="enterPic {{if item01.cameraPhoto}}active{{/if}}" data-pic="{{item01.cameraPhoto}}">{{if !item01.signUserName}}查看图片{{else}}无{{/if}}</div>
                                             {{/each}}
                                         {{else}}
                                             <div class="enterPic">查看图片</div>

@@ -75,7 +75,6 @@ function attendanceList_callback(res,json) {
                 tab01Arr:json,
                 tab02Arr:JSON.parse(res.data)
         };
-        console.log(curObj.tab02Arr)
 
         var html=template("curBox_script",curObj);
         $("#curBox").empty().append(html).removeClass("hide");

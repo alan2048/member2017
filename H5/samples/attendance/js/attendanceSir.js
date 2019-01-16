@@ -10,6 +10,7 @@ httpUrl.teacherLeaveApproval=path+"/app/teacherAttendance/teacher/leaveApproval"
 httpUrl.teacherDeleteTLeave=path+"/app/teacherAttendance/teacher/deleteTLeave";// 05请假删除
 httpUrl.teacherCheckingRecord=path+"/app/teacherAttendance/teacher/checkingRecord";// 06打卡记录
 httpUrl.teacherPastRecord=path+"/app/teacherAttendance/teacher/pastRecord";// 07历史记录
+httpUrl.teacherSignInOut=path+"/app/teacherAttendance/teacher/signInOut";// 07补卡
 
 var monthObj=[];
 winResize();
@@ -140,6 +141,23 @@ function section01Fn() {
         scroll2Top(100);
     });
 
+    // 补卡
+    $("#checkSection").on("click",".signInOutBtn",function (e) {
+        e.stopPropagation();
+
+        var uuid=$(this).attr("data-useruuid");
+        $(document).dialog({
+            type:"confirm",
+            titleShow:false,
+            content: '确认手动补卡吗？',
+            buttonTextCancel:"取消",
+            buttonTextConfirm:"确定",
+            onClickConfirmBtn:function () {
+                teacherSignInOut_port(uuid);
+            }
+        });
+    });
+
     // 滚动到底部继续加载数据
     window.onscroll=function () {
         if($("#historySection").hasClass("current")){
@@ -192,7 +210,13 @@ function section01Fn() {
     $("#section01").on("click","#addIcon",function () {
         var year=new Date().getFullYear();
         var month=new Date().getMonth()+1;
+        if(month < 10){
+             month="0"+month
+        };
         var day=new Date().getDate();
+        if(day < 10){
+            day="0"+day
+        };
 
         var data={
                 time:year+"-"+month+"-"+day,
@@ -257,7 +281,13 @@ function section01Fn() {
         if($(".leavePart").length ==0){
             var year=new Date().getFullYear();
             var month=new Date().getMonth()+1;
+            if(month < 10){
+                month="0"+month
+            };
             var day=new Date().getDate();
+            if(day < 10){
+                day="0"+day
+            };
 
             var data={
                     time:year+"-"+month+"-"+day,
@@ -690,7 +720,6 @@ function teacherLeaveRecordForApproval_port (flag,pageNum) {
 function teacherLeaveRecordForApproval_callback(res,flag) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-        console.log(data);
         if(data.length !=0){
             $("#approveSection").removeClass("empty");
 
@@ -732,8 +761,13 @@ function teacherLeaveApproval_port (json) {
     initAjax(httpUrl.teacherLeaveApproval,param,teacherLeaveApproval_callback,data.tleaveUUID);
 };
 function teacherLeaveApproval_callback(res,tleaveUUID) {
-    if(res.code==200){
-        toastTip("操作成功","",1000);
+    if(res.code==200 || res.code == 2969){
+        if(res.code == 200){
+            toastTip("操作成功","",1000);
+        }else{
+            toastTip(res.info,"",2000);
+        };
+        
         
         $(".approveBody >div").eq(0).children().addClass("upgrading");// 解决数据刷新及自动定位问题
         teacherLeaveRecordForApproval_port(0);// 已审批
@@ -743,6 +777,8 @@ function teacherLeaveApproval_callback(res,tleaveUUID) {
 
         myAttendInfo_port();
         teacherAttendHomePage_port();// 全园数据跟随刷新
+    }else {
+        toastTip(res.info,"",2000);
     };
 };
 
@@ -773,6 +809,22 @@ function teacherDeleteTLeave_callback(res,tleaveUUID) {
 
         myAttendInfo_port();
         teacherAttendHomePage_port();
+    }else{
+        toastTip(res.info,"",2000);
+        if(res.info == "请求失败：请假信息不存在，或已被删除"){
+            $(".approveBody >div.active >div[data-tleaveuuid="+tleaveUUID+"]").remove();
+
+            for(var i=0;i<$(".approveBody >div").length;i++){
+                if($(".approveBody >div").eq(i).children().length ==0){
+                    $(".approveBody >div").eq(i).addClass("empty");
+                }else{
+                    $(".approveBody >div").eq(i).removeClass("empty");
+                };
+            };
+
+            myAttendInfo_port();
+            teacherAttendHomePage_port();
+        }
     };
 };
 
@@ -788,18 +840,28 @@ function teacherCheckingRecord_port () {
     var param={
             params:JSON.stringify(data)
     };
-    initAjax(httpUrl.teacherCheckingRecord,param,teacherCheckingRecord_callback,data.day);
+    initAjax(httpUrl.teacherCheckingRecord,param,teacherCheckingRecord_callback,data);
 };
-function teacherCheckingRecord_callback(res,day) {
+function teacherCheckingRecord_callback(res,time) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+
+        var todayStr=new Date(new Date().getTime()).Format("yyyy-MM-dd");
+        var curTime=new Date().getTime();
+        var isToday=false;
+        if(todayStr == $("#mobiscrollBtn01").val()){
+            isToday=true;
+        };
+
         if(data.length ==0){
             $("#checkSection").addClass("empty");
         }else{
             $("#checkSection").removeClass("empty");
 
             for(var i=0;i<data.length;i++){
-                data[i].day=day;
+                data[i].day=time.day;
+                data[i].isToday=isToday;
+                data[i].time=curTime;
             };  
 
             var html=template("checkList_script",{arr:data,path_img:httpUrl.path_img});
@@ -809,6 +871,29 @@ function teacherCheckingRecord_callback(res,day) {
         $("section").removeClass("current");
         $("#checkSection").addClass("current");
         document.title="打卡记录";
+    };
+};
+
+// 补卡
+function teacherSignInOut_port (userUUID) {
+    var data={
+            userUUID:userUUID,
+            loginUserUUID:user.userUUID
+    };
+    var param={
+            params:JSON.stringify(data)
+    };
+    initAjax(httpUrl.teacherSignInOut,param,teacherSignInOut_callback);
+};
+function teacherSignInOut_callback(res) {
+    if(res.code==200){
+        toastTip("补卡成功","",1000);
+        teacherCheckingRecord_port();
+
+        myAttendInfo_port();
+        teacherAttendHomePage_port();// 全园数据跟随刷新
+    }else{
+        toastTip(res.info,"",2000);
     };
 };
 
@@ -826,8 +911,6 @@ function teacherPastRecord_port (pageNum,user) {
 function teacherPastRecord_callback(res,user) {
     if(res.code==200){
         var data=JSON.parse(res.data);
-
-        console.log(data);
         if(data.length ==0){
             if($("#historyList").children().length ==0){
                 $("#historySection").addClass("empty");
@@ -904,7 +987,16 @@ function calendarInit() {
 };
 
 function mobiscrollInit() {
-    var curTime=new Date().getFullYear()+"-"+(new Date().getMonth()+1)+"-"+new Date().getDate();
+    var month = new Date().getMonth()+1;
+    if(month <10){
+        month = "0"+month;
+    };
+    var day= new Date().getDate();
+    if(day < 10){
+        day = "0"+day;
+    };
+
+    var curTime=new Date().getFullYear()+"-"+month+"-"+ day;
     $("#mobiscrollBtn01").val(curTime);
 
     teacherAttendHomePage_port();

@@ -92,19 +92,22 @@
                             <thead>
                                 <tr>
                                     <th style="width: 4%;">序号</th>
-                                    <th style="width: 9%;">姓名</th>
+                                    <th style="width: 6%;">姓名</th>
                                     <th style="width: 4%;">性别</th>
                                     <th style="width: 6%;">年龄</th>
-                                    <th style="width: 8%;">身高（cm）</th>
-                                    <th style="width: 8%;">体重（kg）</th>
-                                    <th style="width: 8%;">血色素（g/l）</th>
-                                    <th style="width: 9%;">视力</th>
-                                    <th style="width: 7%;">身高P值</th>
-                                    <th style="width: 7%;">体重P值</th>
-                                    <th style="width: 9%;">身高别体重P值</th>
-                                    <th style="width: 7%;">肥胖值</th>
-                                    <th style="width: 7%;">体检结果</th>
-                                    <th style="width: 7%;">预警信息</th>
+                                    <th style="width: 6%;">身高（cm）</th>
+                                    <th style="width: 6%;">体重（kg）</th>
+                                    <th style="width: 7%;">血色素（g/l）</th>
+                                    <th style="width: 6%;">视力</th>
+                                    <th style="width: 6%;">听力筛查</th>
+                                    <th style="width: 6%;">尿检</th>
+                                    <th style="width: 6%;">龋齿</th>
+                                    <th style="width: 6%;">身高P值</th>
+                                    <th style="width: 6%;">体重P值</th>
+                                    <th style="width: 7%;">身高别体重P值</th>
+                                    <th style="width: 6%;">肥胖值</th>
+                                    <th style="width: 6%;">体检结果</th>
+                                    <th style="width: 6%;">预警信息</th>
                                 </tr>
                             </thead>
                            	 <tbody>
@@ -118,6 +121,9 @@
                                     <td class="email-sender">{{item.weight}}</td>
                                     <td class="email-sender">{{item.hemachrome}}</td>
                                     <td class="email-sender">左：{{item.visionL}} 右：{{item.visionR}}</td>
+                                    <td class="email-sender {{if item.hearing =='可疑，需复查'}}redIcon{{/if}}">{{item.hearing}}</td>
+                                    <td class="email-sender {{if item.uroscopy =='可疑，需复查'}}redIcon{{/if}}">{{item.uroscopy}}</td>
+                                    <td class="email-sender">{{item.toothdecay}}</td>
                                     <td class="email-sender">{{item.hPvalue}}</td>
                                     <td class="email-sender">{{item.wPvalue}}</td>
                                     <td class="email-sender">{{item.h2wPvalue}}</td>
@@ -219,6 +225,28 @@
                         <label>
                             <span>视力(右)：</span>
                             <input id="h-visionr" class="diagnosis" type="text" />
+                        </label>
+                        <label>
+                            <span>听力筛查：</span>
+                            <select id="hearing">
+                                <option value="">请选择</option>
+                                <option value="正常">正常</option>
+                                <option value="可疑，需复查">可疑，需复查</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <span>尿检：</span>
+                            <select id="uroscopy">
+                                <option value="">请选择</option>
+                                <option value="正常">正常</option>
+                                <option value="可疑，需复查">可疑，需复查</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>龋齿：</span>
+                            <input id="toothdecay" class="diagnosis" type="number" min="0" placeholder="数量（颗）" />
                         </label>
                     </div>
 

@@ -157,9 +157,19 @@
                                     {{if tab02Arr.length !=0}}
                                         {{each tab02Arr as item i}}
                                         <tr>
-                                            <td class="email-sender">{{item.checkingTime}}</td>
                                             <td class="email-sender">
-                                                <span class="enterPic {{if item.cameraPhoto}}active{{/if}}" data-pic="{{item.cameraPhoto}}">查看图片</span>
+                                                {{item.checkingTime}}
+                                                {{if item.signUserName}}
+                                                <i class="manual">手动补卡
+                                                    <div>
+                                                        <div>补卡时间：{{item.checkingTime}}</div>
+                                                        <div>补卡老师：{{item.signUserName}}</div>
+                                                    </div>
+                                                </i>
+                                                {{/if}}
+                                            </td>
+                                            <td class="email-sender">
+                                                <span class="enterPic {{if item.cameraPhoto}}active{{/if}}" data-pic="{{item.cameraPhoto}}">{{if !item.signUserName}}查看图片{{else}}无{{/if}}</span>
                                             </td>
                                         </tr>
                                         {{/each}}

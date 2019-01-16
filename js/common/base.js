@@ -13,7 +13,7 @@ var path=""; //更改服务器地址可设置此值
 if(window.location.host){
 	path="https://"+window.location.host;// 线上环境host自动适配
 }else{
-	path=serverUrl02;// 开发环境默认38服务器
+	path=serverUrl01;// 开发环境默认38服务器
 };
 
 var httpUrl={
@@ -70,6 +70,7 @@ var httpUrl={
 		teacherDelete:path+"/web/basic/staff/delete",// 移除教职工
 		teacherAllType:path+"/web/basic/staff/allType",// 获得所有教职工类型
 		teacherMyClassInfo:path+"/web/basic/myClassInfo",//  获得教职工所在班级列表
+		teacherMyClassInfo2:path+"/web/basic/myClassInfo2",//  无未分组职工
 		teacherStaffInfo:path+"/web/basic/staff/staffInfo",//  获得教职工列表
 
 		teacherGetImportUserInfo:path+"/web/basic/import/getImportUserInfo",//  获得用户导入表信息

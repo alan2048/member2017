@@ -90,7 +90,7 @@ function teacherMyClassInfo_port() {
             // params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.teacherMyClassInfo,param,teacherMyClassInfo_callback);
+    initAjax(httpUrl.teacherMyClassInfo2,param,teacherMyClassInfo_callback);
 };
 function teacherMyClassInfo_callback(res) {
     if(res.code==200){

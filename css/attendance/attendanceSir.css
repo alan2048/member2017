@@ -600,7 +600,7 @@ th,td {
 	top: 0.3rem;
 	border-radius: 0.08rem;
 }
-.email-sender:hover .manual >div{
+.email-sender .manual:hover >div{
 	display: block;
 }
 .manual >div::before {

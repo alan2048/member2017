@@ -6,6 +6,7 @@ function loginSuccess() {
         $(".newBox input").val("");
         $(".reset01").empty();
         $("#allClass,#classMember").attr("disabled",false);
+        $("#hearing >option:first,#uroscopy >option:first").prop("selected",true);
         $(".empty").removeClass("empty");
         getClassMemberInfo_port($("#allClass").val());
         $(".content").addClass("hide");
@@ -17,6 +18,13 @@ function loginSuccess() {
             toastTip("提示","请先选择编辑项。。");
         }else{
             healthGetSingleHI_port();
+        };
+    });
+
+    $("#content01").on("keyup","#toothdecay",function () {
+        var re=/^[0-9]+$/;
+        if(!re.test($(this).val())){
+            $(this).val("");
         };
     });
 
@@ -169,7 +177,7 @@ function getAllClassInfo_port() {
             // params:JSON.stringify(data),
             loginId:httpUrl.loginId
     };
-    initAjax(httpUrl.teacherMyClassInfo,param,getAllClassInfo_callback);
+    initAjax(httpUrl.teacherMyClassInfo2,param,getAllClassInfo_callback);
 };
 function getAllClassInfo_callback(res) {
     if(res.code==200){
@@ -228,6 +236,7 @@ function healthGetSingleHI_callback(res) {
         $(".reset01").empty();
 
         var data=JSON.parse(res.data);
+
         $("#allClass").attr("disabled",true);
         $("#allClass >option[value="+$("#teacherClass").val()+"]").prop("selected",true);
         $("#classMember").empty().append("<option value="+data.userUUID+">"+data.userName+"</option>").attr("disabled",true);
@@ -241,6 +250,17 @@ function healthGetSingleHI_callback(res) {
         $("#h-visionl").val(data.visionL);
         $("#h-visionr").val(data.visionR);
         $("#h-weight").val(data.weight);
+        $("#toothdecay").val(data.toothdecay);
+        if(data.hearing){
+            $("#hearing >option[value="+data.hearing+"]").prop("selected",true);
+        }else{
+            $("#hearing >option:first").prop("selected",true);
+        };
+        if(data.uroscopy){
+            $("#uroscopy >option[value="+data.uroscopy+"]").prop("selected",true);
+        }else{
+            $("#uroscopy >option:first").prop("selected",true);
+        };
 
         getHealthCalculateAll();//取得身高P值
 
@@ -482,7 +502,10 @@ function insertHealthInfo(){
             visionL:$("#h-visionl").val(),
             visionR:$("#h-visionr").val(),
             weight:$("#h-weight").val(),
-            hiUUID:$("#content01").find(".pageTitle >small").attr("data-id")
+            hiUUID:$("#content01").find(".pageTitle >small").attr("data-id"),
+            hearing:$("#hearing").val(),
+            uroscopy:$("#uroscopy").val(),
+            toothdecay:$("#toothdecay").val(),
         };
     var param={
             params:JSON.stringify(data),
