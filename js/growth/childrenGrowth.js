@@ -54,6 +54,16 @@ function init() {
     });
 
     carousel();// 图片轮播
+
+    // 测试视频加载时长
+    var video=document.getElementById('videoTime');
+    video.onloadedmetadata =function () {
+        if(this.duration > 60){
+            toastTip("提示","上传的视频时长需限制在 60秒以内",4000);
+            $("#videoUl").empty();
+            $(".newPicBtn,#newVideoBtnErr").removeClass("err");
+        };
+    };
 };
 // 发帖
 function newInit() {
@@ -64,6 +74,15 @@ function newInit() {
     // 发帖 开关 输入框
     $("#newBtn,#newText").click(function () {
         $("#editor").toggleClass("active").find("#input >textarea").val("");
+    });
+
+
+    $("#newVideoBtnErr").click(function () {
+        if($(this).hasClass("err")){
+            toastTip("提示","发布图片与视频二选一。可先删除图片再发视频")
+        }else{
+            $("#newVideoBtn").click();
+        };
     });
 
     // 是否置顶
@@ -88,15 +107,19 @@ function newInit() {
 
     // 发帖 添加图片
     $("#editor .newPicBtn").click(function () {
-        $("#modal-picture").modal("show");
-        var arr=[];
-        for(var i=0;i<$("#picListUl >li").length;i++){
-            arr.push($("#picListUl >li").eq(i).attr("data-pic"));
-        };
+        if(!$(this).hasClass("err")){
+            $("#modal-picture").modal("show");
+            var arr=[];
+            for(var i=0;i<$("#picListUl >li").length;i++){
+                arr.push($("#picListUl >li").eq(i).attr("data-pic"));
+            };
 
-        $(".picBody >li.loadImg").removeClass("active");
-        for(var i=0;i<arr.length;i++){
-            $(".picBody >li.loadImg[data-md5="+arr[i]+"]").addClass("active");
+            $(".picBody >li.loadImg").removeClass("active");
+            for(var i=0;i<arr.length;i++){
+                $(".picBody >li.loadImg[data-md5="+arr[i]+"]").addClass("active");
+            };
+        }else{
+            toastTip("提示","发布图片与视频二选一。可先删除视频再发图片。");
         };
     });
 
@@ -117,9 +140,15 @@ function newInit() {
     });
 
     // 删除图片
-    $("#picListUl").on("click",".deleteBtn",function (e) {
+    $("#picListUl,#videoUl").on("click",".deleteBtn",function (e) {
          e.stopPropagation();
          $(this).parents("li").remove();
+         if($("#picListUl >li").length ==0){
+            $("#newVideoBtnErr").removeClass("err");
+         };
+         if($("#videoUl >li").length ==0){
+            $(".newPicBtn").removeClass("err");
+         };
     });
 
     // 发帖 添加标签
@@ -158,6 +187,12 @@ function newInit() {
             var html=template("picListUl_script",data);
             $("#picListUl").empty().append(html).parent("#picList").addClass("active");
             $("#modal-picture").modal("hide");
+
+            if(arr.length == 0){
+                $("#newVideoBtnErr").removeClass("err");
+            }else{
+                $("#newVideoBtnErr").addClass("err");
+            }
         }
     });
 
@@ -185,8 +220,8 @@ function newInit() {
     $("#commentNew").click(function () {
         if($("#editor >#input >textarea").hasClass("more")){
             toastTip("提示","最多输入1000字...",2000);
-        }else if($("#editor >#input >textarea").val() || $("#picListUl >li").length >0){
-            if(!$("#editor >#input >textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"") && $("#picListUl >li").length==0){
+        }else if($("#editor >#input >textarea").val() || $("#picListUl >li").length >0  || $(".videoItem").length ==1 ){
+            if(!$("#editor >#input >textarea").val().replace(/^[\s　]+|[\s　]+$/g, "").replace(/[\r\n]/g,"") && $("#picListUl >li").length==0 && $(".videoItem").length ==0){
                 toastTip("提示","文字不可只为空格或回车",2000);
             }else{
                 var pictureList=[];
@@ -221,20 +256,24 @@ function newInit() {
                 }else{
                     content=$("#input >textarea").val();
                 };
-                var data={
+                
+                if($(".videoItem").length ==1 && $(".videoItem > .loading").length == 1){
+                    toastTip("提示","请先等视频上传成功之后再发布。。",2000);
+                }else{
+                    var data={
                         childUseruuidList:childUseruuidList,
                         classId:user.classId.toString(),
                         content:content,
                         labelList:labelList,
                         pictureList:pictureList,
                         stickyPost:stickyPost,
-                        video:""
+                        video:$(".videoItem").attr("data-video") || ""
+                    };
+                    growthAdd_port(data);
                 };
-                // console.log(data);
-                growthAdd_port(data);
             };  
         }else{
-            toastTip("提示","文字和图片至少需选择一项",2000);
+            toastTip("提示","文字、图片和视频至少需选择一项",2000);
         };      
     });
 };
@@ -485,7 +524,8 @@ function growthAdd_port(json) {
 };
 function growthAdd_callback(res) {
     if(res.code==200){
-        $("#picListUl,.newLabel,.newWho").empty();
+        $("#picListUl,#videoUl,.newLabel,.newWho").empty();
+        $(".newPicBtn,.newVideoBtnErr").removeClass("err");
         $(".newNumBtn >span").text("0");
         $("#newBtn").click();
         growthList_port(user.classId,0,$("#label >span.active").attr("data-id"),0);
@@ -764,6 +804,7 @@ function loadFiles() {
         if(res.code==200){
             user.upToken1=res.data;
             loadFiles01();// 七牛公有文件上传
+            loadFiles02();// 视频上传
         };
     };
     function loadFiles01() {
@@ -811,6 +852,76 @@ function loadFiles() {
                     }
                 }
             });
+    };
+    function loadFiles02() {
+        var uploader = Qiniu.uploader({
+                runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+                browse_button: 'newVideoBtn',         // 上传选择的点选按钮，必需
+                uptoken: user.upToken1, // uptoken是上传凭证，由其他程序生成
+                get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+                save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+                domain: httpUrl.path_img,     // bucket域名，下载资源时用到，必需
+                max_file_size: '500mb',             // 最大文件体积限制
+                multi_selection: true,              // 多选上传
+                max_retries: 3,                     // 上传失败最大重试次数
+                chunk_size: '4mb',                  // 分块上传时，每块的体积
+                auto_start: true,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                filters : {
+                    max_file_size : '500mb',
+                    prevent_duplicates: false,
+                    mime_types: [
+                        {title : "Image files", extensions : "mp4"} // 限定视频后缀上传
+                    ]
+                },
+                init: {
+                    'FileUploaded': function(up, file, info) {
+                        var data={
+                                md5:JSON.parse(info.response).key,
+                                path_img:httpUrl.path_img
+                        };
+                        $("#videoUl .loading").remove();
+                        $('.qiniuBar').remove();
+
+                        $(".newPicBtn").addClass("err");
+                        $(".videoItem").attr("data-video",data.md5).parent().attr("data-video",data.md5);
+
+                        $("#videoTime").attr("src","").attr("src",httpUrl.path_img+data.md5);
+                    },
+                    'BeforeUpload': function(up, file) {// 每个文件上传前，处理相关的事情
+                        $(".newPicBtn").addClass("err");
+                        if(file.type == "video/mp4"){
+                            var data={
+                                md5:"",
+                                path_img:httpUrl.path_img
+                            };
+                            var html=template("videoUl_script",data);
+                            $("#videoUl").empty().append(html);
+
+                            $("body").append("<span class='qiniuBar'></span>");
+                        }else{
+                            toastTip("提示","目前仅支持mp4视频格式");
+                        };
+                    },
+                    'UploadProgress': function(up, file) {// 进度条
+                        $("#videoUl .loading").text(file.percent + "%");
+                        $(".qiniuBar").width(file.percent + "%");
+                    },
+                    'Error': function(up, err, errTip) {
+                        toastTip("提示",errTip);
+                    }
+                }
+            });
+
+        // 上传过程中取消或者暂停操作
+        $("#videoUl").on("click",".deleteBtn",function () {
+            if($(this).parent().find(".loading").length != 0){
+                uploader.stop();
+                uploader.files.length =0;
+                $(".newPicBtn").removeClass("err");
+                $('.qiniuBar').remove();
+            };
+        });
+
     };
 };
 
@@ -865,6 +976,12 @@ function carousel() {
         if(arr.indexOf(curPic)+1 ==arr.length){
             $("#carousel_img").next(".nextBtn").addClass("hide")
         }; 
+    });
+
+    // 新增 图片查看
+    $("#videoUl").on("click","li > a.videoItem",function () {
+        var md5=$(this).attr("data-video");
+        $("#carousel_video > video").attr("src",httpUrl.path_img+md5);
     });
 
     // 删除 新增图片按钮

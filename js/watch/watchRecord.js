@@ -1396,7 +1396,7 @@ function editRow() {
 
 // 验证字数
 function validate() {
-    $("#evaluation").on("keyup","#comment",function () {
+    $("#evaluation").on("keyup blur","#comment",function () {
         $(this).next(".maxNum").find("span").text($(this).val().length);
         if($(this).val().length >1000){
             $(this).addClass("max").next(".maxNum").find("span").addClass("max");
@@ -1406,7 +1406,7 @@ function validate() {
         localStorageFn();
     });
 
-    $("#evaluation").on("keyup","#evaluate",function () {
+    $("#evaluation").on("keyup blur","#evaluate",function () {
         $(this).next(".maxNum").find("span").text($(this).val().length);
         if($(this).val().length >1000){
             $(this).addClass("max").next(".maxNum").find("span").addClass("max");
@@ -1416,7 +1416,7 @@ function validate() {
         localStorageFn();
     });
 
-    $("#evaluation").on("keyup","#advice",function () {
+    $("#evaluation").on("keyup blur","#advice",function () {
         $(this).next(".maxNum").find("span").text($(this).val().length);
         if($(this).val().length >1000){
             $(this).addClass("max").next(".maxNum").find("span").addClass("max");

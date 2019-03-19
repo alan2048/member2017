@@ -21,7 +21,9 @@ function watchDimensions_callback(res) {
         Arr.length=0;
         Arr=tree2json(data);
 
-        getDimLevelList_port(Arr[0].id);//默认查询第一项
+        if(Arr[0]){
+            getDimLevelList_port(Arr[0].id);//默认查询第一项
+        };
 
         var json={data:data};
         var html=template("trees_script",json);
@@ -341,7 +343,9 @@ function deleteDim() {
         if(e.keyCode==13){
             $(this).blur();
         }
-    });;   
+    }).on('click','li.edit >input',function (e){
+        stopBubble(e);//阻止冒泡
+    });   
 }
 
 // 右侧维度执行函数区
@@ -520,14 +524,27 @@ function getDimLevelList_callback(res,dimid) {
     if(res.code==200){
         var data=JSON.parse(res.data);
         if(data.length>0){
-            var json={data:data};
+            var json={data:data,companyUUID:user.companyUUID};
             var html=template('descTrees_script',json);
             $("#descTrees").empty().append(html);
             getDimLevelList_after(); 
         }else{
-                var html='<ul style="width:2000px;">'+
+                var type=$("#treesmain li.list[data-dimid="+dimid+"]").attr("data-type") || $("#trees a[data-dimid="+dimid+"]").attr("data-type");
+                if(type && type == 0){
+                    if(user.companyUUID == 10086 || user.companyUUID ==264259){
+                        var html='<ul style="width:2000px;">'+
                             '<li class="descListlast" data-dimid='+dimid+'></li>'+
+                        '</ul>'; 
+                    }else{
+                        var html='<ul style="width:2000px;">'+
                         '</ul>';
+                    };
+                }else{
+                    var html='<ul style="width:2000px;">'+
+                            '<li class="descListlast" data-dimid='+dimid+'></li>'+
+                        '</ul>'; 
+                };
+                
                 $("#descTrees").empty().append(html);
                 getDimLevelList_after();
             }
@@ -832,6 +849,7 @@ function loginUserInfo_port() {
 function loginUserInfo_callback(res) {
     if(res.code==200){
         var data=JSON.parse(res.data);
+        user.companyUUID=data.companyUUID;
         data.path_img=httpUrl.path_img;
         $("#user >.userName").text(data.name);
         $("#user >.userRole").text(data.jobTitle);

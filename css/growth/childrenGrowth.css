@@ -155,6 +155,26 @@ header >#logo{
 	cursor: pointer;
 	background: url(../../images/growth/newPicBtn.png) 0 center no-repeat;
 }
+#editor .newVideoBtn{
+	display: none;
+	width: 0.7rem;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	padding-left: 0.35rem;
+	cursor: pointer;
+	background: url(../../images/growth/newVideoBtn.png) 0 center no-repeat;
+}
+#editor .newVideoBtn.active{
+	display: inline-block;
+}
+#editor .newVideoBtn.active.err{
+	opacity: 0.2;
+	cursor: not-allowed;
+}
+.err{
+	opacity: 0.2;
+	cursor: not-allowed;
+}
 #editor .newLabelBtn{
 	display: inline-block;
 	width: 0.7rem;
@@ -198,7 +218,7 @@ header >#logo{
 #editor .newTopBtn >span{
 	color: #5ae0e2;
 }
-#editor .newPicBtn:hover,#editor .newLabelBtn:hover,#editor .newWhoBtn:hover,#editor .newTopBtn:hover{
+#editor .newPicBtn:hover,#editor .newVideoBtn:hover,#editor .newLabelBtn:hover,#editor .newWhoBtn:hover,#editor .newTopBtn:hover{
 	color: #5ae0e2;
 }
 
@@ -496,7 +516,7 @@ header >#logo{
 #picList{
 	display: block;
 }
-#picListUl >li{
+#picListUl >li,#videoUl >li{
 	display: inline-block;
 	width: 0.8rem;
 	height: 0.8rem;
@@ -504,7 +524,7 @@ header >#logo{
 	border-radius: 0.1rem;
 	position: relative;
 }
-#picListUl >li >a{
+#picListUl >li >a,#videoUl >li >a{
 	display: inline-block;
 	width: 100%;
 	height: 100%;
@@ -515,6 +535,24 @@ header >#logo{
 	border: 0.01rem solid #e7ecea;
 	background-color: #f7fafa;
 	border-radius: 0.1rem;
+}
+#videoUl >li >a{
+	background: #eee url(../../images/growth/videoBg.png) center center no-repeat;
+	border-radius: 0.1rem;
+}
+#videoUl >li >a >.loading{
+	width: 100%;
+	height: 100%;
+	border: 0.01rem solid #a4a7a6;
+	background-color: rgba(100,100,100,0.5);
+	border-radius: 0.1rem;
+	display: inline-block;
+	text-align: center;
+	line-height: 0.8rem;
+	color: #fff;
+}
+.videoItem{
+	background: #fff url() 0 0 no-repeat;
 }
 .deleteBtn {
 	display: inline-block;
@@ -528,7 +566,7 @@ header >#logo{
 	display: none;
 	z-index: 10;
 }
-#picListUl > li:hover >a >.deleteBtn{
+#picListUl > li:hover >a >.deleteBtn,#videoUl > li:hover >a >.deleteBtn{
 	display: inline-block;	
 }
 .commentNewBox{
@@ -1169,4 +1207,7 @@ select:focus,input:focus{
 video{
 	width: 100%;
 	max-height: 6rem;
+}
+#carousel_video{
+	background-color: #222;
 }

@@ -174,7 +174,7 @@ function savePic() {
             toastTip("提示","水印开关开启状态，才可添加月份水印","2500");
         }else{
             if(canvas.getItemByAttr('id', "waterMark")){
-                canvas.getItemByAttr('id', "waterMark").remove();
+                canvas.remove(canvas.getItemByAttr('id', "waterMark"));
                 addWater($("#chooseColor >span.current").attr("data-color"));// 添加水印函数
             }else{
                 addWater($("#chooseColor >span.current").attr("data-color"));// 添加水印函数
@@ -188,7 +188,7 @@ function savePic() {
         event.stopPropagation(); 
         if($(this).hasClass("close")){
             if(canvas.getItemByAttr('id', "waterMark")){
-                canvas.getItemByAttr('id', "waterMark").remove();
+                canvas.remove(canvas.getItemByAttr('id', "waterMark"));
             };
         }else{
             addWater($("#chooseColor >span.current").attr("data-color"));// 添加水印函数
@@ -203,7 +203,7 @@ function savePic() {
             toastTip("提示","水印开关开启状态，才可添加月份水印","2500");
         }else{
             if(canvas.getItemByAttr('id', "waterMark")){
-                canvas.getItemByAttr('id', "waterMark").remove();
+                canvas.remove(canvas.getItemByAttr('id', "waterMark"));
                 addWater($(this).attr("data-color"));// 添加水印函数
             }else{
                 addWater($(this).attr("data-color"));// 添加水印函数
@@ -286,13 +286,13 @@ function savePic() {
                 if(canvas.getItemByClass("bottomText").length !=0 ){
                     var Arr=canvas.getItemByClass("bottomText");
                     for(var i=0;i<Arr.length;i++){
-                        Arr[i].remove();
+                        canvas.remove(Arr[i]);
                     };
                 };
                 if(canvas.getItemByClass("bottomPic").length !=0 ){
                     var Arr=canvas.getItemByClass("bottomPic");
                     for(var i=0;i<Arr.length;i++){
-                        Arr[i].remove();
+                        canvas.remove(Arr[i]);
                     };
                 };
         
@@ -337,13 +337,13 @@ function savePic() {
         if(canvas.getItemByClass("bottomText").length !=0 ){
             var Arr=canvas.getItemByClass("bottomText");
             for(var i=0;i<Arr.length;i++){
-                Arr[i].remove();
+                canvas.remove(Arr[i]);
             };
         };
         if(canvas.getItemByClass("bottomPic").length !=0 ){
             var Arr=canvas.getItemByClass("bottomPic");
             for(var i=0;i<Arr.length;i++){
-                Arr[i].remove();
+                canvas.remove(Arr[i]);
             };
         };
         
@@ -431,24 +431,30 @@ function savePic() {
     // 删除按钮 工具箱 删除当前canvas对象
     $("#editor").on("click","#deleteBtn",function () {
         if(canvas.getActiveObject()){
-            canvas.getActiveObject().remove();
-        }
-        if(canvas.getActiveGroup()){
-            var activeGroup = canvas.getActiveGroup();
-            var objectsInGroup = activeGroup.getObjects();
-            canvas.discardActiveGroup();
-            objectsInGroup.forEach(function(object) {
+            canvas.remove(canvas.getActiveObject());
+        };
+        if(canvas.getActiveObjects()){
+            var activeGroup = canvas.getActiveObjects();
+            activeGroup.forEach(function(object) {
                 canvas.remove(object);
             }); 
         };
+        canvas.discardActiveObject();// 取消选中状态
     });
     // 绑定键盘delete事件
     $(document).keydown(function (e) {
-      if(canvas.getActiveObject()){
-          if(e.keyCode ==46){
-            canvas.getActiveObject().remove();
-          };
-      };
+        if(e.keyCode ==46){
+            if(canvas.getActiveObject()){
+                canvas.remove(canvas.getActiveObject());
+            };
+            if(canvas.getActiveObjects()){
+                var activeGroup = canvas.getActiveObjects();
+                activeGroup.forEach(function(object) {
+                    canvas.remove(object);
+                }); 
+            };
+            canvas.discardActiveObject();// 取消选中状态
+        };
     });
 
     // 图层按钮 工具箱 
@@ -539,43 +545,43 @@ function savePic() {
     });
     $("#editor").on("click","#fontLeftBtn",function () {// 字体左对齐
         var o=canvas.getActiveObject();
-        o.setTextAlign("left");
+        o.set('textAlign','left');
         canvas.renderAll();
     });
     $("#editor").on("click","#fontCenterBtn",function () {// 字体居中对齐
         var o=canvas.getActiveObject();
-        o.setTextAlign("center");
+        o.set('textAlign','center');
         canvas.renderAll();
     });
     $("#editor").on("click","#fontRightBtn",function () {// 字体右对齐
         var o=canvas.getActiveObject();
-        o.setTextAlign("right");
+        o.set('textAlign','right');
         canvas.renderAll();
     });
     $("#editor").on("click","#fontBoldBtn",function () {// 字体 粗体
         var o=canvas.getActiveObject();
         if(o.fontWeight =="bold"){
-            o.setFontWeight("normal");
+            o.set('fontWeight','normal');
         }else{
-            o.setFontWeight("bold");
+            o.set('fontWeight','bold');
         }
         canvas.renderAll();
     });
     $("#editor").on("click","#fontItalicBtn",function () {// 字体 斜体
         var o=canvas.getActiveObject();
         if(o.fontStyle =="italic"){
-            o.setFontStyle("normal");
+            o.set('fontStyle','normal');
         }else{
-            o.setFontStyle("italic");
+            o.set('fontStyle','italic');
         }
         canvas.renderAll();
     });
     $("#editor").on("click","#fontUnderlineBtn",function () {// 字体 下划线
         var o=canvas.getActiveObject();
-        if(o.textDecoration =="underline"){
-            o.setTextDecoration("none");
+        if(o.underline){
+            o.set('underline',false);
         }else{
-            o.setTextDecoration("underline");
+            o.set('underline',true);
         }
         canvas.renderAll();
     });
@@ -587,7 +593,7 @@ function savePic() {
     $("#editor").on("click","#fontNameDropdown .font-name-list li",function () {// font-family
         $("#fontNameDropdown .dropdownValue").attr("data-fontname",$(this).attr("data-fontname")).empty().append($(this).text());
         var o=canvas.getActiveObject();
-        o.setFontFamily($(this).attr("data-fontname"));
+        o.set("fontFamily",$(this).attr("data-fontname"));
         canvas.renderAll();
     });
     // 字号大小
@@ -609,7 +615,7 @@ function savePic() {
         $("#fontSizeDropdown > input").val($(this).text());
         $("#fontSizeSliderTitleText").next("input").val($("#fontSizeDropdown > input").val());
         var o=canvas.getActiveObject();
-        o.setFontSize($("#fontSizeDropdown > input").val());
+        o.set('fontSize',$("#fontSizeDropdown > input").val());
         canvas.renderAll();
         $(this).parents("#fontSizeDropdown").removeClass("active");
     });
@@ -618,15 +624,14 @@ function savePic() {
     $("#editor").on("change","#fontSizeDropdown > input",function () {
         $("#fontSizeSliderTitleText").next("input").val($(this).val());
         var o=canvas.getActiveObject();
-        o.setFontSize($("#fontSizeDropdown > input").val());
+        o.set('fontSize',$("#fontSizeDropdown > input").val());
         canvas.renderAll();
     });
     // 拖拉改变字号
     $("#editor").on("change","#fontSizeArea .font-slider-left > input",function () {
         $("#fontSizeDropdown > input").val($(this).val());
-        
         var o=canvas.getActiveObject();
-        o.setFontSize($(this).val());
+        o.set('fontSize',$(this).val());
         canvas.renderAll();
     });
 
@@ -748,6 +753,10 @@ function savePic() {
 
     
 	// 保存图片按钮
+
+
+
+
     $("#savePic").click(function () {
         if($(this).attr('data-time')){
             var preTime=$(this).attr('data-time');
@@ -778,7 +787,7 @@ function savePic() {
                     }
                 });
             }else{
-                if (!fabric.Canvas.supports('toDataURL')) {
+                if (false) {
                     alert('This browser doesn\'t provide means to serialize canvas to an image');
                 }else {
                     swal({
@@ -1059,13 +1068,17 @@ function recordPageList_port(pageType) {
 };
 function recordPageList_callback(res,pageType) {
 	if(res.code==200){
-		var data=JSON.parse(res.data);
-		for(var i=0;i<data.length;i++){
-			data[i].pic=httpUrl.path_img+data[i].imgUrl+"-scale400";
-		};
-        var json={data:data};
-		var html=template("templateB_script",json);
-		$("#toolbarList ul[data-type="+pageType+"]").append(html);
+        if(res.data){
+            var data=JSON.parse(res.data);
+            for(var i=0;i<data.length;i++){
+                data[i].pic=httpUrl.path_img+data[i].imgUrl+"-scale400";
+            };
+            var json={data:data};
+            var html=template("templateB_script",json);
+            $("#toolbarList ul[data-type="+pageType+"]").append(html);
+        }else{
+            toastTip("提示",res.info,"2500");
+        };
 	}else{
         toastTip("提示","加载失败，请稍候重试。。","2500");
     };

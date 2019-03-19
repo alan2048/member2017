@@ -90,7 +90,7 @@
                                         <li class="leftArrow"></li>
                                         {{each newArr as item i}}
                                         <li class="list" data-dimid={{item.id}} data-parentid={{item.parentid}} data-level={{item.level}} data-type={{item.type}}>
-                                            <a href="javascript:;" data-dimid={{item.id}} data-parentid={{item.parentid}} data-level={{item.level}} data-type={{item.type}} data-name={{item.name}}>{{item.name}}
+                                            <a href="javascript:;" data-dimid={{item.id}} data-parentid={{item.parentid}} data-level={{item.level}} data-type={{item.type}} data-name='{{item.name}}'>{{item.name}}
                                             </a>
                                         </li>
                                         {{/each}}
@@ -111,7 +111,15 @@
                                         {{each data as item i}}
                                         <li class="descList" data-type={{item.type}} data-id={{item.id}} data-dimid={{item.dimId}}>
                                             <div class="descTitle">
-                                                <span><span class="triangleLeft active" data-level="{{item.level}}"></span>表现水平{{item.level}}<span class="triangleRight active" data-level="{{item.level}}"></span></span>
+                                                <span>
+                                                    {{if item.type != 0  || companyUUID == 10086 || companyUUID ==264259}}
+                                                    <span class="triangleLeft active" data-level="{{item.level}}"></span>
+                                                    {{/if}}
+                                                    表现水平{{item.level}}
+                                                    {{if item.type != 0  || companyUUID == 10086 || companyUUID ==264259}}
+                                                    <span class="triangleRight active" data-level="{{item.level}}"></span>
+                                                    {{/if}}
+                                                </span>
                                                 <span class="closeBtn" data-id={{item.id}} data-dimid={{item.dimId}} data-type={{item.type}}></span>
                                             </div>
                                             <ul>
@@ -123,7 +131,9 @@
                                             </ul>
                                         </li>
                                         {{/each}}
+                                        {{if data[0].type != 0 || companyUUID == 10086 || companyUUID ==264259}}
                                         <li class="descListlast" data-dimid={{data[0].dimId}}></li>
+                                        {{/if}}
                                     </ul>
                                 </script>
                                 <div class="form-group pull-right">
@@ -147,7 +157,7 @@
     <script src="../../js/common/simplePagination.js" ></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
-	<script src="../../js/common/base.js?t=20180427"></script>
-	<script src="../../js/settings/wacthDimensions.js?t=20180427"></script>
+	<script src="../../js/common/base.js?t=20120213"></script>
+	<script src="../../js/settings/wacthDimensions.js?t=20120213"></script>
 </body>
 </html>

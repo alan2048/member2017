@@ -49,8 +49,21 @@
                             {{/each}}
 						</script>
 					</div>
+					<div id="videoBox">
+						<ul id="videoUl"></ul>
+						<script type="text/html" id="videoUl_script">
+                            <li data-video="">
+                                <a href="#modal-dialog-video" data-toggle="modal" data-video="" class="videoItem">
+                                 	<span class="loading">0%</span>
+                                    <span class="deleteBtn"></span>
+                                </a>
+                            </li>
+						</script>
+					</div>
 					<div>
 						<span class="newPicBtn">图片</span>
+						<span class="newVideoBtn" id="newVideoBtn">视频</span>
+						<span class="newVideoBtn active" id="newVideoBtnErr">视频</span>
 						<span class="newLabelBtn">标签</span>
 						<span class="newWhoBtn">谁可见</span>
 						<span class="newTopBtn">置顶：<span>关</span></span>
@@ -330,6 +343,18 @@
         <span class="deleteBtn01 hide"></span>
     </div>
 
+    <div class="modal fade" id="modal-dialog-video" tabindex="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="carousel_video">
+					<video src="" controls="controls" style=""></video>
+                </div>
+            </div>
+        </div>
+        <span class="closeBtn01" data-dismiss="modal"></span>
+        <span class="deleteBtn02 hide"></span>
+    </div>
+
 	<div id="changeClass">
 		<div><select id="teacherClass"></select></div>
     	<script id="teacherClass_script" type="text/html">
@@ -338,6 +363,8 @@
       		{{/each}}
       	</script>
 	</div>
+
+	<video src="" id="videoTime" style="display: none;"></video>
 
     
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
