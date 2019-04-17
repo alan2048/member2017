@@ -21,6 +21,8 @@ function init() {
         };
         $("#filesUpload >input[name=params]").val(JSON.stringify(data));
         ajaxSubmitForm();
+
+        $("#modal-edit").modal("show");
     });
 
     // 删除

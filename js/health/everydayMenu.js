@@ -25,21 +25,17 @@ function init() {
 
 function editTable() {
     $("#menuMain").on("dblclick","td",function () {
-        var text=$(this).text();
-        $(this).empty().append("<textarea></textarea>");
-        $(this).find("textarea").focus().val(text);
+        $(this).find("textarea").attr("readonly",false).focus().removeClass("textBox");
     }).on("focusout","td > textarea",function () {
-        var text=$(this).val();
-        $(this).parent("td").text(text);
+        $(this).addClass("textBox");
+        $(this).css("height",$(this)[0].scrollHeight).attr("readonly","readonly");
     });
 
     $("#menuMain").on("dblclick","th",function () {
-        var text=$(this).text();
-        $(this).empty().append("<textarea></textarea>");
-        $(this).find("textarea").focus().val(text);
+        $(this).find("textarea").attr("readonly",false).focus().removeClass("textBox");
     }).on("focusout","th > textarea",function () {
-        var text=$(this).val();
-        $(this).parent("th").text(text);
+        $(this).addClass("textBox");
+        $(this).css("height",$(this)[0].scrollHeight).attr("readonly","readonly");
     });
 
     // 单击选中行
@@ -120,9 +116,8 @@ function editTable() {
 
     // 新增行
     $("#buttonBox").on("click","#newLine",function () {
-        console.log(111);
         if($("#menuMain > table").length !=0){
-            var aa="<td></td>";
+            var aa="<td><textarea class='textBox' readonly='readonly'></textarea></td>";
             var html="";
             for(var i=0;i<$("#menuMain > table > thead > tr >th").length;i++){
                 html +=aa;
@@ -145,8 +140,8 @@ function editTable() {
     // 增加列
     $("#buttonBox").on("click","#newCol",function () {
         if($("#menuMain > table").length !=0){
-            $("#menuMain >table >thead >tr").append("<th></th>");
-            $("#menuMain >table >tbody >tr").append("<td></td>");
+            $("#menuMain >table >thead >tr").append("<th><textarea class='textBox' readonly='readonly'></textarea></th>");
+            $("#menuMain >table >tbody >tr").append("<td><textarea class='textBox' readonly='readonly'></textarea></td>");
 
             var num=$("#menuMain >table >thead >tr >th").length;
             $("#menuMain").find("th").css("width",(1/num)*100+"%");
@@ -215,12 +210,14 @@ function editTable() {
         if($("#menuMain").children().length ==0){
             toastTip("提示","请先新建或选择菜谱列表。。。")
         }else{
+            $(".health-info tr").removeClass("active");
+            $(".health-info td,.health-info th").removeClass("current");
             var arr=[];
 
             var thArr=[];
             for(var i=0;i<$("#menuMain > table > thead > tr > th").length;i++){
-                var th=$("#menuMain > table > thead > tr > th");
-                thArr.push(th.eq(i).text());
+                var th=$("#menuMain > table > thead > tr > th >textarea");
+                thArr.push(th.eq(i).val());
             }
             arr.push(thArr);
 
@@ -229,7 +226,7 @@ function editTable() {
                 var tbArr=[];
                 for(var j=0;j<tb.eq(i).children().length;j++){
                     var aa=[];
-                    tbArr.push(tb.eq(i).children().eq(j).text());
+                    tbArr.push(tb.eq(i).children().eq(j).find("textarea").val());
                 };
                 arr.push(tbArr);
             };
@@ -306,6 +303,12 @@ function healthGetTable_callback(res,json) {
         var html=template("menuMain_script",json);
         $("#menuMain").empty().append(html).find("th").css("width",(1/data[0].length)*100+"%");
         $("#menuMain").css("width",$("#main .panel-body").width());
+
+        // 解决textarea随文本自动升高
+        for(var i=0;i<$(".health-info textarea").length;i++){
+            var _self=$(".health-info textarea")[i];
+            $(_self).css("height",_self.scrollHeight);
+        };
     }else{
         console.log('请求错误，返回code非200');
     }
@@ -313,27 +316,21 @@ function healthGetTable_callback(res,json) {
 
 // 新增编辑表格
 function healthSaveTable_port(json) {
-    html2canvas($("#menuMain"),{
-        allowTaint: true,
-        useCORS:true,
-        taintTest: false,
-        height:$("#menuMain").outerHeight(),
-        width:$("#menuMain").outerWidth(),
-        onrendered:function (canvas01) {
-            var data={
+    var box=$("#menuMain")[0];
+    html2canvas(box).then(function(canvas01) {
+        var data={
                 startDate:json.startDate,
                 endDate:json.endDate,
                 title:json.title,
                 remark:json.remark,
                 imgBase64:canvas01.toDataURL('png')
-            };
-            var param={
-                    params:JSON.stringify(data),
-                    loginId:httpUrl.loginId
-            };
-            toastTip("提示","正在保存，请稍候。。。");
-            initAjax(httpUrl.menuSaveTable,param,healthSaveTable_callback,json);
-        }
+        };
+        var param={
+                params:JSON.stringify(data),
+                loginId:httpUrl.loginId
+        };
+        toastTip("提示","正在保存，请稍候。。。");
+        initAjax(httpUrl.menuSaveTable,param,healthSaveTable_callback,json);
     });
 };
 function healthSaveTable_callback(res,json) {

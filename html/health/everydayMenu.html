@@ -16,7 +16,7 @@
     <link href="../../css/common/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
 
 	<link href="../../css/common/sidebar.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/health/everydayMenu.css?t=20180716" rel="stylesheet" type="text/css" />
+	<link href="../../css/health/everydayMenu.css?t=20190326" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="page-loader" class="fade in"><span class="spinner"></span></div>
@@ -75,7 +75,7 @@
                                     {{if i ==0}}
                                     <tr>
                                         {{each value as value01 j}}
-                                        <th>{{value01}}</th>
+                                        <th><textarea class="textBox" readonly="readonly">{{value01}}</textarea></th>
                                         {{/each}}
                                     </tr>
                                     {{/if}}
@@ -86,7 +86,7 @@
                                     {{if i !=0}}
                                     <tr>
                                         {{each value as value01 j}}
-                                        <td>{{value01}}</td>
+                                        <td><textarea class="textBox" readonly="readonly">{{value01}}</textarea></td>
                                         {{/each}}
                                     </tr>
                                     {{/if}}
@@ -158,9 +158,9 @@
     <script src="../../js/common/jquery.toast.min.js"></script>
     <script src="../../js/common/sweetalert.min.js"></script>
     <script src="../../js/common/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="../../js/common/html2canvas.min.js"></script>
+    <script src="../../js/common/html2canvas2.min.js"></script>
 
-	<script src="../../js/common/base.js?t=20181025"></script>
-	<script src="../../js/health/everydayMenu.js?t=20181025"></script>
+	<script src="../../js/common/base.js?t=20190326"></script>
+	<script src="../../js/health/everydayMenu.js?t=20190326"></script>
 </body>
 </html>

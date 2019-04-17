@@ -154,11 +154,12 @@ th,td {
 	cursor: pointer;
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-	padding: 0.14rem 0.08rem;
+	padding: 0.14rem 0.08rem 0.1rem;
 	line-height: 1.42857143;
 	vertical-align: top;
 	border: 1px solid #ddd;
 	word-break: break-all;
+	min-height: 0.3rem;
 }
 .fa.fa-check-square-o{
 	color: #5ce0de;
@@ -413,7 +414,7 @@ ul,li{
 	background:url(../../img/health/hideBtn.png) center center no-repeat;
 }
 #menuMain th {
-	min-width: 100px;
+	/*min-width: 100px;*/
 	text-align: center;
 	cursor: pointer;
 	vertical-align: middle;
@@ -449,8 +450,12 @@ ul,li{
 	width: 100%;
 	height: 100%;
 }
+.health-info textarea{
+	height: 0.3rem;
+}
 .health-info > thead > tr> th >textarea{
 	color: #000;
+	background-color: #f7e463;
 }
 .health-info > tbody > tr> td >textarea{
 	color: #000;
@@ -458,6 +463,18 @@ ul,li{
 .health-info textarea{
 	width: 100%;
 	height: 100%;
+	min-height: 0.5rem;
+}
+textarea.textBox{
+	text-align: center;
+	vertical-align: middle;
+	overflow-y: hidden;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	border: none;
+	min-height: auto;
+	height: 0.25rem;
 }
 .btn.btn-quit {
 	color: #ccc;

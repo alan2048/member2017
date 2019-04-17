@@ -284,7 +284,86 @@
         </div>
 	</div>
 
+    <div class="modal fade" id="modal-edit" tabindex="-1" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="importEditBox">
+                    <h4>导入预览<span>提示：健康数据以提交后为准</span></h4>
+                    <div id="importTable"></div>
+                    <script type="text/html" id="importTable_script">
+                        <table class="table table-email">
+                            <thead>
+                                <tr>
+                                    <th style="width: 4%;">序号</th>
+                                    <th style="width: 6%;">姓名</th>
+                                    <th style="width: 4%;">性别</th>
+                                    <th style="width: 6%;">年龄</th>
+                                    <th style="width: 6%;"><i>*</i>身高（cm）</th>
+                                    <th style="width: 6%;"><i>*</i>体重（kg）</th>
+                                    <th style="width: 7%;">血色素（g/l）</th>
+                                    <th style="width: 6%;">视力</th>
+                                    <th style="width: 6%;">听力筛查</th>
+                                    <th style="width: 6%;">尿检</th>
+                                    <th style="width: 6%;">龋齿</th>
+                                    <th style="width: 6%;">身高P值</th>
+                                    <th style="width: 6%;">体重P值</th>
+                                    <th style="width: 7%;">身高别体重P值</th>
+                                    <th style="width: 6%;">肥胖值</th>
+                                    <th style="width: 6%;">体检结果</th>
+                                    <th style="width: 6%;">预警信息</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                {{each arr as item i}}
+                                <tr data-id="{{item.hiUUID}}" data-age="{{item.userAge}}">
+                                    <td class="email-sender">{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                    <td class="email-sender">{{item.userName}}{{if item.creationType ==1}}<span class="machine"></span>{{/if}}</td>
+                                    <td class="email-sender">{{item.userSex}}</td>
+                                    <td class="email-sender">{{item.userAge}}</td>
+                                    <td class="email-sender">{{item.height}}</td>
+                                    <td class="email-sender">{{item.weight}}</td>
+                                    <td class="email-sender">{{item.hemachrome}}</td>
+                                    <td class="email-sender">左：{{item.visionL}} 右：{{item.visionR}}</td>
+                                    <td class="email-sender {{if item.hearing =='可疑，需复查'}}redIcon{{/if}}">{{item.hearing}}</td>
+                                    <td class="email-sender {{if item.uroscopy =='可疑，需复查'}}redIcon{{/if}}">{{item.uroscopy}}</td>
+                                    <td class="email-sender">{{item.toothdecay}}</td>
+                                    <td class="email-sender">{{item.hPvalue}}</td>
+                                    <td class="email-sender">{{item.wPvalue}}</td>
+                                    <td class="email-sender">{{item.h2wPvalue}}</td>
+                                    <td class="email-sender">{{item.fatnessValue}}</td>
+                                    <td class="email-sender">{{item.fatnessResult}}</td>
+                                    <!-- <td class="email-sender">{{item.alert}}</td> -->
+                                    <td class="email-sender email-date">
+                                        {{if item.alert ==0}}
+                                            <span class="ok"></span>
+                                        {{else}}
+                                            <span class="warning"></span>
+                                            <span class="fade in hide">
+                                                <span></span>
+                                                {{if item.bloodAlert !=0}}<div class="warningBox">血色素{{if item.bloodAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.heightAlert !=0}}<div class="warningBox">身高{{if item.heightAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.visionlAlert !=0}}<div class="warningBox">左眼视力{{if item.visionlAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.visionrAlert !=0}}<div class="warningBox">右眼视力{{if item.visionrAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                                {{if item.weightAlert !=0}}<div class="warningBox">体重{{if item.weightAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                            </span>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </script>
+                    <div>
+                        <span id="save" data-id="">确认上传</span>
+                        <span id="quit" data-dismiss="modal">取消导入</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<script src="../../js/common/jquery-1.11.1.min.js"></script>
+    <script src="../../js/common/modal.js"></script>
     <script src="../../js/common/jquery.form.min.js"></script>
 	<script src="../../js/common/jquery.nicescroll.min.js?t=20180118"></script>
 	<script src="../../js/common/template.js"></script>

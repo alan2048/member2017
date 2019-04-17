@@ -462,8 +462,8 @@ i.downBtn{
 	display:inline-block;
 }
 .modal-dialog{
-	height: 6rem;
-	width: 8.5rem;
+	height: 7.6rem;
+	width: 12rem;
 	margin:1.6rem auto 0;
 }
 
@@ -525,15 +525,23 @@ i.downBtn{
 	margin-bottom: 0.2rem;
 }
 #importEditBox >h4{
-	text-align: center;
-	color:#656666;
+	text-align: left;
+	color:#333;
 	font-size:0.18rem;
 	font-weight: 900;
-	line-height: 0.8rem;
+	font-weight: bold;
+	line-height: 0.7rem;
+}
+#importEditBox >h4 >span{
+	text-align: right;
+	float: right;
+	color: #5cdee1;
+	font-size: 0.12rem;
 }
 .modal-content{
-	padding:0 1rem;
-	background-color: #f5f7f7;
+	padding:0 0.3rem;
+	background-color: #fff;
+	border-radius: 0.06rem;
 }
 .table th {
 	text-align: center;
@@ -636,13 +644,19 @@ select[disabled="disabled"], #h-age,.readonly{
 .reset01 span {
 	color: #49b6d6;
 }
+#importTable{
+	height: 6.1rem;
+	margin-bottom: 0.2rem;
+	border: 1px solid #000;
+}
 #quit {
-	width: 0.8rem;
-	height: 0.4rem;
-	line-height: 0.4rem;
-	background-color: #ecf1ef;
-	border-radius: 0.1rem;
-	color: #969999;
+	width: 0.9rem;
+	height: 0.34rem;
+	line-height: 0.32rem;
+	background-color: #f7fafa;
+	border: 1px solid #e8ebeb;
+	border-radius: 0.04rem;
+	color: #6f7070;
 	text-align: center;
 	float: right;
 	cursor: pointer;
@@ -650,14 +664,14 @@ select[disabled="disabled"], #h-age,.readonly{
 	margin: 0 0.2rem 0;
 }
 #quit:hover {
-	background-color: #cfcfcf;
+	background-color: #eee;
 }
 #save {
-	width: 0.8rem;
-	height: 0.4rem;
-	line-height: 0.4rem;
+	width: 0.9rem;
+	height: 0.34rem;
+	line-height: 0.32rem;
 	background-color: #5cdfe2;
-	border-radius: 0.1rem;
+	border-radius: 0.04rem;
 	color: #fff;
 	text-align: center;
 	float: right;
