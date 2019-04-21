@@ -301,7 +301,7 @@ i.downBtn{
 	padding-left: 0.4rem;
 }
 .redIcon{
-	color: #f64747;
+	color: #f64747 !important;
 }
 .col01 {
 	display: inline-block;
@@ -647,7 +647,40 @@ select[disabled="disabled"], #h-age,.readonly{
 #importTable{
 	height: 6.1rem;
 	margin-bottom: 0.2rem;
-	border: 1px solid #000;
+	border: 1px solid #fafafa;
+}
+#previewQuit {
+	width: 0.9rem;
+	height: 0.34rem;
+	line-height: 0.32rem;
+	background-color: #f7fafa;
+	border: 1px solid #e8ebeb;
+	border-radius: 0.04rem;
+	color: #6f7070;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin: 0 0.2rem 0;
+}
+#previewQuit:hover {
+	background-color: #eee;
+}
+#previewSave {
+	width: 0.9rem;
+	height: 0.34rem;
+	line-height: 0.32rem;
+	background-color: #5cdfe2;
+	border-radius: 0.04rem;
+	color: #fff;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin: 0;
+}
+#previewSave:hover {
+	background-color: #29d1d5;
 }
 #quit {
 	width: 0.9rem;
@@ -704,4 +737,76 @@ a.hasTitle{
 }
 .machineBox .machine{
 	float: none;
+}
+
+.table01{
+	border-collapse: collapse;
+}
+.table01 th {
+	text-align: center;
+	cursor: pointer;
+	vertical-align: middle;
+	background-color: transparent;
+}
+.table01 > thead > tr > th {
+	color: #a0a0a0;
+	font-weight: 500;
+}
+.table01 th.inputBox,.table01 td.inputBox{
+	color: #333;
+	font-weight: bold;
+}
+.table01 > thead > tr > th.inputBox >i{
+	color: #f64747;
+}
+.table.table01.table-email tr:hover td {
+	border: 1px solid #ddd;
+	cursor: default;
+}
+.table.table01.table-email tr td.inputBox:hover {
+	cursor: pointer;
+}
+.table.table01.table-email tr td.inputBox:hover input{
+	border: 1px solid #5cdee1;
+	cursor: pointer;
+}
+.table.table01.table-email tr td.inputBox.vision input{
+	margin: 0.02rem 0;
+	border: 1px solid #ddd;
+	cursor: pointer;
+}
+.table.table01.table-email tr td.inputBox.vision input:hover{
+	border: 1px solid #5cdee1;
+	cursor: pointer;
+}
+.table01 > thead > tr > th, .table01 > tbody > tr > th, .table01 > tfoot > tr > th, .table01 > thead > tr > td, .table01 > tbody > tr > td, .table01 > tfoot > tr > td {
+	padding: 0.1rem 0.03rem;
+	font-size: 0.12rem;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	word-break: break-all;
+}
+.table01 td >input{
+	height: 0.4rem;
+	width: 100%;
+	display: block;
+	border: none;
+}
+td.inputIcon.red{
+	background-color: #feeeee;
+}
+.redIcon >select{
+	color: #f64747 !important;
+}
+td >select >option.redIcon01{
+	color: #f64747 !important;
+}
+.redIcon >select >option{
+	color: #333;
+}
+.table01 td.vision >input{
+	display: inline-block;
+	width: 0.3rem;
+	height: 0.2rem;
 }

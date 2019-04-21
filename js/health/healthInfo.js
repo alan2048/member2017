@@ -64,17 +64,108 @@ function init() {
         };
     });
 
-    loginSuccess();    
+    loginSuccess();
+    importPreview();  
 };
 
+// 导入预览模块函数
+function importPreview() {
+    // 预览导入上传
+    $("#previewSave").click(function () {
+        var arr=[];
+        for(var i=0;i<$("#importTable .table01 tbody >tr").length;i++){
+            arr.push($("#importTable .table01 tbody >tr").eq(i).attr("data-id"))
+        };
+        if($("#importTable .red").length ==0){
+            importHealthSubmit_port(arr);
+        }else{
+            toastTip("提示","身高和体重为必填项，请先填写完整");
+        };
+    });
+
+    // 取消预览导入上传
+    $("#previewQuit").click(function () {
+        var arr=[];
+        for(var i=0;i<$("#importTable .table01 tbody >tr").length;i++){
+            arr.push($("#importTable .table01 tbody >tr").eq(i).attr("data-id"))
+        };
+        importHealthDelete_port(arr);
+    });
+
+    $("#importTable").on("change","td.heightHi >input,td.weightHi >input",function (e) {
+        var value=$(this).val();
+        if(value){
+            $(this).parent().removeClass("red");
+            var reg=new RegExp("^[0-9]+(.[0-9]{1,2})?$");
+            if(!reg.test(value)){
+                $(this).val("");
+                $(this).parent().addClass("red");
+                toastTip("提示","输入值需为数字");
+            }else{
+                var _self=$(this).parents("tr");
+                importHealthUpdate_port(_self);
+            };
+        }else{
+            $(this).parent().addClass("red");
+            toastTip("提示","身高和体重为必填项");
+        };
+    });
+
+    $("#importTable").on("change","td.inputIcon.hemachromeHi >input,td.inputIcon.toothdecayHi >input",function (e) {
+        var value=$(this).val();
+        if(value){
+            var reg=new RegExp("^(0|[1-9][0-9]*)$");
+            if(!reg.test(value)){
+                $(this).val("");
+                toastTip("提示","输入值需为数字");
+            }else{
+                var _self=$(this).parents("tr");
+                importHealthUpdate_port(_self);
+            };
+        };
+    });
+
+    $("#importTable").on("change","td.hearingHi >select,td.uroscopyHi >select",function () {
+        if($(this).val() == "可疑，需复查"){
+            $(this).parent().addClass("redIcon");
+        }else{
+            $(this).parent().removeClass("redIcon");
+        };
+        var _self=$(this).parents("tr");
+        importHealthUpdate_port(_self);
+    });
+
+    $("#importTable").on("change","td.vision >input",function (e) {
+        var value=$(this).val();
+        if(value){
+            var reg=new RegExp("^[0-9]+(.[0-9]{1,2})?$");
+            if(!reg.test(value)){
+                $(this).val("");
+                toastTip("提示","输入值需为数字");
+            };
+        };
+        var _self=$(this).parents("tr");
+        importHealthUpdate_port(_self);
+    });
+};
+
+// 预览导入上传
 function ajaxSubmitForm() {
     var option = {
             url : httpUrl.basicFileUpload,
             type : 'POST',
             dataType : 'json',
-            success : function(data) {
-                toastTip("提示",data.info,10000);
-                healthGetExamDateList_port(data.data);
+            success : function(res) {
+                if(res.code==200){
+                    var data=JSON.parse(res.data);
+                    var json={arr:data.data};
+                    var html=template("importTable_script",json);
+                    chooseNiceScroll("#importTable");
+                    $("#importTable").empty().append(html);
+                    toastTip("提示",data.importInfo,5000);
+                }else{
+                    toastTip("提示",res.info,3000);
+                };
             },
             error: function(data) {
                 console.log(data);   
@@ -84,6 +175,76 @@ function ajaxSubmitForm() {
     return false; //最好返回false，因为如果按钮类型是submit,则表单自己又会提交一次;返回false阻止表单再次提交
 };
 
+// 提交导入数据
+function importHealthSubmit_port(arr) {
+    var data={
+            hiUUIDList:arr
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.importHealthSubmit,param,importHealthSubmit_callback);
+};
+function importHealthSubmit_callback(res) {
+    if(res.code==200){
+        $("#modal-edit").modal("hide");
+        var examDate=$("#importTable .table01 tbody >tr:first").attr("data-examdate");
+        healthGetExamDateList_port(examDate);
+        toastTip("提示","上传"+res.info,3000);
+    }else{
+        toastTip("提示",res.info,3000);
+    };
+};
+
+// 修改重算导入数据
+function importHealthUpdate_port(_self) {
+    var data={
+            hiUUID:$(_self).attr("data-id"),
+            height:$(_self).find(".heightHi >input").val(),
+            weight:$(_self).find(".weightHi >input").val(),
+            hemachrome:$(_self).find(".hemachromeHi >input").val(),
+            visionL:$(_self).find(".visionL").val(),
+            visionR:$(_self).find(".visionR").val(),
+            hearing:$(_self).find(".hearingHi >select").val(),
+            uroscopy:$(_self).find(".uroscopyHi >select").val(),
+            toothdecay:$(_self).find(".toothdecayHi >input").val()
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.importHealthUpdate,param,importHealthUpdate_callback);
+};
+function importHealthUpdate_callback(res) {
+    if(res.code==200){
+        var data=JSON.parse(res.data);
+        var html=template("importSingle_script",data);
+        for(var i=0;i<6;i++){
+            $("#importTable tr[data-id="+data.hiUUID+"] >td:last-of-type").remove();
+        };
+        $("#importTable tr[data-id="+data.hiUUID+"]").append(html);
+    }else{
+        toastTip("提示",res.info,3000);
+    };
+};
+
+// 删除导入数据
+function importHealthDelete_port(arr) {
+    var data={
+            hiUUIDList:arr
+    };
+    var param={
+            params:JSON.stringify(data),
+            loginId:httpUrl.loginId
+    };
+    initAjax(httpUrl.importHealthDelete,param,importHealthDelete_callback);
+};
+function importHealthDelete_callback(res) {
+    if(res.code==200){
+        // console.log(res);
+    };
+};
 
 // 获得教职工所在班级列表
 function teacherMyClassInfo_port() {

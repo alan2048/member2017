@@ -80,7 +80,7 @@
             <form action="" method="post" enctype ="multipart/form-data" id="filesUpload" style="display: none;" accept-charset="UTF-8"> 
                 <input name="params" type="hidden" value="" />
                 <input name="loginId" type="hidden" value="" />
-                <input name="url" type="hidden" value="/web/healthInfo/uploadExl" />
+                <input name="url" type="hidden" value="/web/healthInfo/uploadExl2" />
                 <input name="file" type="file" accept="application/vnd.ms-excel,.xlsx" />
             </form>
 			<div id="main">
@@ -291,20 +291,20 @@
                     <h4>导入预览<span>提示：健康数据以提交后为准</span></h4>
                     <div id="importTable"></div>
                     <script type="text/html" id="importTable_script">
-                        <table class="table table-email">
+                        <table class="table table01 table-email">
                             <thead>
                                 <tr>
-                                    <th style="width: 4%;">序号</th>
+                                    <th style="width: 3%;">序号</th>
                                     <th style="width: 6%;">姓名</th>
-                                    <th style="width: 4%;">性别</th>
-                                    <th style="width: 6%;">年龄</th>
-                                    <th style="width: 6%;"><i>*</i>身高（cm）</th>
-                                    <th style="width: 6%;"><i>*</i>体重（kg）</th>
-                                    <th style="width: 7%;">血色素（g/l）</th>
-                                    <th style="width: 6%;">视力</th>
-                                    <th style="width: 6%;">听力筛查</th>
-                                    <th style="width: 6%;">尿检</th>
-                                    <th style="width: 6%;">龋齿</th>
+                                    <th style="width: 3%;">性别</th>
+                                    <th style="width: 5%;">年龄</th>
+                                    <th style="width: 7%;" class="inputBox"><i>*</i>身高（cm）</th>
+                                    <th style="width: 7%;" class="inputBox"><i>*</i>体重（kg）</th>
+                                    <th style="width: 8%;" class="inputBox">血色素（g/l）</th>
+                                    <th style="width: 7%;" class="inputBox">视力</th>
+                                    <th style="width: 6%;" class="inputBox">听力筛查</th>
+                                    <th style="width: 6%;" class="inputBox">尿检</th>
+                                    <th style="width: 5%;" class="inputBox">龋齿</th>
                                     <th style="width: 6%;">身高P值</th>
                                     <th style="width: 6%;">体重P值</th>
                                     <th style="width: 7%;">身高别体重P值</th>
@@ -315,18 +315,34 @@
                             </thead>
                              <tbody>
                                 {{each arr as item i}}
-                                <tr data-id="{{item.hiUUID}}" data-age="{{item.userAge}}">
-                                    <td class="email-sender">{{if i<9}}0{{i+1}}{{else}}{{i+1}}{{/if}}</td>
+                                <tr data-id="{{item.hiUUID}}" data-age="{{item.userAge}}" data-examdate="{{item.examDate}}">
+                                    <td class="email-sender">{{i+1}}</td>
                                     <td class="email-sender">{{item.userName}}{{if item.creationType ==1}}<span class="machine"></span>{{/if}}</td>
                                     <td class="email-sender">{{item.userSex}}</td>
                                     <td class="email-sender">{{item.userAge}}</td>
-                                    <td class="email-sender">{{item.height}}</td>
-                                    <td class="email-sender">{{item.weight}}</td>
-                                    <td class="email-sender">{{item.hemachrome}}</td>
-                                    <td class="email-sender">左：{{item.visionL}} 右：{{item.visionR}}</td>
-                                    <td class="email-sender {{if item.hearing =='可疑，需复查'}}redIcon{{/if}}">{{item.hearing}}</td>
-                                    <td class="email-sender {{if item.uroscopy =='可疑，需复查'}}redIcon{{/if}}">{{item.uroscopy}}</td>
-                                    <td class="email-sender">{{item.toothdecay}}</td>
+                                    <td class="email-sender inputBox inputIcon heightHi {{if !item.height}}red{{/if}}" ><input type="text" value="{{item.height}}"></td>
+                                    <td class="email-sender inputBox inputIcon weightHi {{if !item.weight}}red{{/if}}" ><input type="text" value="{{item.weight}}"></td>
+                                    <td class="email-sender inputBox inputIcon hemachromeHi" ><input type="text" value="{{item.hemachrome}}"></td>
+                                    <td class="email-sender inputBox vision" >
+                                        左：<input type="text" value="{{item.visionL}}" class="visionL"> 
+                                        <br>
+                                        右：<input type="text" value="{{item.visionR}}" class="visionR">
+                                    </td>
+                                    <td class="email-sender {{if item.hearing =='可疑，需复查'}}redIcon{{/if}} inputBox hearingHi" >
+                                        <select>
+                                            <option value=""></option>
+                                            <option value="正常" {{if item.hearing == '正常'}}selected="selected"{{/if}}>正常</option>
+                                            <option value="可疑，需复查" {{if item.hearing == '可疑，需复查'}}selected="selected"{{/if}} class="redIcon01">可疑，需复查</option>
+                                        </select>
+                                    </td>
+                                    <td class="email-sender {{if item.uroscopy =='可疑，需复查'}}redIcon{{/if}} inputBox uroscopyHi" >
+                                        <select>
+                                            <option value=""></option>
+                                            <option value="正常" {{if item.uroscopy == '正常'}}selected="selected"{{/if}}>正常</option>
+                                            <option value="可疑，需复查" {{if item.uroscopy == '可疑，需复查'}}selected="selected"{{/if}} class="redIcon01">可疑，需复查</option>
+                                        </select>
+                                    </td>
+                                    <td class="email-sender inputBox inputIcon toothdecayHi" ><input type="text" value="{{item.toothdecay}}"></td>
                                     <td class="email-sender">{{item.hPvalue}}</td>
                                     <td class="email-sender">{{item.wPvalue}}</td>
                                     <td class="email-sender">{{item.h2wPvalue}}</td>
@@ -353,9 +369,31 @@
                             </tbody>
                         </table>
                     </script>
+                    <script type="text/html" id="importSingle_script">
+                        <td class="email-sender">{{hPvalue}}</td>
+                        <td class="email-sender">{{wPvalue}}</td>
+                        <td class="email-sender">{{h2wPvalue}}</td>
+                        <td class="email-sender">{{fatnessValue}}</td>
+                        <td class="email-sender">{{fatnessResult}}</td>
+                        <td class="email-sender email-date">
+                            {{if alert ==0}}
+                                <span class="ok"></span>
+                            {{else}}
+                                <span class="warning"></span>
+                                <span class="fade in hide">
+                                    <span></span>
+                                    {{if bloodAlert !=0}}<div class="warningBox">血色素{{if bloodAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                    {{if heightAlert !=0}}<div class="warningBox">身高{{if heightAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                    {{if visionlAlert !=0}}<div class="warningBox">左眼视力{{if visionlAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                    {{if visionrAlert !=0}}<div class="warningBox">右眼视力{{if visionrAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                    {{if weightAlert !=0}}<div class="warningBox">体重{{if weightAlert ==1}}<i class="upBtn"></i>{{else}}<i class="downBtn"></i>{{/if}}</div>{{/if}}
+                                </span>
+                            {{/if}}
+                        </td>
+                    </script>
                     <div>
-                        <span id="save" data-id="">确认上传</span>
-                        <span id="quit" data-dismiss="modal">取消导入</span>
+                        <span id="previewSave">确认上传</span>
+                        <span id="previewQuit" data-dismiss="modal">取消导入</span>
                     </div>
                 </div>
             </div>

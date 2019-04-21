@@ -311,6 +311,9 @@ var httpUrl={
 		exportMedicineRecord:"/web/health/exportMedicineRecord",// 导出服药记录
 		exportDailyObservation:"/web/health/exportDailyObservation",// 导出全日观察
 		exportIndividualCase:"/web/health/exportIndividualCase",// 导出个案管理
+		importHealthUpdate:path+"/web/healthInfo/updateImportHI", // 修改重算导入数据
+		importHealthDelete:path+"/web/healthInfo/deleteImportHI", // 删除导入数据
+		importHealthSubmit:path+"/web/healthInfo/submitImportHI", // 提交导入数据
 
 		// 成长曲线
 		healthGraphWH:path+"/web/healthInfo/graphWH",// 按身高测体重(W/H)
